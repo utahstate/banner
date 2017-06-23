@@ -13,11 +13,13 @@ pipeline{
         echo 'Copy Application'
         sh 'scp jenkins@build.banner.usu.edu:/u01/deploy/zdevl/self-service/BannerFinanceSSB.war .'
         echo 'Add Config'
+        sh 'jar uvf BannerFinanceSSB.war WEB-INF'
       }
     }
     stage('Build Image'){
       steps{
         echo 'Build Image'
+        docker.build ("banner/financeselfservice")
       }
     }
     stage('Push Image'){
