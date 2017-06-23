@@ -2,31 +2,23 @@ pipeline{
 
   agent any
 
-  tools {
-    jdk 'Java 8u131'
-  }
-  stages {
-    stage('Checkout'){
-      steps{
-        checkout scm
-      }
-    }
-    stage('Build War'){
-      steps{
-        echo 'Copy Application'
-        sh 'scp jenkins@build.banner.usu.edu:/u01/deploy/zdevl/self-service/BannerFinanceSSB.war .'
-        echo 'Add Config'
-        sh 'jar uvf BannerFinanceSSB.war WEB-INF'
-      }
-    }
-    stage('Build Image'){
-    node('build'){
+tools {
+  jdk 'Java 8u131'
+}
+node{
+  stage 'Checkout'
+    checkout scm
 
-        def img
-        img = docker.build("banner/financeselfservice")
+  stage 'Build War'
+    echo 'Copy Application'
+    scp jenkins@build.banner.usu.edu:/u01/deploy/zdevl/self-service/BannerFinanceSSB.war .
+    echo 'Add Config'
+    jar uvf BannerFinanceSSB.war WEB-INF
 
-      echo 'Push Image'
-    }
-  }
-  }
+  stage 'Build Image'
+  def img
+  img = docker.build('banner/financeselfservice')
+
+  echo 'Push Image'
+}
 }
