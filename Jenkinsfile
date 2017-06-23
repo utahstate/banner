@@ -8,13 +8,9 @@ pipeline{
         checkout scm
       }
     }
-    stage('Copy Application'){
+    stage('Build War'){
       steps{
         echo 'Copy Application'
-      }
-    }
-    stage('Add Config'){
-      steps{
         echo 'Add Config'
       }
     }
