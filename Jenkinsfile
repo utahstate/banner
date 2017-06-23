@@ -1,6 +1,7 @@
 
 node{
-  tool 'Java 8u131'
+  def javaHome = tool 'Java 8u131'
+
   stage 'Checkout'
     checkout scm
 
@@ -8,7 +9,7 @@ node{
     echo 'Copy Application'
     sh 'scp jenkins@build.banner.usu.edu:/u01/deploy/zdevl/self-service/BannerFinanceSSB.war .'
     echo 'Add Config'
-    sh 'jar uvf BannerFinanceSSB.war WEB-INF'
+    sh "${javaHome}/bin/jar uvf BannerFinanceSSB.war WEB-INF"
 
   stage 'Build Image'
   def img
