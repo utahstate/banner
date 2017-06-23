@@ -11,9 +11,9 @@ node{
 
   stage 'Build War'
     echo 'Copy Application'
-    scp jenkins@build.banner.usu.edu:/u01/deploy/zdevl/self-service/BannerFinanceSSB.war .
+    sh 'scp jenkins@build.banner.usu.edu:/u01/deploy/zdevl/self-service/BannerFinanceSSB.war .'
     echo 'Add Config'
-    jar uvf BannerFinanceSSB.war WEB-INF
+    sh 'jar uvf BannerFinanceSSB.war WEB-INF'
 
   stage 'Build Image'
   def img
