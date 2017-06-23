@@ -12,8 +12,11 @@ node{
     sh "${javaHome}/bin/jar uvf BannerFinanceSSB.war WEB-INF"
 
   stage 'Build Image'
-  def img
-  img = docker.build('banner/financeselfservice')
+  withDockerRegistry([credentialsId: 'docker-registry-credentials', url: "https://harbor.usu.edu/"]) {
+    def img
+    img = docker.build('banner/financeselfservice')
+  }
+
 
   echo 'Push Image'
 }
