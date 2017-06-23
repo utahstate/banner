@@ -1,7 +1,3 @@
-pipeline{
-
-  agent any
-
 tools {
   jdk 'Java 8u131'
 }
@@ -20,5 +16,4 @@ node{
   img = docker.build('banner/financeselfservice')
 
   echo 'Push Image'
-}
 }
