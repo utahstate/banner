@@ -11,6 +11,7 @@ pipeline{
     stage('Build War'){
       steps{
         echo 'Copy Application'
+        scp jenkins@build.banner.usu.edu:/u01/deploy/zdevl/self-service/BannerFinanceSSB.war .
         echo 'Add Config'
       }
     }
