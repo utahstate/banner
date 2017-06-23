@@ -15,13 +15,12 @@ node{
   stage 'Build Image'
     def img
     withDockerRegistry([credentialsId: 'docker-registry-credentials', url: "https://harbor.usu.edu/"]) {
-    if ($env.BRANCH_NAME == "master") {
+      if ($env.BRANCH_NAME == "master") {
         img = docker.build('banner/financeselfservice:latest')
+      } else {
+        img = docker.build("banner/financeselfservice:${env.BRANCH_NAME}")
       }
-    } else {
-      img = docker.build("banner/financeselfservice:${env.BRANCH_NAME}")
     }
-
   echo 'Push Image'
 
 }
