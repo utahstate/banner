@@ -19,10 +19,9 @@ pipeline{
     stage('Build Image'){
       steps{
         echo 'Build Image'
-        node{
-          docker.build ("banner/financeselfservice")
-        }
-
+      }
+      node 'build'{
+        docker.build ("banner/financeselfservice")
       }
     }
     stage('Push Image'){
