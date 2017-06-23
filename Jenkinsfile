@@ -3,7 +3,7 @@ pipeline{
   agent any
 
   tools {
-    jdk 'jdk8'
+    jdk 'Java 8u131'
   }
   stages {
     stage('Checkout'){
