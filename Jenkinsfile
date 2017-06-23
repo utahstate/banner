@@ -19,16 +19,14 @@ pipeline{
         sh 'jar uvf BannerFinanceSSB.war WEB-INF'
       }
     }
-    stage('Build Image'){
-      steps{
-        echo 'Build Image'
-        sh 'docker.build("banner/financeselfservice")'
-      }
+    node('build'){
+      stage 'Build Image'
+        def img
+        img = docker.build("banner/financeselfservice")
+
+      stage 'Push Image'
+      echo 'Push Image'
     }
-    stage('Push Image'){
-      steps{
-        echo 'Push Image'
-      }
-    }
+
   }
 }
