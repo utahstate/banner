@@ -1,3 +1,5 @@
+properties([gitLabConnection('gitlab.usu.edu')])
+
 node {
   def javaHome = tool 'OracleJDK8'
 
