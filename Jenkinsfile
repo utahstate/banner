@@ -24,6 +24,9 @@ node {
 
 
     stage 'Build Image'
+      gitlabCommitStatus("Build Image"){
+        echo "Build Image"
+      }
       /*def img
       withDockerRegistry([credentialsId: 'docker-registry-credentials', url: "https://harbor.usu.edu/"]){
         if (env.BRANCH_NAME == "master"){
@@ -32,5 +35,4 @@ node {
           img = docker.build("banner/studentselfservice:${env.BRANCH_NAME}")
         }
       }*/
-      echo "Build Image"
 }
