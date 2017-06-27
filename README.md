@@ -1,5 +1,11 @@
 # Student Self Service
 
+## Links
+ - StudentSelfService/ssb/studentGrades
+ - StudentSelfService/ssb/classListApp/classListPage
+ - StudentSelfService/ssb/termSelection
+ - StudentSelfService/ssb/studentProfile
+
 ## Banner Config
   ONLINEHELP_URL = http://HOST:PORT/banner9OH
   BANNER_TRANSACTIONTIMEOUT = 30
