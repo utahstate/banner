@@ -27,9 +27,9 @@ node {
       def img
       withDockerRegistry([credentialsId: 'docker-registry-credentials', url: "https://harbor.usu.edu/"]){
         if (env.BRANCH_NAME == "master"){
-          img = docker.build('banner/studentselfservice:latest')
+          img = docker.build('harbor.usu.edu/banner/studentselfservice:latest')
         } else {
-          img = docker.build("banner/studentselfservice:${env.BRANCH_NAME}")
+          img = docker.build("harbor.usu.edu/banner/studentselfservice:${env.BRANCH_NAME}")
           img.push()
         }
       }
