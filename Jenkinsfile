@@ -2,10 +2,14 @@ properties([gitLabConnection('gitlab.usu.edu')])
 
 node {
   def javaHome = tool 'OracleJDK8'
+  def baseImage = docker.image('harbor.usu.edu/banner/base-bannerselfservice:oracle6-tomcat8-java8')
 
   stage 'Checkout'
     checkout scm
     echo "Branch Name ${env.BRANCH_NAME} Build ID ${env.BUILD_ID} Build Number ${env.BUILD_NUMBER} Job Name ${env.JOB_NAME}"
+    withDockerRegistry([credentialsId: 'docker-registry-credentials', url: "https://harbor.usu.edu"]){
+      baseImage.pull()
+    }
 
   stage 'Build War'
     gitlabCommitStatus("Build War"){
