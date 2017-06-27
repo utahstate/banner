@@ -47,7 +47,7 @@ jmx {
 //                       +++ Self Service Support +++
 // ******************************************************************************
 
-ssbEnabled = (Boolean.parseBoolean((System.getenv('SSBENABLED') ?: true))
+ssbEnabled = (Boolean.parseBoolean(System.getenv('SSBENABLED') ?: true))
 ssbOracleUsersProxied = (Boolean.parseBoolean(System.getenv('SSBORACLEUSERSPROXIED') ?: true))
 ssbPassword.reset.enabled = (Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED') ?: true)) //true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
