@@ -2,7 +2,7 @@ properties([gitLabConnection('gitlab.usu.edu')])
 
 node {
   def javaHome = tool 'OracleJDK8'
-  def baseImage = docker.image('harbor.usu.edu/banner/base-bannerselfservice:oracle6-tomcat8-java8')
+  def baseImage = docker.image('harbor.usu.edu/banner/base-bannerselfservice:oraclelinux6-tomcat8-java8')
 
   stage 'Checkout'
     checkout scm
