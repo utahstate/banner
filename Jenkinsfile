@@ -30,6 +30,7 @@ node {
           img = docker.build('banner/studentselfservice:latest')
         } else {
           img = docker.build("banner/studentselfservice:${env.BRANCH_NAME}")
+          img.push()
         }
       }
     }
