@@ -78,7 +78,7 @@
         casServerUrlPrefix
       </param-name>
       <param-value>
-        http://CAS_HOST:PORT/cas
+        ${cas.serverurlprefix}
       </param-value>
     </init-param>
     <init-param>
@@ -86,7 +86,7 @@
         serverName
       </param-name>
       <param-value>
-        http://BANNER9_HOST:PORT
+        ${server.name}
       </param-value>
     </init-param>
     <init-param>
