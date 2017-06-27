@@ -23,6 +23,8 @@ node {
         }
       }
       sh "${javaHome}/bin/jar uvf StudentSelfService.war WEB-INF"
+      sh "${javaHome}/bin/jar uvf StudentSelfService.war css"
+      sh "${javaHome}/bin/jar uvf StudentSelfService.war js"
     }
 
 
