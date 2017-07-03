@@ -20,7 +20,7 @@ node {
         }
       } else {
         withAWS(credentials:"Jenkins-S3", region:'us-east-1'){
-          s3Download(file: 'IntegrationApi.war', bucket:'usu-banner-builds', path:"banner/input/intergrationapi/${env.BRANCH_NAME}/IntegrationApi.war", force:true)
+          s3Download(file: 'IntegrationApi.war', bucket:'usu-banner-builds', path:"banner/input/integrationapi/${env.BRANCH_NAME}/IntegrationApi.war", force:true)
         }
       }
       sh "${javaHome}/bin/jar uvf IntegrationApi.war WEB-INF"
@@ -31,9 +31,9 @@ node {
       def img
       withDockerRegistry([credentialsId: 'docker-registry-credentials', url: "https://harbor.usu.edu"]){
         if (env.BRANCH_NAME == "master"){
-          img = docker.build('harbor.usu.edu/banner/intergrationapi:latest')
+          img = docker.build('harbor.usu.edu/banner/integrationapi:latest')
         } else {
-          img = docker.build("harbor.usu.edu/banner/intergrationapi:${env.BRANCH_NAME}")
+          img = docker.build("harbor.usu.edu/banner/integrationapi:${env.BRANCH_NAME}")
           img.push()
         }
       }
