@@ -1,4 +1,4 @@
-properties([gitLabConnection('gitlab.usu.edu')])
+Integrationproperties([gitLabConnection('gitlab.usu.edu')])
 
 node {
   def javaHome = tool 'OracleJDK8'
@@ -16,14 +16,14 @@ node {
     gitlabCommitStatus("Build War"){
       if(env.BRANCH_NAME == "master"){
         withAWS(credentials:"Jenkins-S3", region:'us-east-1'){
-          s3Download(file: 'IntergrationApi.war', bucket:'usu-banner-builds', path:"banner/input/intergrationapi/9.8/IntergrationApi.war", force:true)
+          s3Download(file: 'IntegrationApi.war', bucket:'usu-banner-builds', path:"banner/input/integrationapi/9.8/IntegrationApi.war", force:true)
         }
       } else {
         withAWS(credentials:"Jenkins-S3", region:'us-east-1'){
-          s3Download(file: 'IntergrationApi.war', bucket:'usu-banner-builds', path:"banner/input/intergrationapi/${env.BRANCH_NAME}/IntergrationApi.war", force:true)
+          s3Download(file: 'IntegrationApi.war', bucket:'usu-banner-builds', path:"banner/input/intergrationapi/${env.BRANCH_NAME}/IntegrationApi.war", force:true)
         }
       }
-      sh "${javaHome}/bin/jar uvf IntergrationApi.war WEB-INF"
+      sh "${javaHome}/bin/jar uvf IntegrationApi.war WEB-INF"
     }
 
   stage 'Build Image'
