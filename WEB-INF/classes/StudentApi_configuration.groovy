@@ -55,7 +55,7 @@ jmx {
 // The logging levels that may be configured are, in order: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
 //
 log4j = {
-    def String loggingFileDir  =  (System.getenv('CATALINA_HOME') ?: 'target')
+    def String loggingFileDir  =  (System.getProperty('catalina.base') ?: 'target')
     def String logAppName      = "StudentApi"
     def String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
     appenders {
@@ -159,7 +159,7 @@ log4j = {
 // Disabling this setting does mean all audit user trails will be the username
 // configured for your bannerSsbDataSource.
 
-apiOracleUsersProxied=(System.getenv('APIORACLEUSERSPROXIED') ?: false)
+apiOracleUsersProxied=(Boolean.parseBoolean(System.getenv('APIORACLEUSERSPROXIED') ?: false))
 
 /*******************************************************************************
  *                                                                             *
