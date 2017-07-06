@@ -95,7 +95,7 @@ grails {
                 loginUri         = '/login'
                 sendRenew        = false
                 proxyReceptorUrl = '/secure/receptor'
-                useSingleSignout = (Boolean.parseBoolen(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT') ?: true)
+                useSingleSignout = (Boolean.parseBoolen(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT') ?: true))
                 key = 'grails-spring-security-cas'
                 artifactParameter = 'SAMLart'
                 serviceParameter = 'TARGET'
