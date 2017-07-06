@@ -150,7 +150,7 @@ grails.plugin.springsecurity.saml.metadata.sp.defaults = [
 //                       +++ LOGGER CONFIGURATION +++
 //
 // ******************************************************************************
-String loggingFileDir =  "/var/log/tomcat/logs"
+String loggingFileDir =  "/usr/log/tomcat/logs"
 String loggingFileName = "${loggingFileDir}/${logAppName}.log".toString()
 
 
