@@ -49,7 +49,7 @@
 		</init-param>
 		<init-param>
 			<param-name>artifactParameterName</param-name>
-			<name></name>param-value>SAMLart</param-value>
+			<param-value>SAMLart</param-value>
 		</init-param>
 		<init-param>
 			<param-name>tolerance</param-name>
