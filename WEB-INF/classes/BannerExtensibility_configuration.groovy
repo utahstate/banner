@@ -1,22 +1,24 @@
 /*******************************************************************************
- Copyright 2011-2016 Ellucian Company L.P. and its affiliates.
+ Copyright 2017 Ellucian Company L.P. and its affiliates.
  *******************************************************************************/
 
 /******************************************************************************
-
  This file contains configuration needed by the Banner XE Page Builder
  web application. Please refer to the administration guide for
  additional information regarding the configuration items contained within this file.
 
  This configuration file contains the following sections:
  * PageBuilder
- *   DataSource connection details for Page Builder artifacts
- *   Enable/Disable switch
- *   Miscellaneous configuration
- * Theming
- *   url theming server (theming client application set up)
- *   theme used by client application
- *   theming server path for saved themes and templates
+     *   Enable/Disable switch and DataSource connection details for Page Builder artifacts
+     *   Miscellaneous configuration
+
+ * Theme
+     *   url:  theme server url, if this is not specified then it points to same app
+     *   theme: used by client application, mep code is used as theme name by default
+     *   template: used by client application
+     *   cacheTimeOut: themes would be cached for specified duration (in seconds) in theme server
+                       (This is not required if the app points to remote theme server)
+
  * Self Service Support
  * CAS SSO Configuration (supporting self service users)
  * Logging Configuration (Note: Changes here require restart -- use JMX to avoid the need restart)
@@ -26,64 +28,11 @@
 
  *******************************************************************************/
 
-/*******************************************************************************
- *                                                                              *
- *              Page Builder Artifact DataSource Configuration                  *
- *                                                                              *
- *******************************************************************************/
-
 pageBuilder.enabled = (Boolean.parseBoolean(System.getenv('PAGEBUILDER_ENABLED') ?: true))
 
 if (!pageBuilder.enabled) {
   grails.plugin.springsecurity.securityConfigType = grails.plugin.springsecurity.SecurityConfigType.InterceptUrlMap
 }
-
-// Use this datasource when PageBuilder is enabled, comment it out when PageBuilder is not enabled.
-/*dataSource_sspb {
-    pooled = true
-    driverClassName = "oracle.jdbc.OracleDriver"
-    dialect = "org.hibernate.dialect.Oracle10gDialect"
-    username = "ban_ss_user"
-    password = "a4fAs7_Mubd"
-    url = "jdbc:oracle:thin:@//racdev.banner.usu.edu:1521/zdevl"
-    transactional = false
-    dbCreate = "none" //"validate"  "update"
-}*/
-
-// Uncomment the datasource datasource below when PageBuilder is not enabled - a valid data source needs to be provided
-/*
-dataSource_sspb {
-    pooled = true
-    driverClassName = "oracle.jdbc.OracleDriver"
-    dialect = "org.hibernate.dialect.Oracle10gDialect"
-    username = "ban_ss_user"
-    password = "#UPDATE THIS"
-    url = "jdbc:oracle:thin:@host:port:sid"
-    transactional = false
-    dbCreate = "none" //"validate"  "update"
-}
-*/
-
-dataSource_sspb {
-    pooled = true
-    driverClassName = "oracle.jdbc.OracleDriver"
-    dialect = "org.hibernate.dialect.Oracle10gDialect"
-    username = "ban_ss_user"
-    password = "#UPDATE THIS"
-    url = "jdbc:oracle:thin:@host:port:sid"
-    transactional = false
-    dbCreate = "none"
-}
-
-//When war deployed, use the JNDI datasource configured for Banner Self Service
-environments {
-    production {
-        dataSource_sspb {
-            jndiName = "java:comp/env/${bannerSsbDataSource.jndiName}"
-        }
-    }
-}
-
 
 /*******************************************************************************
  *                                                                              *
@@ -98,13 +47,36 @@ pageBuilder {
 	  css           = "${pbRoot}/css"
 	  virtualDomain = "${pbRoot}/virtdom"
 	}
+    // Uncomment debugRoles to reveal detailed SQL error messages for
+    // Virtual domains to users with any of the comma separated roles
+    // debugRoles = "ROLE_GPBADMN_BAN_DEFAULT_PAGEBUILDER_M"
 }
 
-//Theming
-banner.theme.url=(System.getenv('BANNER_THEME_URL') ?: 'http://BANNER9_HOST:PORT/BannerExtensibility/theme')
-banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: 'ellucian')
-banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: 'BannerExtensibility')
-banner.theme.cacheTimeOut = (System.getenv('BANNER_THEME_CACHETIMEOUT') ?: 900)
+/*******************************************************************************
+ *                                                                              *
+ *              Theme Configuration                                             *
+ *                                                                              *
+ *******************************************************************************/
+ banner.theme.url=(System.getenv('BANNER_THEME_URL') ?: 'http://BANNER9_HOST:PORT/BannerExtensibility/theme')
+ banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: 'ellucian')
+ banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: 'BannerExtensibility')
+ banner.theme.cacheTimeOut = (System.getenv('BANNER_THEME_CACHETIMEOUT') ?: 900)
+
+/*environments {
+     production {
+         banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"   // required only if theme server is remote
+         banner.theme.name="ellucian"                                       // Not required for MEP
+         banner.theme.template="BannerExtensibility"
+         banner.theme.cacheTimeOut = 900                                    // seconds, required only if the app is theme server
+     }
+     development {
+         banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"  // required only if theme server is remote
+         banner.theme.name="ellucian"                                      // Not required for MEP
+         banner.theme.template="BannerExtensibility"
+         banner.theme.cacheTimeOut = 120                                   // seconds, required only if the app is theme server
+     }
+}*/
+
 
 
 
@@ -119,7 +91,7 @@ banner.theme.cacheTimeOut = (System.getenv('BANNER_THEME_CACHETIMEOUT') ?: 900)
 // application to ensure uniqueness.
 jmx {
     exported {
-        log4j = grails.util.Metadata.current.'app.name'.toString() + "-log4j"
+        log4j = "BannerExtensibility-log4j"
     }
 }
 
@@ -132,7 +104,8 @@ jmx {
 
 ssbEnabled = (Boolean.parseBoolean(System.getenv('SSBENABLED') ?: true))
 ssbOracleUsersProxied = (Boolean.parseBoolean(System.getenv('SSBORACLEUSERSPROXIED') ?: true))
-
+ssbPassword.reset.enabled = (Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED') ?: true)) //true  - allow Pidm users to reset their password.
+                                 //false - throws functionality disabled error message
 
 
 /** *****************************************************************************
@@ -147,7 +120,7 @@ ssbOracleUsersProxied = (Boolean.parseBoolean(System.getenv('SSBORACLEUSERSPROXI
 //
 banner {
     sso {
-        authenticationProvider           =  (System.getenv('BANNER_SSO_AUTHENTICATIONPROVIDER') ?: 'default') //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
+        authenticationProvider           = (System.getenv('BANNER_SSO_AUTHENTICATIONPROVIDER') ?: 'default')  //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
         authenticationAssertionAttribute = (System.getenv('BANNER_SSO_AUTHENTICATIONASSERTIONATTRIBUTE') ?: 'UDC_IDENTIFIER')
         if(authenticationProvider != 'default') {
             grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
@@ -176,7 +149,7 @@ grails {
                 loginUri         = '/login'
                 sendRenew        = false
                 proxyReceptorUrl = '/secure/receptor'
-                useSingleSignout = (Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT') ?: true))
+                useSingleSignout = (Boolean.parseBoolean)(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT') ?:true))
                 key = 'grails-spring-security-cas'
                 artifactParameter = 'SAMLart'
                 serviceParameter = 'TARGET'
@@ -196,6 +169,9 @@ grails {
 
 grails.plugin.springsecurity.homePageUrl= (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/')
 
+//This setting contains the institution-specific redirect URL for MEP if Return Home is clicked.
+grails.plugin.springsecurity.logout.mepErrorLogoutUrl = '/logout/customLogout'
+
 //guestAuthenticationEnabled = true
 
 // This entry is required to ensure that 'Sign In' link takes you to corresponding login i.e. for CAS,
@@ -204,13 +180,49 @@ grails.plugin.springsecurity.homePageUrl= (System.getenv('GRAILS_PLUGIN_SPRINGSE
 loginEndpoint=(System.getenv('LOGINENDPOINT') ?: 'http://BANNER9_HOST:PORT/APP_NAME/customPage/page/pbadm.ssoauth?url=/' )
 
 
+/*******************************************************************************
+ *                                                                              *
+ *              SAML CONFIGURATION                                                    *
+ *                                                                              *
+ *******************************************************************************/
+grails.plugin.springsecurity.saml.active = false
+grails.plugin.springsecurity.saml.afterLogoutUrl ='/logout/customLogout'
+banner.sso.authentication.saml.localLogout='false'
+grails.plugin.springsecurity.saml.keyManager.defaultKey = 'extensibility'
+grails.plugin.springsecurity.saml.keyManager.storeFile = 'classpath:security/bekeystore.jks'
+grails.plugin.springsecurity.saml.keyManager.storePass = 'password'
+grails.plugin.springsecurity.saml.keyManager.passwords = [ 'extensibility': 'password' ]
+grails.plugin.springsecurity.saml.metadata.sp.file = 'security/banner-BannerExtensibility-sp.xml'
+grails.plugin.springsecurity.saml.metadata.providers = [adfs: 'security/banner-BannerExtensibility-idp.xml']
+grails.plugin.springsecurity.saml.metadata.defaultIdp = 'adfs'
+grails.plugin.springsecurity.saml.metadata.sp.defaults = [
+    local: true,
+    alias: 'extensibility',
+    securityProfile: 'metaiop',
+    signingKey: 'extensibility',
+    encryptionKey: 'extensibility',
+    tlsKey: 'extensibility',
+    requireArtifactResolveSigned: false,
+    requireLogoutRequestSigned: false,
+    requireLogoutResponseSigned: false
+]
+
+/*******************************************************************************
+ *                                                                              *
+ *              X-Frame-Options                                                 *
+ *                                                                              *
+ *******************************************************************************/
+grails.plugin.xframeoptions.urlPattern = '/login/auth'
+grails.plugin.xframeoptions.deny = true
+
+
 // ******************************************************************************
 //
 //                       +++ LOGGER CONFIGURATION +++
 //
 // ******************************************************************************
 String loggingFileDir =  (System.getenv('CATALAINA_HOME') ?: '/target')
-String logAppName = grails.util.Metadata.current.'app.name'
+String logAppName = "BannerExtensibility"
 String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
 
 
@@ -320,3 +332,12 @@ log4j = {
  *******************************************************************************/
 grails.resources.adhoc.includes = ['/images/**', '/css/**', '/js/**', '/plugins/**', '/fonts/**']
 grails.resources.adhoc.excludes = ['/WEB-INF/**']
+
+
+/************************************************************
+             Web Application Extensibility
+************************************************************/
+webAppExtensibility {
+    // Comma separated list of roles
+    adminRoles = "ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"
+}
