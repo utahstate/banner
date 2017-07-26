@@ -1,0 +1,217 @@
+<config>
+	<!--
+	### 1. PLATFORM GENERAL CONFIGURATION
+	#
+	# Configuration of global parameters.
+	-->
+	<!--
+     		The following configuration parameter SERVICES_URL is used to control
+		whether the messages between the services webapp and the workspace
+		webapp use SOAP or JSON.  For SOAP messages, use the parameter
+		definitions in the "SOAP config" section.  For JSON messages (the default),
+		use the parameter definitions in the "JSON config" section.  Note that
+		the JSON config must also define SERVICES_CLASS and FRAMES_MODEL_CLASS.
+	-->
+
+	<!-- SOAP config -->
+	<!--
+	     	<param name="SERVICES_URL" value="/BannerAdmin.ws/services/message/" />
+	-->
+	<!-- end SOAP config -->
+
+	<!-- JSON config -->
+		<param name="SERVICES_URL" value="/BannerAdmin.ws/rest-services/message/" />
+		<param name="SERVICES_CLASS" value="Frames.JSONService" />
+		<param name="FRAMES_MODEL_CLASS" value="Frames.Model.JSON" />
+	<!-- end JSON config -->
+
+	<param name="IMAGES_URL" 	value="/BannerAdmin/img" />
+	<param name="DOC_URL" 		value="" />
+	<param name="UPLOAD_URL" 	value="/BannerAdmin.ws/upload/fileUpload" />
+	<param name="PORTAL_URL" 	value="/BannerAdmin/html/portal/index.html" />
+	<param name="SPOOLER_URL" 	value="/BannerAdmin.ws/services/WebReportRunnerManager" />
+	<param name="CLOSE_URL" 	value="/BannerAdmin/html/close_message.html" />
+	<param name="LOCALE_URL" 	value="/BannerAdmin.ws/locale" />
+	<param name="MODEL_WORKSPACE_TASK" value="true" />
+	<param name="DEFAULT_LOCALE" 	value="en" />
+	<param name="APP_NAME" 		value="flat" />
+	<param name="VIEWS_URL" 	value="/BannerAdmin.ws/views" />
+
+	<!--
+	<param name="SESSION_URL"       value="/wrksp.ws/saml/login" />
+	-->
+
+	<param name="APPNAV_HELP_URL"   value="${server.url}/bannerHelp/Main?page=" />
+
+	<param name="DESIGNER_EXTERNAL_CLASS" value="Frames.DesignerExternalAuto"/>
+
+	<!-- FORMATS -->
+	<param name="DATE_CANONICAL_FORMAT" value="DD/MM/YYYY hh24:NN:SS"/>
+	<param name="NUMBER_CANONICAL_DECIMAL" 	value="." />
+	<param name="NUMBER_CANONICAL_GROUP" 	value="" />
+
+	<param name="DATE_DEFAULT_FORMATTER" value="Frames.FormatMultiDate"/>
+	<param name="DATE_FORCE_LOCALE"          value="true" />
+
+	<!-- MISC -->
+	<param name="KEYBOARD_SHORTCUT" 	value="ALT+" />
+	<param name="PAGINATION_CONTROL" 	value="true" />
+	<param name="LOCALIZATION" 			value="false" />
+	<param name="DEBUG_MODE" 			value="false" />
+	<param name="EXIT_WARNING" 			value="true" />
+	<param name="EMPTY_TAG_MODELS" 		value="false"/>
+	<param name="LOV_AUTOFILTER"		value="true" />
+	<param name="WORKSPACE_MENU"		value="true" />
+
+	<param name="FIELD_AUTO_ALIGNMENT"	value="true" />
+
+	<param name="GRID_FITCOLS"			value="auto" />
+	<param name="GRID_GROUPING"			value="true" />
+	<param name="GRID_PAGER"			value="true" />
+	<param name="GRID_MULTILINE"		value="false" />
+	<param name="REPEATER_PAGER"		value="true" />
+	<param name="AUTO_CREATE_RANGES"        value="true" />
+
+	<param name="ERROR_TIP_ENABLED"		value="false" />
+
+	<param name="COMBOBOX_AUTOSELECT_ENABLED"       value="false" />
+
+        <param name="TOGGLE_VIEW_ENABLED"       value="false" />
+        <param name="AUTOSKIP_ENABLED"          value="true" />
+
+	<param name="ROLES_MAP">
+		<item key="APPLICATION"			value="true" />
+	</param>
+
+	<param name="WORKSPACE_ACTIONS">
+		<item key="MENU_RELATED" value="ALT+SHIFT+R" />
+		<item key="MENU_TOOLS" value="ALT+SHIFT+T" />
+		<item key="TOGGLE_VIEW" value="CTRL+G" />
+	</param>
+
+	<!--
+		<param name="APP_CSS_URL"               value="/wrksp.branding/css/all.css" />
+		<param name="APP_CSS_APPEND"    value="false" />
+	-->
+	<param name="APP_CSS_URL" value="${theme.url}" />
+  <param name="APP_CSS_APPEND" value="${theme.enable}" />
+	<!--
+	### 2. PLATFORM ACTIONS
+	#
+	# Configuration of global actions that could be executed in the client.
+	# Actions must have a name and optionally have an accesskey (keyboard
+	# shortcut) and/or a list of validators.
+	#
+	# A Validator is a class that implements the validation of inputs values or
+	# other kind of necessary client validation code.
+	#
+	# <action name="TEST_ACTION" accesskey="CONTROL+T">
+	# 	<validator type="mv.validators.ModelChangedValidator" />
+	# </action>
+	#
+	# Update 8/07/2015 - BDM & WF Shortcuts added
+	-->
+	<actions>
+		<!-- FORM / BLOCK -->
+		<action name="SEARCH" 			type="MessageServiceAction" accesskey="F7" 					validation="false" recordValidation="false" taskValidation="false" />
+		<action name="EXECUTE_QUERY" 	type="MessageServiceAction" accesskey="F8"					validation="false" recordValidation="false" taskValidation="false" />
+		<action name="SAVE" 			type="MessageServiceAction" accesskey="F10"					recordValidation="false" taskValidation="false" validateNewRow="false" />
+		<action name="CLEAR-FORM" 		type="MessageServiceAction" accesskey="F5" 			validation="false" recordValidation="false" taskValidation="false" />
+		<action name="EXPORT" 			type="MessageServiceAction" accesskey="SHIFT+F1" 			validation="true" recordValidation="false" taskValidation="false" />
+
+		<action name="COUNT_QUERY"                      type="MessageServiceAction" accesskey="SHIFT+F2"                        validation="false" recordValidation="false" taskValidation="false" />
+
+		<action name="WHEN-MOUSE-DOUBLECLICK"           type="MessageServiceAction" accesskey="ALT+S"       validation="false" recordValidation="false" taskValidation="false" />
+		<action name="KEY-NXTKEY" 		type="MessageServiceAction" accesskey="SHIFT+F7" 		validation="false" recordValidation="false" taskValidation="false" />
+		<action name="WHEN-TAB-PAGE-CHANGED"    type="MessageServiceAction"                                             validation="false" recordValidation="false" taskValidation="false" />
+		<action name="PRINT" 			type="CustomAction" accesskey="CTRL+P" 					validation="false" recordValidation="false" taskValidation="false" />
+		<action name="ABOUT_BANNER" 	type="MessageServiceAction"						 			validation="true" recordValidation="false" taskValidation="false" />
+
+
+		<!-- ITEM -->
+		<action name="NEXT_ITEM" 	     type="MessageServiceAction" accesskey="TAB"                          recordValidation="false" taskValidation="false" validateNewRow="false" />
+		<action name="PREVIOUS_ITEM" 	     type="MessageServiceAction" accesskey="SHIFT+TAB"                    recordValidation="false" taskValidation="false" validateNewRow="false" />
+		<action name="LIST_VALUES" 	     type="MessageServiceAction" accesskey="F9"        validation="false" recordValidation="false" taskValidation="false" />
+		<action name="EDIT_TEXTITEM"	     type="MessageServiceAction" accesskey="CTRL+E" />
+		<action name="DUPLICATE_ITEM"	     type="MessageServiceAction" accesskey="F3" />
+		<action name="WHEN-LIST-CHANGED"     type="MessageServiceAction"                       validation="false" recordValidation="false" taskValidation="false" />
+		<action name="WHEN-CHECKBOX-CHANGED" type="MessageServiceAction"                       validation="false" recordValidation="false" taskValidation="false" />
+		<action name="SKIP_NEXT" 	     type="MessageServiceAction"	               validation="false" recordValidation="false" taskValidation="false" validateNewRow="false" />
+		<action name="SKIP_PREV" 	     type="MessageServiceAction"	               validation="false" recordValidation="false" taskValidation="false" validateNewRow="false" />
+
+		<!-- RECORD -->
+		<action name="NEXT_RECORD" 		type="MessageServiceAction" accesskey="DOWN"				recordValidation="false" taskValidation="false" validateNewRow="false" />
+		<action name="PREVIOUS_RECORD" 	type="MessageServiceAction" accesskey="UP" 					recordValidation="false" taskValidation="false" validateNewRow="false" />
+		<action name="CREATE_RECORD" 	type="MessageServiceAction" accesskey="F6" 					recordValidation="true" taskValidation="false" validateNewRow="false" />
+		<action name="DELETE_RECORD" 	type="MessageServiceAction" accesskey="SHIFT+F6"			validation="false" recordValidation="false" taskValidation="false" />
+		<action name="DUPLICATE_RECORD"	type="MessageServiceAction" accesskey="F4" 					recordValidation="false" taskValidation="false" />
+		<action name="CLEAR_RECORD"		type="MessageServiceAction" accesskey="SHIFT+F4" 			validation="false" recordValidation="false" taskValidation="false" />
+		<action name="NEXT_KEY"			type="MessageServiceAction" accesskey="SHIFT+F3" />
+
+		<!-- BLOCK -->
+		<action name="NEXT_BLOCK" 		type="MessageServiceAction" accesskey="ALT+PAGE_DOWN" 		recordValidation="false" taskValidation="false" />
+		<action name="PREVIOUS_BLOCK" 	type="MessageServiceAction" accesskey="ALT+PAGE_UP" 		recordValidation="false" taskValidation="false" />
+		<action name="CLEAR_BLOCK"		type="MessageServiceAction" accesskey="SHIFT+F5" 			validation="true" recordValidation="false" taskValidation="false" />
+
+		<!-- APPLICATION -->
+		<action name="EXIT" 			type="ExitServiceAction" 	accesskey="CTRL+Q"				validation="false" recordValidation="false" taskValidation="false" />
+                <action name="LOGOUT" 			type="MessageServiceAction" 								validation="false" recordValidation="false" taskValidation="false" />
+
+		<!-- PAGINATION -->
+		<action name="NEXT_PAGE" 		type="MessageServiceAction" accesskey="PAGE_DOWN" />
+		<action name="PREVIOUS_PAGE" 	type="MessageServiceAction" accesskey="PAGE_UP" />
+		<action name="FIRST_PAGE" 		type="MessageServiceAction" accesskey="CTRL+HOME" />
+		<action name="LAST_PAGE" 		type="MessageServiceAction" accesskey="CTRL+END" />
+
+		<!--  APPNAV SHORTCUTS -->
+		<action name="APPNAV_MENU"		type="AppNavAction"			accesskey="CTRL+M" />
+		<action name="APPNAV_ITEMS"		type="AppNavAction"			accesskey="CTRL+Y" />
+		<action name="APPNAV_SEARCH"	type="AppNavAction"			accesskey="CTRL+SHIFT+Y" />
+		<action name="APPNAV_HELP"		type="AppNavAction"			accesskey="CTRL+SHIFT+L" />
+		<action name="APPNAV_SIGNOUT"	type="AppNavAction"			accesskey="CTRL+SHIFT+F" />
+
+		<!-- Supplemental data Engine -->
+		<action name="SUP_DATA_ENG"		type="MessageServiceAction"		accesskey="CTRL+SHIFT+U" />
+
+		<!-- BDM -->
+		<action name="BDM_IMPORT_FILE"  type="MessageServiceAction" accesskey="ALT+A"                                   validation="false" recordValidation="false" taskValidation="false" />
+		<action name="BDM_RETRIEVE"             type="MessageServiceAction" accesskey="ALT+R"                                   validation="false" recordValidation="false" taskValidation="false" />
+
+		<!-- MEP -->
+		<action name="VPDI_COMPONENT"	type="MessageServiceAction" accesskey="CTRL+SHIFT+C" 			validation="false" recordValidation="false" taskValidation="false" />
+
+		<!-- WF -->
+		<action name="WF_RELEASE"               type="MessageServiceAction" accesskey="ALT+Q"                                   validation="false" recordValidation="false" taskValidation="false" />
+		<action name="WF_SUBMIT"                type="MessageServiceAction" accesskey="ALT+W"                                   validation="false" recordValidation="false" taskValidation="false" />
+
+	</actions>
+
+
+
+	<!--
+	### 3. KEY BINDINGS
+	#
+	# Configuration of keys actions that trigger MessageServiceAction actions
+	-->
+	<keys>
+		<key name="NEXT_ITEM" 			accesskey="TAB"            		action="NEXT_ITEM" />
+		<key name="PREV_ITEM" 			accesskey="SHIFT+TAB"       	action="PREVIOUS_ITEM" />
+		<key name="DOWN"      			accesskey="DOWN"            	action="NEXT_RECORD" />
+		<key name="NXTREC"    			accesskey="DOWN"            	action="NEXT_RECORD" />
+		<key name="UP"        			accesskey="UP"              	action="PREVIOUS_RECORD" />
+		<key name="PRVREC"    			accesskey="UP"              	action="PREVIOUS_RECORD" />
+		<key name="NXTBLK"    			accesskey="ALT+PAGE_DOWN" 		action="NEXT_BLOCK" />
+		<key name="PRVBLK"    			accesskey="ALT+PAGE_UP"   		action="PREVIOUS_BLOCK" />
+		<key name="CREREC"    			accesskey="F6"       			action="CREATE_RECORD" />
+		<key name="ENTER"    			accesskey="ENTER"           	action="ENTER" />
+		<key name="SELECT"			accesskey="ALT+S"		action="WHEN-MOUSE-DOUBLECLICK"/>
+		<key name="KEY_NXTKEY"			accesskey="SHIFT+F7"				action="KEY-NXTKEY"/>
+		<key name="NEXT_PAGE" 			accesskey="PAGE_DOWN" 			action="NEXT_PAGE" />
+		<key name="PREV_PAGE" 			accesskey="PAGE_UP"				action="PREVIOUS_PAGE" />
+		<key name="FIRST_PAGE" 			accesskey="CTRL+HOME" 	  		action="FIRST_PAGE" />
+		<key name="LAST_PAGE" 			accesskey="CTRL+END"			action="LAST_PAGE" />
+		<key name="EDIT_TEXTITEM"		accesskey="CTRL+E"				action="KEY-EDIT" />
+		<key name="DUPLICATE_ITEM"		accesskey="F3"					action="DUPLICATE_ITEM" />
+		<key name="NEXT_KEY"			accesskey="SHIFT+F3"			action="NEXT_KEY" />
+	</keys>
+</config>
