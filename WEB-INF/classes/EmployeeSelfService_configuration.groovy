@@ -51,9 +51,9 @@ jmx {
 // ******************************************************************************
 
 
-ssbEnabled = true
-ssbOracleUsersProxied = false
-ssbPassword.reset.enabled = false //true  - allow Pidm users to reset their password.
+ssbEnabled = (System.getenv('SSBENABLED').asBoolean() ?: true)
+ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED').asBoolean() ?: true)
+ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED').asBoolean() ?: true) //true  - allow Pidm users to reset their password.
                                   //false - throws functionality disabled error message
 
 
@@ -74,8 +74,8 @@ grails.plugin.xframeoptions.deny = true
 
 banner {
     sso {
-		authenticationProvider = 'cas'
-        authenticationAssertionAttribute = 'UDC_IDENTIFIER'
+		authenticationProvider = (System.getenv('BANNER_SSO_AUTHENTICATIONPROVIDER') ?: 'default')
+        authenticationAssertionAttribute = (System.getenv('BANNER_SSO_AUTHENTICATIONASSERTIONATTRIBUTE') ?: 'UDC_IDENTIFIER')
         if(authenticationProvider != 'default') {
             grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
         }
@@ -87,15 +87,15 @@ grails {
     plugin {
         springsecurity {
             cas {
-                active = true
-                serverUrlPrefix  = 'https://logindev.usu.edu/cas'
-                serviceUrl       = 'https://ss-zdevl.banner.usu.edu/EmployeeSelfService/j_spring_cas_security_check'
-                serverName       = 'https://ss-zdevl.banner.usu.edu'
-                proxyCallbackUrl = 'https://ss-zdevl.banner.usu.edu/EmployeeSelfService/secure/receptor'
+                active = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE').asBoolean() ?: false )
+                serverUrlPrefix  = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERURLPREFIX') ?: 'http://CAS_HOST:PORT/cas' )
+                serviceUrl       = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVICEURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/j_spring_cas_security_check')
+                serverName       = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERNAME') ?: 'http://BANNER9_HOST:PORT' )
+                proxyCallbackUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_PROXYCALLBACKURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/secure/receptor' )
                 loginUri         = '/login'
                 sendRenew        = false
                 proxyReceptorUrl = '/secure/receptor'
-                useSingleSignout = false
+                useSingleSignout = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT').asBoolean() ?:true)
                 key = 'grails-spring-security-cas'
                 artifactParameter = 'SAMLart'
                 serviceParameter = 'TARGET'
@@ -106,7 +106,7 @@ grails {
                 }
             }
             logout {
-                   afterLogoutUrl = 'https://logindev.usu.edu/cas/logout'
+                   afterLogoutUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_LOGOUT_AFTERLOGOUTURL') ?: 'http://CAS_HOST:PORT/cas/logout?url=http://BANNER9_HOST:PORT/APP_NAME/')
                    mepErrorLogoutUrl = '/logout/logoutPage'
             }
         }
@@ -150,8 +150,8 @@ grails.plugin.springsecurity.saml.metadata.sp.defaults = [
 //                       +++ LOGGER CONFIGURATION +++
 //
 // ******************************************************************************
-String loggingFileDir =  "/usr/local/tomcat/logs"
-String loggingFileName = "${loggingFileDir}/${logAppName}.log".toString()
+String loggingFileDir = (System.getenv('CATALAINA_HOME') ?: '/target')
+String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
 
 
 // Note that logging is configured separately for each environment ('development', 'test', and 'production').
@@ -276,11 +276,11 @@ grails.resources.adhoc.excludes = ['/WEB-INF/**']
 
 
 // Location of employer logos for the Pay Stub PDF.
-banner.hr.employerLogoPath = 'http://<host_name>:<port_number>/xxxx'
+banner.hr.employerLogoPath = (System.getenv('BANNER_HR_EMPLOYERLOGOPATH') ?: 'http://<host_name>:<port_number>/xxxx')
 
 // Location of Apache FOP base directory for generating PDF documents.
 // Leave blank to use the default location.
-banner.pdf.fopBaseUrl = ''
+banner.pdf.fopBaseUrl = (System.getenv('BANNER_PDF_FOPBASEDURL') ?: '')
 
 banner8.SS.addressUpdateURL = "bwgkogad.P_SelectAtypUpdate"
 banner8.SS.addressUpdate = 'N'
@@ -291,7 +291,7 @@ banner8.SS.emergencyContactUpdate = 'N'
 
 //Benefits links HR Dashboard
 banner8.SS.benefitsEnrollmentURL = "bwpkdsta.P_ShowEnrollmentMenu"
-banner8.SS.benefitsEnrollment8xLinkAvailable = 'Y'
+banner8.SS.benefitsEnrollment8xLinkAvailable = 'N'
 banner8.SS.currentBeneficiariesURL = "bwpkdbcv.P_NamesAndBenefits"
 banner8.SS.currentBeneficiaries8xLinkAvailable = 'Y'
 banner8.SS.currentSummaryURL = "bwpkebst.P_DispIDSelect"
@@ -299,13 +299,13 @@ banner8.SS.currentSummary8xLinkAvailable = 'Y'
 
 //My Activities links HR Dashboard
 banner8.SS.enterTimeURL = "bwpktais.P_SelectTimeSheetRoll"
-banner8.SS.enterTime8xLinkAvailable = 'Y'
+banner8.SS.enterTime8xLinkAvailable = 'N'
 banner8.SS.requestTimeOffURL = "bwpktais.P_SelectLeaveRequestRoll"
-banner8.SS.requestTimeOff8xLinkAvailable = 'Y'
+banner8.SS.requestTimeOff8xLinkAvailable = 'N'
 banner8.SS.electronicPersonalActionFormsURL = "bwpkepaf.P_DispEpafMenu"
 banner8.SS.electronicPersonalActionForms8xLinkAvailable = 'Y'
 banner8.SS.facultyLoadCompensationURL = "twbkwbis.P_GenMenu?name=pmenu.P_FacMenu"
-banner8.SS.facultyLoadCompensation8xLinkAvailable = 'Y'
+banner8.SS.facultyLoadCompensation8xLinkAvailable = 'N'
 banner8.SS.salaryPlannerURL = "twbkwbis.P_GenMenu?name=pmenu.P_SalaMenu"
 banner8.SS.salaryPlanner8xLinkAvailable = 'Y'
 banner8.SS.effortReportingURL = "bwpkolib.p_launch_flex"
@@ -319,18 +319,18 @@ banner8.SS.benefitsAdministrator8xLinkAvailable = 'Y'
 banner8.SS.morePersonalInfoUpdateURL = "twbkwbis.P_GenMenu?name=bmenu.P_GenMnu"
 banner8.SS.morePersonalInfoUpdate = 'Y'
 banner8.SS.timeSheetURL = "bwpktais.P_SelectTimeSheetRoll"
-banner8.SS.timeSheet8xLinkAvailable = 'Y'
+banner8.SS.timeSheet8xLinkAvailable = 'N'
 banner8.SS.leaveApprovalsURL = "bwpktais.P_SelectLeaveReportRoll"
-banner8.SS.leaveApprovals8xLinkAvailable = 'Y'
+banner8.SS.leaveApprovals8xLinkAvailable = 'N'
 banner8.SS.campusDirectoryURL = "bwpkedir.P_DisplayDirectory"
-banner8.SS.campusDirectory8xLinkAvailable = 'Y'
+banner8.SS.campusDirectory8xLinkAvailable = 'N'
 banner8.SS.employeeMenuURL = "twbkwbis.P_GenMenu?name=pmenu.P_MainMnu"
-banner8.SS.employeeMenuLinkAvailable = 'N'
+banner8.SS.employeeMenuLinkAvailable = 'Y'
 
 
 //Tax links HR Dashboard
 banner8.SS.electronicW2ConsentURL = "bwpkxtxs.P_W2Consent"
-banner8.SS.electronicW2Consent8xLinkAvailable = 'Y'
+banner8.SS.electronicW2Consent8xLinkAvailable = 'N'
 banner8.SS.w2WageTaxStatementURL = "bwpkxtxs.P_ChooseW2Key"
 banner8.SS.w2WageTaxStatement8xLinkAvailable = 'Y'
 banner8.SS.w2CorrectedWageTaxStatementURL = "bwpkxtxs.P_ChooseW2cKey"
@@ -362,20 +362,20 @@ banner8.SS.openEnrollmentNewHire8xLinkAvailable = 'Y'
 banner8.SS.openEnrollmentURL = "bwpkdsta.P_ShowEnrollmentMenu"
 banner8.SS.openEnrollment8xLinkAvailable = 'Y'
 banner8.SS.lifeEventChangeURL = "bwpkdsta.P_ShowEnrollmentMenu"
-banner8.SS.lifeEventChange8xLinkAvailable = 'Y'
+banner8.SS.lifeEventChange8xLinkAvailable = 'N'
 
 //Position Description Link
-banner.SS.positionDescriptionLinkAvailable = 'Y'
+banner.SS.positionDescriptionLinkAvailable = 'N'
 
 //Direct Deposit Application Link.  NOTE - please disable the 8x direct deposit link if this one is being enabled.
 // Use Consolidated Banner General SSB App Name if Consolidated General App is available, else use standalone
 // DirectDeposit application URL
-banner.SS.directDepositURL = 'https://ss-zdevl.banner.usu.edu/BannerGeneralSsb/ssb/directDeposit#/directDepositListing'
+banner.SS.directDepositURL = (System.getenv('BANNER_SS_DIRECTDEPOSITURL') ?: 'http://<host_name>:<port_number>/<DirectDepositAppName>/')
 banner.SS.directDepositAppLinkAvailable = 'Y'
 
 
 //Personal Info Application Link.
-banner.SS.personalInfoURL = 'http://ss-zdevl.banner.usu.edu/BannerGeneralSsb/ssb/personalInformation#/personalInformationMain'
+banner.SS.personalInfoURL = (System.getenv('BANNER_SS_PERSONALINFOURL') ?: 'http://<host_name>:<port_number>/<GENERALSELFSERVICE>/')
 banner.SS.personalInfoAppLinkAvailable = 'Y'
 
 //Deductions History Link.
@@ -383,10 +383,10 @@ banner.SS.deductionsHistoryLinkAvailable = 'Y'
 
 
 //Labor Redistribution Application Link.  NOTE - please disable the 8x labor Redistribution link if this one is being enabled.
-banner.SS.laborRedistributionAppLinkAvailable = 'Y'
+banner.SS.laborRedistributionAppLinkAvailable = 'N'
 
 //Effort Reporting Application Link.  NOTE - please disable the 8x effort Reporting link if this one is being enabled.
-banner.SS.effortReportingAppLinkAvailable = 'Y'
+banner.SS.effortReportingAppLinkAvailable = 'N'
 
 //Use preferred first name through the application
 ess.display.preferredFirstName = 'Y'
@@ -394,21 +394,21 @@ ess.display.preferredFirstName = 'Y'
 //Banner display components.
 ess.displayComponent.Photo = 'Y'
 ess.displayComponent.EmployeeStatus = 'Y'
-ess.displayComponent.HomeOrganization  = 'Y'
-ess.displayComponent.DistOrganization  = 'Y'
-ess.displayComponent.Ecls  = 'Y'
-ess.displayComponent.PartTimeFullTimeIndicator  = 'Y'
+ess.displayComponent.HomeOrganization  = 'N'
+ess.displayComponent.DistOrganization  = 'N'
+ess.displayComponent.Ecls  = 'N'
+ess.displayComponent.PartTimeFullTimeIndicator  = 'N'
 ess.displayComponent.OriginalHire = 'Y'
 ess.displayComponent.CurrentHire  = 'Y'
-ess.displayComponent.AdjustedHire  = 'Y'
-ess.displayComponent.Seniority  = 'Y'
-ess.displayComponent.FirstWorkDay  = 'Y'
-ess.displayComponent.JobLocation = 'Y'
-ess.displayComponent.College  = 'Y'
-ess.displayComponent.Campus = 'Y'
-ess.displayComponent.DistrictOrDivision  = 'Y'
+ess.displayComponent.AdjustedHire  = 'N'
+ess.displayComponent.Seniority  = 'N'
+ess.displayComponent.FirstWorkDay  = 'N'
+ess.displayComponent.JobLocation = 'N'
+ess.displayComponent.College  = 'N'
+ess.displayComponent.Campus = 'N'
+ess.displayComponent.DistrictOrDivision  = 'N'
 ess.displayComponent.PositionSuffix = 'Y'
-ess.displayComponent.Supervisor    = 'Y'
+ess.displayComponent.Supervisor    = 'N'
 ess.displayComponent.TimeSheetOrgn  = 'Y'
 ess.displayComponent.YtdEarnings   = 'Y'
 ess.displayComponent.BenefitsSection = 'Y'
@@ -433,15 +433,15 @@ ess.displayComponent.HireDate  = 'Y'
 banner.them.url=(System.getenv('BANNER_THEME_URL') ?: 'http://BANNER9_HOST:PORT/BannerExtensibility/theme')
 banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: 'ellucian')
 banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: 'BannerExtensibility')
-banner.theme.cacheTimeOut = (System.getenv('BANNER_THEME_CACHETIMEOUT') ?: 900)
+banner.theme.cacheTimeOut = (System.getenv('BANNER_THEME_CACHETIMEOUT').toInteger() ?: 900)
 
 /** *****************************************************************************
  *                                                                              *
  *                          Google Analytics          *
  *                                                                              *
  ***************************************************************************** **/
-banner.analytics.trackerId=
-banner.analytics.allowEllucianTracker=false
+ banner.analytics.trackerId=(System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')
+ banner.analytics.allowEllucianTracker=(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER').asBoolean() ?: true)
 
 
 /** ***************************************************************************
@@ -469,7 +469,7 @@ hibernate.cache.use_query_cache=true         // Default true. Make it false for 
  *           Home Page link when error happens during authentication.           *
  *                                                                              *
  ***************************************************************************** **/
-grails.plugin.springsecurity.homePageUrl='http://development.banner.usu.edu/'
+grails.plugin.springsecurity.homePageUrl=(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL') ?: 'http://URL:PORT/' )
 
 /** *****************************************************************************
  *                                                                              *

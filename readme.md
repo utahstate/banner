@@ -1,0 +1,40 @@
+
+
+SSBENABLED = true
+SSBORACLEUSERSPROXIED = true
+SSBPASSWORD_RESET_ENABLED = true
+BANNER_SSO_AUTHENTICATIONPROVIDER = default
+BANNER_SSO_AUTHENTICATIONASSERTIONATTRIBUTE = UDC_IDENTIFIER
+
+
+GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE = true
+GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERURLPREFIX = http://CAS_HOST:PORT/cas
+GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVICEURL = http://BANNER9_HOST:PORT/APP_NAME/j_spring_cas_security_check
+GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERNAME = http://BANNER9_HOST:PORT
+GRAILS_PLUGIN_SPRINGSECURITY_CAS_PROXYCALLBACKURL = http://BANNER9_HOST:PORT/APP_NAME/secure/receptor
+GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT = true
+GRAILS_PLUGIN_SPRINGSECURITY_LOGOUT_AFTERLOGOUTURL = http://CAS_HOST:PORT/cas/logout?url=http://BANNER9_HOST:PORT/APP_NAME/
+
+BANNER_HR_EMPLOYERLOGOPATH = http://<host_name>:<port_number>/xxxx
+BANNER_PDF_FOPBASEDURL = ''
+
+
+BANNER_SS_DIRECTDEPOSITURL = http://<host_name>:<port_number>/<DirectDepositAppName>/
+banner.SS.directDepositURL = 'https://ss-zdevl.banner.usu.edu/BannerGeneralSsb/ssb/directDeposit#/directDepositListing'
+banner.SS.directDepositAppLinkAvailable = 'Y'
+
+BANNER_SS_PERSONALINFOURL = http://<host_name>:<port_number>/<GENERALSELFSERVICE>/
+//Personal Info Application Link.
+banner.SS.personalInfoURL = 'http://ss-zdevl.banner.usu.edu/BannerGeneralSsb/ssb/personalInformation#/personalInformationMain'
+banner.SS.personalInfoAppLinkAvailable = 'Y'
+
+
+BANNER_THEME_URL = http://BANNER9_HOST:PORT/BannerExtensibility/theme
+BANNER_THEME_NAME = ellucian
+BANNER_THEME_TEMPLATE = BannerExtensibility
+BANNER_THEME_CACHETIMEOUT = 900
+
+BANNER_ANALYSTICS_TRACKERID = ''
+BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER = true
+
+GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL = 'http://URL:PORT/'
