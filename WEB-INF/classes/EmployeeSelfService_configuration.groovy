@@ -430,10 +430,10 @@ ess.displayComponent.HireDate  = 'Y'
 /******************************************************************************
 *Configuration to use themes served by the Theme Server*                                                                              *
 ***************************************************************************** **/
-banner.theme.url = 'https://ss-zdevl.banner.usu.edu/BannerExtensibility/theme' //Required only if theme server is remote. References the URL to the application hosting the Theme Server Example : . http://hostname:port/EmployeeSelfService/ssb/theme
-banner.theme.name = 'default' // This is the desired theme name to use. In a MEP environment, the application uses the MEP code as the theme name instead of the banner.theme.name . A theme by this name must be created in the Theme Editor on the server specified by banner.theme.url
-banner.theme.template = 'employeeselfservice' // This is the name of the scss file containing the theme settings. EmployeeSelfService.war includes a template named “all.scss” at css/theme/all.scss. This file needs to be installed in the Theme Server’. Example : "all"
-banner.theme.cacheTimeOut=120 // seconds, required only if the app is theme server
+banner.them.url=(System.getenv('BANNER_THEME_URL') ?: 'http://BANNER9_HOST:PORT/BannerExtensibility/theme')
+banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: 'ellucian')
+banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: 'BannerExtensibility')
+banner.theme.cacheTimeOut = (System.getenv('BANNER_THEME_CACHETIMEOUT') ?: 900)
 
 /** *****************************************************************************
  *                                                                              *
