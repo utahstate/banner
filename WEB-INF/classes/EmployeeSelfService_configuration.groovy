@@ -433,7 +433,7 @@ ess.displayComponent.HireDate  = 'Y'
 banner.them.url=(System.getenv('BANNER_THEME_URL') ?: 'http://BANNER9_HOST:PORT/BannerExtensibility/theme')
 banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: 'ellucian')
 banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: 'BannerExtensibility')
-banner.theme.cacheTimeOut = (System.getenv('BANNER_THEME_CACHETIMEOUT').toInteger() ?: 900)
+banner.theme.cacheTimeOut = (System.getenv('BANNER_THEME_CACHETIMEOUT') ?: 900)
 
 /** *****************************************************************************
  *                                                                              *
