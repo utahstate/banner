@@ -386,3 +386,10 @@ footerFadeAwayTime = (System.getenv('FOOTERFADEAWAYTIME') ?: 10000 )
 // ******************************************************************************
 grails.plugin.xframeoptions.urlPattern = '/login/auth'
 grails.plugin.xframeoptions.deny = true
+
+
+//Theming
+banner.them.url=(System.getenv('BANNER_THEME_URL') ?: 'http://BANNER9_HOST:PORT/BannerExtensibility/theme')
+banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: 'ellucian')
+banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: 'BannerExtensibility')
+banner.theme.cacheTimeOut = (System.getenv('BANNER_THEME_CACHETIMEOUT') ?: 900)
