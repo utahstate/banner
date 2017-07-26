@@ -1,0 +1,6191 @@
+
+/* common-controls.css */
+
+
+.primaryButtonMiddleblue  {
+    color: $themecolor1-3; /*#0989d7*/
+}
+
+.primaryButton span  {
+    color: $themecolor1-3; /*#0989d7*/
+}
+
+.textInput  {
+    color: #666666;
+}
+
+.label  {
+    color: #666666;
+}
+
+.primaryButtonMiddle  {
+    color: #FFFFFF;
+}
+
+.modalWindowModal  {
+    background-color: #000000;
+}
+
+.modalWindowTop .modalWindowTitle  {
+    color: $themecolor1-2; /*#0c4e8c*/
+}
+
+.modalWindowContentblue .errorMessage  {
+    color: #5C5C5C;
+}
+
+.modalWindowTopblue .modalWindowTitle  {
+    color: $themecolor1-3; /*#0989d7*/
+}
+
+
+.headerBottomBorder  {
+    background-color: #00559E;
+    background-color: #FF0000;
+}
+
+.browseMenuShadow  {
+    border-color: $themecolor1-2; /*#13689E*/
+    background-color: $themecolor1-4; /*#477b9c*/
+}
+
+#browseButtonState.active  {
+    background-color: $themecolor1-4; /*#477b9c*/
+    border-color: $themecolor1-2; /*#13689E*/
+}
+
+.browseTab div div  {
+    color: #FFFFFF;
+}
+
+.headerButton div div  {
+    color: #FFFFFF;
+}
+
+.headerButtonDownArrow:link, .headerButtonDownArrow:active, .headerButtonDownArrow:visited  {
+    color: #FFFFFF;
+}
+
+.headerButtonDownArrow:hover  {
+    color: #FFFFFF;
+}
+
+.upArrow:link, .upArrow:active, .upArrow:visited  {
+    color: #FFFFFF;
+}
+
+#scrollableListContainer  {
+    background-color: #FFFFFF;
+}
+
+.btn-l  {
+    background-color: #646464;
+    border-color: #666666;
+}
+
+.btn-r  {
+    background-color: #646464;
+    border-color: #666666;
+}
+
+
+.upButton  {
+    background-color: $themecolor1-4; /*#eee*/
+    border-color: #AAAAAA;
+}
+
+.downButton  {
+    background-color: $themecolor1-4; /*#eee*/
+    border-color: #AAAAAA;
+}
+
+.downButton:hover, .upButton:hover  {
+    background-color: $themecolor1-4; /*#eee*/
+    border-color: $themecolor1-4; /*#2477C1*/
+}
+
+.downButtonDisabled  {
+    border-color: #CCCCCC;
+    background-color: #F0F0F0;
+}
+
+.upButtonDisabled  {
+    border-color: #CCCCCC;
+    background-color: #F0F0F0;
+}
+
+.columns  {
+    border-right-color: #DDDDDD;
+    background-color: #FFFFFF;
+}
+
+.navListStart span  {
+    color: #777777;
+}
+
+.navListStart span:hover  {
+    color: #FFFFFF;
+    background-color: #666666;
+}
+
+.navListStart .parent span:hover  {
+    background-color: #666666;
+    color: #FFFFFF;
+    background-color: #999999;
+}
+
+
+.navList  {
+    background-color: #FFFFFF;
+}
+
+.navList span  {
+    color: #666666;
+}
+
+.navList span:hover  {
+    color: $themecolor1-2; /*#11679D*/
+    background-color: #E1EFFD;
+}
+
+.navList span a  {
+    color: #666666;
+}
+
+.selectedListItem span  {
+    color: #FFFFFF;
+    background-color: $themecolor1-1; /*#005C96*/
+}
+
+.selectedListPage span  {
+    color: #FFFFFF;
+    background-color: $themecolor1-2; /*#7FADCA*/
+}
+
+.navList .scrollableListItem span:hover  {
+    color: $themecolor1-3; /*#0C60A6*/
+    background-color: #D9F4FB;
+}
+
+.navList .scrollableListItem:focus span  {
+    color: $themecolor1-3; /*#0C60A6*/
+    background-color: #D9F4FB;
+}
+
+.navList .parent span:hover  {
+    color: $themecolor1-2; /*#11679D*/
+    background-color: #E1EFFD;
+}
+
+.navList .parent:focus span  {
+    color: $themecolor1-2; /*#11679D*/
+    background-color: #E1EFFD;
+}
+
+div[id=mainMenuContainer] .navList .scrollableListItem:focus span  {
+    background-color: $themecolor1-5; /*#D9E7EF*/
+}
+
+div[id=mainMenuContainer] .navList .parent:focus span  {
+    color: $themecolor1-2; /*#11679D*/
+    background-color: $themecolor1-5; /*#D9E7EF*/
+}
+
+.searchInputContainer  {
+    background-color: #FFFFFF;
+}
+
+#searchInput  {
+    color: #B2B2B2;
+}
+
+#searchButton  {
+    color: #FFFFFF;
+}
+
+
+
+
+.banner-footer  {
+    background-color: #F4F4F4;
+    color: $themecolor2-3; /*#4f585f*/
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* common-platform.css */
+
+
+.information span  {
+    color: #5C5C5C;
+}
+
+
+
+#globalNav  {
+    color: #FFFFFF;
+}
+
+#globalNav .globalnav-list-item  {
+    border-left-color: #FFFFFF;
+}
+
+#globalNav li a  {
+    color: #FFFFFF;
+}
+
+#helpWindowTab #helpWindowTabText  {
+    color: $themecolor1-4; /*#0084d5*/
+}
+
+#helpWindowControls #helpWindowTitle  {
+    color: $themecolor1-4; /*#0084d5*/
+}
+
+#openItemsHeader div h3  {
+    color: $themecolor1-3; /*#0C60A6*/
+}
+
+
+#openItemsBody  {
+    border-left-color: $themecolor1-4; /*#9AC0D2*/
+    border-right-color: $themecolor1-4; /*#9AC0D2*/
+    background-color: #FFFFFF;
+}
+
+#categoryList  {
+    color: #999999;
+}
+
+#categoryList li h4  {
+    color: #555555;
+}
+
+#categoryList li h4:hover  {
+    border-top-color: #CCCCCC;
+    border-bottom-color: #CCCCCC;
+    color: #000000;
+}
+
+.itemList li:hover  {
+    background-color: #F5F9FA;
+    color: #333344;
+}
+
+
+#openItemsFooter  {
+    border-color: $themecolor1-4; /*#9AC0D2*/
+}
+
+#buttonBar span  {
+    color: #666666;
+}
+
+#buttonBar span:hover  {
+    color: $themecolor1-3; /*#0C60A6*/
+}
+
+
+.activeOpenItem  {
+    background-color: $themecolor1-4; /*#9AC0D2*/
+    color: #FFFFFF;
+    border-bottom-color: #FFFFFF;
+}
+
+.tabInfoTitle  {
+    color: #656564;
+}
+
+.tabInfoText  {
+    color: #656564;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* aurora-header.css */
+
+#header-main-section  {
+    background-color: $themecolor1; /*#206E9F*/
+}
+
+#header-main-section-east-part {
+    background-color: $themecolor1-2; /*#1B6496*/
+}
+
+#header-main-section-east-part #mepDiv   {
+    border-left-color: #1D5F8C;
+    color: #FFFFFF;
+}
+
+#header-main-section-east-part #signInButton   {
+    border-left-color: #1D5F8C;
+}
+
+#header-main-section-east-part #userDiv  {
+    border-left-color: #1D5F8C;
+}
+
+
+#header-main-section-east-part #username {
+    color: #FFFFFF;
+}
+
+#header-main-section-east-part #toolsButton  {
+    border-left-color: #1D5F8C;
+}
+
+.institutionalBranding {
+    background-image: url("$themelogo");
+}
+
+.institutionalBranding {
+  width: 20em;
+}
+
+.notification-center  {
+    color: $themecolor2; /*#FFD079*/
+}
+
+.notification-center-count  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.notification-center-anchor {
+    background-color: $themecolor2; /*#FFD079*/
+}
+
+#signList .canvas-item  {
+    color: #FFFFFF;
+}@media only screen and (min-width: 0px) and (max-width: 767px) {
+
+    #signInCanvas  {
+    background-color: #FFFFFF;
+}
+
+    #signInCanvas .canvas-section, #signInCanvas .canvas-item  {
+    border-bottom-color: $themecolor1-3; /*#D0DBDE*/
+}
+
+    #signInCanvas.signIn-active  {
+    background-color: #FFFFFF;
+}
+
+    #signList .canvas-section  {
+    color: $themecolor3-1; /*#41566F*/
+    background-color: $themecolor1-5; /*#F9FAFB*/
+}
+
+    #signList .canvas-item  {
+    color: $themecolor3-1; /*#41566F*/
+    border-bottom-color: $themecolor1-3; /*#D0DBDE*/
+}
+
+    #signList .canvas-item:hover, #signList .canvas-item:focus  {
+    background-color: $themecolor1-5; /*#F3FCFF*/
+}
+
+    .signIn-mobile.signIn-expanded:after  {
+    border-bottom-color: #FFFFFF;
+}
+}
+@media (min-width:0px) and (max-width:767px) and (orientation : landscape)	{
+
+    #header-main-section-east-part #signInButton  {
+    border-left-color: #1D5F8C;
+    background-color: $themecolor1-2; /*#1B6496*/
+}
+
+    #header-main-section-east-part #toolsButton  {
+    border-left-color: #1D5F8C;
+}
+
+    #header-main-section-east-part #userDiv  {
+    border-left-color: #1D5F8C;
+    background-color: $themecolor1-2; /*#1B6496*/
+}
+}
+
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* aurora-breadcrumb.css */
+
+
+a.breadcrumbButton:link, a.breadcrumbButton:active, a.breadcrumbButton:visited , .breadcrumbButton  {
+    color: $themecolor3-1; /*#41566F*/
+}
+
+#title-panel {
+    color: $themecolor1; /*#557287*/
+}
+
+#breadcrumb-panel, #title-panel {
+    background-color: $themecolor1-5; /*#F9FAFB*/
+    border-bottom-color: $themecolor1-4; /*#DEE5E7*/
+}
+
+.page-title-separator {
+    border-bottom-color: $themecolor1-4; /*#DEE5E7*/
+}@media only screen
+and (min-width: 0px)
+and (max-width: 767px) {
+
+    #breadcrumb-panel {
+    color: $themecolor3-1; /*#41566F*/
+}
+}
+
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* aurora-menu.css */
+
+
+#menuContainer {
+    background-color: #FFFFFF;
+}
+
+.menu-wrapper  {
+    background-color: #FFFFFF;
+}
+
+
+#bannerMenu.show:after
+ {
+    border-bottom-color: #FFFFFF;
+}
+
+#menu ul>li  {
+    border-bottom-color: $themecolor1-3; /*#D0DBDE*/
+}
+
+#menu .menu-text, #menu .menu-subheader-text {
+    color: $themecolor3-1; /*#41566F*/
+}
+#menu ul li:hover, #menu ul li:focus {
+    background-color: $themecolor1-5; /*#F3FCFF*/
+}
+
+.menu-wrapper a:link,.menu-wrapper a:visited,.menu-wrapper a:hover,.menu-wrapper a:active  {
+    color: $themecolor3-1; /*#41566F*/
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* aurora-tools.css */
+
+#toolsCanvas .canvas-item  {
+    border-top-color: $themecolor1-3; /*#d0dbde*/
+}
+#toolsList .canvas-section  {
+    color: $themecolor3-1; /*#41566f*/
+    background-color: $themecolor1-5; /*#f9fafb*/
+    border-bottom-color: $themecolor1-3; /*#d0dbde*/
+}
+#toolsList .canvas-item  {
+    color: $themecolor3-1; /*#41566f*/
+    border-bottom-color: $themecolor1-3; /*#d0dbde*/
+    background-color: $themecolor1-5; /*#f9fafb*/
+}
+#toolsList .canvas-item:hover,
+#toolsList .canvas-item:focus  {
+    background-color: $themecolor1-5; /*#f3fcff*/
+}
+#toolsButton.tools-expanded:after  {
+    border-bottom-color: #FFFFFF;
+}
+#toolsList #mepDescForMobile  {
+    background-color: #E8E3E3;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* aurora-profile.css */
+
+
+#userCanvas .canvas-item  {
+    border-top-color: $themecolor1-3; /*#d0dbde*/
+}
+
+#userList .canvas-section  {
+    color: $themecolor3-1; /*#41566f*/
+    background-color: $themecolor1-5; /*#f9fafb*/
+    border-bottom-color: $themecolor1-3; /*#d0dbde*/
+}
+
+#userList .canvas-item  {
+    color: $themecolor3-1; /*#41566f*/
+    background-color: #FFFFFF;
+    border-bottom-color: $themecolor1-3; /*#d0dbde*/
+}
+
+#userList .canvas-item:hover, #userList .canvas-item:focus  {
+    background-color: $themecolor1-5; /*#F3FCFF*/
+}
+
+#userList .canvas-item[readonly]  {
+    color: $themecolor3-1; /*#41566F*/
+}
+
+#header-main-section-east-part #userDiv #user.user-expanded:after  {
+    border-bottom-color: #FFFFFF;
+}
+
+
+#userList #usernameForMobile  {
+    background-color: #CCCCCC;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* multiCalendar.css */
+
+.grid td.focus, .grid td.focus a  {
+    color: #000000 !important;
+}
+.grid td  {
+    border-color: #CCCCCC !important;
+}
+.add-row-hover  {
+    border-color: #CCCCCC !important;
+}
+.a {
+    color: #000000 !important;
+    background-color: #FFFFFF !important;
+}
+
+.ui-widget-content  {
+    border-color: #CCCCCC;
+    background-color: #FFFFFF;
+    color: #333333;
+}
+
+.ui-widget-content a  {
+    color: #333333;
+}
+
+.ui-widget-header a  {
+    color: #222222;
+}
+
+.ui-datepicker-div .ui-widget-header  {
+    background-color: #EDF0F4;
+    color: #333333;
+}
+
+
+
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited  {
+    color: #333333;
+}
+
+.ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus  {
+    color: #FFFFFF;
+    background-color: $themecolor1-0; /*#194F85*/
+}
+
+#multiCalendarContainer .ui-state-hover a, #multiCalendarContainer .ui-state-hover a:hover  {
+    color: #FFFFFF;
+    background-color: $themecolor1-0; /*#194F85*/
+}
+
+#multiCalendarContainer .ui-state-active, #multiCalendarContainer .ui-widget-content .ui-state-active, #multiCalendarContainer .ui-widget-header .ui-state-active  {
+    background-color: $themecolor1-0; /*#194F85*/
+    color: #FFFFFF;
+}
+
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited  {
+    color: #FFFFFF;
+}
+
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight  {
+    border-color: #FFC51E;
+    background-color: #FEF8BE;
+    color: #363636;
+}
+
+.ui-state-highlight a, .ui-widget-content .ui-state-highlight a, .ui-widget-header .ui-state-highlight a  {
+    color: #363636;
+}
+
+.ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error  {
+    border-color: #DC6F6E;
+    background-color: #EBCFCF;
+    color: #000000;
+}
+
+.ui-state-error a, .ui-widget-content .ui-state-error a, .ui-widget-header .ui-state-error a  {
+    color: #000000;
+}
+
+.ui-state-error-text, .ui-widget-content .ui-state-error-text, .ui-widget-header .ui-state-error-text  {
+    color: #000000;
+}
+
+
+
+
+
+
+
+.ui-widget-overlay  {
+    background-color: #000000;
+}
+
+.ui-widget-shadow  {
+    background-color: #080808;
+}
+
+.ui-datepicker-header .ui-state-hover  {
+    background-color: #EAF4FD;
+    border-color: #C5DBEC;
+    color: $themecolor1-3; /*#2E6EBE*/
+}
+
+.ui-datepicker .ui-state-highlight  {
+    background-color: #EAF4FD;
+    border-color: #C5DBEC;
+    color: $themecolor1-3; /*#2E6EBE*/
+}
+
+.ui-datepicker .ui-widget-content  {
+    border-color: #DDDDDD;
+    color: #333333;
+}
+
+.ui-datepicker.ui-widget-content  {
+    border-color: #DDDDDD;
+}
+
+#multiCalendarContainer  {
+    background-color: #FFFFFF;
+}
+
+
+
+
+#multiCalendarContainer .ui-widget-content  {
+    background-color: #FFFFFF;
+    color: #333333;
+}
+
+.ui-widget-header a  {
+    color: #222222;
+}
+
+.ui-datepicker-div .ui-widget-header  {
+    background-color: #EDF0F4;
+    color: #333333;
+}
+
+
+.ui-datepicker .ui-datepicker-calendar .ui-state-highlight, .ui-datepicker .ui-datepicker-calendar .ui-state-hover  {
+    background-color: $themecolor2-4 !important; /*#EBEBEB*/
+    color: #000000
+    BORDER: 1PX SOLID #C5DBEC;
+}
+
+.ui-datepicker .ui-state-default .ui-state-hover  {
+    background-color: $themecolor1-4; /*#B2CEDF*/
+}
+
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited  {
+    color: #333333;
+}
+
+#multiCalendarContainer .ui-state-focus, #multiCalendarContainer .ui-widget-content .ui-state-focus, #multiCalendarContainer .ui-widget-header .ui-state-focus  {
+    color: #FFFFFF;
+    background-color: $themecolor1-0; /*#194F85*/
+}
+
+#multiCalendarContainer .ui-state-hover a, #multiCalendarContainer .ui-state-hover a:hover  {
+    color: #FFFFFF;
+    background-color: $themecolor1-0; /*#194F85*/
+}
+
+#multiCalendarContainer .ui-state-active, #multiCalendarContainer .ui-widget-content .ui-state-active, #multiCalendarContainer .ui-widget-header .ui-state-active  {
+    background-color: #0E5C94 !important;
+    border-color: #0E5C94;
+    color: #FFFFFF !important;
+}
+
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited  {
+    color: #FFFFFF;
+}
+
+
+.ui-state-highlight a, .ui-widget-content .ui-state-highlight a, .ui-widget-header .ui-state-highlight a  {
+    color: #363636;
+}
+
+.ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error  {
+    border-color: #DC6F6E;
+    background-color: #EBCFCF;
+    color: #000000;
+}
+
+.ui-state-error a, .ui-widget-content .ui-state-error a, .ui-widget-header .ui-state-error a  {
+    color: #000000;
+}
+
+.ui-state-error-text, .ui-widget-content .ui-state-error-text, .ui-widget-header .ui-state-error-text  {
+    color: #000000;
+}
+
+
+.ui-widget-overlay  {
+    background-color: #000000;
+}
+
+.ui-widget-shadow  {
+    background-color: #080808;
+}
+
+.ui-datepicker .ui-datepicker-header  {
+    background-color: #ECF0F4;
+}
+
+.ui-datepicker .ui-widget-content  {
+    border-color: #DDDDDD;
+    color: #333333;
+}
+
+.ui-datepicker.ui-widget-content  {
+    border-color: #DDDDDD;
+}
+
+#multiCalendarContainer > div  {
+    background-color: #FFFFFF;
+}
+
+input.hasMultiCalendarPicker:hover  {
+    border-color: $themecolor1-4; /*#4282B3*/
+}
+
+input.hasMultiCalendarPicker:focus  {
+    border-color: $themecolor1-4; /*#4282B3*/
+}
+
+input.hasMultiCalendarPicker  {
+    border-color: $themecolor1-3; /*#778FA0*/
+}
+
+#timeBoxContainer  {
+    background-color: #FFFFFF;
+    border-color: #CCCCCC;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default  {
+    border-color: #D3D3D3;
+}
+
+input.hasMultiCalendarPicker.component-error   {
+    border-color: #CC0000;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight  {
+    background-color: #FEF8BE;
+    color: #363636;
+}
+.ui-datepicker .ui-state-highlight  {
+    color: $themecolor1-3; /*#2E6EBE*/
+}
+.ui-datepicker .ui-datepicker-calendar .ui-state-highlight, .ui-datepicker .ui-datepicker-calendar .ui-state-hover  {
+    background-color: $themecolor2-4 !important; /*#EBEBEB*/
+    color: #000000;
+}
+.ui-datepicker td  {
+    border-color: #CCCCCC;
+}
+
+
+#multiCalendarContainer  {
+    background-color: #FFFFFF;
+}
+.ui-datepicker-weekheader  {
+    background-color: $themecolor2-5; /*#F3F7F8*/
+    border-top-color: $themecolor1-4; /*#eee*/
+    border-bottom-color: $themecolor1-4; /*#eee*/
+}
+#multiCalendarContainer .ui-widget-header {
+    background-color: #FFFFFF;
+}
+#multiCalendarContainer .ui-widget-header > span h5 {
+    color: $themecolor2-3; /*#4F585F*/
+}
+.ui-datepicker td  {
+    border-color: #CCCCCC;
+}
+.vertical-line  {
+    border-left-color: $themecolor1-4; /*#eee*/
+}@media only screen and (min-width:768px){
+    .ui-datepicker-group  {
+    border-color: #999999;
+}
+    #multiCalendarContainer > div {
+    border-color: $themecolor1-4; /*#eee*/
+}
+}
+
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* bootstrap.css */
+
+
+mark  {
+    color: #000000;
+    background-color: #FFFF00;
+}
+
+fieldset  {
+    border-color: #C0C0C0;
+}
+
+body  {
+    color: #333333;
+    background-color: #FFFFFF;
+}
+
+a  {
+    color: $themecolor1-4; /*#428bca*/
+}
+
+a:hover,
+a:focus  {
+    color: $themecolor1-3; /*#2a6496*/
+}
+
+a:focus  {
+    outline-color: #333333;
+}
+
+.img-thumbnail  {
+    background-color: #FFFFFF;
+    border-color: #DDDDDD;
+}
+
+hr  {
+    border-top-color: $themecolor1-4; /*#eeeeee*/
+}
+
+.text-muted  {
+    color: #999999;
+}
+
+.text-primary  {
+    color: $themecolor1-4; /*#428bca*/
+}
+
+.text-primary:hover  {
+    color: $themecolor1-4; /*#3071a9*/
+}
+
+.text-warning  {
+    color: #C09853;
+}
+
+.text-warning:hover  {
+    color: #A47E3C;
+}
+
+.text-danger  {
+    color: #B94A48;
+}
+
+.text-danger:hover  {
+    color: #953B39;
+}
+
+.text-success  {
+    color: #468847;
+}
+
+.text-success:hover  {
+    color: #356635;
+}
+
+.text-info  {
+    color: $themecolor1-3; /*#3a87ad*/
+}
+
+.text-info:hover  {
+    color: #2D6987;
+}
+
+h1 small,
+h2 small,
+h3 small,
+h4 small,
+h5 small,
+h6 small,
+.h1 small,
+.h2 small,
+.h3 small,
+.h4 small,
+.h5 small,
+.h6 small,
+h1 .small,
+h2 .small,
+h3 .small,
+h4 .small,
+h5 .small,
+h6 .small,
+.h1 .small,
+.h2 .small,
+.h3 .small,
+.h4 .small,
+.h5 .small,
+.h6 .small  {
+    color: #999999;
+}
+
+.page-header  {
+    border-bottom-color: $themecolor1-4; /*#eeeeee*/
+}
+
+
+
+abbr[title],
+abbr[data-original-title]  {
+    border-bottom-color: #999999;
+}
+
+blockquote  {
+    border-left-color: $themecolor1-4; /*#eeeeee*/
+}
+
+blockquote small  {
+    color: #999999;
+}
+
+blockquote.pull-right  {
+    border-right-color: $themecolor1-4; /*#eeeeee*/
+}
+
+code  {
+    color: #C7254E;
+    background-color: #F9F2F4;
+}
+
+pre  {
+    color: #333333;
+    background-color: #F5F5F5;
+    border-color: #CCCCCC;
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td  {
+    border-top-color: #DDDDDD;
+}
+
+.table > thead > tr > th  {
+    border-bottom-color: #DDDDDD;
+}
+
+.table > tbody + tbody  {
+    border-top-color: #DDDDDD;
+}
+
+.table .table  {
+    background-color: #FFFFFF;
+}
+
+.table-bordered  {
+    border-color: #DDDDDD;
+}
+
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td  {
+    border-color: #DDDDDD;
+}
+
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th  {
+    background-color: #F9F9F9;
+}
+
+.table-hover > tbody > tr:hover > td,
+.table-hover > tbody > tr:hover > th  {
+    background-color: #F5F5F5;
+}
+
+.table > thead > tr > td.active,
+.table > tbody > tr > td.active,
+.table > tfoot > tr > td.active,
+.table > thead > tr > th.active,
+.table > tbody > tr > th.active,
+.table > tfoot > tr > th.active,
+.table > thead > tr.active > td,
+.table > tbody > tr.active > td,
+.table > tfoot > tr.active > td,
+.table > thead > tr.active > th,
+.table > tbody > tr.active > th,
+.table > tfoot > tr.active > th  {
+    background-color: #F5F5F5;
+}
+
+.table > thead > tr > td.success,
+.table > tbody > tr > td.success,
+.table > tfoot > tr > td.success,
+.table > thead > tr > th.success,
+.table > tbody > tr > th.success,
+.table > tfoot > tr > th.success,
+.table > thead > tr.success > td,
+.table > tbody > tr.success > td,
+.table > tfoot > tr.success > td,
+.table > thead > tr.success > th,
+.table > tbody > tr.success > th,
+.table > tfoot > tr.success > th  {
+    background-color: #DFF0D8;
+}
+
+.table-hover > tbody > tr > td.success:hover,
+.table-hover > tbody > tr > th.success:hover,
+.table-hover > tbody > tr.success:hover > td,
+.table-hover > tbody > tr.success:hover > th  {
+    background-color: #D0E9C6;
+}
+
+.table > thead > tr > td.danger,
+.table > tbody > tr > td.danger,
+.table > tfoot > tr > td.danger,
+.table > thead > tr > th.danger,
+.table > tbody > tr > th.danger,
+.table > tfoot > tr > th.danger,
+.table > thead > tr.danger > td,
+.table > tbody > tr.danger > td,
+.table > tfoot > tr.danger > td,
+.table > thead > tr.danger > th,
+.table > tbody > tr.danger > th,
+.table > tfoot > tr.danger > th  {
+    background-color: #F2DEDE;
+}
+
+.table-hover > tbody > tr > td.danger:hover,
+.table-hover > tbody > tr > th.danger:hover,
+.table-hover > tbody > tr.danger:hover > td,
+.table-hover > tbody > tr.danger:hover > th  {
+    background-color: #EBCCCC;
+}
+
+.table > thead > tr > td.warning,
+.table > tbody > tr > td.warning,
+.table > tfoot > tr > td.warning,
+.table > thead > tr > th.warning,
+.table > tbody > tr > th.warning,
+.table > tfoot > tr > th.warning,
+.table > thead > tr.warning > td,
+.table > tbody > tr.warning > td,
+.table > tfoot > tr.warning > td,
+.table > thead > tr.warning > th,
+.table > tbody > tr.warning > th,
+.table > tfoot > tr.warning > th  {
+    background-color: #FCF8E3;
+}
+
+.table-hover > tbody > tr > td.warning:hover,
+.table-hover > tbody > tr > th.warning:hover,
+.table-hover > tbody > tr.warning:hover > td,
+.table-hover > tbody > tr.warning:hover > th  {
+    background-color: #FAF2CC;
+}
+
+legend  {
+    color: #333333;
+    border-bottom-color: #E5E5E5;
+}
+
+input[type="file"]:focus,
+input[type="radio"]:focus,
+input[type="checkbox"]:focus  {
+    outline-color: #333333;
+}
+
+output  {
+    color: #555555;
+}
+
+.form-control  {
+    color: #555555;
+    background-color: #FFFFFF;
+    border-color: #CCCCCC;
+}
+
+.form-control:focus  {
+    border-color: $themecolor1-4; /*#66afe9*/
+}
+
+.form-control:-moz-placeholder  {
+    color: #999999;
+}
+
+.form-control::-moz-placeholder  {
+    color: #999999;
+}
+
+.form-control:-ms-input-placeholder  {
+    color: #999999;
+}
+
+.form-control::-webkit-input-placeholder  {
+    color: #999999;
+}
+
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control  {
+    background-color: $themecolor1-4; /*#eeeeee*/
+}
+
+.has-warning .help-block,
+.has-warning .control-label,
+.has-warning .radio,
+.has-warning .checkbox,
+.has-warning .radio-inline,
+.has-warning .checkbox-inline  {
+    color: #C09853;
+}
+
+.has-warning .form-control  {
+    border-color: #C09853;
+}
+
+.has-warning .form-control:focus  {
+    border-color: #A47E3C;
+}
+
+.has-warning .input-group-addon  {
+    color: #C09853;
+    background-color: #FCF8E3;
+    border-color: #C09853;
+}
+
+.has-error .help-block,
+.has-error .control-label,
+.has-error .radio,
+.has-error .checkbox,
+.has-error .radio-inline,
+.has-error .checkbox-inline  {
+    color: #B94A48;
+}
+
+.has-error .form-control  {
+    border-color: #B94A48;
+}
+
+.has-error .form-control:focus  {
+    border-color: #953B39;
+}
+
+.has-error .input-group-addon  {
+    color: #B94A48;
+    background-color: #F2DEDE;
+    border-color: #B94A48;
+}
+
+.has-success .help-block,
+.has-success .control-label,
+.has-success .radio,
+.has-success .checkbox,
+.has-success .radio-inline,
+.has-success .checkbox-inline  {
+    color: #468847;
+}
+
+.has-success .form-control  {
+    border-color: #468847;
+}
+
+.has-success .form-control:focus  {
+    border-color: #356635;
+}
+
+.has-success .input-group-addon  {
+    color: #468847;
+    background-color: #DFF0D8;
+    border-color: #468847;
+}
+
+.help-block  {
+    color: #737373;
+}
+
+.btn:focus  {
+    outline-color: #333333;
+}
+
+.btn:hover,
+.btn:focus  {
+    color: #333333;
+}
+
+.btn-default  {
+    color: #333333;
+    background-color: #FFFFFF;
+    border-color: #CCCCCC;
+}
+
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active,
+.open .dropdown-toggle.btn-default  {
+    color: #333333;
+    background-color: $themecolor2-4; /*#ebebeb*/
+    border-color: #ADADAD;
+}
+
+.btn-default.disabled,
+.btn-default[disabled],
+fieldset[disabled] .btn-default,
+.btn-default.disabled:hover,
+.btn-default[disabled]:hover,
+fieldset[disabled] .btn-default:hover,
+.btn-default.disabled:focus,
+.btn-default[disabled]:focus,
+fieldset[disabled] .btn-default:focus,
+.btn-default.disabled:active,
+.btn-default[disabled]:active,
+fieldset[disabled] .btn-default:active,
+.btn-default.disabled.active,
+.btn-default[disabled].active,
+fieldset[disabled] .btn-default.active  {
+    background-color: #FFFFFF;
+    border-color: #CCCCCC;
+}
+
+.btn-primary  {
+    color: #FFFFFF;
+    background-color: $themecolor1-4; /*#428bca*/
+    border-color: $themecolor1-3; /*#357ebd*/
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary  {
+    color: #FFFFFF;
+    background-color: $themecolor1-3; /*#3276b1*/
+    border-color: #285E8E;
+}
+
+.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active  {
+    background-color: $themecolor1-4; /*#428bca*/
+    border-color: $themecolor1-3; /*#357ebd*/
+}
+
+.btn-warning  {
+    color: #FFFFFF;
+    background-color: #F0AD4E;
+    border-color: #EEA236;
+}
+
+.btn-warning:hover,
+.btn-warning:focus,
+.btn-warning:active,
+.btn-warning.active,
+.open .dropdown-toggle.btn-warning  {
+    color: #FFFFFF;
+    background-color: #ED9C28;
+    border-color: #D58512;
+}
+
+.btn-warning.disabled,
+.btn-warning[disabled],
+fieldset[disabled] .btn-warning,
+.btn-warning.disabled:hover,
+.btn-warning[disabled]:hover,
+fieldset[disabled] .btn-warning:hover,
+.btn-warning.disabled:focus,
+.btn-warning[disabled]:focus,
+fieldset[disabled] .btn-warning:focus,
+.btn-warning.disabled:active,
+.btn-warning[disabled]:active,
+fieldset[disabled] .btn-warning:active,
+.btn-warning.disabled.active,
+.btn-warning[disabled].active,
+fieldset[disabled] .btn-warning.active  {
+    background-color: #F0AD4E;
+    border-color: #EEA236;
+}
+
+.btn-danger  {
+    color: #FFFFFF;
+    background-color: #D9534F;
+    border-color: #D43F3A;
+}
+
+.btn-danger:hover,
+.btn-danger:focus,
+.btn-danger:active,
+.btn-danger.active,
+.open .dropdown-toggle.btn-danger  {
+    color: #FFFFFF;
+    background-color: #D2322D;
+    border-color: #AC2925;
+}
+
+.btn-danger.disabled,
+.btn-danger[disabled],
+fieldset[disabled] .btn-danger,
+.btn-danger.disabled:hover,
+.btn-danger[disabled]:hover,
+fieldset[disabled] .btn-danger:hover,
+.btn-danger.disabled:focus,
+.btn-danger[disabled]:focus,
+fieldset[disabled] .btn-danger:focus,
+.btn-danger.disabled:active,
+.btn-danger[disabled]:active,
+fieldset[disabled] .btn-danger:active,
+.btn-danger.disabled.active,
+.btn-danger[disabled].active,
+fieldset[disabled] .btn-danger.active  {
+    background-color: #D9534F;
+    border-color: #D43F3A;
+}
+
+.btn-success  {
+    color: #FFFFFF;
+    background-color: #5CB85C;
+    border-color: #4CAE4C;
+}
+
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:active,
+.btn-success.active,
+.open .dropdown-toggle.btn-success  {
+    color: #FFFFFF;
+    background-color: #47A447;
+    border-color: #398439;
+}
+
+.btn-success.disabled,
+.btn-success[disabled],
+fieldset[disabled] .btn-success,
+.btn-success.disabled:hover,
+.btn-success[disabled]:hover,
+fieldset[disabled] .btn-success:hover,
+.btn-success.disabled:focus,
+.btn-success[disabled]:focus,
+fieldset[disabled] .btn-success:focus,
+.btn-success.disabled:active,
+.btn-success[disabled]:active,
+fieldset[disabled] .btn-success:active,
+.btn-success.disabled.active,
+.btn-success[disabled].active,
+fieldset[disabled] .btn-success.active  {
+    background-color: #5CB85C;
+    border-color: #4CAE4C;
+}
+
+.btn-info  {
+    color: #FFFFFF;
+    background-color: $themecolor1-4; /*#5bc0de*/
+    border-color: $themecolor1-3; /*#46b8da*/
+}
+
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active,
+.btn-info.active,
+.open .dropdown-toggle.btn-info  {
+    color: #FFFFFF;
+    background-color: $themecolor1-3; /*#39b3d7*/
+    border-color: #269ABC;
+}
+
+.btn-info.disabled,
+.btn-info[disabled],
+fieldset[disabled] .btn-info,
+.btn-info.disabled:hover,
+.btn-info[disabled]:hover,
+fieldset[disabled] .btn-info:hover,
+.btn-info.disabled:focus,
+.btn-info[disabled]:focus,
+fieldset[disabled] .btn-info:focus,
+.btn-info.disabled:active,
+.btn-info[disabled]:active,
+fieldset[disabled] .btn-info:active,
+.btn-info.disabled.active,
+.btn-info[disabled].active,
+fieldset[disabled] .btn-info.active  {
+    background-color: $themecolor1-4; /*#5bc0de*/
+    border-color: $themecolor1-3; /*#46b8da*/
+}
+
+.btn-link  {
+    color: $themecolor1-4; /*#428bca*/
+}
+
+.btn-link:hover,
+.btn-link:focus  {
+    color: $themecolor1-3; /*#2a6496*/
+}
+
+.btn-link[disabled]:hover,
+fieldset[disabled] .btn-link:hover,
+.btn-link[disabled]:focus,
+fieldset[disabled] .btn-link:focus  {
+    color: #999999;
+}
+
+.caret  {
+    border-top-color: #000000;
+}
+
+.dropdown-menu  {
+    background-color: #FFFFFF;
+    border-color: #CCCCCC;
+    border-color: #000000;
+}
+
+.dropdown-menu .divider  {
+    background-color: #E5E5E5;
+}
+
+.dropdown-menu > li > a  {
+    color: #333333;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus  {
+    color: #262626;
+    background-color: #F5F5F5;
+}
+
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus  {
+    color: #FFFFFF;
+    background-color: $themecolor1-4; /*#428bca*/
+}
+
+.dropdown-menu > .disabled > a,
+.dropdown-menu > .disabled > a:hover,
+.dropdown-menu > .disabled > a:focus  {
+    color: #999999;
+}
+
+.dropdown-header  {
+    color: #999999;
+}
+
+.dropup .caret,
+.navbar-fixed-bottom .dropdown .caret  {
+    border-bottom-color: #000000;
+}
+
+
+
+.btn-default .caret  {
+    border-top-color: #333333;
+}
+
+.btn-primary .caret,
+.btn-success .caret,
+.btn-warning .caret,
+.btn-danger .caret,
+.btn-info .caret  {
+    border-top-color: #FFFFFF;
+}
+
+.dropup .btn-default .caret  {
+    border-bottom-color: #333333;
+}
+
+.dropup .btn-primary .caret,
+.dropup .btn-success .caret,
+.dropup .btn-warning .caret,
+.dropup .btn-danger .caret,
+.dropup .btn-info .caret  {
+    border-bottom-color: #FFFFFF;
+}
+
+.input-group-addon  {
+    color: #555555;
+    background-color: $themecolor1-4; /*#eeeeee*/
+    border-color: #CCCCCC;
+}
+
+.nav > li > a:hover,
+.nav > li > a:focus  {
+    background-color: $themecolor1-4; /*#eeeeee*/
+}
+
+.nav > li.disabled > a  {
+    color: #999999;
+}
+
+.nav > li.disabled > a:hover,
+.nav > li.disabled > a:focus  {
+    color: #999999;
+}
+
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus  {
+    background-color: $themecolor1-4; /*#eeeeee*/
+    border-color: $themecolor1-4; /*#428bca*/
+}
+
+.nav .open > a .caret,
+.nav .open > a:hover .caret,
+.nav .open > a:focus .caret  {
+    border-top-color: $themecolor1-3; /*#2a6496*/
+    border-bottom-color: $themecolor1-3; /*#2a6496*/
+}
+
+.nav .nav-divider  {
+    background-color: #E5E5E5;
+}
+
+.nav-tabs  {
+    border-bottom-color: #DDDDDD;
+}
+
+.nav-tabs > li > a:hover  {
+    border-color: #EEEEEE #EEEEEE #DDDDDD;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus  {
+    color: #555555;
+    background-color: #FFFFFF;
+    border-color: #DDDDDD;
+}
+
+.nav-tabs.nav-justified > .active > a,
+.nav-tabs.nav-justified > .active > a:hover,
+.nav-tabs.nav-justified > .active > a:focus  {
+    border-color: #DDDDDD;
+}
+
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus  {
+    color: #FFFFFF;
+    background-color: $themecolor1-4; /*#428bca*/
+}
+
+.nav-pills > li.active > a .caret,
+.nav-pills > li.active > a:hover .caret,
+.nav-pills > li.active > a:focus .caret  {
+    border-top-color: #FFFFFF;
+    border-bottom-color: #FFFFFF;
+}
+
+.nav-tabs-justified > .active > a,
+.nav-tabs-justified > .active > a:hover,
+.nav-tabs-justified > .active > a:focus  {
+    border-color: #DDDDDD;
+}
+
+.nav .caret  {
+    border-top-color: $themecolor1-4; /*#428bca*/
+    border-bottom-color: $themecolor1-4; /*#428bca*/
+}
+
+.nav a:hover .caret  {
+    border-top-color: $themecolor1-3; /*#2a6496*/
+    border-bottom-color: $themecolor1-3; /*#2a6496*/
+}
+
+
+
+.navbar-default  {
+    background-color: #F8F8F8;
+    border-color: #E7E7E7;
+}
+
+.navbar-default .navbar-brand  {
+    color: #777777;
+}
+
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus  {
+    color: #5E5E5E;
+}
+
+.navbar-default .navbar-text  {
+    color: #777777;
+}
+
+.navbar-default .navbar-nav > li > a  {
+    color: #777777;
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus  {
+    color: #333333;
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus  {
+    color: #555555;
+    background-color: #E7E7E7;
+}
+
+.navbar-default .navbar-nav > .disabled > a,
+.navbar-default .navbar-nav > .disabled > a:hover,
+.navbar-default .navbar-nav > .disabled > a:focus  {
+    color: #CCCCCC;
+}
+
+.navbar-default .navbar-toggle  {
+    border-color: #DDDDDD;
+}
+
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus  {
+    background-color: #DDDDDD;
+}
+
+.navbar-default .navbar-toggle .icon-bar  {
+    background-color: #CCCCCC;
+}
+
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form  {
+    border-color: #E7E7E7;
+}
+
+.navbar-default .navbar-nav > .dropdown > a:hover .caret,
+.navbar-default .navbar-nav > .dropdown > a:focus .caret  {
+    border-top-color: #333333;
+    border-bottom-color: #333333;
+}
+
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus  {
+    color: #555555;
+    background-color: #E7E7E7;
+}
+
+.navbar-default .navbar-nav > .open > a .caret,
+.navbar-default .navbar-nav > .open > a:hover .caret,
+.navbar-default .navbar-nav > .open > a:focus .caret  {
+    border-top-color: #555555;
+    border-bottom-color: #555555;
+}
+
+.navbar-default .navbar-nav > .dropdown > a .caret  {
+    border-top-color: #777777;
+    border-bottom-color: #777777;
+}
+
+
+
+.navbar-default .navbar-link  {
+    color: #777777;
+}
+
+.navbar-default .navbar-link:hover  {
+    color: #333333;
+}
+
+.navbar-inverse  {
+    background-color: #222222;
+    border-color: #080808;
+}
+
+.navbar-inverse .navbar-brand  {
+    color: #999999;
+}
+
+.navbar-inverse .navbar-brand:hover,
+.navbar-inverse .navbar-brand:focus  {
+    color: #FFFFFF;
+}
+
+.navbar-inverse .navbar-text  {
+    color: #999999;
+}
+
+.navbar-inverse .navbar-nav > li > a  {
+    color: #999999;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus  {
+    color: #FFFFFF;
+}
+
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus  {
+    color: #FFFFFF;
+    background-color: #080808;
+}
+
+.navbar-inverse .navbar-nav > .disabled > a,
+.navbar-inverse .navbar-nav > .disabled > a:hover,
+.navbar-inverse .navbar-nav > .disabled > a:focus  {
+    color: #444444;
+}
+
+.navbar-inverse .navbar-toggle  {
+    border-color: #333333;
+}
+
+.navbar-inverse .navbar-toggle:hover,
+.navbar-inverse .navbar-toggle:focus  {
+    background-color: #333333;
+}
+
+.navbar-inverse .navbar-toggle .icon-bar  {
+    background-color: #FFFFFF;
+}
+
+.navbar-inverse .navbar-collapse,
+.navbar-inverse .navbar-form  {
+    border-color: #101010;
+}
+
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus  {
+    color: #FFFFFF;
+    background-color: #080808;
+}
+
+.navbar-inverse .navbar-nav > .dropdown > a:hover .caret  {
+    border-top-color: #FFFFFF;
+    border-bottom-color: #FFFFFF;
+}
+
+.navbar-inverse .navbar-nav > .dropdown > a .caret  {
+    border-top-color: #999999;
+    border-bottom-color: #999999;
+}
+
+.navbar-inverse .navbar-nav > .open > a .caret,
+.navbar-inverse .navbar-nav > .open > a:hover .caret,
+.navbar-inverse .navbar-nav > .open > a:focus .caret  {
+    border-top-color: #FFFFFF;
+    border-bottom-color: #FFFFFF;
+}
+
+
+
+.navbar-inverse .navbar-link  {
+    color: #999999;
+}
+
+.navbar-inverse .navbar-link:hover  {
+    color: #FFFFFF;
+}
+
+.breadcrumb  {
+    background-color: #F5F5F5;
+}
+
+.breadcrumb > li + li:before  {
+    color: #CCCCCC;
+}
+
+.breadcrumb > .active  {
+    color: #999999;
+}
+
+.pagination > li > a,
+.pagination > li > span  {
+    background-color: #FFFFFF;
+    border-color: #DDDDDD;
+}
+
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus  {
+    background-color: $themecolor1-4; /*#eeeeee*/
+}
+
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus  {
+    color: #FFFFFF;
+    background-color: $themecolor1-4; /*#428bca*/
+    border-color: $themecolor1-4; /*#428bca*/
+}
+
+.pagination > .disabled > span,
+.pagination > .disabled > span:hover,
+.pagination > .disabled > span:focus,
+.pagination > .disabled > a,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > a:focus  {
+    color: #999999;
+    background-color: #FFFFFF;
+    border-color: #DDDDDD;
+}
+
+.pager li > a,
+.pager li > span  {
+    background-color: #FFFFFF;
+    border-color: #DDDDDD;
+}
+
+.pager li > a:hover,
+.pager li > a:focus  {
+    background-color: $themecolor1-4; /*#eeeeee*/
+}
+
+.pager .disabled > a,
+.pager .disabled > a:hover,
+.pager .disabled > a:focus,
+.pager .disabled > span  {
+    color: #999999;
+    background-color: #FFFFFF;
+}
+
+.label  {
+    color: #FFFFFF;
+}
+
+.label[href]:hover,
+.label[href]:focus  {
+    color: #FFFFFF;
+}
+
+.label-default  {
+    background-color: #999999;
+}
+
+.label-default[href]:hover,
+.label-default[href]:focus  {
+    background-color: #808080;
+}
+
+.label-primary  {
+    background-color: $themecolor1-4; /*#428bca*/
+}
+
+.label-primary[href]:hover,
+.label-primary[href]:focus  {
+    background-color: $themecolor1-4; /*#3071a9*/
+}
+
+.label-success  {
+    background-color: #5CB85C;
+}
+
+.label-success[href]:hover,
+.label-success[href]:focus  {
+    background-color: #449D44;
+}
+
+.label-info  {
+    background-color: $themecolor1-4; /*#5bc0de*/
+}
+
+.label-info[href]:hover,
+.label-info[href]:focus  {
+    background-color: $themecolor1-4; /*#31b0d5*/
+}
+
+.label-warning  {
+    background-color: #F0AD4E;
+}
+
+.label-warning[href]:hover,
+.label-warning[href]:focus  {
+    background-color: #EC971F;
+}
+
+.label-danger  {
+    background-color: #D9534F;
+}
+
+.label-danger[href]:hover,
+.label-danger[href]:focus  {
+    background-color: #C9302C;
+}
+
+.badge  {
+    color: #FFFFFF;
+    background-color: #999999;
+}
+
+a.badge:hover,
+a.badge:focus  {
+    color: #FFFFFF;
+}
+
+a.list-group-item.active > .badge,
+.nav-pills > .active > a > .badge  {
+    color: $themecolor1-4; /*#428bca*/
+    background-color: #FFFFFF;
+}
+
+.jumbotron  {
+    background-color: $themecolor1-4; /*#eeeeee*/
+}
+
+
+
+.thumbnail  {
+    background-color: #FFFFFF;
+    border-color: #DDDDDD;
+}
+
+a.thumbnail:hover,
+a.thumbnail:focus,
+a.thumbnail.active  {
+    border-color: $themecolor1-4; /*#428bca*/
+}
+
+.thumbnail .caption  {
+    color: #333333;
+}
+
+.alert-success  {
+    color: #468847;
+    background-color: #DFF0D8;
+    border-color: #D6E9C6;
+}
+
+.alert-success hr  {
+    border-top-color: #C9E2B3;
+}
+
+.alert-success .alert-link  {
+    color: #356635;
+}
+
+.alert-info  {
+    color: $themecolor1-3; /*#3a87ad*/
+    background-color: #D9EDF7;
+    border-color: $themecolor1-4; /*#bce8f1*/
+}
+
+.alert-info hr  {
+    border-top-color: $themecolor1-4; /*#a6e1ec*/
+}
+
+.alert-info .alert-link  {
+    color: #2D6987;
+}
+
+.alert-warning  {
+    color: #C09853;
+    background-color: #FCF8E3;
+    border-color: #FAEBCC;
+}
+
+.alert-warning hr  {
+    border-top-color: #F7E1B5;
+}
+
+.alert-warning .alert-link  {
+    color: #A47E3C;
+}
+
+.alert-danger  {
+    color: #B94A48;
+    background-color: #F2DEDE;
+    border-color: #EBCCD1;
+}
+
+.alert-danger hr  {
+    border-top-color: #E4B9C0;
+}
+
+.alert-danger .alert-link  {
+    color: #953B39;
+}
+
+.progress  {
+    background-color: #F5F5F5;
+}
+
+.progress-bar  {
+    color: #FFFFFF;
+    background-color: $themecolor1-4; /*#428bca*/
+}
+
+.progress-bar-success  {
+    background-color: #5CB85C;
+}
+
+.progress-bar-info  {
+    background-color: $themecolor1-4; /*#5bc0de*/
+}
+
+.progress-bar-warning  {
+    background-color: #F0AD4E;
+}
+
+.progress-bar-danger  {
+    background-color: #D9534F;
+}
+
+.list-group-item  {
+    background-color: #FFFFFF;
+    border-color: #DDDDDD;
+}
+
+a.list-group-item  {
+    color: #555555;
+}
+
+a.list-group-item .list-group-item-heading  {
+    color: #333333;
+}
+
+a.list-group-item:hover,
+a.list-group-item:focus  {
+    background-color: #F5F5F5;
+}
+
+a.list-group-item.active,
+a.list-group-item.active:hover,
+a.list-group-item.active:focus  {
+    color: #FFFFFF;
+    background-color: $themecolor1-4; /*#428bca*/
+    border-color: $themecolor1-4; /*#428bca*/
+}
+
+a.list-group-item.active .list-group-item-text,
+a.list-group-item.active:hover .list-group-item-text,
+a.list-group-item.active:focus .list-group-item-text  {
+    color: #E1EDF7;
+}
+
+.panel  {
+    background-color: #FFFFFF;
+}
+
+.panel > .panel-body + .table,
+.panel > .panel-body + .table-responsive  {
+    border-top-color: #DDDDDD;
+}
+
+.panel-footer  {
+    background-color: #F5F5F5;
+    border-top-color: #DDDDDD;
+}
+
+.panel-group .panel-heading + .panel-collapse .panel-body  {
+    border-top-color: #DDDDDD;
+}
+
+.panel-group .panel-footer + .panel-collapse .panel-body  {
+    border-bottom-color: #DDDDDD;
+}
+
+.panel-default  {
+    border-color: #DDDDDD;
+}
+
+.panel-default > .panel-heading  {
+    color: #333333;
+    background-color: #F5F5F5;
+    border-color: #DDDDDD;
+}
+
+.panel-default > .panel-heading + .panel-collapse .panel-body  {
+    border-top-color: #DDDDDD;
+}
+
+.panel-default > .panel-footer + .panel-collapse .panel-body  {
+    border-bottom-color: #DDDDDD;
+}
+
+.panel-primary  {
+    border-color: $themecolor1-4; /*#428bca*/
+}
+
+.panel-primary > .panel-heading  {
+    color: #FFFFFF;
+    background-color: $themecolor1-4; /*#428bca*/
+    border-color: $themecolor1-4; /*#428bca*/
+}
+
+.panel-primary > .panel-heading + .panel-collapse .panel-body  {
+    border-top-color: $themecolor1-4; /*#428bca*/
+}
+
+.panel-primary > .panel-footer + .panel-collapse .panel-body  {
+    border-bottom-color: $themecolor1-4; /*#428bca*/
+}
+
+.panel-success  {
+    border-color: #D6E9C6;
+}
+
+.panel-success > .panel-heading  {
+    color: #468847;
+    background-color: #DFF0D8;
+    border-color: #D6E9C6;
+}
+
+.panel-success > .panel-heading + .panel-collapse .panel-body  {
+    border-top-color: #D6E9C6;
+}
+
+.panel-success > .panel-footer + .panel-collapse .panel-body  {
+    border-bottom-color: #D6E9C6;
+}
+
+.panel-warning  {
+    border-color: #FAEBCC;
+}
+
+.panel-warning > .panel-heading  {
+    color: #C09853;
+    background-color: #FCF8E3;
+    border-color: #FAEBCC;
+}
+
+.panel-warning > .panel-heading + .panel-collapse .panel-body  {
+    border-top-color: #FAEBCC;
+}
+
+.panel-warning > .panel-footer + .panel-collapse .panel-body  {
+    border-bottom-color: #FAEBCC;
+}
+
+.panel-danger  {
+    border-color: #EBCCD1;
+}
+
+.panel-danger > .panel-heading  {
+    color: #B94A48;
+    background-color: #F2DEDE;
+    border-color: #EBCCD1;
+}
+
+.panel-danger > .panel-heading + .panel-collapse .panel-body  {
+    border-top-color: #EBCCD1;
+}
+
+.panel-danger > .panel-footer + .panel-collapse .panel-body  {
+    border-bottom-color: #EBCCD1;
+}
+
+.panel-info  {
+    border-color: $themecolor1-4; /*#bce8f1*/
+}
+
+.panel-info > .panel-heading  {
+    color: $themecolor1-3; /*#3a87ad*/
+    background-color: #D9EDF7;
+    border-color: $themecolor1-4; /*#bce8f1*/
+}
+
+.panel-info > .panel-heading + .panel-collapse .panel-body  {
+    border-top-color: $themecolor1-4; /*#bce8f1*/
+}
+
+.panel-info > .panel-footer + .panel-collapse .panel-body  {
+    border-bottom-color: $themecolor1-4; /*#bce8f1*/
+}
+
+.well  {
+    background-color: #F5F5F5;
+    border-color: #E3E3E3;
+}
+
+.well blockquote  {
+    border-color: #DDDDDD;
+    border-color: #000000;
+}
+
+.close  {
+    color: #000000;
+}
+
+.close:hover,
+.close:focus  {
+    color: #000000;
+}
+
+.modal-content  {
+    background-color: #FFFFFF;
+    border-color: #999999;
+    border-color: #000000;
+}
+
+.modal-backdrop  {
+    background-color: #000000;
+}
+
+.modal-header  {
+    border-bottom-color: #E5E5E5;
+}
+
+.modal-footer  {
+    border-top-color: #E5E5E5;
+}
+
+.tooltip-inner  {
+    color: #FFFFFF;
+    background-color: #000000;
+}
+
+.tooltip.top .tooltip-arrow  {
+    border-top-color: #000000;
+}
+
+.tooltip.top-left .tooltip-arrow  {
+    border-top-color: #000000;
+}
+
+.tooltip.top-right .tooltip-arrow  {
+    border-top-color: #000000;
+}
+
+.tooltip.right .tooltip-arrow  {
+    border-right-color: #000000;
+}
+
+.tooltip.left .tooltip-arrow  {
+    border-left-color: #000000;
+}
+
+.tooltip.bottom .tooltip-arrow  {
+    border-bottom-color: #000000;
+}
+
+.tooltip.bottom-left .tooltip-arrow  {
+    border-bottom-color: #000000;
+}
+
+.tooltip.bottom-right .tooltip-arrow  {
+    border-bottom-color: #000000;
+}
+
+.popover  {
+    background-color: #FFFFFF;
+    border-color: #CCCCCC;
+    border-color: #000000;
+}
+
+.popover-title  {
+    background-color: #F7F7F7;
+    border-bottom-color: $themecolor2-4; /*#ebebeb*/
+}
+
+.popover.top .arrow  {
+    border-top-color: #999999;
+    border-top-color: #000000;
+}
+
+.popover.top .arrow:after  {
+    border-top-color: #FFFFFF;
+}
+
+.popover.right .arrow  {
+    border-right-color: #999999;
+    border-right-color: #000000;
+}
+
+.popover.right .arrow:after  {
+    border-right-color: #FFFFFF;
+}
+
+.popover.bottom .arrow  {
+    border-bottom-color: #999999;
+    border-bottom-color: #000000;
+}
+
+.popover.bottom .arrow:after  {
+    border-bottom-color: #FFFFFF;
+}
+
+.popover.left .arrow  {
+    border-left-color: #999999;
+    border-left-color: #000000;
+}
+
+.popover.left .arrow:after  {
+    border-left-color: #FFFFFF;
+}
+
+.carousel-control  {
+    color: #FFFFFF;
+}
+
+.carousel-control:hover,
+.carousel-control:focus  {
+    color: #FFFFFF;
+}
+
+.carousel-indicators li  {
+    background-color: #000 \9;
+    background-color: #000000;
+    border-color: #FFFFFF;
+}
+
+.carousel-indicators .active  {
+    background-color: #FFFFFF;
+}
+
+.carousel-caption  {
+    color: #FFFFFF;
+}@media print {
+  *  {
+    color: #000000 !important;
+}
+  pre,
+  blockquote  {
+    border-color: #999999;
+}
+  select  {
+    background-color: #FFFFFF !important;
+}
+  .table td,
+  .table th  {
+    background-color: #FFFFFF !important;
+}
+  .btn > .caret,
+  .dropup > .btn > .caret  {
+    border-top-color: #000000 !important;
+}
+  .label  {
+    border-color: #000000;
+}
+  .table-bordered th,
+  .table-bordered td  {
+    border-color: #DDDDDD !important;
+}
+}
+@media (max-width: 767px) {
+  .table-responsive  {
+    border-color: #DDDDDD;
+}
+}
+@media (min-width: 768px) {
+  .nav-tabs.nav-justified > li > a  {
+    border-bottom-color: #DDDDDD;
+}
+  .nav-tabs.nav-justified > .active > a,
+  .nav-tabs.nav-justified > .active > a:hover,
+  .nav-tabs.nav-justified > .active > a:focus  {
+    border-bottom-color: #FFFFFF;
+}
+}
+@media (min-width: 768px) {
+  .nav-tabs-justified > li > a  {
+    border-bottom-color: #DDDDDD;
+}
+  .nav-tabs-justified > .active > a,
+  .nav-tabs-justified > .active > a:hover,
+  .nav-tabs-justified > .active > a:focus  {
+    border-bottom-color: #FFFFFF;
+}
+}
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a  {
+    color: #777777;
+}
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus  {
+    color: #333333;
+}
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus  {
+    color: #555555;
+    background-color: #E7E7E7;
+}
+  .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a,
+  .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:focus  {
+    color: #CCCCCC;
+}
+}
+@media (max-width: 767px) {
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .dropdown-header  {
+    border-color: #080808;
+}
+  .navbar-inverse .navbar-nav .open .dropdown-menu > li > a  {
+    color: #999999;
+}
+  .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus  {
+    color: #FFFFFF;
+}
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:focus  {
+    color: #FFFFFF;
+    background-color: #080808;
+}
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a,
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:focus  {
+    color: #444444;
+}
+}
+
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* jquery-ui-1.8.13.custom.css */
+
+.ui-widget-content  {
+    border-color: #CCCCCC;
+    background-color: #FFFFFF;
+    color: #333333;
+}
+.ui-widget-content a  {
+    color: #333333;
+}
+.ui-widget-header a  {
+    color: #222222;
+}
+.ui-datepicker-div .ui-widget-header  {
+    background-color: #EDF0F4 !important;
+    color: #333333;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default  {
+    border-color: #DDDDDD;
+    color: #333333;
+}
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited  {
+    color: #333333;
+}
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus  {
+    color: #FFFFFF;
+    background-color: $themecolor1-0; /*#194F85*/
+}
+.ui-state-hover a, .ui-state-hover a:hover  {
+    color: #FFFFFF;
+    background-color: $themecolor1-0; /*#194F85*/
+}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active  {
+    background-color: $themecolor1-0; /*#194F85*/
+    color: #FFFFFF;
+}
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited  {
+    color: #FFFFFF;
+}
+
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight   {
+    border-color: #FFC51E;
+    background-color: #FEF8BE;
+    color: #363636;
+}
+.ui-state-highlight a, .ui-widget-content .ui-state-highlight a,.ui-widget-header .ui-state-highlight a  {
+    color: #363636;
+}
+.ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error  {
+    border-color: #DC6F6E;
+    background-color: #EBCFCF;
+    color: #000000;
+}
+.ui-state-error a, .ui-widget-content .ui-state-error a, .ui-widget-header .ui-state-error a  {
+    color: #000000;
+}
+.ui-state-error-text, .ui-widget-content .ui-state-error-text, .ui-widget-header .ui-state-error-text  {
+    color: #000000;
+}
+.ui-corner-all.ui-button.ui-widget  {
+    background-color: #585858;
+    color: #FFFFFF;
+}
+
+
+.ui-widget-overlay  {
+    background-color: #000000;
+}
+.ui-widget-shadow  {
+    background-color: #080808;
+}
+.ui-selectable-helper  {
+    border-color: #000000;
+}
+.ui-tabs .ui-tabs-nav  {
+    border-color: $themecolor1-3; /*#719CAC*/
+}
+.ui-datepicker .ui-state-highlight  {
+    background-color: #EAF4FD;
+    border-color: #C5DBEC;
+    color: $themecolor1-3; /*#2E6EBE*/
+}
+.ui-datepicker .ui-state-default .ui-state-hover  {
+    background-color: $themecolor1-4; /*#B2CEDF*/
+}
+.ui-datepicker .ui-widget-content   {
+    border-color: #DDDDDD;
+    color: #333333;
+}
+.ui-datepicker.ui-widget-content  {
+    border-color: #DDDDDD;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* style.css */
+
+body  {
+    color: #333333;
+}
+pre  {
+    background-color: #555555;
+    color: #FFFFFF;
+}
+
+.subheader  {
+    color: #777777;
+}
+a  {
+    color: #333333;
+}
+hr  {
+    border-top-color: #DDDDDD;
+}
+
+.icon-success:after  {
+    color: #268D1F;
+}
+.icon-warning:after  {
+    color: #FFC51E;
+}
+.icon-error:after  {
+    color: #CC0000;
+}
+.icon-information:after  {
+    color: #93BFC9;
+}
+.icon-help:after  {
+    color: #0070A6;
+}
+.icon-in-progress:after  {
+    color: #268D1F;
+}
+.icon-circle:before  {
+    color: #FFFFFF;
+}
+.icon-triangle:before  {
+    color: #FFFFFF;
+}
+
+
+
+.icon-circle-shape:before  {
+    color: #FFFFFF;
+}
+.icon-triangle-shape:before  {
+    color: #FFFFFF;
+}
+
+
+
+
+
+
+.data, .data-large  {
+    border-color: #999999;
+}
+th  {
+    border-bottom-color: #A5A5A5;
+    border-right-color: #C1C1C1;
+    color: #333333;
+}
+td  {
+    border-bottom-color: #DDDDDD;
+}
+
+
+.example  {
+    background-color: #F1F1F1;
+    border-color: #DDDDDD;
+}
+
+
+.dark  {
+    background-color: #AAAAAA;
+    border-right-color: #CCCCCC;
+    border-bottom-color: #CCCCCC;
+}
+.example-two-color  {
+    background-color: #DDF4C9;
+    border-color: #DDDDDD;
+}
+.success-text  {
+    color: #000000;
+}
+.icon-hover .icon-settings:hover  {
+    color: #006699;
+}
+.icon-hover-transition .icon-settings:hover  {
+    color: #006699;
+}
+.icon-styling .icon-settings  {
+    color: #006699;
+    border-color: #CCCCCC;
+}
+.icon-styling .icon-settings:hover  {
+    color: #003366;
+}
+
+
+.icon a  {
+    color: #006699;
+}
+.icon a:hover  {
+    color: #003366;
+}
+
+
+.dark-background  {
+    background-color: #222222;
+    border-color: #777777;
+}
+.dark-background .icon-settings  {
+    color: #FFFFFF;
+}
+.light-background  {
+    background-color: $themecolor1-4; /*#eeeeee*/
+    border-color: #CCCCCC;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* banner-ui-ss.css */
+
+
+td.invalid-input-value  {
+    background-color: #EBCFCF !important;
+    border-color: #DC6F6E !important;
+}
+
+.dataTables_processing  {
+    border-color: #DDDDDD;
+    color: #999999;
+}
+
+table.display thead th  {
+    background-color: #EDF0F4 !important;
+    border-bottom-color: #AAAAAA;
+}
+
+table.display tr.heading2 td  {
+    border-bottom-color: #AAAAAA;
+}
+
+tr.odd  {
+    background-color: #FFFFFF;
+    border-bottom-color: #DDDDDD;
+    border-color: #DDDDDD;
+}
+tr.even  {
+    background-color: #FFFFFF;
+    border-bottom-color: #DDDDDD;
+    border-color: #DDDDDD;
+}
+
+.top  {
+    background-color: #F5F5F5;
+    border-color: #CCCCCC;
+}
+
+.bottom  {
+    background-color: #F5F5F5;
+    border-color: #CCCCCC;
+}
+
+tfoot input  {
+    color: #444444;
+}
+
+tfoot input.search_init  {
+    color: #999999;
+}
+
+td.group  {
+    background-color: #D1CFD0;
+    border-bottom-color: #A19B9E;
+    border-top-color: #A19B9E;
+}
+
+td.details  {
+    background-color: #D1CFD0;
+    border-color: #A19B9E;
+}
+
+.paging_full_numbers span.paginate_button,
+.paging_full_numbers span.paginate_active  {
+    border-color: #AAAAAA;
+}
+
+.paging_full_numbers span.paginate_button  {
+    background-color: #DDDDDD;
+}
+
+.paging_full_numbers span.paginate_button:hover  {
+    background-color: #CCCCCC;
+}
+
+.paging_full_numbers span.paginate_active  {
+    background-color: #99B3FF;
+}
+
+table.display tr.even.row_selected td  {
+    background-color: $themecolor1-0; /*#194F85*/
+    color: #FFFFFF;
+}
+
+table.display tr.odd.row_selected td  {
+    background-color: $themecolor1-0; /*#194F85*/
+    color: #FFFFFF;
+}
+
+table.rowselect tr.focus  {
+    border-color: #008000;
+    background-color: #CCFFCC !important;
+    color: #000000 !important;
+}
+table.rowselect tr.focus td  {
+    background-color: #CCFFCC !important;
+}
+
+.ui-corner-all.ui-button.ui-widget  {
+    background-color: #585858;
+    color: #FFFFFF;
+}
+
+table.display tr.row_hover td  {
+    color: #000000 !important;
+}
+
+table.display tr.even.row_hover td,
+table.display tr.odd.row_hover td,
+table.display tr.odd.row_hover td.sorting_1,
+table.display tr.even.row_hover td.sorting_1  {
+    background-color: $themecolor1-4; /*#B2CEDF*/
+}
+
+.datatables-save-success  {
+    background-color: #E3EDD1 !important;
+}
+
+.cell-save-successful  {
+    background-color: #FFFFFF !important;
+    border-color: #008000;
+}
+
+.cell-error  {
+    background-color: #FFFFFF !important;
+    border-color: #FF0000;
+}
+
+
+.ui-layout-resizer-west, .ui-layout-resizer-east  {
+    background-color: #F7F7F7;
+    border-left-color: #DDDDDD;
+    border-right-color: #BBBBBB;
+}
+
+.ui-layout-resizer-north, .ui-layout-resizer-south  {
+    border-top-color: #DDDDDD;
+    border-bottom-color: #BBBBBB;
+}
+
+#splash  {
+    background-color: #FFFFFF;
+}
+
+
+.primary-button  {
+    color: #FFFFFF;
+    border-color: #333333;
+}
+
+
+.primary-button:hover  {
+    color: #FFFCF2;
+    border-color: #333333;
+}
+
+primary-button:active  {
+    color: #FFFFFF;
+    border-color: #000000;
+}
+
+.secondary-button  {
+    color: #FFFFFF;
+    border-color: #333333;
+}
+
+.secondary-button:hover  {
+    color: #FFFCF2;
+    border-color: #333333;
+}
+
+.secondary-button:active  {
+    color: #FFFFFF;
+    border-color: #000000;
+}
+
+input.combobox:hover , input.hasDatepicker:hover {
+    border-color: $themecolor1-4; /*#4282B3*/
+}
+
+input.combobox:focus,input.hasDatepicker:focus {
+    border-color: $themecolor1-4 !important; /*#4282B3*/
+}
+
+ul.ui-tabs-nav  {
+    background-color: $themecolor1-4; /*#CCDFE9*/
+}
+
+
+
+#simplemodal-overlay  {
+    background-color: #000000;
+}
+#simplemodal-container  {
+    background-color: #87B4D0;
+    border-color: #87B4D0;
+}
+
+div#sidebar ul.ui-tabs-nav li.ui-state-default  {
+    border-left-color: #C1C1C1;
+}
+
+div#sidebar ul.ui-tabs-nav li.ui-state-default:last-child  {
+    border-right-color: #C1C1C1;
+}
+
+div#sidebar ul.ui-tabs-nav li.ui-state-default.ui-state-active,
+div#sidebar ul.ui-tabs-nav li.ui-state-default.ui-state-active.ui-state-hover,
+div#sidebar ul.ui-tabs-nav li.ui-state-default.ui-state-hover  {
+    background-color: #F7F7F7;
+}
+
+div#sidebar ul.ui-tabs-nav li.ui-state-default.ui-state-active a,
+div#sidebar ul.ui-tabs-nav li.ui-state-default.ui-state-active.ui-state-hover a,
+div#sidebar ul.ui-tabs-nav li.ui-state-default.ui-state-hover a  {
+    color: #333333;
+}
+
+input.combobox  {
+    border-color: $themecolor1-3; /*#778FA0*/
+}
+
+input.hasDatepicker  {
+    border-color: $themecolor1-3; /*#778FA0*/
+}
+
+
+table  {
+    border-color: #DDDDDD;
+}
+
+ul.ui-autocomplete  {
+    border-color: $themecolor1-4; /*#4282b3*/
+}
+
+ul.ui-autocomplete a.ui-state-hover  {
+    background-color: #778FA1;
+}
+
+
+.loading  {
+    background-color: #000000;
+}
+.dataTables_wrapper table tbody tr td form input  {
+    border-color: $themecolor1-3; /*#778FA0*/
+}
+
+.bottom .bottom-divider  {
+    border-left-color: #000000;
+}
+
+.ui-datepicker .ui-datepicker-header  {
+    background-color: #ECF0F4;
+}
+
+.dataTables_wrapper tr.notification-success  {
+    background-color: #DDF4C9;
+}
+
+.dataTables_wrapper tr.notification-error  {
+    background-color: #EBCFCF;
+}
+
+.dataTables_wrapper tr.notification-error  {
+    border-color: #FF3F3F;
+    background-color: #EBCFCF;
+}
+
+.dataTables_wrapper tr.notification-warning  {
+    background-color: $themecolor2-5; /*#FFF6B3*/
+}
+
+.dataTables_wrapper tr.notification-warning  {
+    border-color: #F9DC87;
+    background-color: $themecolor2-5; /*#FFF6B3*/
+}
+
+.ui-pillbox ul  {
+    border-color: #DDDDDD;
+}
+
+.ui-pillbox li  {
+    color: #BCBEC0;
+    background-color: #FFFFFF;
+}
+
+.ui-pillbox li.ui-state-default,
+.ui-pillbox li.ui-state-disabled  {
+    color: #BCBEC0;
+    background-color: #FFFFFF;
+    border-left-color: #DDDDDD;
+}
+
+.ui-pillbox li.ui-state-highlight  {
+    background-color: $themecolor1-4; /*#9fbed4*/
+    color: #333333;
+    border-left-color: #DDDDDD;
+}
+
+#multiCalendarContainer  .ui-widget-header {
+    background-color: #ECF0F4;
+}
+
+.component-error  {
+    border-color: #CC0000;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* notification-center.css */
+
+.notification-center-flyout  {
+    background-color: #0071A7;
+}
+
+.notification-center-flyout ul li.notification-center-message-success  {
+    background-color: #DDF4C9;
+    border-color: #B0C3A0;
+    border-bottom-color: #B0C3A0;
+    color: #04661B;
+}
+
+.notification-center-flyout ul li.notification-center-message-error {
+    background-color: #FAEDED;
+    border-color: #E7C2C2;
+    border-bottom-color: #EED2D2;
+    color: #CD3939;
+}
+
+.notification-center-flyout ul li.notification-center-message-warning  {
+    background-color: $themecolor2-5; /*#FFF6B3*/
+    border-color: #F3E58E;
+    border-bottom-color: #F3E688;
+    color: #8B572A;
+}
+
+.notification-item-prompts button {
+    background-color: #908989;
+    border-color: #908989;
+    color: #FFFFFF;
+}
+
+li:first-child .notification-item-prompts  {
+    background-color: $themecolor2-4; /*#EBEBEB*/
+    border-color: #C6CBCD;
+}
+
+body > .notification-center-shim  {
+    background-color: #666666;
+}
+
+#header-main-section li a.notification-message {
+    color: #FF0000;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* jquery.ui.tooltip.css */
+
+.ui-tooltip  {
+    background-color: #FFFFFF;
+}
+body .ui-tooltip  {
+    border-color: #AAAAAA;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* datatables-colvis.css */
+
+
+.ColVis_text_hover  {
+    border-color: #999999;
+    background-color: #F0F0F0;
+}
+
+div.ColVis_collection  {
+    background-color: #F9F9F9;
+    border-color: #CCCCCC;
+}
+
+div.ColVis_collection button.ColVis_Button:hover  {
+    border-color: #999999;
+    background-color: #F0F0F0;
+}
+
+.disabled  {
+    color: #999999;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* backbone.grid.css */
+
+
+.grid-container .bottom  {
+    background-color: #F5F5F5;
+    border-color: #CCCCCC;
+}
+
+table.grid > thead > tr > th  {
+    background-color: #EDF0F4 !important;
+    border-bottom-color: #AAAAAA;
+    border-left-color: #DDDDDD !important;
+}
+
+.grid tr.odd  {
+    background-color: #FFFFFF;
+    border-bottom-color: #DDDDDD;
+    border-color: #DDDDDD;
+}
+.grid tr.even  {
+    background-color: #FFFFFF;
+    border-bottom-color: #DDDDDD;
+    border-color: #DDDDDD;
+}
+
+.grid tr.selected  {
+    background-color: #DDDDDD !important;
+}
+
+.grid tr.hover  {
+    background-color: $themecolor1-4; /*#B2CEDF*/
+}
+
+.grid td  {
+    border-left-color: #DDDDDD !important;
+}
+
+.grid td.focus, .grid td.focus a {
+    background-color: $themecolor1-4 !important; /*#CCDFE9*/
+    color: #000000 !important;
+}
+
+.grid tbody tr td form input  {
+    border-color: $themecolor1-3; /*#778FA0*/
+}
+
+.grid-main-wrapper .visibility-control-column  {
+    border-right-color: #DDDDDD !important;
+}
+
+.grid-main-wrapper .grid th.visibility-control-column  {
+    border-bottom-color: #DDDDDD !important;
+}
+
+.button-menu-container  {
+    background-color: #FFFFFF;
+    border-color: #DDDDDD;
+    border-top-color: #CCCCCC;
+}
+
+.button-menu-overlay  {
+    background-color: #000000;
+}
+
+.grid.grid-frozen tr  {
+    border-right-color: #DDDDDD;
+}
+
+.grid tr.notification-success  {
+    background-color: #DDF4C9 !important;
+}
+
+.grid tr.notification-error  {
+    background-color: #EBCFCF !important;
+}
+
+.grid tr.notification-error  {
+    background-color: #EBCFCF !important;
+}
+
+.grid tr.notification-warning  {
+    background-color: $themecolor2-5 !important; /*#FFF6B3*/
+}
+
+.grid tr.notification-warning  {
+    border-color: #F9DC87;
+    background-color: $themecolor2-5 !important; /*#FFF6B3*/
+}
+
+.grid td.notification-warning  {
+    border-color: #F9DC87 !important;
+}
+
+.grid td.readonly  {
+    background-color: #F5F6F7;
+    color: #676A6E;
+}
+
+
+
+.grid .hasMultiCalendarPicker  {
+    border-color: $themecolor1-3; /*#778FA0*/
+}
+
+
+.focus-by-row .grid tr.focus  {
+    background-color: $themecolor1-4 !important; /*#CCDFE9*/
+}
+
+.focus-by-cell .grid td.focus  {
+    background-color: $themecolor1-4 !important; /*#CCDFE9*/
+}
+
+.add-row-hover  {
+    background-color: $themecolor1-4 !important; /*#B2CEDE*/
+    border-color: $themecolor1-4 !important; /*#B1CEE0*/
+    color: #000000 !important;
+}
+
+.add-row-selected,.add-row-selected a:not(.select2-choice)  {
+    border-color: $themecolor1-1 !important; /*#005C96*/
+    color: #FFFFFF !important;
+    background-color: $themecolor1-1 !important; /*#005C96*/
+}
+
+.grid tr.selected  {
+    background-color: #FFFFFF !important;
+}
+
+.grid tr.hover  {
+    background-color: #FFFFFF;
+}
+
+.grid tr  {
+    border-bottom-color: #BBBBBB !important;
+}
+
+.grid thead th  {
+    background-color: #EDF0F4 !important;
+}
+
+.grid tr.add-row-hover td.readonly,.grid tr.add-row-hover td.add-row-selected,.grid tr.add-row-hover td.add-row-selected a {
+    background-color: $themecolor1-4 !important; /*#B2CEDE*/
+    border-color: $themecolor1-4 !important; /*#B1CEE0*/
+    color: #000000 !important;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* backbone.pagingcontrols.css */
+
+
+.selected-cell  {
+    background-color: #CCCCCC;
+}
+
+.paging-container .divider  {
+    border-left-color: #000000;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* select2.css */
+
+
+.select2-container .select2-choice  {
+    border-color: #AAAAAA;
+    color: #444444;
+    background-color: #FFFFFF;
+}
+
+.select2-container.select2-drop-above .select2-choice  {
+    border-bottom-color: #AAAAAA;
+}
+
+.select2-drop-mask  {
+    background-color: #FFFFFF;
+}
+
+.select2-drop  {
+    background-color: #FFFFFF;
+    color: #000000;
+    border-color: #AAAAAA;
+}
+
+.select2-drop.select2-drop-above  {
+    border-top-color: #AAAAAA;
+}
+
+.select2-drop-active  {
+    border-color: $themecolor1-4; /*#5897fb*/
+}
+
+.select2-drop.select2-drop-above.select2-drop-active  {
+    border-top-color: $themecolor1-4; /*#5897fb*/
+}
+
+.select2-drop-auto-width  {
+    border-top-color: #AAAAAA;
+}
+
+.select2-container .select2-choice .select2-arrow  {
+    border-left-color: #AAAAAA;
+    background-color: #CCCCCC;
+}
+
+html[dir="rtl"] .select2-container .select2-choice .select2-arrow  {
+    border-right-color: #AAAAAA;
+}
+
+.select2-search input  {
+    border-color: #AAAAAA;
+    background-color: #FFFFFF;
+}
+
+html[dir="rtl"] .select2-search input  {
+    background-color: #FFFFFF;
+}
+
+.select2-search input.select2-active  {
+    background-color: #FFFFFF;
+}
+
+.select2-container-active .select2-choice,
+.select2-container-active .select2-choices  {
+    border-color: $themecolor1-4; /*#5897fb*/
+}
+
+.select2-dropdown-open .select2-choice  {
+    background-color: $themecolor1-4; /*#eee*/
+}
+
+.select2-dropdown-open.select2-drop-above .select2-choice,
+.select2-dropdown-open.select2-drop-above .select2-choices  {
+    border-color: $themecolor1-4; /*#5897fb*/
+}
+
+.select2-results .select2-highlighted  {
+    background-color: $themecolor1-3; /*#3875d7*/
+    color: #FFFFFF;
+}
+
+.select2-results li em  {
+    background-color: #FEFFDE;
+}
+
+.select2-results .select2-highlighted ul  {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.select2-results .select2-no-results,
+.select2-results .select2-searching,
+.select2-results .select2-ajax-error,
+.select2-results .select2-selection-limit  {
+    background-color: #F4F4F4;
+}
+
+
+.select2-results .select2-disabled.select2-highlighted  {
+    color: #666666;
+    background-color: #F4F4F4;
+}
+.select2-results .select2-disabled  {
+    background-color: #F4F4F4;
+}
+
+.select2-more-results.select2-active  {
+    background-color: #F4F4F4;
+}
+
+.select2-results .select2-ajax-error  {
+    background-color: #FF3232;
+}
+
+.select2-more-results  {
+    background-color: #F4F4F4;
+}
+
+
+
+.select2-container.select2-container-disabled .select2-choice  {
+    background-color: #F4F4F4;
+    border-color: #DDDDDD;
+}
+
+.select2-container.select2-container-disabled .select2-choice .select2-arrow  {
+    background-color: #F4F4F4;
+}
+
+
+
+
+.select2-container-multi .select2-choices  {
+    border-color: #AAAAAA;
+    background-color: #FFFFFF;
+}
+
+.select2-container-multi.select2-container-active .select2-choices  {
+    border-color: $themecolor1-4; /*#5897fb*/
+}
+
+.select2-container-multi .select2-choices .select2-search-field input  {
+    color: #666666;
+}
+
+.select2-container-multi .select2-choices .select2-search-field input.select2-active  {
+    background-color: #FFFFFF !important;
+}
+
+.select2-default  {
+    color: #999999 !important;
+}
+
+.select2-container-multi .select2-choices .select2-search-choice  {
+    color: #333333;
+    border-color: #AAAAAA;
+    background-color: #E4E4E4;
+}
+.select2-container-multi .select2-choices .select2-search-choice-focus  {
+    background-color: #D4D4D4;
+}
+
+
+.select2-container-multi.select2-container-disabled .select2-choices  {
+    background-color: #F4F4F4;
+    border-color: #DDDDDD;
+}
+
+.select2-container-multi.select2-container-disabled .select2-choices .select2-search-choice  {
+    border-color: #DDDDDD;
+    background-color: #F4F4F4;
+}
+
+
+
+
+
+.select2-container.select2-container-active.component-error .select2-choice,
+.grid tr.notification-error td.notification-error .select2-container,
+.grid tr.notification-error td.notification-error .select2-container.select2-container-active .select2-choice {
+    border-color: #CC0000;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* custom-number-input.css */
+
+.readonly
+ {
+    background-color: #F5F6F7;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* angularjs-color-picker.css */
+
+.color-picker-wrapper .input-group .input-group-addon  {
+    color: #555555;
+    background-color: $themecolor1-4; /*#eee*/
+    border-color: #CCCCCC;
+}
+.color-picker-wrapper .color-picker-swatch:not(.input-group-addon)  {
+    border-color: #CCCCCC;
+}
+.color-picker-wrapper .color-picker-panel  {
+    background-color: #FFFFFF;
+    border-color: #CCCCCC;
+}
+.color-picker-wrapper .color-picker-panel .color-picker-hue,
+.color-picker-wrapper .color-picker-panel .color-picker-opacity  {
+    background-color: #FFFFFF;
+}
+.color-picker-wrapper .color-picker-panel .color-picker-slider  {
+    background-color: #FFFFFF;
+    border-color: #000000;
+}
+.color-picker-wrapper .color-picker-panel .color-picker-grid .color-picker-picker  {
+    border-color: #000000;
+}
+.color-picker-wrapper .color-picker-panel .color-picker-grid .color-picker-picker > div  {
+    border-color: #FFFFFF;
+}
+.color-picker-wrapper.color-picker-swatch-only .input-group .input-group-addon  {
+    border-right-color: #CCCCCC;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* changeexpiredpassword.css */
+
+
+.main-wrapper {
+    background-color: #97A9B8;
+    color: #333333;
+}
+
+.input-text.default-state {
+    border-color: #778FA1;
+}
+
+.input-text:hover {
+    border-color: $themecolor1-1; /*#005C96*/
+}
+
+.input-text:focus, .input-text.error-state:focus {
+    border-color: #778FA1;
+}
+
+.input-text.disabled-state {
+    border-color: #C9D2D9;
+}
+
+.input-text.error-state {
+    border-color: #CF4141;
+}
+
+.tabledata {
+    background-color: #F0F3F5;
+}
+.button-bar-container {
+    background-color: $themecolor1-4; /*#EEEEEE*/
+}
+
+.ui-widget-panel {
+    background-color: #FFFFFF;
+    border-color: #FFFFFF;
+}
+
+.invalid {
+    color: #CF4141;
+}
+
+
+.secondary-button  {
+    color: #FFFFFF;
+    border-color: #333333;
+}
+.secondary-button:hover  {
+    color: #FFFCF2;
+    border-color: #333333;
+}
+
+.secondary-button:active  {
+    color: #FFFFFF;
+    border-color: #000000;
+}
+
+.primary-button  {
+    color: #FFFFFF;
+    border-color: #404040;
+}
+
+.primary-button:hover  {
+    color: #FFFFFF;
+    border-color: #666666;
+}
+
+.primary-button:active  {
+    color: #FFFFFF;
+    border-color: #404040;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* policy.css */
+
+
+
+#pagetitle  {
+    color: #646464;
+}
+
+#pagebody  {
+    background-color: #FFFFFF;
+    border-color: #E5EBEE;
+}
+
+.termstextdiv  {
+    border-color: #CCCCCC;
+    background-color: #FFFFFF;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* securityQA.css */
+
+
+#pagetitle  {
+    color: #646464;
+}
+
+#pagebody  {
+    background-color: #FFFFFF;
+    border-color: #E5EBEE;
+}
+
+.section-header  {
+    background-color: #FFFFFF;
+    border-color: #CCCCCC;
+    color: #000000;
+}
+
+.section-header-text  {
+    color: #444455;
+}
+
+
+.notification-error  {
+    background-color: #EBCFCF;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* survey.css */
+
+
+#pagetitle  {
+    color: #646464;
+}
+
+#pagebody  {
+    background-color: #FFFFFF;
+    border-color: #E5EBEE;
+}
+
+.section-header  {
+    background-color: #FFFFFF;
+    border-color: #CCCCCC;
+    color: #000000;
+}
+
+.section-header-text  {
+    color: #444455;
+}
+
+
+.notification-error  {
+    border-color: #FF3F3F;
+    background-color: #EBCFCF;
+}
+
+
+.race-label  {
+    border-color: #CCCCCC;
+    background-color: #E6E6E6;
+    border-color: #E6E6E6;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* main.css */
+
+
+#signOut  {
+    background-color: #FFFFFF;
+}
+
+.panel.panel-accordion  {
+    background-color: #FFFFFF;
+    border-bottom-color: #FFFFFF;
+}
+
+.panel-accordion .panel-heading  {
+    background-color: #F2F2F2;
+}
+
+.panel-accordion .panel-title > a:after  {
+    color: #808080;
+}
+
+.panel-accordion .panel-heading > a.collapsed  {
+    background-color: #F2F2F2;
+}
+
+.panel-accordion .panel-title > a.collapsed:after  {
+    color: #808080;
+}
+
+.panel-accordion .panel-body  {
+    background-color: #FFFFFF;
+}
+
+.field-error  {
+    color: #CD3B3E;
+}
+
+.text-input-field  {
+    background-color: #FFFFFF;
+    border-color: $themecolor1-3; /*#869FB1*/
+    color: $themecolor1-3; /*#869FB1*/
+}
+
+
+
+
+.radio-txt-input::-webkit-input-placeholder,
+.text-input-field::-webkit-input-placeholder  {
+    color: $themecolor1-3; /*#869FB1*/
+}
+.radio-txt-input:-moz-placeholder,
+.text-input-field:-moz-placeholder  {
+    color: $themecolor1-3; /*#869FB1*/
+}
+.radio-txt-input::-moz-placeholder,
+.text-input-field::-moz-placeholder  {
+    color: $themecolor1-3; /*#869FB1*/
+}
+.radio-txt-input:-ms-input-placeholder,
+.text-input-field:-ms-input-placeholder  {
+    color: $themecolor1-3; /*#869FB1*/
+}
+
+.dropdown .input-field-error,
+.input-field-error,
+.radio-txt-input.input-field-error  {
+    background-color: #F6E5E6;
+    border-color: #CD3B3E;
+    color: #CD3B3E;
+}
+
+.input-field-error::-webkit-input-placeholder  {
+    color: #CD3B3E;
+}
+.input-field-error:-moz-placeholder  {
+    color: #CD3B3E;
+}
+.input-field-error::-moz-placeholder  {
+    color: #CD3B3E;
+}
+.input-field-error:-ms-input-placeholder  {
+    color: #CD3B3E;
+}
+
+.input-fail  {
+    background-color: #F6E5E6;
+}
+
+.amt-input-fail  {
+    background-color: #F6E5E6;
+}
+
+.desktop-listing .amt-input-fail  {
+    background-color: #F6E5E6;
+}
+
+.pct-input-fail  {
+    background-color: #F6E5E6;
+}
+
+.desktop-listing .pct-input-fail  {
+    background-color: #F6E5E6;
+}
+
+.text-input-field:focus,
+.radio-txt-input:focus  {
+    border-color: $themecolor1; /*#206E9F*/
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.input-bank-name  {
+    color: $themecolor1-3; /*#869FB1*/
+}
+
+button.closebtn  {
+    color: $themecolor2-3; /*#4f585f*/
+}
+
+.modal-footer.addAcct  {
+    border-top-color: #000000;
+}
+
+.dialog-btn  {
+    background-color: #FFFFFF;
+    color: $themecolor1; /*#206E9F*/
+}
+
+#buttonFooter  {
+    background-color: #F6F6F6;
+    border-color: #DDDDDD;
+}
+
+.save-btn[disabled]  {
+    color: $themecolor1-3; /*#869FB1*/
+}
+
+.buttons-desktop-save .save-btn  {
+    color: #FFFFFF;
+    background-color: $themecolor1-4; /*#428bca*/
+    border-color: $themecolor1-3; /*#357ebd*/
+}
+
+.buttons-desktop-save .save-btn[disabled]  {
+    color: #C6DFF1;
+}
+
+.mid-dash  {
+    border-left-color: #000000;
+}
+
+.text-input-field:disabled  {
+    background-color: #F1F4F6;
+}
+
+
+
+.dropdown  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.dropdown-btn  {
+    background-color: #FFFFFF;
+    border-color: $themecolor1-3; /*#869FB1*/
+    color: $themecolor1-3; /*#869FB1*/
+}
+
+.dropdown-btn:focus  {
+    background-color: #FFFFFF;
+    border-color: $themecolor1-3; /*#869FB1*/
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.dropdown-btn.disabled  {
+    background-color: #F6F9FA;
+    border-color: $themecolor1-3; /*#869FB1*/
+    color: $themecolor1-3; /*#869FB1*/
+}
+
+.open > .dropdown-btn  {
+    background-color: #FFFFFF;
+    border-color: $themecolor1; /*#206E9F*/
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.open > .dropdown-btn .caret-color,
+.dropdown-btn:focus .caret-color,
+.desktop-listing .dropdown-btn.input-field-error:focus .caret-color  {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.desktop-listing .dropdown-btn  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.desktop-listing .dropdown-btn.disabled,
+.dropdown-btn.disabled:focus .caret-color  {
+    color: $themecolor1-3; /*#869FB1*/
+}
+
+.desktop-listing .dropdown-btn.input-field-error .caret-color  {
+    color: #CD3B3E;
+}
+
+.open > .dropdown-menu.addAcct  {
+    border-color: $themecolor1; /*#206E9F*/
+}
+
+.dropdown-menu > li > a.addAcct,
+.dropdown-menu > li.listing  {
+    border-color: #FFFFFF;
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.dropdown-menu > li > a.addAcct:hover,
+.dropdown-menu > li > a.addAcct:focus,
+.dropdown-menu > li.listing:hover,
+.dropdown-menu > li.listing.dropdown-li-focus  {
+    border-top-color: $themecolor1-4; /*#B0DEEC*/
+    border-bottom-color: $themecolor1-4; /*#B0DEEC*/
+    background-color: $themecolor1-5; /*#F3FCFF*/
+}
+
+input[type=checkbox]+.lbl::before,input[type=radio]+.lbl::before  {
+    color: #FFFFFF;
+    background-color: #FFFFFF;
+    border-color: #CCCCCC;
+}
+
+input[type=checkbox]:focus+.lbl::before,input[type=radio]:focus+.lbl::before,input[type=checkbox][focus]+.lbl::before,input[type=radio][focus]+.lbl::before,input[type=checkbox].focus+.lbl::before,input[type=radio].focus+.lbl::before  {
+    border-color: #316699;
+}
+
+
+input[type=checkbox]:checked+.lbl::before,input[type=radio]:checked+.lbl::before  {
+    background-color: #006600;
+    border-color: #006600;
+}
+
+input[type=radio]:checked+.lbl  {
+    color: #1C8445;
+}
+
+.radio-txt-input  {
+    background-color: #FFFFFF;
+    border-color: $themecolor1-3; /*#869FB1*/
+    color: $themecolor1-3; /*#869FB1*/
+}
+
+
+
+.pay-entry  {
+    border-bottom-color: #DDDDDD;
+}
+
+.panel-group .panel-heading.panel-bottom-border  {
+    border-bottom-color: #DDDDDD;
+}
+
+.ap-listing-panel,
+.proposed-pay-listing-subheader  {
+    background-color: #F9F9F9;
+    border-color: #DDDDDD;
+}
+
+.pay-listing-bottom-notification  {
+    border-bottom-color: #DDDDDD;
+}
+
+.account-total-footer  {
+    background-color: #F9F9F9;
+    border-bottom-color: #DDDDDD;
+}
+
+a.add-account-link,
+a.delete-account-link  {
+    color: #333333;
+}
+
+.add-account-link.disabled,
+.delete-account-link.disabled  {
+    color: #A0A3A4;
+}
+
+.dd-notification-content  {
+    border-color: #CCCCCC;
+    background-color: $themecolor2-5; /*#fffeea*/
+}
+
+.status-prenote  {
+    background-color: #FFCDAA;
+    border-color: #E19F72;
+}
+
+.status-active  {
+    background-color: #C9F0C7;
+    border-color: #4EC76A;
+}
+
+
+.edit-account-link,
+a:hover.edit-account-link,
+a:focus.edit-account-link  {
+    color: #333333;
+}
+
+.dd-popover-client .popover  {
+    background-color: $themecolor2-5; /*#fffeea*/
+}
+
+.dd-popover-client .popover.bottom.flipleft .arrow:after  {
+    border-bottom-color: $themecolor2-5; /*#fffeea*/
+}
+
+.dd-popover-client .popover.bottom.flipright .arrow:after  {
+    border-bottom-color: $themecolor2-5; /*#fffeea*/
+}
+
+.dd-tooltip  {
+    background-color: $themecolor2-5; /*#fffeea*/
+    border-color: $themecolor2-1; /*#e0d397*/
+}
+
+
+
+table  {
+    border-color: $themecolor2; /*#beccd7*/
+    border-bottom-color: $themecolor2; /*#beccd7*/
+    background-color: #FFFFFF;
+}
+
+table th, .table>thead>tr>th  {
+    background-color: #FFFFFF;
+    border-bottom-color: #C0CED0;
+}
+
+table tr:hover  {
+    background-color: $themecolor1-5 !important; /*#F3FCFF*/
+}
+
+table tr.account-total-footer:hover  {
+    background-color: #F9F9F9 !important;
+}
+
+table tr:hover th:last-child, .dashboard tr:hover th:nth-of-type(8)  {
+    background-color: #FFFFFF;
+}
+
+table th span, .table>thead>tr>th span, table tr td  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+table tr td  {
+    border-bottom-color: $themecolor2; /*#beccd7*/
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* xe-ui-components.css */
+
+
+
+mark  {
+    background-color: #FFFF00;
+    color: #000000;
+}
+
+
+fieldset  {
+    border-color: #C0C0C0;
+}
+
+label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.xe-badge  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.draft-badge  {
+    border-color: #E19F72;
+    background-color: #FFCDAA;
+}
+
+.pending-badge  {
+    border-color: #B0ABD0;
+    background-color: #DAD5FF;
+}
+
+.rejected-badge  {
+    border-color: #4EC76A;
+    background-color: #C9F0C7;
+}
+
+.approved-badge  {
+    border-color: #F57E7E;
+    background-color: #FFDCDC;
+}
+
+.primary  {
+    background-color: $themecolor1; /*#206E9F*/
+    border-color: $themecolor1; /*#206E9F*/
+    color: #FFFFFF;
+}
+
+.secondary  {
+    background-color: #FFFFFF;
+    border-color: $themecolor1-3; /*#869FB1*/
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.primary:hover:not([disabled])  {
+    background-color: #17567E;
+    border-color: $themecolor1; /*#206E9F*/
+}
+
+.secondary:hover:not([disabled])  {
+    background-color: #F7F7F7;
+    border-color: #BEBEBE;
+}
+
+.primary:disabled  {
+    background-color: #9BBCD0;
+    border-color: #9BBCD0;
+    color: #FFFFFF;
+}
+
+.secondary:disabled  {
+    background-color: #EFEFEF;
+    border-color: #BDC9D2;
+    color: #989FA5;
+}
+
+.primary:active:not([disabled])  {
+    background-color: #104565;
+    border-color: $themecolor1; /*#206E9F*/
+}
+    .xe-checkbox.disabled label  {
+    color: #C6D2D5;
+}
+
+.dropdown  {
+    color: $themecolor2-3; /*#4F585F*/
+    border-color: $themecolor1-3; /*#869FB1*/
+}
+  .dropdown:focus  {
+    background-color: #FFFFFF;
+    border-color: $themecolor1; /*#206E9F*/
+}
+  .dropdown .placeholder  {
+    color: $themecolor1-3; /*#869FB1*/
+}
+  .dropdown .glyphicon-chevron-down  {
+    color: $themecolor1-3; /*#869FB1*/
+}
+  .dropdown .dropdown-menu  {
+    border-color: $themecolor1; /*#206E9F*/
+}
+      .dropdown .dropdown-menu > li.active  {
+    background-color: #F1F7FB;
+}
+      .dropdown .dropdown-menu > li:hover  {
+    outline-color: $themecolor1-4; /*#B0DEEC*/
+    background-color: $themecolor1-5; /*#F3FCFF*/
+}
+      .dropdown .dropdown-menu > li.selected  {
+    outline-color: $themecolor1-4; /*#B0DEEC*/
+    background-color: $themecolor1-5; /*#F3FCFF*/
+}
+
+.labels  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.draft  {
+    border-color: #E19F72;
+    background-color: #FFCDAA;
+}
+
+.pending  {
+    border-color: #B0ABD0;
+    background-color: #DAD5FF;
+}
+
+.rejected  {
+    border-color: #F57E7E;
+    background-color: #FFDCDC;
+}
+
+.approved  {
+    border-color: #4EC76A;
+    background-color: #C9F0C7;
+}
+
+.default  {
+    border-color: $themecolor2-3; /*#4F585F*/
+    background-color: #FFFFFF;
+}
+
+input[type="radio"]:checked + label  {
+    color: #1C8445;
+}
+
+.disabledRadio + label  {
+    color: #C6D2D5;
+}
+
+.label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+input.cmn-toggle-round + label:after  {
+    background-color: #FFFFFF;
+    border-color: $themecolor1-3; /*#869FB1*/
+}
+
+input.cmn-toggle-round + label:before  {
+    background-color: #F6F8F8;
+    border-color: $themecolor1-3; /*#869FB1*/
+}
+
+input.cmn-toggle-round:checked + label:before  {
+    background-color: #1C8445;
+    border-color: #1FA53F;
+}
+
+input.cmn-toggle-round:checked + label:after  {
+    border-color: #1C8445;
+}
+
+input.disabledSwitch:checked + label:before  {
+    color: #F6F8F8;
+    border-color: #CAD4D6;
+    background-color: #F6F8F8;
+}
+
+input.disabledSwitch:checked + label:after  {
+    background-color: #F0F3F4;
+    border-color: #C6D2D5;
+}
+
+.label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.comments-field  {
+    border-color: $themecolor1-3; /*#869FB1*/
+    background-color: #FFFFFF;
+}
+
+textarea:focus  {
+    border-color: $themecolor1; /*#206E9F*/
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.text-field  {
+    border-color: $themecolor1-3; /*#869FB1*/
+    background-color: #FFFFFF;
+}
+
+.text-field:focus  {
+    border-color: $themecolor1; /*#206E9F*/
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.readonly  {
+    background-color: #F1F4F6;
+    border-color: $themecolor1-3; /*#869FB1*/
+    color: $themecolor1-3; /*#869FB1*/
+}
+
+.valid  {
+    background-color: #E8FFF1;
+    color: #090A0D !important;
+    border-color: #1C8445;
+}
+
+input.ng-invalid.ng-touched, input.ng-invalid.ng-invalid-maxlength  {
+    background-color: #F6E5E6;
+    color: #090A0D !important;
+    border-color: #CD3B3E;
+}
+
+.error-messages.ng-active  {
+    color: #FF0000;
+}
+
+.simple-input-field  {
+    border-color: $themecolor1-3; /*#869FB1*/
+    background-color: #FFFFFF;
+}
+
+.label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.simple-input-field:focus  {
+    border-color: $themecolor1; /*#206E9F*/
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.readOnly  {
+    background-color: #F1F4F6;
+    border-color: $themecolor1-3; /*#869FB1*/
+    color: $themecolor1-3; /*#869FB1*/
+}
+
+
+
+
+.headings, .lists, .inline, .paragraph, .hr  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.anchor  {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.typography  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.logo-white  {
+    background-color: $themecolor1; /*#206E9F*/
+}
+
+.horizontal-row  {
+    border-color: $themecolor2-3; /*#4F585F*/
+}
+
+.content  {
+    border-right-color: #C5CACF;
+    border-left-color: #C5CACF;
+    border-bottom-color: #C5CACF;
+}
+
+.pri-color1  {
+    background-color: $themecolor1; /*#206E9F*/
+    border-color: #0E3C59;
+}
+
+.pri-color2  {
+    background-color: #000000;
+    border-color: #000000;
+}
+
+.pri-color3  {
+    background-color: $themecolor2-3; /*#4F585F*/
+    border-color: #252628;
+}
+
+.pri-color4  {
+    background-color: $themecolor2-5; /*#EFF4F8*/
+    border-color: #E4E9EC;
+}
+
+.sub-content1, .sub-content2  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.sec-color1  {
+    background-color: $themecolor2-5; /*#FFFEEA*/
+    border-color: $themecolor2-1; /*#E0D397*/
+}
+
+.sec-color2  {
+    background-color: #EBFAFF;
+    border-color: #99CDDE;
+}
+
+.sec-color3  {
+    background-color: #058423;
+    border-color: #054C16;
+}
+
+.sec-color4  {
+    background-color: #EE4F4F;
+    border-color: #EE4F4F;
+}
+
+.acc-color1  {
+    background-color: #FFCDAA;
+    border-color: #E19F72;
+}
+
+.acc-color2  {
+    background-color: #DAD5FF;
+    border-color: #988DDB;
+}
+
+.acc-color3  {
+    background-color: #C9F0C7;
+    border-color: #4EC76A;
+}
+
+.acc-color4  {
+    background-color: #FFDCDC;
+    border-color: #F57E7E;
+}
+
+.grey-color1  {
+    background-color: #F7F7F7;
+    border-color: #DADADA;
+}
+
+.grey-color2  {
+    background-color: #EFEFEF;
+    border-color: #CDCDCD;
+}
+
+.grey-color3  {
+    background-color: #E2E2E2;
+    border-color: #B9B9B9;
+}
+
+.grey-color4  {
+    background-color: #D5D5D5;
+    border-color: #A9A9A9;
+}
+
+.pagination-container .pagination-controls button,
+.pagination-container .pagination-controls input,
+.pagination-container .pagination-controls select  {
+    border-color: $themecolor1-3; /*#869FB1*/
+}
+
+.pagination-container .pagination-controls button,
+.pagination-container .pagination-controls select  {
+    background-color: #FFFFFF;
+}
+
+.pagination-container .pagination-controls button:disabled, .pagination-container .pagination-controls select:disabled  {
+    background-color: #F6F9FA;
+}
+
+.pagination-container .pagination-controls select  {
+    background-color: #FFFFFF;
+}
+
+.pagination-container .pagination-controls button,
+.pagination-container .pagination-controls input,
+.pagination-container .pagination-controls select  {
+    border-color: $themecolor1-3; /*#869FB1*/
+}
+
+.pagination-container .pagination-controls button,
+.pagination-container .pagination-controls select  {
+    background-color: #FFFFFF;
+}
+
+.pagination-container .pagination-controls button:disabled, .pagination-container .pagination-controls select:disabled  {
+    background-color: #F6F9FA;
+}
+
+.pagination-container .pagination-controls select  {
+    background-color: #FFFFFF;
+}
+
+.column-filter-button  {
+    background-color: #FFFFFF;
+    border-color: $themecolor1-3; /*#869fb1*/
+    color: #000000;
+}
+
+.column-filter-button .placeholder  {
+    color: #000000;
+}
+
+.column-setting-menu li  {
+    border-bottom-color: #D3D3D3;
+}
+  .column-setting-menu li.disabled  {
+    background-color: #EFEFEF;
+}
+
+.column-setting-menu  {
+    background-color: #FFFFFF;
+    border-color: #CCC #DDD #DDD;
+    border-right-color: #DDDDDD;
+}
+
+.column-setting-menu::after  {
+    border-bottom-color: #FFFFFF;
+}
+
+.column-setting-menu::before  {
+    border-bottom-color: #000000;
+}
+
+
+
+.table-container  {
+    border-color: $themecolor2-2; /*#CAD5DE*/
+    background-color: #FFFFFF;
+}
+  .table-container .caption caption  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+  .table-container .thead  {
+    border-bottom-color: $themecolor2-2; /*#CAD5DE*/
+    border-top-color: $themecolor2-2; /*#CAD5DE*/
+}
+  .table-container .thead thead tr th, .table-container .tbody thead tr th  {
+    color: #4F584F;
+}
+    .table-container .tbody tbody tr:hover, .table-container .tbody tbody tr.active-row, .table-container .tbody tbody tr:focus  {
+    background-color: $themecolor1-5; /*#F3FCFF*/
+    color: #31383E;
+}
+    .table-container .tbody tbody tr td  {
+    color: #31383E;
+    border-bottom-color: $themecolor2-2; /*#CAD5DE*/
+}
+      .table-container .tbody tbody tr td.active  {
+    background-color: #DFF7FF;
+}
+  .table-container .tfoot.pagination-container  {
+    border-top-color: $themecolor2-2; /*#CAD5DE*/
+}
+  .table-container .load-indicator  {
+    background-color: $themecolor1; /*rgba(32,110,159,0.6)*/
+}
+    .table-container .load-indicator .text  {
+    color: #FFFFFF;
+}
+      .table-container .load-indicator .spinner > div  {
+    background-color: #FFFFFF;
+}
+
+#dragtable th, #dragtable td  {
+    background-color: $themecolor2-2 !important; /*#CAD5DE*/
+}
+
+.xe-tab-container .xe-tab-nav  {
+    border-bottom-color: #B9B9B9;
+}
+
+.xe-tab-container .xe-tab-nav > li > a  {
+    color: #6E757B;
+}
+
+.xe-tab-container .xe-tab-nav > li.active > a,
+.xe-tab-container .xe-tab-nav > li.active:focus > a,
+.xe-tab-container .xe-tab-nav > li.active:hover > a,
+.xe-tab-container .xe-tab-nav > li.active:active > a  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.xe-tab-container .xe-tab-nav > li:focus a > span,
+.xe-tab-container .xe-tab-nav > li:hover a > span,
+.xe-tab-container .xe-tab-nav > li:active a > span  {
+    background-color: $themecolor2-3; /*#4F585F*/
+}
+
+.xe-tab-container .xe-tab-nav > li.active a > span,
+.xe-tab-container .xe-tab-nav > li.active:focus a > span,
+.xe-tab-container .xe-tab-nav > li.active:hover a > span,
+.xe-tab-container .xe-tab-nav > li.active:active a > span  {
+    background-color: $themecolor1; /*#206E9F*/
+}@media only screen and (max-width: 768px) {
+    .search-container .simple-input-field:focus  {
+    border-color: $themecolor1-3; /*#869FB1*/
+    color: $themecolor2-3; /*#4F585F*/
+}
+      .search-container .simple-input-field:focus::-webkit-input-placeholder  {
+    color: #CCCCCC;
+}
+      .search-container .simple-input-field:focus::-moz-placeholder  {
+    color: #CCCCCC;
+}
+      .search-container .simple-input-field:focus::-ms-input-placeholder  {
+    color: #CCCCCC;
+}
+}
+@media only screen and (max-width: 768px) {
+    .table-container .caption  {
+    border-bottom-color: $themecolor2-2; /*#CAD5DE*/
+}
+    .table-container .tbody tbody tr  {
+    border-bottom-color: $themecolor2-2; /*#CAD5DE*/
+}
+}
+
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* main.css */
+
+body  {
+    color: #333333;
+}
+
+p, li  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+#signOut  {
+    background-color: #FFFFFF;
+}
+
+.panel.panel-accordion  {
+    background-color: #FFFFFF;
+    border-bottom-color: #FFFFFF;
+}
+
+.panel-accordion .panel-heading  {
+    background-color: #F2F2F2;
+}
+
+.panel-accordion .panel-title > a:after  {
+    color: #808080;
+}
+
+.panel-accordion .panel-heading > a.collapsed  {
+    background-color: #F2F2F2;
+}
+
+.panel-accordion .panel-title > a.collapsed:after  {
+    color: #808080;
+}
+
+.panel-accordion .panel-body  {
+    background-color: #FFFFFF;
+}
+
+.pi-desktop-contents  {
+    background-color: $themecolor2-5; /*#EFF4F8*/
+}
+
+.dd-notification-content  {
+    border-color: #CCCCCC;
+    background-color: $themecolor2-5; /*#fffeea*/
+}
+
+.pi-comment  {
+    color: #7E858B;
+}
+
+a.pi-icon-link,
+a.pi-icon-link:hover,
+a.pi-icon-link:focus  {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.pi-footer  {
+    background-color: #FFFFFF;
+}
+
+.overview-footer  {
+    background-color: $themecolor1; /*#206E9F*/
+}
+
+.overview-footer a  {
+    color: #FFFFFF;
+}
+
+.add-item-footer  {
+    border-top-color: #000000;
+}
+
+a.add-item-link  {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.add-item-link.disabled  {
+    color: #A0A3A4;
+}
+
+.pi-link  {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.pi-overview-link,
+.pi-overview-link:hover,
+.pi-overview-link:focus  {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.pi-overview-link > .email-text  {
+    color: #333333;
+}
+
+.input-colors + span  {
+    color: $themecolor1-3; /*#869FB1*/
+}
+
+.input-colors + span:hover,
+.input-colors.input-error + span:hover  {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.input-colors:focus + span  {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.input-colors + span:disabled  {
+    color: #C2CFD8;
+}
+
+.input-colors.input-error + span  {
+    color: #CD3B3E;
+}
+
+.input-colors.input-error:focus + span  {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.pi-modal-divider > div > span  {
+    border-bottom-color: #BEC5CB;
+}
+
+.input-field-label  {
+    color: #283036;
+}
+
+.field-error  {
+    color: #CD3B3E;
+}
+
+.text-input-field  {
+    background-color: #FFFFFF;
+    border-color: $themecolor1-3; /*#869FB1*/
+    color: $themecolor1-3; /*#869FB1*/
+}
+
+input.hasMultiCalendarPicker.pi-date-input  {
+    background-color: #FFFFFF;
+    border-color: $themecolor1-3; /*#869FB1*/
+    color: $themecolor1-3; /*#869FB1*/
+}
+
+.text-input-field::-webkit-input-placeholder,
+.pi-date-input::-webkit-input-placeholder  {
+    color: $themecolor1-3; /*#869FB1*/
+}
+.text-input-field:-moz-placeholder,
+.pi-date-input:-moz-placeholder  {
+    color: $themecolor1-3; /*#869FB1*/
+}
+.text-input-field::-moz-placeholder,
+.pi-date-input::-moz-placeholder  {
+    color: $themecolor1-3; /*#869FB1*/
+}
+.text-input-field:-ms-input-placeholder,
+.pi-date-input:-ms-input-placeholder  {
+    color: $themecolor1-3; /*#869FB1*/
+}
+
+.dropdown .input-field-error,
+.input-field-error,
+.radio-txt-input.input-field-error,
+input.hasMultiCalendarPicker.pi-date-input.input-error  {
+    background-color: #F6E5E6;
+    border-color: #CD3B3E;
+    color: #CD3B3E;
+}
+
+.input-field-error::-webkit-input-placeholder,
+.pi-date-input.input-error::-webkit-input-placeholder  {
+    color: #CD3B3E;
+}
+.input-field-error:-moz-placeholder,
+.pi-date-input.input-error:-moz-placeholder  {
+    color: #CD3B3E;
+}
+.input-field-error::-moz-placeholder,
+.pi-date-input.input-error::-moz-placeholder  {
+    color: #CD3B3E;
+}
+.input-field-error:-ms-input-placeholder,
+.pi-date-input.input-error:-ms-input-placeholder  {
+    color: #CD3B3E;
+}
+
+.input-fail  {
+    background-color: #F6E5E6;
+}
+
+.text-input-field:focus,
+input.hasMultiCalendarPicker.pi-date-input:focus,
+.radio-txt-input:focus  {
+    border-color: $themecolor1; /*#206E9F*/
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+button.closebtn  {
+    color: $themecolor2-3; /*#4f585f*/
+}
+
+.dialog-btn  {
+    background-color: #FFFFFF;
+    color: $themecolor1; /*#206E9F*/
+}
+
+.cancel-btn  {
+    border-top-color: $themecolor1-3; /*#869FB1*/
+}
+
+.save-btn  {
+    border-top-color: $themecolor1; /*#206E9F*/
+    background-color: $themecolor1; /*#206E9F*/
+    color: #FFFFFF;
+}
+
+.save-btn[disabled]  {
+    color: $themecolor1-3; /*#869FB1*/
+}
+
+.buttons-desktop-save .save-btn  {
+    color: #FFFFFF;
+    background-color: $themecolor1-4; /*#428bca*/
+    border-color: $themecolor1-3; /*#357ebd*/
+}
+
+.buttons-desktop-save .save-btn[disabled]  {
+    color: #C6DFF1;
+}
+
+.mid-dash  {
+    border-left-color: #000000;
+}
+
+.text-input-field:disabled  {
+    background-color: #F1F4F6;
+}
+
+.overview-line.addr > .pi-icon-align  {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.details-section  {
+    border-bottom-color: #DDDDDD;
+    background-color: #FFFFFF;
+}
+
+.pi-title-divider span,
+.pi-overview-divider span  {
+    border-bottom-color: #BEC5CB;
+}
+
+.disability-status .pi-title-divider span  {
+    border-bottom-color: $themecolor2-3; /*#4F585F*/
+}
+
+.addr-time-period  {
+    color: #7E858B;
+}
+
+a.delete-address-link  {
+    color: #333333;
+}
+
+.delete-address-link.disabled  {
+    color: #A0A3A4;
+}
+
+
+.details-section-edit-link,
+a:hover.details-section-edit-link,
+a:focus.details-section-edit-link  {
+    color: #333333;
+}
+
+button.delete-btn:focus  {
+    outline-color: #333333;
+}
+
+.pi-modal-title.veterans-title  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.dropdown-btn  {
+    background-color: #FFFFFF;
+    border-color: $themecolor1-3; /*#869FB1*/
+    color: $themecolor1-3; /*#869FB1*/
+}
+
+.dropdown-btn:focus  {
+    background-color: #FFFFFF;
+    border-color: $themecolor1-3; /*#869FB1*/
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.dropdown-btn.disabled  {
+    background-color: #F6F9FA;
+    border-color: $themecolor1-3; /*#869FB1*/
+    color: $themecolor1-3; /*#869FB1*/
+}
+
+.open > .dropdown-btn  {
+    background-color: #FFFFFF;
+    border-color: $themecolor1; /*#206E9F*/
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.open > .dropdown-menu.addAcct  {
+    border-color: $themecolor1; /*#206E9F*/
+}
+
+.dropdown-menu > li > a.addAcct  {
+    border-color: #FFFFFF;
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.dropdown-menu > li > a.addAcct:hover,
+.dropdown-menu > li > a.addAcct:focus  {
+    border-top-color: $themecolor1-4; /*#B0DEEC*/
+    border-bottom-color: $themecolor1-4; /*#B0DEEC*/
+    background-color: $themecolor1-5; /*#F3FCFF*/
+}
+
+.open > .dropdown-btn .caret-color,
+.dropdown-btn:focus .caret-color,
+.desktop-listing .dropdown-btn.input-field-error:focus .caret-color  {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.desktop-listing .dropdown-btn  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.desktop-listing .dropdown-btn.disabled,
+.dropdown-btn.disabled:focus .caret-color  {
+    color: $themecolor1-3; /*#869FB1*/
+}
+
+.desktop-listing .dropdown-btn.input-field-error .caret-color  {
+    color: #CD3B3E;
+}
+
+.dropdown-menu > li.listing  {
+    border-color: #FFFFFF;
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+.dropdown-menu > li.listing:hover,
+.dropdown-menu > li.listing.dropdown-li-focus  {
+    border-top-color: $themecolor1-4; /*#B0DEEC*/
+    border-bottom-color: $themecolor1-4; /*#B0DEEC*/
+    background-color: $themecolor1-5; /*#F3FCFF*/
+}
+
+input[type=checkbox]+.lbl::before,input[type=radio]+.lbl::before  {
+    color: #FFFFFF;
+    background-color: #FFFFFF;
+    border-color: #CCCCCC;
+}
+
+input[type=checkbox]:focus+.lbl::before,input[type=radio]:focus+.lbl::before,input[type=checkbox][focus]+.lbl::before,input[type=radio][focus]+.lbl::before,input[type=checkbox].focus+.lbl::before,input[type=radio].focus+.lbl::before  {
+    border-color: #316699;
+}
+
+input[type=radio]:focus+.lbl::before  {
+    outline-color: #333333;
+}
+
+
+input[type=checkbox]:checked+.lbl::before,input[type=radio]:checked+.lbl::before  {
+    background-color: #006600;
+    border-color: #006600;
+}
+
+input[type=radio]:checked+.lbl,
+.edit-veteran input[type=checkbox]:checked+.lbl  {
+    color: #1C8445;
+}
+
+.radio-txt-input  {
+    background-color: #FFFFFF;
+    border-color: $themecolor1-3; /*#869FB1*/
+    color: $themecolor1-3; /*#869FB1*/
+}
+
+
+table  {
+    border-color: $themecolor2; /*#beccd7*/
+    border-bottom-color: $themecolor2; /*#beccd7*/
+    background-color: #FFFFFF;
+}
+
+table th, .table>thead>tr>th  {
+    background-color: #FFFFFF;
+    border-bottom-color: #C0CED0;
+}
+
+table tr:hover  {
+    background-color: $themecolor1-5 !important; /*#F3FCFF*/
+}
+
+table tr.account-total-footer:hover  {
+    background-color: #F9F9F9 !important;
+}
+
+table tr:hover th:last-child, .dashboard tr:hover th:nth-of-type(8)  {
+    background-color: #FFFFFF;
+}
+
+table th span, .table>thead>tr>th span, table tr td  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+table tr td  {
+    border-bottom-color: $themecolor2; /*#beccd7*/
+}
+
+
+
+.pi-popover  {
+    background-color: #FFFFFF;
+    border-color: #CCCCCC;
+    border-color: #000000;
+}
+
+.pi-popover.top .arrow  {
+    border-top-color: #999999;
+    border-top-color: #000000;
+}
+
+.pi-popover.top .arrow:after  {
+    border-top-color: #FFFFFF;
+}
+
+.pi-popover.right .arrow  {
+    border-right-color: #999999;
+    border-right-color: #000000;
+}
+
+.pi-popover.right .arrow:after  {
+    border-right-color: #FFFFFF;
+}
+
+.pi-popover.bottom .arrow  {
+    border-bottom-color: #999999;
+    border-bottom-color: #000000;
+}
+
+.pi-popover.bottom .arrow:after  {
+    border-bottom-color: #FFFFFF;
+}
+
+.pi-popover.left .arrow  {
+    border-left-color: #999999;
+    border-left-color: #000000;
+}
+
+.pi-popover.left .arrow:after  {
+    border-left-color: #FFFFFF;
+}
+
+.pi-tooltip  {
+    background-color: $themecolor2-5; /*#fffeea*/
+    border-color: $themecolor2-1; /*#e0d397*/
+}
+
+.dir-profile .shaded  {
+    background-color: #F2F2F2;
+}@media screen and (max-width:767px) {
+
+    .email-text,
+    a.email-text:hover,
+    a.email-text:active,
+    a.email-text:focus  {
+    color: #333333;
+}
+}
+
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* select2-box.css */
+.select2-container .select2-choice  {
+    border-color: $themecolor1-3; /*#869FB1*/
+    background-color: #1E5799;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
+/* extensibility-ss.css */
+
+
+.xe-extensions-editor  {
+    border-color: #CCCCCC;
+}
+
+.xe-placeholder  {
+    color: #999999;
+}
+
+.xe-extensions-editor.ui-dialog .ui-dialog-title  {
+    color: #FFFFFF;
+}
+/* BannerGeneralSsb-patch.scss */
+/* Personal Information
+   ========================= */
+.pi-desktop-contents {
+    background: #EFF4F8;
+}
+
+.input-field-label  {
+    color: $themecolor2-3; /*#4F585F*/
+}
+
+path#Phone-Icon-2 {
+    stroke: $themecolor1; /*#206E9F*/
+}
+
+path#Shape-Copy-Copy-4 {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+path#Path {
+    fill: $themecolor1; /*#206E9F*/
+}
+
+.overview-line.addr > .pi-icon-align {
+    color: $themecolor1; /*#206E9F*/
+}
+
+.save-btn {
+    box-shadow: none;
+}
+
+
+/* Direct Deposit
+   ========================= */
+.buttons-desktop-save .save-btn {
+    color: $themecolor2-3;
+}
