@@ -2,7 +2,7 @@ FROM harbor.usu.edu/banner/base-bannerselfservice:oraclelinux6-tomcat8-java8
 MAINTAINER "Eric Allen <eric.allen@usu.edu>"
 
 ENV JAVA_OPTS -Duser.timezone=\$TIMEZONE \
-    -Dlog4j.configuration=config.properties -Xms\$XMS -Xmx\$XMX \
+    -Xms\$XMS -Xmx\$XMX \
     -XX:MaxPermSize=\$MAXPERMSIZE -Dbanproxy.jdbc.url=\$BANPROXY_JDBC_URL \
     -Dbanproxy.password=\$BANPROXY_PASSWORD \
     -Dbanproxy.initialsize=\$BANPROXY_INITIALSIZE \
