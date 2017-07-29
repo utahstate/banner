@@ -28,7 +28,7 @@
 
  *******************************************************************************/
 
-pageBuilder.enabled = (Boolean.parseBoolean(System.getenv('PAGEBUILDER_ENABLED') ?: true))
+pageBuilder.enabled = (System.getenv('PAGEBUILDER_ENABLED').asBoolean() ?: true)
 
 if (!pageBuilder.enabled) {
   grails.plugin.springsecurity.securityConfigType = grails.plugin.springsecurity.SecurityConfigType.InterceptUrlMap
@@ -102,9 +102,9 @@ jmx {
 // ******************************************************************************
 
 
-ssbEnabled = (Boolean.parseBoolean(System.getenv('SSBENABLED') ?: true))
-ssbOracleUsersProxied = (Boolean.parseBoolean(System.getenv('SSBORACLEUSERSPROXIED') ?: true))
-ssbPassword.reset.enabled = (Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED') ?: true)) //true  - allow Pidm users to reset their password.
+ssbEnabled = (System.getenv('SSBENABLED').asBoolean() ?: true)
+ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED').asBoolean ?: true)
+ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED').asBoolean() ?: true) //true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
 
 
@@ -141,7 +141,7 @@ grails {
     plugin {
         springsecurity {
             cas {
-                active = (Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE') ?: false ))
+                active = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE').asBoolean() ?: false )
                 serverUrlPrefix  = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERURLPREFIX') ?: 'http://CAS_HOST:PORT/cas' )
                 serviceUrl       = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVICEURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/j_spring_cas_security_check')
                 serverName       = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERNAME') ?: 'http://BANNER9_HOST:PORT' )
@@ -149,7 +149,7 @@ grails {
                 loginUri         = '/login'
                 sendRenew        = false
                 proxyReceptorUrl = '/secure/receptor'
-                useSingleSignout = (Boolean.parseBoolean)(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT') ?:true))
+                useSingleSignout = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT').asBoolean() ?:true)
                 key = 'grails-spring-security-cas'
                 artifactParameter = 'SAMLart'
                 serviceParameter = 'TARGET'
