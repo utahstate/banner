@@ -47,9 +47,9 @@ jmx {
 //                       +++ Self Service Support +++
 // ******************************************************************************
 
-ssbEnabled = (Boolean.parseBoolean(System.getenv('SSBENABLED') ?: true))
-ssbOracleUsersProxied = (Boolean.parseBoolean(System.getenv('SSBORACLEUSERSPROXIED') ?: true))
-ssbPassword.reset.enabled = (Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED') ?: true)) //true  - allow Pidm users to reset their password.
+ssbEnabled = (Boolean.parseBoolean(System.getenv('SSBENABLED').asBoolean() ?: true))
+ssbOracleUsersProxied = (Boolean.parseBoolean(System.getenv('SSBORACLEUSERSPROXIED').asBoolean() ?: true))
+ssbPassword.reset.enabled = (Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED').asBoolean() ?: true)) //true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
 
 // ******************************************************************************
@@ -228,7 +228,7 @@ grails {
     plugin {
         springsecurity {
             cas {
-                active = (Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE') ?: false))
+                active = (Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE').asBoolean() ?: false))
                 serverUrlPrefix = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERURLPREFIX') ?: 'http://CAS_HOST:PORT/cas')
                 serviceUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVICEURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/j_spring_cas_security_check')
                 serverName = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERNAME') ?: 'http://BANNER9_HOST:PORT')
