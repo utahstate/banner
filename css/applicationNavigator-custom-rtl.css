@@ -1,0 +1,24 @@
+/** Custom CSS file which takes precedence over the landing page CSS styles **/
+.landing-content {
+margin-left: 0;
+padding-left: 0;
+background-repeat: no-repeat;
+background-position:center;
+background-size: cover;
+background-color: #4F585F;
+}
+@media (orientation:landscape) {
+.landing-content {
+background-image: url("../../../img/campus-landscape.jpg");
+}
+}
+@media (orientation:portrait) {
+.landing-content {
+background-image: url("../../../img/campus-portrait.jpg");
+}
+}
+@media (orientation:portrait) and (max-width:320px) {
+  .landing-content {
+background-image: url("../../../img/campus-sml.jpg");
+}
+}
