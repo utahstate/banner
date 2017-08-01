@@ -177,7 +177,7 @@ log4j = {
  *                                                                              *
  ***************************************************************************** **/
 ssbEnabled = (System.getenv('SSBENABLED').asBoolean() ?: true)
-ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED').asBoolean() ?: true)
+ssbOracleUsersProxied = false
 
 
 /** *****************************************************************************
