@@ -23,7 +23,8 @@ node {
         }
       }
       sh "${javaHome}/bin/jar uvf applicationNavigator.war WEB-INF"
-    }
+      sh "${javaHome}/bin/jar uvf applicationNavigator.war css" 
+   }
 
 
     stage 'Build Image'
