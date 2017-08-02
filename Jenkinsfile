@@ -10,7 +10,7 @@ node{
     echo 'Copy Application'
     //sh 'scp jenkins@build.banner.usu.edu:/u01/deploy/zdevl/self-service/BannerFinanceSSB.war .'
     withAWS(credentials:"Jenkins-S3", region:'us-east-1'){
-      s3Download(file:'BannerFinanceSSB', bucket:'usu-banner-builds', path:'banner/input/financeselfservice/${env.BRANCH_NAME}/BannerFinanceSSB.war', force:true)
+      s3Download(file:'BannerFinanceSSB.war', bucket:'usu-banner-builds', path:"banner/input/financeselfservice/${env.BRANCH_NAME}/BannerFinanceSSB.war", force:true)
     }
 
     echo 'Add Config'
