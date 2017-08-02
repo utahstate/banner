@@ -176,8 +176,8 @@ log4j = {
  *                         Self Service Support                                 *
  *                                                                              *
  ***************************************************************************** **/
-ssbEnabled = (System.getenv('SSBENABLED').asBoolean() ?: true)
-ssbOracleUsersProxied = false
+ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
+ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
 
 
 /** *****************************************************************************
@@ -186,7 +186,7 @@ ssbOracleUsersProxied = false
  *                                                                              *
  ***************************************************************************** **/
 // Default is false for ssbapplications.
-sdeEnabled=(System.getenv('SDEENABLED').asBoolean() ?: false )
+sdeEnabled=(System.getenv('SDEENABLED') ? Boolean.parseBoolean(System.getenv('SDEENABLED')): false )
 
 
 /** *****************************************************************************
@@ -226,7 +226,7 @@ grails {
     plugin {
         springsecurity {
             cas {
-                active = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE').asBoolean() ?: false)
+                active = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE') ? Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE')) : false )
                 serverUrlPrefix  = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERURLPREFIX') ?: 'http://CAS_HOST:PORT/cas')
                 serviceUrl       = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVICEURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/j_spring_cas_security_check')
                 serverName       = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERNAME') ?: 'http://BANNER9_HOST:PORT')
@@ -234,7 +234,7 @@ grails {
                 loginUri         = '/login'
                 sendRenew        = false
                 proxyReceptorUrl = '/secure/receptor'
-                useSingleSignout = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT').asBoolean() ?: true)
+                useSingleSignout = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT') ? Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT')) :true)
                 key = 'grails-spring-security-cas'
                 artifactParameter = 'SAMLart'
                 serviceParameter = 'TARGET'
@@ -347,8 +347,8 @@ grails {
    }
 }
 grails.mail.default.from= (System.getenv('GRAILS_MAIL_DEFAULT_FROM') ?: 'firstname.lastname@ellucian.com')
-allowPrint = (System.getenv('ALLOWPRINT').asBoolean() ?: true )
-ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED').asBoolean() ?: true )       //true - allow Pidm users to reset their password.      false - throws functionality disabled error message
+allowPrint = (System.getenv('ALLOWPRINT') ? Boolean.parseBoolean(System.getenv('ALLOWPRINT')): true )
+ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED')): true )       //true - allow Pidm users to reset their password.      false - throws functionality disabled error message
 
 /** *****************************************************************************
  *                                                                              *
@@ -384,7 +384,7 @@ grails.plugin.springsecurity.homePageUrl=(System.getenv('GRAILS_PLUGIN_SPRINGSEC
  *              Transaction timeout Configuration (in seconds)                  *
  *                                                                              *
  ***************************************************************************** **/
-defaultWebSessionTimeout = (System.getenv('DEFAULTWEBSESSIONTIMEOUT') ?: 15000 )
+defaultWebSessionTimeout = (System.getenv('DEFAULTWEBSESSIONTIMEOUT') ?Integer.parseInt(System.getenv('DEFAULTWEBSESSIONTIMEOUT')): 15000 )
 
 /** *****************************************************************************
  *                                                                              *
@@ -412,4 +412,4 @@ banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: "all" )
  *                                                                              *
  ***************************************************************************** **/
 banner.analytics.trackerId=(System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')
-banner.analytics.allowEllucianTracker=(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER').asBoolean() ?: true)
+banner.analytics.allowEllucianTracker=(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER') ? Boolean.parseBoolean(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER')): true)

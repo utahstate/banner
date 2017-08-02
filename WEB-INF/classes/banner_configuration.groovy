@@ -45,7 +45,7 @@ onLineHelp.url = (System.getenv('ONLINEHELP_URL') ?: "http://HOST:PORT/banner9OH
  *              Transaction timeout Configuration (in seconds)                  *
  *                                                                              *
  ***************************************************************************** **/
-banner.transactionTimeout = (System.getenv('BANNER_TRANSACTIONTIMEOUT') ?: 30 )
+ banner.transactionTimeout = (System.getenv('BANNER_TRANSACTIONTIMEOUT') ? Integer.parseInt(System.getenv('BANNER_TRANSACTIONTIMEOUT')) : 30 )
 
 
 /** ****************************************************************************
