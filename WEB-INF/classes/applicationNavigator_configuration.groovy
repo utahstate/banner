@@ -175,7 +175,7 @@ log4j = {
 // If this is enabled, Application Navigator will integrate with Banner Self Service
 // applications using the SSB datasource. It is important to also ensure the
 // corresponding commonSelfServiceMenu menu endpoint is configured below.
-ssbEnabled = (System.getenv('SSBENABLED').asBoolean() ?: true )
+ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
 
 // This setting is set to false for Application Navigator deployment by default.
 // Only set 'ssbOracleUsersProxied = true' to ensure that database connections
@@ -185,7 +185,7 @@ ssbEnabled = (System.getenv('SSBENABLED').asBoolean() ?: true )
 // This setting in Application Navigator has no impact on integrated Banner 9 Self-
 // Service applications. The integrated Banner 9 Self-Service applications can be
 // configured separately to allow FGAC on the application specific SSB pages.
-ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED').asBoolean() ?: false )
+ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
 
 
 /********************************************************************************
@@ -239,14 +239,14 @@ grails {
     plugin {
         springsecurity {
             cas {
-              active = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE').asBoolean() ?: false)
+              active = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE') ? Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE')) : false )
               serviceUrl       = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVICEURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/j_spring_cas_security_check')
               serverName       = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERNAME') ?: 'http://BANNER9_HOST:PORT')
               proxyCallbackUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_PROXYCALLBACKURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/secure/receptor')
               loginUri         = '/login'
               sendRenew        = false
               proxyReceptorUrl = '/secure/receptor'
-              useSingleSignout = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT').asBoolean() ?: true )
+              useSingleSignout = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT') ? Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT')) :true)
               key = 'grails-spring-security-cas'
               artifactParameter = 'SAMLart'
               serviceParameter = 'TARGET'
@@ -337,8 +337,8 @@ seamless.exposeMenu=true
 // Example: seamless.brandTitle=["Default": "Ellucian University","<MEP_CODE>":"<MEP_BRAND_TITLE>", "<MEP_CODE>":"<MEP_BRAND_TITLE>"]
 seamless.brandTitle=["Default": (System.getenv('SEAMLESS_BRANDTITLE') ?: "Ellucian University" )]
 
-seamless.sessionTimeout = (System.getenv('SEAMLESS_SESSIONTIMEOUT') ?:30 )             // Session timeout in minutes. A value of -1 indicates session does not timeout
-seamless.sessionTimeoutNotification = (System.getenv('SEAMLESS_SESSIONTIMEOUTNOTIFICATION') ?: 5 )  // Notification prompt x minutes before sessionTimeout
+seamless.sessionTimeout = (System.getenv('SEAMLESS_SESSIONTIMEOUT') ? Integer.parseInt(System.getenv('SEAMLESS_SESSIONTIMEOUT')) :30 )             // Session timeout in minutes. A value of -1 indicates session does not timeout
+seamless.sessionTimeoutNotification = (System.getenv('SEAMLESS_SESSIONTIMEOUTNOTIFICATION') ? Integer.parseInt(System.getenv('SEAMLESS_SESSIONTIMEOUTNOTIFICATION')) : 5 )  // Notification prompt x minutes before sessionTimeout
 
 // This list includes objects to be excluded from search
 seamless.excludeObjectsFromSearch = [
