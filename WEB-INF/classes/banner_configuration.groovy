@@ -45,7 +45,7 @@ onLineHelp.url = (System.getenv('ONLINEHELP_URL') ?: "http://HOST:PORT/banner9OH
  *              Transaction timeout Configuration (in seconds)                  *
  *                                                                              *
  ***************************************************************************** **/
-banner.transactionTimeout = (System.getenv('BANNER_TRANSACTIONTIMEOUT') ?: 30 )
+ banner.transactionTimeout = (System.getenv('BANNER_TRANSACTIONTIMEOUT') ? Integer.parseInt(System.getenv('BANNER_TRANSACTIONTIMEOUT')) : 30 )
 
 
 /** ****************************************************************************
@@ -98,7 +98,7 @@ bannerSsbDataSource {
     // elvyx driver and url below. Do NOT comment out the 'myDataSource.url' above -- it is still needed for the authentication data source.
     // To use elvyx, download from "http://www.elvyx.com", unzip, and run from it's top-level directory: java -jar lib/elvyx-1.0.24.jar
     //
-    //elvyx.driver = "com.elvyx.Driver" 
+    //elvyx.driver = "com.elvyx.Driver"
     //elvyx.url    = "jdbc:elvyx://localhost:4448/?elvyx.real_driver=${bannerSsbDataSource.driver}&elvyx.real_jdbc=${bannerSsbDataSource.url}&user=${bannerSsbDataSource.username}&password=${bannerSsbDataSource.password}"
 }
 
