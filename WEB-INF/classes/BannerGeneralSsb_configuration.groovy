@@ -336,7 +336,7 @@ grails.plugin.xframeoptions.deny = true
 // Location of users' profile picture image files
 // ********************************************************************************
 banner {
-  picturesPath=(System.getenv('BANNER_PICTUREPATH') ?: '/test/images')
+  picturesPath=(System.getenv('BANNER_PICTURESPATH') ?: '/test/images')
   // defaultPhoto = <Fully qualified path to the photo to use if no user photo is available.>
 }
 
