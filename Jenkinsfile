@@ -1,6 +1,6 @@
 
 node{
-  def javaHome = tool 'Java 8u131'
+  def javaHome = tool 'OracleJDK8'
 
   stage 'Checkout'
     checkout scm
@@ -12,7 +12,7 @@ node{
     withAWS(credentials:"Jenkins-S3"){
       s3Download(file:'BannerFinanceSSB', bucket:'usu-banner-builds', path:'banner/input/financeselfservice/${env.BRANCH_NAME}/BannerFinanceSSB.war', force:true)
     }
-    
+
     echo 'Add Config'
     sh "${javaHome}/bin/jar uvf BannerFinanceSSB.war WEB-INF"
 
