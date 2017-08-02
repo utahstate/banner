@@ -47,9 +47,9 @@ jmx {
 //                       +++ Self Service Support +++
 // ******************************************************************************
 
-ssbEnabled = (Boolean.parseBoolean(System.getenv('SSBENABLED') ?: true))
-ssbOracleUsersProxied = (Boolean.parseBoolean(System.getenv('SSBORACLEUSERSPROXIED') ?: true))
-ssbPassword.reset.enabled = (Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED') ?: true)) //true  - allow Pidm users to reset their password.
+ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
+ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.parseBoolean(System.getenv('SSBORACLEUSERSPROXIED') : true))
+ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED') : true)) //true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
 
 // ******************************************************************************
@@ -228,7 +228,7 @@ grails {
     plugin {
         springsecurity {
             cas {
-                active = (Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE') ?: false))
+                active = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE') ? Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE')) : false )
                 serverUrlPrefix = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERURLPREFIX') ?: 'http://CAS_HOST:PORT/cas')
                 serviceUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVICEURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/j_spring_cas_security_check')
                 serverName = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERNAME') ?: 'http://BANNER9_HOST:PORT')
@@ -236,7 +236,7 @@ grails {
                 loginUri         = '/login'
                 sendRenew        = false
                 proxyReceptorUrl = '/secure/receptor'
-                useSingleSignout = true
+                useSingleSignout = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT') ? Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT')) :true)
                 key = 'grails-spring-security-cas'
                 artifactParameter = 'SAMLart'
                 serviceParameter = 'TARGET'
@@ -379,7 +379,7 @@ banner.applicationName = "Student Self-Service"
 // ******************************************************************************
 //                       +++ Footer Timeout Configuration +++
 // ******************************************************************************
-footerFadeAwayTime = (System.getenv('FOOTERFADEAWAYTIME') ?: 10000 )
+footerFadeAwayTime = (System.getenv('FOOTERFADEAWAYTIME') ? Integer.parseInt(System.getenv('FOOTERFADEAWAYTIME')): 10000 )
 
 // ******************************************************************************
 // Cross-frame scripting vulnerability when integrating with Application Navigator.
@@ -392,4 +392,4 @@ grails.plugin.xframeoptions.deny = true
 banner.them.url=(System.getenv('BANNER_THEME_URL') ?: 'http://BANNER9_HOST:PORT/BannerExtensibility/theme')
 banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: 'ellucian')
 banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: 'BannerExtensibility')
-banner.theme.cacheTimeOut = (System.getenv('BANNER_THEME_CACHETIMEOUT') ?: 900)
+banner.theme.cacheTimeOut = (System.getenv('BANNER_THEME_CACHETIMEOUT') ? Integer.parseInt(System.getenv('BANNER_THEME_CACHETIMEOUT')): 900)
