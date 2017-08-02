@@ -28,7 +28,7 @@
 
  *******************************************************************************/
 
-pageBuilder.enabled = (System.getenv('PAGEBUILDER_ENABLED').asBoolean() ?: true)
+pageBuilder.enabled = (System.getenv('PAGEBUILDER_ENABLED') ? Boolean.parseBoolean(System.getenv('PAGEBUILDER_ENABLED')) : true)
 
 if (!pageBuilder.enabled) {
   grails.plugin.springsecurity.securityConfigType = grails.plugin.springsecurity.SecurityConfigType.InterceptUrlMap
@@ -60,7 +60,7 @@ pageBuilder {
  banner.theme.url=(System.getenv('BANNER_THEME_URL') ?: 'http://BANNER9_HOST:PORT/BannerExtensibility/theme')
  banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: 'ellucian')
  banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: 'BannerExtensibility')
- banner.theme.cacheTimeOut = (System.getenv('BANNER_THEME_CACHETIMEOUT') ?: 900)
+ banner.theme.cacheTimeOut = (System.getenv('BANNER_THEME_CACHETIMEOUT') ? Integer.parseInt(System.getenv('BANNER_THEME_CACHETIMEOUT')) : 900)
 
 /*environments {
      production {
@@ -102,9 +102,9 @@ jmx {
 // ******************************************************************************
 
 
-ssbEnabled = (System.getenv('SSBENABLED').asBoolean() ?: true)
-ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED').asBoolean() ?: true)
-ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED').asBoolean() ?: true) //true  - allow Pidm users to reset their password.
+ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
+ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
+ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.valueOf(System.getenv('SSBPASSWORD_RESET_ENABLED')): true) //true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
 
 
@@ -141,7 +141,7 @@ grails {
     plugin {
         springsecurity {
             cas {
-                active = (Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE') ?: false ))
+                active = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE') ? Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE')) : false )
                 serverUrlPrefix  = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERURLPREFIX') ?: 'http://CAS_HOST:PORT/cas' )
                 serviceUrl       = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVICEURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/j_spring_cas_security_check')
                 serverName       = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERNAME') ?: 'http://BANNER9_HOST:PORT' )
@@ -149,7 +149,7 @@ grails {
                 loginUri         = '/login'
                 sendRenew        = false
                 proxyReceptorUrl = '/secure/receptor'
-                useSingleSignout = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT').asBoolean() ?:true)
+                useSingleSignout = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT') ? Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT')) :true)
                 key = 'grails-spring-security-cas'
                 artifactParameter = 'SAMLart'
                 serviceParameter = 'TARGET'
