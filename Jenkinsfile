@@ -23,6 +23,7 @@ node {
         }
       }
       sh "${javaHome}/bin/jar uvf BannerExtensibility.war WEB-INF"
+      sh "${javaHome}/bin/jar uvf BannerExtensibility.war js"
     }
 
 
