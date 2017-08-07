@@ -213,8 +213,8 @@ grails.plugin.springsecurity.saml.metadata.sp.defaults = [
  *                                                                              *
  *******************************************************************************/
 grails.plugin.xframeoptions.urlPattern = '/login/auth'
-grails.plugin.xframeoptions.deny = true
-
+//grails.plugin.xframeoptions.deny = true
+grails.plugin.xframeoptions.allowFrom = (System.getenv('APPNAV_HOST_URL') ?: 'https://hostname/')
 
 // ******************************************************************************
 //
