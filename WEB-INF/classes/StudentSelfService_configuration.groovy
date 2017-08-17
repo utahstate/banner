@@ -258,9 +258,6 @@ grails.resources.adhoc.excludes = ['/WEB-INF/**']
 
 grails.plugin.springsecurity.logout.mepErrorLogoutUrl='/logout/logoutPage'
 
-// The advising app url is in the form:
-// <protocol>://<host>:<port>/StudentAdvisorSSB
-bannerXE.url.mapper.advisingRoot=(System.getenv('BANNERXE_URL_MAPPER_ADVISINGROOT') ?: '<protocol>://<host>:<port>/StudentAdvisorSSB' )
 
 // Degree works url is in the form of:
 // <protocol>://<host>:<port>/dev/dwadvss/banmain/IRISLink.cgi?CAS=ENABLED&SERVICE=LOGON&SCRIPT=SD2WORKS&PORTALSTUID=<STUDENTID>
@@ -347,18 +344,6 @@ grails.plugin.springsecurity.saml.metadata.sp.defaults = [
 // 1. Borders will only be displayed if the section is associated with campus code = 1.
 // 2. Barnes and Noble will be displayed with all sections.
 // 3. Follett book site will require substitution of "<<Campus Store ID>>" with the actual campus ID, as well as parameters which will be substituted at run time.
-/*bookstore = [
-        [       url:"http://www.borders.com",
-                label:"bookstore.links.borders",
-                campus:"1"],
-        [       url:"https://www.barnesandnoble.com",
-                label:"bookstore.links.barnesAndNoble"],
-       	[       url:"http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?storeId=<<Campus Store ID>>&termId={0}&departmentDisplayName={1}&courseDisplayName={2}&sectionDisplayName={3}",
-                label: "bookstore.links.follett",
-        		page: "30",
-				params: ["TERM",".department","SUBJECTDESCRIPTION","COURSENUMBER", "TERM" + "SUBJECT"]
-		]
-]*/
 bookstore = [
 [
   url: "http://usu.verbacompare.com/comparison?trm={0}&catids={1}",
@@ -386,7 +371,6 @@ footerFadeAwayTime = (System.getenv('FOOTERFADEAWAYTIME') ? Integer.parseInt(Sys
 // ******************************************************************************
 grails.plugin.xframeoptions.urlPattern = '/login/auth'
 grails.plugin.xframeoptions.deny = true
-
 
 //Theming
 banner.them.url=(System.getenv('BANNER_THEME_URL') ?: 'http://BANNER9_HOST:PORT/BannerExtensibility/theme')
