@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<emsConfig>
+  <baseUrl>${api.student.url}</baseUrl>
+  <username>${api.username}</username>
+  <password>${api.password}</password>
+  <configId>ETHOS-INTEGRATION</configId>
+  <!-- Use this only in the case of a Banner MEP environment. This should be a default VPDI code that the application uses to load the required configuration settings. < ></vpdiCode> -->
+  <apiDeploymentConfigs>
+    <apiDeploymentConfig>
+      <name>Integration</name>
+      <username>${api.username}</username>
+      <password>${api.password}</password>
+      <url>${api.integration.url}</url>
+     <!-- <vpdiCode></vpdiCode>-->
+    </apiDeploymentConfig>
+  </apiDeploymentConfigs>
+</emsConfig>
