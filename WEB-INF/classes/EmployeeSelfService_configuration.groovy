@@ -283,11 +283,11 @@ banner.hr.employerLogoPath = (System.getenv('BANNER_HR_EMPLOYERLOGOPATH') ?: 'ht
 banner.pdf.fopBaseUrl = (System.getenv('BANNER_PDF_FOPBASEDURL') ?: '')
 
 banner8.SS.addressUpdateURL = "bwgkogad.P_SelectAtypUpdate"
-banner8.SS.addressUpdate = 'N'
+banner8.SS.addressUpdate = 'Y'
 banner8.SS.emailUpdateURL = "bwgkogad.P_SelectEmalUpdate"
-banner8.SS.emailUpdate = 'N'
+banner8.SS.emailUpdate = 'Y'
 banner8.SS.emergencyContactUpdateURL = "bwgkoemr.P_SelectEmrgContacts"
-banner8.SS.emergencyContactUpdate = 'N'
+banner8.SS.emergencyContactUpdate = 'Y'
 
 //Benefits links HR Dashboard
 banner8.SS.benefitsEnrollmentURL = "bwpkdsta.P_ShowEnrollmentMenu"
@@ -344,7 +344,7 @@ banner8.SS.yearEnd1094ReceiptIDEntryURL = 'bwpkxtxs.P_Disp1094ReceiptIDs'
 
 
 banner8.SS.directDepositAllocationURL = "bwpkhpay.P_ViewDirectDeposit"
-banner8.SS.directDepositAllocation8xLinkAvailable = 'N'
+banner8.SS.directDepositAllocation8xLinkAvailable = 'Y'
 
 //Tax links Canadian
 banner8.SS.taxReturnURL = "bwvkxtax.P_SelectAdminOption"
@@ -383,10 +383,10 @@ banner.SS.deductionsHistoryLinkAvailable = 'Y'
 
 
 //Labor Redistribution Application Link.  NOTE - please disable the 8x labor Redistribution link if this one is being enabled.
-banner.SS.laborRedistributionAppLinkAvailable = 'N'
+banner.SS.laborRedistributionAppLinkAvailable = 'Y'
 
 //Effort Reporting Application Link.  NOTE - please disable the 8x effort Reporting link if this one is being enabled.
-banner.SS.effortReportingAppLinkAvailable = 'N'
+banner.SS.effortReportingAppLinkAvailable = 'Y'
 
 //Use preferred first name through the application
 ess.display.preferredFirstName = 'Y'
@@ -394,21 +394,21 @@ ess.display.preferredFirstName = 'Y'
 //Banner display components.
 ess.displayComponent.Photo = 'Y'
 ess.displayComponent.EmployeeStatus = 'Y'
-ess.displayComponent.HomeOrganization  = 'N'
-ess.displayComponent.DistOrganization  = 'N'
-ess.displayComponent.Ecls  = 'N'
-ess.displayComponent.PartTimeFullTimeIndicator  = 'N'
+ess.displayComponent.HomeOrganization  = 'Y'
+ess.displayComponent.DistOrganization  = 'Y'
+ess.displayComponent.Ecls  = 'Y'
+ess.displayComponent.PartTimeFullTimeIndicator  = 'Y'
 ess.displayComponent.OriginalHire = 'Y'
 ess.displayComponent.CurrentHire  = 'Y'
-ess.displayComponent.AdjustedHire  = 'N'
-ess.displayComponent.Seniority  = 'N'
-ess.displayComponent.FirstWorkDay  = 'N'
-ess.displayComponent.JobLocation = 'N'
-ess.displayComponent.College  = 'N'
-ess.displayComponent.Campus = 'N'
-ess.displayComponent.DistrictOrDivision  = 'N'
+ess.displayComponent.AdjustedHire  = 'Y'
+ess.displayComponent.Seniority  = 'Y'
+ess.displayComponent.FirstWorkDay  = 'Y'
+ess.displayComponent.JobLocation = 'Y'
+ess.displayComponent.College  = 'Y'
+ess.displayComponent.Campus = 'Y'
+ess.displayComponent.DistrictOrDivision  = 'Y'
 ess.displayComponent.PositionSuffix = 'Y'
-ess.displayComponent.Supervisor    = 'N'
+ess.displayComponent.Supervisor    = 'Y'
 ess.displayComponent.TimeSheetOrgn  = 'Y'
 ess.displayComponent.YtdEarnings   = 'Y'
 ess.displayComponent.BenefitsSection = 'Y'
