@@ -1,6 +1,6 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" metadata-complete="true" version="2.5" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <display-name>
-    /EmployeeSelfService-production-9.5
+    /EmployeeSelfService-production-9.6
   </display-name>
   <mime-mapping>
     <extension>
@@ -31,7 +31,7 @@
       webAppRootKey
     </param-name>
     <param-value>
-      EmployeeSelfService-production-9.5
+      EmployeeSelfService-production-9.6
     </param-value>
   </context-param>
   <context-param>
