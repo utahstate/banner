@@ -47,7 +47,7 @@ jmx {
 //                       +++ Self Service Support +++
 // ******************************************************************************
 
-ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
+sbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
 ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.parseBoolean(System.getenv('SSBORACLEUSERSPROXIED')) : true)
 ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED')) : true) //true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
@@ -85,7 +85,7 @@ log4j = {
 
     String loggingFileDir  = (System.getenv('CATALINA_HOME') ?: '/test/target')
     String logAppName      = "StudentSelfService"
-    String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
+    String loggingFileName = "${loggingFileDir}/${logAppName}.log".toString()
 
     appenders {
         rollingFile name:'appLog', file:loggingFileName, maxFileSize:"${10*1024*1024}", maxBackupIndex:10, layout:pattern( conversionPattern: '%d{[EEE, dd-MMM-yyyy @ HH:mm:ss.SSS]} [%t] %-5p %c %x - %m%n' )
@@ -178,14 +178,12 @@ log4j = {
     and services it is recommended that you enable logging using the controller
     or service class name (see above 'class name' based configurations).
     For example:
-        all  'net.hedtech.banner.testing.FooController'
-    turns on all logging for the FooController
+        all  'net.hedtech.banner.testing.FooController'   // turns on all logging for the FooController
 
-        debug 'grails.app'
-    apply to all artefacts
+        debug 'grails.app'    // apply to all artefacts
 
         debug 'grails.app.<artefactType>.ClassName
-    where artefactType is in:
+          // where artefactType is in:
           bootstrap  - For bootstrap classes
           dataSource - For data sources
           tagLib     - For tag libraries
@@ -253,10 +251,36 @@ grails {
     }
 }
 
+grails.plugin.springsecurity.logout.mepErrorLogoutUrl='/logout/logoutPage'
+
+
+/** *****************************************************************************
+ *                                                                              *
+ *           Home Page link when error happens during authentication.           *
+ *                                                                              *
+ ***************************************************************************** **/
+grails.plugin.springsecurity.homePageUrl="http://<host:port>/StudentSelfService"
+
+
+/** *****************************************************************************
+ *                                                                              *
+ *                 Eliminate access to the WEB-INF folder                       *
+ *                                                                              *
+ ***************************************************************************** **/
 grails.resources.adhoc.includes = ['/images/**', '/css/**', '/js/**', '/plugins/**']
 grails.resources.adhoc.excludes = ['/WEB-INF/**']
 
-grails.plugin.springsecurity.logout.mepErrorLogoutUrl='/logout/logoutPage'
+
+/** *****************************************************************************
+ *                                                                              *
+ * The errors reported by YUI in each of these files are because YUI            *
+ * compressor/minifier does not support ES5 – the version of JavaScript         *
+ * incorporated in browsers since IE9.   Specifically, ES5 allows use of JS     *
+ * reserved words as property names with the ‘.NAME’ syntax(e.g., “object.case”)*
+ * This results in a syntax error in YUI minifier, but is legal ES5 syntax.     *
+ *                                                                              *
+ ***************************************************************************** **/
+grails.resources.mappers.yuijsminify.excludes = ['**/*.min.js','**/angularjs-color-picker.js', '**/m.js', '**/bundle-aurora_defer.js']
 
 
 // Degree works url is in the form of:
@@ -270,8 +294,11 @@ bannerXE.url.mapper.degreeWorksUrl=(System.getenv('BANNERXE_URL_MAPPER_DEGREEWOR
 /*
 webAppExtensibility {
     locations {
-                extensions = "path to the directory location where extensions JSON files will be written to and read from"
-                resources = "path to the directory location where i18n files will be written to and read from"
+        extensions = "path to the directory location where extensions JSON files will be written to and read from"
+        resources = "path to the directory location where i18n files will be written to and read from"
+        // for ex,
+        // extensions = "/home/oracle/config_extn/ssb/extensions/"
+        // resources = "/home/oracle/config_extn/ssb/i18n/"
     }
     adminRoles = "ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"
 }
@@ -288,12 +315,13 @@ webAppExtensibility {
 grails.plugin.springsecurity.saml.active = false
 grails.plugin.springsecurity.auth.loginFormUrl = '/saml/login'
 grails.plugin.springsecurity.saml.afterLogoutUrl ='/logout/customLogout'
-banner.sso.authentication.saml.localLogout='false'                                                    // To disable single logout set this to true,default 'false'.
 
-grails.plugin.springsecurity.saml.keyManager.storeFile = 'classpath:security/<KEY_NAME>.jks'          // for unix File based Example:- 'file:/home/u02/samlkeystore.jks'
-grails.plugin.springsecurity.saml.keyManager.storePass = 'test1234'
-grails.plugin.springsecurity.saml.keyManager.passwords = [ 'banner-<short-appName>-sp': 'test1234' ]  // banner-<short-appName>-sp is the value set in EIS Service provider setup
-grails.plugin.springsecurity.saml.keyManager.defaultKey = 'banner-<short-appName>-sp'                 // banner-<short-appName>-sp is the value set in EIS Service provider setup
+banner.sso.authentication.saml.localLogout='false' // To disable single logout set this to true,default 'false'.
+
+grails.plugin.springsecurity.saml.keyManager.storeFile = 'classpath:security/<KEY_NAME>.jks'  // for unix File based Example:- 'file:/home/u02/samlkeystore.jks'
+grails.plugin.springsecurity.saml.keyManager.storePass = 'changeit'
+grails.plugin.springsecurity.saml.keyManager.passwords = [ 'banner-<short-appName>-sp': 'changeit' ]  // banner-<short-appName>-sp is the value set in Ellucian Ethos Identity Service provider setup
+grails.plugin.springsecurity.saml.keyManager.defaultKey = 'banner-<short-appName>-sp'                 // banner-<short-appName>-sp is the value set in Ellucian Ethos Identity Service provider setup
 
 grails.plugin.springsecurity.saml.metadata.sp.file = 'security/banner-<Application_Name>-sp.xml'     // for unix file based Example:-'/home/u02/sp-local.xml'
 grails.plugin.springsecurity.saml.metadata.providers = [adfs: 'security/banner-<Application_Name>-idp.xml'] // for unix file based Example: '/home/u02/idp-local.xml'
@@ -361,19 +389,61 @@ bookstore = [
 productName = "Student"
 banner.applicationName = "Student Self-Service"
 
+
+/** ****************************************************************************
+ *              Transaction timeout Configuration (in seconds)                 *
+ *************************************************************************** **/
+defaultWebSessionTimeout = (System.getenv('DEFAULTWEBSESSIONTIMEOUT') ? Integer.parseInt(System.getenv('DEFAULTWEBSESSIONTIMEOUT')): 15000)
+
 // ******************************************************************************
 //                       +++ Footer Timeout Configuration +++
 // ******************************************************************************
 footerFadeAwayTime = (System.getenv('FOOTERFADEAWAYTIME') ? Integer.parseInt(System.getenv('FOOTERFADEAWAYTIME')): 10000 )
 
-// ******************************************************************************
-// Cross-frame scripting vulnerability when integrating with Application Navigator.
-// ******************************************************************************
+
+/** **********************************************************************************
+ *                                                                                   *
+ *   Cross-frame scripting vulnerability when integrating with Application Navigator.*
+ *   This setting is needed if the application needs to work inside                  *
+ *   Application Navigator and the secured application pages will be accessible      *
+ *   as part of the single-sign on solution.                                         *
+ *                                                                                   *
+ ********************************************************************************* **/
 grails.plugin.xframeoptions.urlPattern = '/login/auth'
 grails.plugin.xframeoptions.deny = true
 
-//Theming
-banner.them.url=(System.getenv('BANNER_THEME_URL') ?: 'http://BANNER9_HOST:PORT/BannerExtensibility/theme')
-banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: 'ellucian')
-banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: 'BannerExtensibility')
-banner.theme.cacheTimeOut = (System.getenv('BANNER_THEME_CACHETIMEOUT') ? Integer.parseInt(System.getenv('BANNER_THEME_CACHETIMEOUT')): 900)
+
+
+/** *****************************************************************************
+ *                                                                              *
+ *           Theme server support ( Platform 9.19, 9.20.2)                      *
+ *                                                                              *
+ ***************************************************************************** **/
+
+banner.them.url=(System.getenv('BANNER_THEME_URL') ?: 'http://BANNER9_HOST:PORT/StudentSelfService/ssb/theme')
+    // Required only if theme server is remote.
+banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: 'default')
+    // This is the desired theme name to use. In a MEP environment, the application uses the MEP code as the theme name instead of
+    // the banner.theme.name. A theme by this name must be created in the Theme Editor on the server specified by banner.theme.url
+banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: 'StudentSelfService')
+   // This is the name of the scss file containing the theme settings in war file.
+banner.theme.cacheTimeOut = (System.getenv('BANNER_THEME_CACHETIMEOUT') ? Integer.parseInt(System.getenv('BANNER_THEME_CACHETIMEOUT')): 120) // in seconds.
+    // Required only if the app is theme server.
+    // The value indicates how long the CSS file that was generated using the template and the theme is cached.
+
+/** *****************************************************************************
+ *                                                                              *
+ *               Google Analytics (Platform 9.20)                               *
+ *                                                                              *
+ ***************************************************************************** **/
+ banner.analytics.trackerId=(System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')
+ banner.analytics.allowEllucianTracker=(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER') ? Boolean.parseBoolean(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER')): true)
+
+/** *****************************************************************************
+ *                                                                              *
+ *                      ConfigJob (Platform 9.23)                               *
+ *                                                                              *
+ ***************************************************************************** **/
+ configJob.delay = 60000
+ configJob.interval = 120000
+ configJob.actualCount = -1
