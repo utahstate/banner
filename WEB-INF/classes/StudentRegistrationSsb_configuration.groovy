@@ -1,5 +1,5 @@
 /** *****************************************************************************
- Copyright 2011-2016 Ellucian Company L.P. and its affiliates.
+ Copyright 2011-2017 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
 
  /** ****************************************************************************
@@ -70,7 +70,7 @@ jmx {
 log4j = {
     def String loggingFileDir  =  (System.getenv('CATALINA_HOME') ?: "target")
     def String logAppName      = "StudentRegistrationSsb"
-    def String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
+    def String loggingFileName = "${loggingFileDir}/${logAppName}.log".toString()
     appenders {
         rollingFile name:'appLog', file:loggingFileName, maxFileSize:"${10*1024*1024}", maxBackupIndex:10, layout:pattern( conversionPattern: '%d{[EEE, dd-MMM-yyyy @ HH:mm:ss.SSS]} [%t] %-5p %c %x - %m%n' )
     }
@@ -176,8 +176,8 @@ log4j = {
  *                         Self Service Support                                 *
  *                                                                              *
  ***************************************************************************** **/
-ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
-ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
+ ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
+ ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
 
 
 /** *****************************************************************************
@@ -195,6 +195,7 @@ sdeEnabled=(System.getenv('SDEENABLED') ? Boolean.parseBoolean(System.getenv('SD
  *                                                                              *
  ***************************************************************************** **/
 banner8.SS.studentAccountUrl = (System.getenv('BANNER8_SS_STUDENTACCOUNTURL') ?: "http://<host_name>:<port_number>/<banner8ssb>/twbkwbis.P_GenMenu?name=bmenu.P_ARMnu")
+
 
 /** *****************************************************************************
  *                                                                              *
@@ -374,6 +375,17 @@ grails.resources.adhoc.excludes = ['/WEB-INF/**']
 
 /** *****************************************************************************
  *                                                                              *
+ * The errors reported by YUI in each of these files are because YUI            *
+ * compressor/minifier does not support ES5 – the version of JavaScript         *
+ * incorporated in browsers since IE9.   Specifically, ES5 allows use of JS     *
+ * reserved words as property names with the ‘.NAME’ syntax(e.g., “object.case”)*
+ * This results in a syntax error in YUI minifier, but is legal ES5 syntax.     *
+ *                                                                              *
+ ***************************************************************************** **/
+grails.resources.mappers.yuijsminify.excludes = ['**/*.min.js','**/angularjs-color-picker.js', '**/m.js', '**/bundle-aurora_defer.js']
+
+/** *****************************************************************************
+ *                                                                              *
  *           Home Page link when error happens during authentication.           *
  *                                                                              *
  ***************************************************************************** **/
@@ -398,18 +410,27 @@ grails.plugin.xframeoptions.deny = true
 
 /** *****************************************************************************
  *                                                                              *
- *           Theme server support ( Platform 9.19).                             *
+ *           Theme server support ( Platform 9.19, 9.20.2)                             *
  *                                                                              *
  ***************************************************************************** **/
-banner.theme.url=(System.getenv('BANNER_THEME_URL') ?: "http://ThemeServer:8080/pathTo/ssb/theme" )
-banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: "default" )
-banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: "all" )
-// banner.theme.path="/Users/Extz/temp/themingCSS"
+ banner.theme.url=(System.getenv('BANNER_THEME_URL') ?: "http://ThemeServer:8080/pathTo/ssb/theme" )
+ banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: "default" )
+ banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: "all" )
+ banner.theme.cacheTimeOut=120 //Replace time_interval_in_seconds with a number like 120
 
 /** *****************************************************************************
  *                                                                              *
  *               Google Analytics (Platform 9.20)                               *
  *                                                                              *
  ***************************************************************************** **/
-banner.analytics.trackerId=(System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')
-banner.analytics.allowEllucianTracker=(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER') ? Boolean.parseBoolean(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER')): true)
+ banner.analytics.trackerId=(System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')
+ banner.analytics.allowEllucianTracker=(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER') ? Boolean.parseBoolean(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER')): true)
+
+/** *****************************************************************************
+ *                                                                              *
+ *                      ConfigJob (Platform 9.23)                               *
+ *                                                                              *
+ ***************************************************************************** **/
+ configJob.delay = 60000
+ configJob.interval = 120000
+ configJob.actualCount = -1
