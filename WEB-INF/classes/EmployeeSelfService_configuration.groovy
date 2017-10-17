@@ -51,11 +51,16 @@ jmx {
 // ******************************************************************************
 
 
-ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
-ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
-ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED')) : true) //true  - allow Pidm users to reset their password.
+ssbEnabled = true
+ssbOracleUsersProxied = true
+ssbPassword.reset.enabled = true //true  - allow Pidm users to reset their password.
                                   //false - throws functionality disabled error message
 
+/** ****************************************************************************
+*              Transaction timeout Configuration (in seconds)                 *
+*************************************************************************** **/
+
+defaultWebSessionTimeout = 15000
 
 // *****************************************************************************
 //
