@@ -155,8 +155,8 @@ grails.plugin.springsecurity.saml.metadata.sp.defaults = [
 //                       +++ LOGGER CONFIGURATION +++
 //
 // ******************************************************************************
-String loggingFileDir =  (System.getenv('CATALAINA_HOME') ?: '/target')
-String loggingFileName = "${loggingFileDir}/${logAppName}.log".toString()
+String loggingFileDir =  (System.getenv('CATALINA_HOME') ?: '/target')
+String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
 
 
 // Note that logging is configured separately for each environment ('development', 'test', and 'production').
