@@ -104,8 +104,8 @@ bannerSsbDataSource {
 
 /* Location for images */
 //banner.picturesPath=System.getProperty('base.dir') + '/test/images'
-banner.picturesPath='/test/images'
-banner8.SS.url = 'http://HOST:PORT/DAD/'
+banner.picturesPath=(System.getenv('BANNER_PICTURESPATH') ?: '/test/images')
+banner8.SS.url = (System.getenv('BANNER8_SS_URL') ?: 'http://HOST:PORT/DAD/' )
 
 /********************************************************************************************
 NOTE - MEP Context URLs are now fully supported when going from XE App to an 8x app
