@@ -34,7 +34,7 @@ node {
         if (env.BRANCH_NAME == "master"){
           img = docker.build('harbor.usu.edu/banner/bannerextensibility:latest')
         } else {
-          img = docker.build("harbor.usu.edu/banner/bannerextensibility:${env.BRANCH_NAME}", "--no-cache .")
+          img = docker.build("harbor.usu.edu/banner/bannerextensibility:${env.BRANCH_NAME}")
           img.push()
         }
       }
