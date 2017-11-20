@@ -23,8 +23,8 @@ node{
         img = docker.build('banner/financeselfservice:latest')
       } else {
         img = docker.build("banner/financeselfservice:${env.BRANCH_NAME}")
+        img.push()
       }
     }
-  echo 'Push Image'
 
 }
