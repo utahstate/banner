@@ -72,7 +72,7 @@ cors.allow.origin.regex = '.*\\.<instutitution>\\.<com>'
 // application to ensure uniqueness.
 jmx {
     exported {
-        log4j = "FinanceApi-log4j"
+        log4j = "IntegrationApi-log4j"
     }
 }
 
@@ -93,7 +93,7 @@ jmx {
 //
 log4j = {
     String loggingFileDir  =  (System.getenv('CATALINA_HOME') ?: 'target')
-    String logAppName      = "FinanceApi"
+    String logAppName      = "IntegrationApi"
     String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
     appenders {
         rollingFile name:'appLog', file:loggingFileName, maxFileSize:"${10*1024*1024}", maxBackupIndex:10, layout:pattern( conversionPattern: '%d{[EEE, dd-MMM-yyyy @ HH:mm:ss.SSS]} [%t] %-5p %c %x - %m%n' )
