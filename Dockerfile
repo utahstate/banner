@@ -18,4 +18,4 @@ ENV JAVA_OPTS -Duser.timezone=\$TIMEZONE \
     -Dcas.serverurlprefix=\$GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERURLPREFIX \
     -Dserver.name=\$GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERNAME
 
-COPY BannerFinanceSSB.war /usr/local/tomcat/webapps/BannerFinanceSSB.war
+COPY FinanceSelfService.war /usr/local/tomcat/webapps/FinanceSelfService.war
