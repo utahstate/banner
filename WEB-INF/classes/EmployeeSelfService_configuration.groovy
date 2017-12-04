@@ -447,7 +447,7 @@ banner.theme.cacheTimeOut=120 // seconds, required only if the app is theme serv
  *                          Google Analytics          *
  *                                                                              *
  ***************************************************************************** **/
-banner.analytics.trackerId=
+banner.analytics.trackerId=''
 banner.analytics.allowEllucianTracker=true
 
 
