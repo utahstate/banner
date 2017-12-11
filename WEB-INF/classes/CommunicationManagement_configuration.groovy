@@ -1,5 +1,5 @@
 /*********************************************************************************
- Copyright 2016 Ellucian Company L.P. and its affiliates.
+ Copyright 2015-2017 Ellucian Company L.P. and its affiliates.
  *********************************************************************************/
 
  /** ****************************************************************************
@@ -53,7 +53,7 @@ jmx {
 
 ssbEnabled = (System.getenv("SSBENABLED") ?: true )
 ssbOracleUsersProxied = (System.getenv("SSBORACLEUSERSPROXIED") ?: true )
-ssbPassword.reset.enabled = (System.getenv("SSBPASSWORD_RESET_ENABLED") ?: true )//true  - allow Pidm users to reset their password.
+ssbPassword.reset.enabled = (System.getenv("SSBPASSWORD_RESET_ENABLED") ?: true ) //true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
 
 
@@ -69,7 +69,7 @@ banner {
     sso {
 		authenticationProvider = (System.getenv("BANNER_SSO_AUTHENTICATIONPROVIDER") ?: 'default' )
         authenticationAssertionAttribute = ( System.getenv("BANNER_SSO_AUTHENTICATIONASSERTIONATTRIBUTE") ?: 'UDC_IDENTIFIER' )
-        if(authenticationProvider != "default") {
+        if(authenticationProvider != 'default') {
             grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
         }
 	}
@@ -87,11 +87,11 @@ grails {
     plugin {
         springsecurity {
             cas {
-                active = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE') ?: false )
-                serverUrlPrefix  = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERURLPREFIX') ?: 'http://CAS_HOST:PORT/cas')
-                serviceUrl       = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVICEURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/j_spring_cas_security_check' )
-                serverName       = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERNAME') ?: 'http://BANNER9_HOST:PORT' )
-                proxyCallbackUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_PROXYCALLBACKURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/secure/receptor')
+              active = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE') ?: false )
+              serverUrlPrefix  = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERURLPREFIX') ?: 'http://CAS_HOST:PORT/cas')
+              serviceUrl       = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVICEURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/j_spring_cas_security_check' )
+              serverName       = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERNAME') ?: 'http://BANNER9_HOST:PORT' )
+              proxyCallbackUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_PROXYCALLBACKURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/secure/receptor')
                 loginUri         = '/login'
                 sendRenew        = false
                 proxyReceptorUrl = '/secure/receptor'
@@ -105,8 +105,9 @@ grails {
                     grails.plugin.springsecurity.useSessionFixationPrevention = false
                 }
             }
-          logout {
-                   afterLogoutUrl = (System.getenv('GRAILS_PLUGIN_LOGOUT_AFTERLOGOUTURL') ?: 'https://cas-server/logout?url=http://myportal/main_page.html' )
+		    logout {
+                afterLogoutUrl = (System.getenv('GRAILS_PLUGIN_LOGOUT_AFTERLOGOUTURL') ?: 'https://cas-server/logout?url=http://myportal/main_page.html' )
+                mepErrorLogoutUrl = 'https://URL:PORT/'
             }
         }
     }
@@ -157,10 +158,6 @@ communication {
         enabled = true
         idleWaitTime = 30000
     }
-
-    email {
-        senderAuthenticationEnabled = false
-    }
 }
 
 // ******************************************************************************
@@ -168,7 +165,7 @@ communication {
 //                       +++ LOGGER CONFIGURATION +++
 //
 // ******************************************************************************
-String loggingFileDir =  (System.getenv('CATALINA_HOME')?: '/target')
+String loggingFileDir =  "target"
 
 String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
 
@@ -300,28 +297,25 @@ defaultWebSessionTimeout = (System.getenv('DEFAULTWEBSESSIONTIMEOUT') ?: 1500)
  ***************************************************************************** **/
 grails.plugin.springsecurity.homePageUrl=(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL') ?: 'http://URL:PORT/')
 
-
-/*******************************************************************************
- **
- *
- Theme Configuration
- *
- **
-*******************************************************************************/
+/**********************************************************************************
+***    Google Analytics                                                            *
+***********************************************************************************/
+banner.analytics.trackerId=(System.getenv('BANNER_ANALYTICS_TRACKERID') ?: "")
+banner.analytics.allowEllucianTracker=(System.getenv('BANNER_ANALYTICS_ALLOWELLUCIANTRACKER') ?: true)
+/*
+banner.analytics.trackerId="<institution's google analytics tracker ID - default blank>"
+banner.analytics.allowEllucianTracker=<true|false - default true>
+*/
+/**********************************************************************************
+***    Theming                                                          *
+***********************************************************************************/
 banner.theme.url=(System.getenv('BANNER_THEME_URL') ?: "http://ThemeServer:8080/BannerExtensibility/theme" )
 banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: "default" )
 banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: "all" )
+/*
 
-/*environments {
-            production {
-		banner.theme.url="https://ss-zdevl.banner.usu.edu/BannerExtensibility/theme" //required only if theme server is remote
-		banner.theme.name="zdevl" // Not required for MEP
-		banner.theme.template="all"
-		banner.theme.cacheTimeOut = 900 // seconds, required only if the app is theme server
-            }
-            development {
-banner.theme.url="http://BANNER9_HOST:PORT/<APPLICATION_NAME>/theme" //required only if theme server is remote
-banner.theme.name="<THEME_NAME>" // Not required for MEP
-banner.theme.template="<THEME_TEMPLATE_NAME>"
-banner.theme.cacheTimeOut = 120 // seconds, required only if the app is theme server
-} }*/
+banner.theme.url="http://<hostname>:<port>/<application_name>/theme"
+banner.theme.name="<theme_name>" (e.g. ellucian)
+banner.theme.template="<theme_template_name>"
+banner.theme.cacheTimeOut=<time_interval_in_seconds"> (e.g. 120)
+*/
