@@ -165,7 +165,7 @@ communication {
 //                       +++ LOGGER CONFIGURATION +++
 //
 // ******************************************************************************
-String loggingFileDir =  "target"
+String loggingFileDir =  (System.getenv('CATALINA_HOME') ?: 'target')
 
 String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
 
