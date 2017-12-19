@@ -85,7 +85,7 @@ log4j = {
 
     String loggingFileDir  = (System.getenv('CATALINA_HOME') ?: '/test/target')
     String logAppName      = "StudentSelfService"
-    String loggingFileName = "${loggingFileDir}/${logAppName}.log".toString()
+    String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
 
     appenders {
         rollingFile name:'appLog', file:loggingFileName, maxFileSize:"${10*1024*1024}", maxBackupIndex:10, layout:pattern( conversionPattern: '%d{[EEE, dd-MMM-yyyy @ HH:mm:ss.SSS]} [%t] %-5p %c %x - %m%n' )
@@ -259,7 +259,7 @@ grails.plugin.springsecurity.logout.mepErrorLogoutUrl='/logout/logoutPage'
  *           Home Page link when error happens during authentication.           *
  *                                                                              *
  ***************************************************************************** **/
-grails.plugin.springsecurity.homePageUrl="http://<host:port>/StudentSelfService"
+grails.plugin.springsecurity.homePageUrl=(System.getenv("GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL")?:"http://<host:port>/StudentSelfService")
 
 
 /** *****************************************************************************
