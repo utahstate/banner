@@ -1,6 +1,6 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" metadata-complete="true" version="2.5" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <display-name>
-    /StudentRegistrationSsb-production-9.8
+    /StudentRegistrationSsb-production-9.8.1
   </display-name>
   <mime-mapping>
     <extension>
@@ -31,7 +31,7 @@
       webAppRootKey
     </param-name>
     <param-value>
-      StudentRegistrationSsb-production-9.8
+      StudentRegistrationSsb-production-9.8.1
     </param-value>
   </context-param>
   <context-param>
@@ -237,7 +237,7 @@
       XFrameOptionsFilter
     </filter-name>
     <url-pattern>
-      /*
+      /login/auth
     </url-pattern>
   </filter-mapping>
   <filter-mapping>
