@@ -1,5 +1,9 @@
 # Bandock Banner 9 Self Service Base
 
+## Tags
+tomcat8-jre8-alpine
+tomcat8-oraclejava8-oraclelinux7
+
 ## Env Variables
 Environment variables are used to setup the base parameters for tomcat to connect to the database. They are set as environment variables so that the base image can be used in different Banner instances.  
 
