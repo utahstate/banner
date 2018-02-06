@@ -1,12 +1,11 @@
 # Bandock Banner 9 Self Service Base
 
-## How to use
-To use
-
-
-
 ## Env Variables
+Environment variables are used to setup the base parameters for tomcat to connect to the database. They are set as environment variables so that the base image can be used in different Banner instances.  
+
 ### Defaults
+If an environment variable is not specified at runtime then the defaults for that variable will be used.  At a minimum BANNERDB_JDBC, BANPROXY_PASSWORD, BANSSUSER_PASSWORD, CAS_URL and BANNER9_URL need to be set.  
+
 TIMEZONE -  default: America/New_York
 
 XMS - default: 2g
