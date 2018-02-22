@@ -33,6 +33,8 @@ COPY context.xml /usr/local/tomcat/conf/context.xml
 COPY server.xml /usr/local/tomcat/conf/server.xml
 COPY run.sh /usr/local/tomcat/bin
 
+RUN chown tomcat:tomcat /usr/local/tomcat/bin/run.sh && chmod +x /usr/local/tomcat/bin/run.sh
+
 EXPOSE 8080
 USER tomcat
-CMD ["run.sh"]
+CMD ["bin/run.sh"]
