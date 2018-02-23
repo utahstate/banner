@@ -64,16 +64,21 @@ setPropFromEnv() {
   fi
 }
 
-setPropFromEnv bannerdb.jdbc "$BANNERDB_JDBC"
-setPropFromEnv banproxy.username "$BANPROXY_USERNAME"
-setPropFromEnv banproxy.password "$BANPROXY_PASSWORD"
-setPropFromEnv banproxy.initialsize "$BANPROXY_INITALSIZE"
-setPropFromEnv banproxy.maxtotal "$BANPROXY_MAXTOTAL"
-setPropFromEnv banproxy.maxidle "$BANPROXY_MAXIDLE"
-setPropFromEnv banproxy.maxwait "$BANPROXY_MAXWAIT"
-setPropFromEnv banssuser.username "$BANSSUSER_USERNAME"
-setPropFromEnv banssuser.password "$BANSSUSER_PASSWORD"
-setPropFromEnv cas.url "$CAS_URL"
-setPropFromEnv banner9.baseurl "$BANNER9_URL"
-
+if [ -z $BYPASS_ENV]; then
+  setPropFromEnv bannerdb.jdbc "$BANNERDB_JDBC"
+  setPropFromEnv banproxy.username "$BANPROXY_USERNAME"
+  setPropFromEnv banproxy.password "$BANPROXY_PASSWORD"
+  setPropFromEnv banproxy.initialsize "$BANPROXY_INITALSIZE"
+  setPropFromEnv banproxy.maxtotal "$BANPROXY_MAXTOTAL"
+  setPropFromEnv banproxy.maxidle "$BANPROXY_MAXIDLE"
+  setPropFromEnv banproxy.maxwait "$BANPROXY_MAXWAIT"
+  setPropFromEnv banssuser.username "$BANSSUSER_USERNAME"
+  setPropFromEnv banssuser.password "$BANSSUSER_PASSWORD"
+  setPropFromEnv banssuser.initialsize "$BANSSUSER_INITALSIZE"
+  setPropFromEnv banssuser.maxtotal "$BANSSUSER_MAXTOTAL"
+  setPropFromEnv banssuser.maxidle "$BANSSUSER_MAXIDLE"
+  setPropFromEnv banssuser.maxwait "$BANSSUSER_MAXWAIT"
+  setPropFromEnv cas.url "$CAS_URL"
+  setPropFromEnv banner9.baseurl "$BANNER9_URL"
+fi
 exec catalina.sh run

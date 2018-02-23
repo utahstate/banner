@@ -1,6 +1,6 @@
 #!/bin/sh
 # shellcheck disable=SC2013,SC2046
-# Thanks to Virginia Tech for some of the setup in this file
+# Thanks to Virginia Tech and College of William and Mary for some of the setup in this file
 
 PROPFILE="/usr/local/tomcat/conf/catalina.properties"
 if [ ! -f "$PROPFILE" ]; then
@@ -12,13 +12,13 @@ setProperty() {
   prop=$1
   val=$2
 
-  if [ "$prop" = "cas.serverName" ]; then
+  if [ "$prop" = "cas.servername" ]; then
     for settings_file in /usr/local/tomcat/webapps/*/WEB-INF/web.xml; do
       xml ed  --inplace -N x="http://java.sun.com/xml/ns/javaee" -u "/x:web-app/x:filter[x:filter-name[normalize-space(text())='CAS Validation Filter']]/x:init-param[x:param-name[normalize-space(text())='serverName']]/x:param-value" -v "$val" "$settings_file"
     done
   fi
 
-  if [ "$prop" = "cas.casServerUrlPrefix" ]; then
+  if [ "$prop" = "banner9.servername" ]; then
     for settings_file in /usr/local/tomcat/webapps/*/WEB-INF/web.xml; do
       xml ed  --inplace -N x="http://java.sun.com/xml/ns/javaee" -u "/x:web-app/x:filter[x:filter-name[normalize-space(text())='CAS Validation Filter']]/x:init-param[x:param-name[normalize-space(text())='casServerUrlPrefix']]/x:param-value" -v "$val" "$settings_file"
     done
@@ -64,16 +64,21 @@ setPropFromEnv() {
   fi
 }
 
-setPropFromEnv bannerdb.jdbc "$BANNERDB_JDBC"
-setPropFromEnv banproxy.username "$BANPROXY_USERNAME"
-setPropFromEnv banproxy.password "$BANPROXY_PASSWORD"
-setPropFromEnv banproxy.initialsize "$BANPROXY_INITALSIZE"
-setPropFromEnv banproxy.maxtotal "$BANPROXY_MAXTOTAL"
-setPropFromEnv banproxy.maxidle "$BANPROXY_MAXIDLE"
-setPropFromEnv banproxy.maxwait "$BANPROXY_MAXWAIT"
-setPropFromEnv banssuser.username "$BANSSUSER_USERNAME"
-setPropFromEnv banssuser.password "$BANSSUSER_PASSWORD"
-setPropFromEnv cas.url "$CAS_URL"
-setPropFromEnv banner9.baseurl "$BANNER9_URL"
-
+if [ -z $BYPASS_ENV]; then
+  setPropFromEnv bannerdb.jdbc "$BANNERDB_JDBC"
+  setPropFromEnv banproxy.username "$BANPROXY_USERNAME"
+  setPropFromEnv banproxy.password "$BANPROXY_PASSWORD"
+  setPropFromEnv banproxy.initialsize "$BANPROXY_INITALSIZE"
+  setPropFromEnv banproxy.maxtotal "$BANPROXY_MAXTOTAL"
+  setPropFromEnv banproxy.maxidle "$BANPROXY_MAXIDLE"
+  setPropFromEnv banproxy.maxwait "$BANPROXY_MAXWAIT"
+  setPropFromEnv banssuser.username "$BANSSUSER_USERNAME"
+  setPropFromEnv banssuser.password "$BANSSUSER_PASSWORD"
+  setPropFromEnv banssuser.initialsize "$BANSSUSER_INITALSIZE"
+  setPropFromEnv banssuser.maxtotal "$BANSSUSER_MAXTOTAL"
+  setPropFromEnv banssuser.maxidle "$BANSSUSER_MAXIDLE"
+  setPropFromEnv banssuser.maxwait "$BANSSUSER_MAXWAIT"
+  setPropFromEnv cas.url "$CAS_URL"
+  setPropFromEnv banner9.baseurl "$BANNER9_URL"
+fi
 exec catalina.sh run

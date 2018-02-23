@@ -84,8 +84,18 @@ RUN curl -fSL https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch
   && yum install /tmp/epel-release-latest-7.noarch.rpm -y \
   && yum install xmlstarlet -y \
   && rm -rf /var/cache/yum
-ADD https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/ojdbc7/12.1.0.2/ojdbc7-12.1.0.2.jar /usr/local/tomcat/lib/
-ADD https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/xdb6/12.1.0.2/xdb6-12.1.0.2.jar /usr/local/tomcat/lib/
+ADD https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/ojdbc7/12.1.0.2/ojdbc7-12.1.0.2.jar /usr/local/tomcat/lib/ojdbc7.jar
+ADD https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/xdb6/12.1.0.2/xdb6-12.1.0.2.jar /usr/local/tomcat/lib/xdb6.jar
+
+RUN cd /usr/local/tomcat/lib/ \
+  && curl https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/ojdbc7/12.1.0.2/ojdbc7-12.1.0.2.jar.sha1 --output ojdbc7.jar.sha1 \
+  && echo -n " ojdbc7.jar" >> ojdbc7.jar.sha1 \
+  && sha1sum -c ojdbc7.jar.sha1 \
+  && curl https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/xdb6/12.1.0.2/xdb6-12.1.0.2.jar.sha1 --output xdb6.jar.sha1 \
+  && echo -n " xdb6.jar" >> xdb6.jar.sha1 \
+  && sha1sum -c xdb6.jar.sha1 \
+  && rm *.sha1 \
+  && chown tomcat:tomcat ojdbc7.jar xdb6.jar && chmod +r ojdbc7.jar xdb6.jar
 
 COPY context.xml /usr/local/tomcat/conf/context.xml
 COPY server.xml /usr/local/tomcat/conf/server.xml
