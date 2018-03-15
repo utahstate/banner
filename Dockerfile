@@ -1,4 +1,4 @@
-FROM harbor.usu.edu/banner/base-selfservice:jre8-alpine8
+FROM harbor.usu.edu/banner/base-selfservice:jre8-alpine
 MAINTAINER "Eric Allen <eric.allen@usu.edu>"
 
 ENV BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER = false
