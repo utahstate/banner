@@ -12,17 +12,21 @@ setProperty() {
   prop=$1
   val=$2
 
-  if [ "$prop" = "cas.servername" ]; then
-    for settings_file in /usr/local/tomcat/webapps/*/WEB-INF/web.xml; do
-      xml ed  --inplace -N x="http://java.sun.com/xml/ns/javaee" -u "/x:web-app/x:filter[x:filter-name[normalize-space(text())='CAS Validation Filter']]/x:init-param[x:param-name[normalize-space(text())='serverName']]/x:param-value" -v "$val" "$settings_file"
-    done
+  #Enable Theme for BannerAdmin
+  if ["$prop" = "theme.url"]; then
+    sed -i "98i <param name=\"APP_CSS_URL\" value=\"$val\" />\\n<param name=\"APP_CSS_APPEND\"=\"true\" />" /usr/local/tomcat/webapps/BannerAdmin/config.xml
   fi
 
-  if [ "$prop" = "banner9.servername" ]; then
-    for settings_file in /usr/local/tomcat/webapps/*/WEB-INF/web.xml; do
-      xml ed  --inplace -N x="http://java.sun.com/xml/ns/javaee" -u "/x:web-app/x:filter[x:filter-name[normalize-space(text())='CAS Validation Filter']]/x:init-param[x:param-name[normalize-space(text())='casServerUrlPrefix']]/x:param-value" -v "$val" "$settings_file"
-    done
-  fi
+  #Set CAS server for BannerAdmin.ws
+  if ["$prop" = "cas.url"]; then
+    sed "s/^cas\.server\.location.*/cas\.server\.location = $val/g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+  fi 
+
+  #Set Banner9.baseurl for BannerAdmin.ws
+  if ["$prop" = "banner9.baseurl"]; then
+    sed "s/^webapp\.location.*/webapp\.location = $val\/\${webapp.context}/g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+  fi 
+
 
   if [ $(grep -c "$prop" "$PROPFILE") -eq 0 ]; then
     echo "${prop}=$val" >> "$PROPFILE"
@@ -64,7 +68,7 @@ setPropFromEnv() {
   fi
 }
 
-if [ -z $BYPASS_ENV]; then
+if [ -z $CONFIG_FILE]; then
   setPropFromEnv bannerdb.jdbc "$BANNERDB_JDBC"
   setPropFromEnv banproxy.username "$BANPROXY_USERNAME"
   setPropFromEnv banproxy.password "$BANPROXY_PASSWORD"
@@ -74,5 +78,6 @@ if [ -z $BYPASS_ENV]; then
   setPropFromEnv banproxy.maxwait "$BANPROXY_MAXWAIT"
   setPropFromEnv cas.url "$CAS_URL"
   setPropFromEnv banner9.baseurl "$BANNER9_URL"
+  setPropFromEnv theme.url "$THEME_URL"
 fi
 exec catalina.sh run

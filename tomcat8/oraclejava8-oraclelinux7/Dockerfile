@@ -72,7 +72,8 @@ ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod
   BANPROXY_MAXIDLE=-1 \
   BANPROXY_MAXWAIT=30000
 
-ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -Duser.timezone=\$TIMEZONE"
+ENV JAVA_OPTS -Duser.timezone=\$TIMEZONE -XX:+UseParallelGC\
+    -Dlog4j.configuration=config.properties -Xms\$XMS -Xmx\$XMX
 
 RUN curl -fSL https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -o /tmp/epel-release-latest-7.noarch.rpm \
   && yum install /tmp/epel-release-latest-7.noarch.rpm -y \
@@ -95,7 +96,7 @@ COPY context.xml /usr/local/tomcat/conf/context.xml
 COPY server.xml /usr/local/tomcat/conf/server.xml
 COPY run.sh /usr/local/tomcat/bin
 
-RUN chown tomcat:tomcat /usr/local/tomcat/bin/run.sh && chmod +x /usr/local/tomcat/bin/run.sh
+RUN chown -R tomcat:tomcat /usr/local/tomcat && chmod +x /usr/local/tomcat/bin/run.sh
 EXPOSE 8080
 USER tomcat
 CMD ["bin/run.sh"]
