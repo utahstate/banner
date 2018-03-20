@@ -101,7 +101,9 @@ COPY context.xml /usr/local/tomcat/conf/context.xml
 COPY server.xml /usr/local/tomcat/conf/server.xml
 COPY run.sh /usr/local/tomcat/bin
 
-RUN chown tomcat:tomcat /usr/local/tomcat/bin/run.sh && chmod +x /usr/local/tomcat/bin/run.sh && chown -R tomcat:tomcat $CATALINA_HOME
+RUN mkdir -p /opt/banner/config && mkdir -p /opt/banner/images && chown -R tomcat:tomcat /opt/banner
+
+RUN chown -R tomcat:tomcat $CATALINA_HOME && chmod +x /usr/local/tomcat/bin/run.sh
 EXPOSE 8080
 USER tomcat
 CMD ["bin/run.sh"]
