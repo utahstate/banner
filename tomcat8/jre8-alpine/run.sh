@@ -13,17 +13,17 @@ setProperty() {
   val=$2
 
   #Enable Theme for BannerAdmin
-  if ["$prop" = "theme.url"]; then
+  if [ "$prop" = "theme.url" ]; then
     sed -i "98i <param name=\"APP_CSS_URL\" value=\"$val\" />\\n<param name=\"APP_CSS_APPEND\"=\"true\" />" /usr/local/tomcat/webapps/BannerAdmin/config.xml
   fi
 
   #Set CAS server for BannerAdmin.ws
-  if ["$prop" = "cas.url"]; then
+  if [ "$prop" = "cas.url" ]; then
     sed "s/^cas\.server\.location.*/cas\.server\.location = $val/g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
   fi 
 
   #Set Banner9.baseurl for BannerAdmin.ws
-  if ["$prop" = "banner9.baseurl"]; then
+  if [ "$prop" = "banner9.baseurl" ]; then
     sed "s/^webapp\.location.*/webapp\.location = $val\/\${webapp.context}/g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
   fi 
 
