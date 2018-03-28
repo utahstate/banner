@@ -1,7 +1,6 @@
 # Bandock Banner 9 Admin Base
 Banner 9 Admin Base is a base image to build the Banner Admin application on. Variables can be added from ENV variables, config file or docker secrets.
 
-
 ## Tags
 
 https://hub.docker.com/r/edurepo/banner9-selfservice/
