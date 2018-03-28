@@ -3,7 +3,7 @@ Banner 9 Admin Base is a base image to build the Banner Admin application on. Va
 
 ## Tags
 
-https://hub.docker.com/r/edurepo/banner9-selfservice/
+https://hub.docker.com/r/edurepo/banner9-admin/
 
 Tomcat8
 
@@ -31,19 +31,19 @@ COPY bannerHelp /usr/local/tomcat/webapps/bannerHelp
 #### Build
 
 ```Shell
-docker build -t registry.myshool.edu/banner/banneradmin:9.3.10.0.3
+docker build -t registry.myschool.edu/banner/banneradmin:9.3.10.0.3
 ```
 
 #### Run with environment variables
 
 ```Shell
-docker run -e "BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod" -e "BANPROXY_PASSWORD=password" -e "CAS_URL=https://cas.local.com/cas" -e "BANNER9_URL=https://banner9.school.edu" -e "THEME_URL=https://banner9.school.edu/BannerExtensibility/theme/getTheme?name=dev&amp;template=admin" -e "TIMEZONE=America/Denver" -p 8080:8080 registry.myshool.edu/banner/banneradmin:9.3.10.0.3
+docker run -e "BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod" -e "BANPROXY_PASSWORD=password" -e "CAS_URL=https://cas.local.com/cas" -e "BANNER9_URL=https://banner9.school.edu" -e "THEME_URL=https://banner9.school.edu/BannerExtensibility/theme/getTheme?name=dev&amp;template=admin" -e "TIMEZONE=America/Denver" -p 8080:8080 registry.myschool.edu/banner/banneradmin:9.3.10.0.3
 ```
 
 #### Run with config file
 
 ```Shell
-docker run -e "CONFIG_FILE=/opt/config/banner.properties" -e "TIMEZONE=America/Denver" -p 8080:8080 registry.myshool.edu/banner/banneradmin:9.3.10.0.3
+docker run -e "CONFIG_FILE=/opt/config/banner.properties" -e "TIMEZONE=America/Denver" -p 8080:8080 registry.myschool.edu/banner/banneradmin:9.3.10.0.3
 ```
 
 ## Properties from Environment Variables
