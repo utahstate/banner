@@ -19,12 +19,12 @@ setProperty() {
 
   #Set CAS server for BannerAdmin.ws
   if [ "$prop" = "cas.url" ]; then
-    sed "s/^cas\.server\.location.*/cas\.server\.location = $val/g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+    sed "s|^cas\.server\.location.*|cas\.server\.location = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
   fi 
 
   #Set Banner9.baseurl for BannerAdmin.ws
   if [ "$prop" = "banner9.baseurl" ]; then
-    sed "s/^webapp\.location.*/webapp\.location = $val\/\${webapp.context}/g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+    sed "s|^webapp\.location.*|webapp\.location = $val\/\${webapp.context}|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
   fi 
 
 
@@ -68,7 +68,7 @@ setPropFromEnv() {
   fi
 }
 
-if [ -z $CONFIG_FILE]; then
+if [ -z $CONFIG_FILER ]; then
   setPropFromEnv bannerdb.jdbc "$BANNERDB_JDBC"
   setPropFromEnv banproxy.username "$BANPROXY_USERNAME"
   setPropFromEnv banproxy.password "$BANPROXY_PASSWORD"
