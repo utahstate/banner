@@ -1,6 +1,9 @@
 # Bandock Banner 9 Self Service Base
+Banner 9 Self Service Base is a base image to build the Banner 9 self service application on.  Variables can be added from ENV, config file or docker secrets. 
 
 ## Tags
+
+https://hub.docker.com/r/edurepo/banner9-selfservice/
 
 - tomcat8-jre8-alpine
 - tomcat8-oraclejava8-oraclelinux7
@@ -14,6 +17,9 @@ Properties can be loaded from multiple sources: environment variables, docker se
 ## Examples
 
 There are example of banner 9 self service apps with environment variables, external config files, and internal config files using environment variables in the folder examples.
+
+- StudentRegistrationSSB - external config
+- StudentRegistrationSSB - config files using internal variables
 
 ### Properties from Environment Variables
 
