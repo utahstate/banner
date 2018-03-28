@@ -68,7 +68,7 @@ setPropFromEnv() {
   fi
 }
 
-if [ -z $CONFIG_FILER ]; then
+if [ -z $CONFIG_FILE ]; then
   setPropFromEnv bannerdb.jdbc "$BANNERDB_JDBC"
   setPropFromEnv banproxy.username "$BANPROXY_USERNAME"
   setPropFromEnv banproxy.password "$BANPROXY_PASSWORD"
