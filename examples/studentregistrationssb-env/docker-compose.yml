@@ -1,0 +1,33 @@
+version: "3"
+services:
+
+  studentregistrationssb:
+    build: .
+    image: banner/studentregistrationssb:9.8.1
+    environment:
+      TIMEZONE: America/Denver
+      BANNERDB_JDBC: jdbc:oracle:thin:@//oracle.example.edu:1521/prod
+      BANPROXY_PASSWORD: password1234
+      BANSSUSER_PASSWORD: password4321
+      CAS_URL: https://cas.local.com/cas
+      BANNER9_URL: https://banner9.school.edu
+      ONLINEHELP_URL: http://banner9.school.edu/banner9OH
+      BANNER_PICTUREPATH: /opt/banner/images
+      BANNER8_SS_URL: https://banner8.school.edu/prod/
+      SSBORACLEUSERSPROXIED: false
+      BANNER8_SS_STUDENTACCOUNTURL: https://banner8.school.edu/prod/twbkwbis.P_GenMenu?name=bmenu.P_ARMnu
+      BANNER_SSO_AUTHENTICATIONPROVIDER: default
+      BANNER_SSO_AUTHENTICATIONASSERTIONATTRIBUTE: UDC_IDENTIFIER
+      GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE: false
+      GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVICEURL: http://BANNER9_HOST:PORT/APP_NAME/j_spring_cas_security_check
+      GRAILS_PLUGIN_SPRINGSECURITY_CAS_PROXYCALLBACKURL: http://BANNER9_HOST:PORT/APP_NAME/secure/receptor
+      GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT: true
+      GRAILS_PLUGIN_SPRINGSECURITY_LOGOUT_AFTERLOGOUTURL: https://cas-server/logout?url=http://myportal/main_page.html
+      BANNER_THEME_URL: http://ThemeServer:8080/pathTo/ssb/theme
+      BANNER_THEME_NAME: default
+      BANNER_THEME_TEMPLATE: all
+    ports:
+      - ":8080"
+    volumes:
+      - /opt/banner/images:/opt/banner/images
+    
