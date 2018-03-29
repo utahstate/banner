@@ -12,13 +12,13 @@ setProperty() {
   prop=$1
   val=$2
 
-  if [ "$prop" = "cas.url" ]; then
+  if [ "$prop" = "banner9.baseurl" ]; then
     for settings_file in /usr/local/tomcat/webapps/*/WEB-INF/web.xml; do
       xml ed  --inplace -N x="http://java.sun.com/xml/ns/javaee" -u "/x:web-app/x:filter[x:filter-name[normalize-space(text())='CAS Validation Filter']]/x:init-param[x:param-name[normalize-space(text())='serverName']]/x:param-value" -v "$val" "$settings_file"
     done
   fi
 
-  if [ "$prop" = "banner9.baseurl" ]; then
+  if [ "$prop" = "cas.url" ]; then
     for settings_file in /usr/local/tomcat/webapps/*/WEB-INF/web.xml; do
       xml ed  --inplace -N x="http://java.sun.com/xml/ns/javaee" -u "/x:web-app/x:filter[x:filter-name[normalize-space(text())='CAS Validation Filter']]/x:init-param[x:param-name[normalize-space(text())='casServerUrlPrefix']]/x:param-value" -v "$val" "$settings_file"
     done
