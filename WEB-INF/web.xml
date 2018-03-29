@@ -1,6 +1,6 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" metadata-complete="true" version="2.5" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <display-name>
-    /applicationNavigator-production-2.1
+    /applicationNavigator-production-3.0
   </display-name>
   <mime-mapping>
     <extension>
@@ -31,7 +31,7 @@
       webAppRootKey
     </param-name>
     <param-value>
-      applicationNavigator-production-2.1
+      applicationNavigator-production-3.0
     </param-value>
   </context-param>
   <context-param>
@@ -86,7 +86,7 @@
         casServerUrlPrefix
       </param-name>
       <param-value>
-        ${cas.serverurlprefix}
+        https://CAS_HOST:PORT/cas
       </param-value>
     </init-param>
     <init-param>
@@ -94,7 +94,7 @@
         serverName
       </param-name>
       <param-value>
-        ${server.name}
+        http://APPLICATION_NAVIGATOR_HOST:PORT
       </param-value>
     </init-param>
     <init-param>
