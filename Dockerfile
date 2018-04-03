@@ -7,6 +7,4 @@ COPY BannerAdmin /usr/local/tomcat/webapps/BannerAdmin
 COPY BannerAdmin.ws /usr/local/tomcat/webapps/BannerAdmin.ws
 COPY bannerHelp /usr/local/tomcat/webapps/bannerHelp
 
-#COPY BannerAdmin.war /usr/local/tomcat/webapps/BannerAdmin.war
-#COPY BannerAdmin.ws.war /usr/local/tomcat/webapps/BannerAdmin.ws.war
-#COPY bannerHelp.war /usr/local/tomcat/webapps/bannerHelp.war
+RUN chown -R tomcat:tomcat /usr/local/tomcat/webapps
