@@ -24,8 +24,11 @@ node {
           s3Download(file:'bannerHelp.war', bucket:'usu-banner-builds', path:"banner/input/banneradmin/${env.BRANCH_NAME}/bannerHelp.war", force:true)
         }
       }
-      sh "cd BannerAdmin; ${javaHome}/bin/jar uvf ../BannerAdmin.war config.xml; cd .."
-      sh "cd BannerAdmin.ws; ${javaHome}/bin/jar uvf ../BannerAdmin.ws.war WEB-INF; cd .."
+      //sh "cd BannerAdmin; ${javaHome}/bin/jar uvf ../BannerAdmin.war config.xml; cd .."
+      //sh "cd BannerAdmin.ws; ${javaHome}/bin/jar uvf ../BannerAdmin.ws.war WEB-INF; cd .."
+      sh "mkdir BannerAdmin; cd BannerAdmin; jar xvf ../BannerAdmin.war; cd .."
+      sh "mkdir BannerAdmin.ws; cd BannerAdmin.ws; jar xvf ../BannerAdmin.ws.war; cd .."
+      sh "mkdir bannerHelp; cd bannerHelp; jar xvf ../bannerHelp.war; cd .."
     }
 
 
