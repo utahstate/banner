@@ -21,11 +21,11 @@ Uncompress the three banner admin wars into the same directory as the Dockerfile
 #### DockerFile
 
 ```Dockerfile
-FROM edorepo/banner9-admin:tomcat8-jre8-alpine 
+FROM edurepo/banner9-admin:tomcat8-jre8-alpine 
 
-COPY BannerAdmin /usr/local/tomcat/webapps/BannerAdmin
-COPY BannerAdmin.ws /usr/local/tomcat/webapps/BannerAdmin.ws
-COPY bannerHelp /usr/local/tomcat/webapps/bannerHelp
+COPY --chown=tomcat:tomcat BannerAdmin /usr/local/tomcat/webapps/BannerAdmin
+COPY --chown=tomcat:tomcat BannerAdmin.ws /usr/local/tomcat/webapps/BannerAdmin.ws
+COPY --chown=tomcat:tomcat bannerHelp /usr/local/tomcat/webapps/bannerHelp
 ```
 
 #### Build
