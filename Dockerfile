@@ -3,8 +3,7 @@ MAINTAINER "Eric Allen <eric.allen@usu.edu>"
 
 ENV TIMEZONE=America/Denver
 
-COPY BannerAdmin /usr/local/tomcat/webapps/BannerAdmin
-COPY BannerAdmin.ws /usr/local/tomcat/webapps/BannerAdmin.ws
-COPY bannerHelp /usr/local/tomcat/webapps/bannerHelp
+COPY --chown=tomcat:tomcat BannerAdmin /usr/local/tomcat/webapps/BannerAdmin
+COPY --chown=tomcat:tomcat BannerAdmin.ws /usr/local/tomcat/webapps/BannerAdmin.ws
+COPY --chown=tomcat:tomcat bannerHelp /usr/local/tomcat/webapps/bannerHelp
 
-RUN chown -R tomcat:tomcat /usr/local/tomcat/webapps
