@@ -79,14 +79,14 @@ THEME_URL - example: https://banner9.school.edu/BannerExtensibility/theme/getThe
 When loading from a config file, defaults are ignored and all parameters will need to be set in the file.
 
 ```Shell
-bannerdb.jdbc = jdbc:oracle:thin:@//oracle.example.edu:1521/prod
-banproxy.username = banproxy
-banproxy.password = password
-banproxy.initialsize = 25
-banproxy.maxtotal = 400
-banproxy.maxidle = -1
-banproxy.maxwait = 30000
-cas.url = https://cas.local.com/cas
-banner9.baseurl = https://banner9.school.edu
-theme.url = https://banner9.school.edu/BannerExtensibility/theme/getTheme?name=dev&template=admin
+bannerdb.jdbc=jdbc:oracle:thin:@//oracle.example.edu:1521/prod
+banproxy.username=banproxy
+banproxy.password=password
+banproxy.initialsize=25
+banproxy.maxtotal=400
+banproxy.maxidle=-1
+banproxy.maxwait=30000
+cas.url=https://cas.local.com/cas
+banner9.baseurl=https://banner9.school.edu
+theme.url=https://banner9.school.edu/BannerExtensibility/theme/getTheme?name=dev&template=admin
 ```
