@@ -42,4 +42,9 @@ node {
         }
       }
     }
+
+
+  stage 'Cleanup'
+    deleteDir()
+
 }
