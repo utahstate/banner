@@ -19,13 +19,13 @@ setProperty() {
 
   #Set CAS server for BannerAdmin.ws
   if [ "$prop" = "cas.url" ]; then
-    sed "s|^cas\.server\.location.*|cas\.server\.location = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+    sed -i "s|^cas\.server\.location.*|cas\.server\.location = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
   fi 
 
   #Set Banner9.baseurl for BannerAdmin.ws
   if [ "$prop" = "banner9.baseurl" ]; then
-    sed "s|^webapp\.location.*|webapp\.location = $val\/\${webapp.context}|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
-    sed "s/<param name=\"APPNAV_HELP_URL\".*/<param name=\"APPNAV_HELP_URL\" value=\"$val\/bannerHelp\/Main?page=\" \/>/g" /usr/local/tomcat/webapps/BannerAdmin/config.xml
+    sed -i "s|^webapp\.location.*|webapp\.location = $val\/\${webapp.context}|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+    sed -i "s|<param name=\"APPNAV_HELP_URL\".*|<param name=\"APPNAV_HELP_URL\" value=\"$val\/bannerHelp\/Main?page=\" \/>|g" /usr/local/tomcat/webapps/BannerAdmin/config.xml
   fi 
 
 
