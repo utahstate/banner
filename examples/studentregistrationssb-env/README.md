@@ -41,7 +41,6 @@ BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER=true
 
 ## Run with Docker Compose
 
-
-```
+```Shell
 docker-compose up -d
 ```

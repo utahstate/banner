@@ -1,4 +1,5 @@
 # Bandock Banner 9 Self Service Base
+
 Banner 9 Self Service Base is a base image to build the Banner 9 self service application on.  Variables can be added from ENV, config file or docker secrets. 
 
 ## Tags
@@ -20,6 +21,7 @@ There are example of banner 9 self service apps with environment variables, exte
 
 - StudentRegistrationSSB - external config
 - StudentRegistrationSSB - config files using internal variables
+- ApplicationNavigator - config files using env variables
 
 ### Properties from Environment Variables
 
