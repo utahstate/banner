@@ -5,7 +5,7 @@ services:
     build: .
     image: banner/applicationnavigator:3.0
     environment:
-      BANNERDB_JDBC: dbc:oracle:thin:@//oracle.example.edu:1521/prod
+      BANNERDB_JDBC: jdbc:oracle:thin:@//oracle.example.edu:1521/prod
       BANPROXY_USERNAME: banproxy
       BANPROXY_PASSWORD: password
       BANPROXY_INITALSIZE: 25
@@ -23,7 +23,7 @@ services:
       SSBENABLED: false
       SSBORACLEUSERSPROXIED: false
       BANNER9_AFTERLOGOUTURL: https://banner9.school.edu/applicationNavigator/logout/customLogout
-      BANNER9_HOMEPAGE: https://banner9.school.edu/applicationNavigator
+      BANNER9_HOMEPAGEURL: https://banner9.school.edu/applicationNavigator
       SEAMLESS_BRANDTITLE: Example School
       BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER: false
       BANNER8_SS_URL: https://banner9.school.edu/ssomanager/c/SSB?pkg=
