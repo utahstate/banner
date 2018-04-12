@@ -334,7 +334,7 @@ seamless.exposeMenu=true
 // Configure the brand title with a default institution value or based on the MEP institution code configured in the Banner database
 // To add values by MEP code, append the name:value pair to the existing seamless.brandTitle property. Example
 // Example: seamless.brandTitle=["Default": "Ellucian University","<MEP_CODE>":"<MEP_BRAND_TITLE>", "<MEP_CODE>":"<MEP_BRAND_TITLE>"]
-seamless.brandTitle=["Default": (System.getenv('SEAMLESS_BRANDTITLE') ?: "Ellucian University" )]
+seamless.brandTitle=(System.getenv('SEAMLESS_BRANDTITLE') ?: "Ellucian University" )
 
 seamless.sessionTimeout = (System.getenv('SEAMLESS_SESSIONTIMEOUT') ? Integer.parseInt(System.getenv('SEAMLESS_SESSIONTIMEOUT')) :30 )           // Session timeout in minutes. A value of -1 indicates session does not timeout
 seamless.sessionTimeoutNotification = (System.getenv('SEAMLESS_SESSIONTIMEOUTNOTIFICATION') ? Integer.parseInt(System.getenv('SEAMLESS_SESSIONTIMEOUTNOTIFICATION')) : 5 )  // Notification prompt x minutes before sessionTimeout
