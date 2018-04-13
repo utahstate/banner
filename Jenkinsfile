@@ -2,7 +2,7 @@ properties([gitLabConnection('gitlab.usu.edu')])
 
 node {
   def javaHome = tool 'OracleJDK8'
-  def baseImage = docker.image('harbor.usu.edu/banner/base-bannerselfservice:oraclelinux6-tomcat8-java8')
+  def baseImage = docker.image('edurepo/banner9-selfservice:tomcat8-jre8-alpine')
 
   stage 'Checkout'
     checkout scm
@@ -22,7 +22,11 @@ node {
           s3Download(file:'StudentRegistrationSsb.war', bucket:'usu-banner-builds', path:"banner/input/studentregistrationssb/${env.BRANCH_NAME}/StudentRegistrationSsb.war", force:true)
         }
       }
-      sh "${javaHome}/bin/jar uvf StudentRegistrationSsb.war WEB-INF"
+      sh "mkdir StudentRegistrationSsb"
+      sh "cd StudentRegistrationSsb"
+      sh "${javaHome}/bin/jar xvf ../StudentRegistrationSsb.war"
+      sh "cd .."
+      sh "cp WEB-INF/classes/* StudentRegistrationSsb/WEB-INF/classes"
     }
 
 

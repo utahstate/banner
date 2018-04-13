@@ -1,8 +1,8 @@
 /** *****************************************************************************
- Copyright 2011-2017 Ellucian Company L.P. and its affiliates.
+ Copyright 2011-2018 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
 
- /** ****************************************************************************
+/** ****************************************************************************
  *                                                                              *
  *          Self-Service Banner 9 Registration Configuration                    *
  *                                                                              *
@@ -13,26 +13,26 @@ banner.applicationName='StudentRegistrationSsb'
 
 /** ****************************************************************************
 
-This file contains configuration needed by the Self-Service Banner 9 Registration
-web application. Please refer to the administration guide for
-additional information regarding the configuration items contained within this file.
+ This file contains configuration needed by the Self-Service Banner 9 Registration
+ web application. Please refer to the administration guide for
+ additional information regarding the configuration items contained within this file.
 
-This configuration file contains the following sections:
+ This configuration file contains the following sections:
 
-    * Self Service Support
+ * Self Service Support
 
-    * Logging Configuration (Note: Changes here require restart -- use JMX to avoid the need restart)
+ * Logging Configuration (Note: Changes here require restart -- use JMX to avoid the need restart)
 
-    * CAS SSO Configuration (supporting administrative and self service users)
+ * CAS SSO Configuration (supporting administrative and self service users)
 
-    * Bookstore Link configuration for Higher Education Opportunity Act (HEOA)
+ * Bookstore Link configuration for Higher Education Opportunity Act (HEOA)
 
-    * Update Student Term Data
+ * Update Student Term Data
 
-     NOTE: DataSource and JNDI configuration resides in the cross-module
-           'banner_configuration.groovy' file.
+ NOTE: DataSource and JNDI configuration resides in the cross-module
+ 'banner_configuration.groovy' file.
 
-***************************************************************************** **/
+ ***************************************************************************** **/
 
 /** ****************************************************************************
  *                                                                             *
@@ -68,7 +68,7 @@ jmx {
 // The logging levels that may be configured are, in order: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
 //
 log4j = {
-    def String loggingFileDir  =  (System.getenv('CATALINA_HOME') ?: "target")
+    def String loggingFileDir  =  "/usr/local/tomcat/logs"
     def String logAppName      = "StudentRegistrationSsb"
     def String loggingFileName = "${loggingFileDir}/${logAppName}.log".toString()
     appenders {
@@ -154,7 +154,7 @@ log4j = {
     off 'org.apache.http.headers'
     off 'org.apache.http.wire'
 
-    // Grails provides a convenience for enabling logging within artefacts, using 'grails.app.XXX'.
+    // Grails provides a convenience for enabling logging within artifacts, using 'grails.app.XXX'.
     // Unfortunately, this configuration is not effective when 'mixing in' methods that perform logging.
     // Therefore, for controllers and services it is recommended that you enable logging using the controller
     // or service class name (see above 'class name' based configurations).  For example:
@@ -176,8 +176,8 @@ log4j = {
  *                         Self Service Support                                 *
  *                                                                              *
  ***************************************************************************** **/
- ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
- ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
+ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
+ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
 
 
 /** *****************************************************************************
@@ -209,8 +209,8 @@ banner8.SS.studentAccountUrl = (System.getenv('BANNER8_SS_STUDENTACCOUNTURL') ?:
 //
 banner {
     sso {
-		authenticationProvider = (System.getenv('BANNER_SSO_AUTHENTICATIONPROVIDER') ?: 'default')
-        authenticationAssertionAttribute = (System.getenv('BANNER_SSO_AUTHENTICATIONASSERTIONATTRIBUTE')?:'UDC_IDENTIFIER')
+        authenticationProvider = 'cas' //  Valid values are: 'default', 'cas', 'saml'
+        authenticationAssertionAttribute = 'UDC_IDENTIFIER'
         if(authenticationProvider != 'default') {
             grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
         }
@@ -227,15 +227,15 @@ grails {
     plugin {
         springsecurity {
             cas {
-                active = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE') ? Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE')) : false )
-                serverUrlPrefix  = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERURLPREFIX') ?: 'http://CAS_HOST:PORT/cas')
-                serviceUrl       = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVICEURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/j_spring_cas_security_check')
-                serverName       = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERNAME') ?: 'http://BANNER9_HOST:PORT')
-                proxyCallbackUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_PROXYCALLBACKURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/secure/receptor')
+                active = true
+                serverUrlPrefix  = (System.getenv('CAS_URL') ?: 'http://CAS_HOST:PORT/cas')
+                serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/StudentRegistrationSsb/j_spring_cas_security_check"
+                serverName       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT')
+                proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/StudentRegistrationSsb/secure/receptor"
                 loginUri         = '/login'
                 sendRenew        = false
                 proxyReceptorUrl = '/secure/receptor'
-                useSingleSignout = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT') ? Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT')) :true)
+                useSingleSignout = true
                 key = 'grails-spring-security-cas'
                 artifactParameter = 'SAMLart'
                 serviceParameter = 'TARGET'
@@ -246,7 +246,7 @@ grails {
                 }
             }
             logout {
-                afterLogoutUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_LOGOUT_AFTERLOGOUTURL') ?: 'https://cas-server/logout?url=http://myportal/main_page.html')
+                afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?:  'https://cas-server/logout?url=http://myportal/main_page.html' )
             }
         }
     }
@@ -343,11 +343,11 @@ bookstore = [
 //This email address must also be a valid email address within your DNS/email server, preferably an email account that is not actively monitored.
 //
 grails {
-   mail {
-     host = (System.getenv('GRAILS_MAIL_HOST') ?: 'mailhost.sct.com')
-   }
+    mail {
+        host = (System.getenv('GRAILS_MAIL_HOST') ?: 'mailhost.sct.com')
+    }
 }
-grails.mail.default.from= (System.getenv('GRAILS_MAIL_DEFAULT_FROM') ?: 'firstname.lastname@ellucian.com')
+grails.mail.default.from=(System.getenv('GRAILS_MAIL_DEFAULT_FROM') ?: 'firstname.lastname@ellucian.com')
 allowPrint = (System.getenv('ALLOWPRINT') ? Boolean.parseBoolean(System.getenv('ALLOWPRINT')): true )
 ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED')): true )       //true - allow Pidm users to reset their password.      false - throws functionality disabled error message
 
@@ -364,6 +364,18 @@ ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolea
 //
 updateStudentTermData = (System.getenv('UPDATESTUDENTTERMDATA') ?: 'N')
 
+/** *****************************************************************************
+ *                                                                              *
+ *             Registration 9.9 support for Action Item Processing.             *
+ *                                                                              *
+ ***************************************************************************** **/
+//
+// GENERALLOCATION is the path to the deployed General Self Service application.
+// BANNER_AIP_EXCLUDE_LIST is the list of psuedo controller names that will be
+// exempt from the logic in the AIP filters that control the navigation for halted processes.
+//
+GENERALLOCATION=(System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + '/BannerGeneralSsb'
+BANNER_AIP_EXCLUDE_LIST='about|cssManager|cssRender|error|excelExportBase|dateConverter|keepAlive|login|logout|resetPassword|securityQa|selfServiceMenu|survey|test|theme|getTheme|themeEditor|userAgreement|userPreference'
 
 /** *****************************************************************************
  *                                                                              *
@@ -416,7 +428,7 @@ grails.plugin.xframeoptions.deny = true
  banner.theme.url=(System.getenv('BANNER_THEME_URL') ?: "http://ThemeServer:8080/pathTo/ssb/theme" )
  banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: "default" )
  banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: "all" )
- banner.theme.cacheTimeOut=120 //Replace time_interval_in_seconds with a number like 120
+banner.theme.cacheTimeOut=120 //Replace time_interval_in_seconds with a number like 120
 
 /** *****************************************************************************
  *                                                                              *
@@ -429,8 +441,61 @@ grails.plugin.xframeoptions.deny = true
 /** *****************************************************************************
  *                                                                              *
  *                      ConfigJob (Platform 9.23)                               *
+ *     Support for configurations to reside in the database.                    *
  *                                                                              *
  ***************************************************************************** **/
- configJob.delay = 60000
- configJob.interval = 120000
- configJob.actualCount = -1
+configJob.delay = 60000
+configJob.interval = 120000
+configJob.actualCount = -1
+
+/************************************************************
+ Extensibility extensions & i18n file location
+ ************************************************************/
+/*
+webAppExtensibility {
+    locations {
+                extensions = "path to the directory location where extensions JSON files will be written to and read from"
+                resources = "path to the directory location where i18n files will be written to and read from"
+    }
+    adminRoles = "ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"
+}
+*/
+
+/** *****************************************************************************
+ *                                                                              *
+ *                           MEP Redirect                                       *
+ *             (Applicable for MEP environments only)                           *
+ *                                                                              *
+ ***************************************************************************** **/
+//grails.plugin.springsecurity.logout.mepErrorLogoutUrl='http://myportal/main_page.html'
+
+/** *****************************************************************************
+ *                                                                              *
+ *                    Seeddata Keys For Configuration                           *
+ *                                                                              *
+ ***************************************************************************** **/
+// Uncomment - and set values to be written to GUROCFG.
+// example :
+// ssconfig.app.seeddata.keys = [['<Key1>': <Boolean value>],
+//                              ['<Key2>'],
+//                              ['<Key3>': '<String Value>'],
+//                              ['<Key4>']]
+//
+//
+/*
+  ssconfig.app.seeddata.keys = [
+     ['banner.picturesPath':'Path to the directory where images will be stored'],
+     ['banner8.SS.url'],
+     ['banner8.SS.studentAccountUrl'],
+     ['grails.mail.host'],
+     ['grails.mail.default.from'],
+     ['banner.analytics.trackerId'],
+     ['banner.analytics.allowEllucianTracker'],
+     ['banner.theme.url'],
+     ['banner.theme.name'],
+     ['banner.theme.template'],
+     ['banner.theme.cacheTimeOut'],
+     ['allowPrint'],
+     ['updateStudentTermData']
+  ]
+*/
