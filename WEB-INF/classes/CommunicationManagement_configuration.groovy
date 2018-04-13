@@ -1,7 +1,7 @@
 /*********************************************************************************
- Copyright 2015-2017 Ellucian Company L.P. and its affiliates.
+ Copyright 2015-2018 Ellucian Company L.P. and its affiliates.
  *********************************************************************************/
-
+ 
  /** ****************************************************************************
  *                                                                              *
  *          Self-Service Banner Communication Management Configuration          *
@@ -11,20 +11,20 @@
 /** ****************************************************************************
 
 This file contains configuration needed by the Self-Service Banner Communication Management
-web application. Please refer to the administration guide for
-additional information regarding the configuration items contained within this file.
+web application. Please refer to the administration guide for 
+additional information regarding the configuration items contained within this file. 
 
-This configuration file contains the following sections:
-
+This configuration file contains the following sections: 
+    
     * Self Service Support
-
-    * Logging Configuration (Note: Changes here require restart -- use JMX to avoid the need restart)
-
+    
+    * Logging Configuration (Note: Changes here require restart -- use JMX to avoid the need restart) 
+         
     * CAS SSO Configuration (supporting administrative and self service users)
-
-     NOTE: DataSource and JNDI configuration resides in the cross-module
-           'banner_configuration.groovy' file.
-
+    
+     NOTE: DataSource and JNDI configuration resides in the cross-module 
+           'banner_configuration.groovy' file. 
+    
 ***************************************************************************** **/
 
 logAppName = "CommunicationManagement"
@@ -51,9 +51,9 @@ jmx {
 // ******************************************************************************
 
 
-ssbEnabled = (System.getenv("SSBENABLED") ?: true )
-ssbOracleUsersProxied = (System.getenv("SSBORACLEUSERSPROXIED") ?: true )
-ssbPassword.reset.enabled = (System.getenv("SSBPASSWORD_RESET_ENABLED") ?: true ) //true  - allow Pidm users to reset their password.
+ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : false)
+ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : false)
+ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED')) : true) //true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
 
 
@@ -64,11 +64,11 @@ ssbPassword.reset.enabled = (System.getenv("SSBPASSWORD_RESET_ENABLED") ?: true 
  *                                                                              *
  ***************************************************************************** **/
 //
-// Set authenticationProvider to either default or cas
+// Set authenticationProvider to either default or cas 
 banner {
     sso {
-		authenticationProvider = (System.getenv("BANNER_SSO_AUTHENTICATIONPROVIDER") ?: 'default' )
-        authenticationAssertionAttribute = ( System.getenv("BANNER_SSO_AUTHENTICATIONASSERTIONATTRIBUTE") ?: 'UDC_IDENTIFIER' )
+		authenticationProvider = 'cas'
+        authenticationAssertionAttribute = 'UDC_IDENTIFIER'
         if(authenticationProvider != 'default') {
             grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
         }
@@ -82,16 +82,16 @@ banner {
 //
 // ******************************************************************************
 
-grails.plugin.springsecurity.saml.active = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_SAML_ACTIVE') ?: false )
+grails.plugin.springsecurity.saml.active = false
 grails {
     plugin {
         springsecurity {
             cas {
-              active = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE') ?: false )
-              serverUrlPrefix  = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERURLPREFIX') ?: 'http://CAS_HOST:PORT/cas')
-              serviceUrl       = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVICEURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/j_spring_cas_security_check' )
-              serverName       = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERNAME') ?: 'http://BANNER9_HOST:PORT' )
-              proxyCallbackUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_PROXYCALLBACKURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/secure/receptor')
+                active = true
+                serverUrlPrefix  = (System.getenv('CAS_URL') ?: 'http://CAS_HOST:PORT/cas')
+                serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/applicationNavigator/j_spring_cas_security_check"
+                serverName       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT')
+                proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/applicationNavigator/secure/receptor"
                 loginUri         = '/login'
                 sendRenew        = false
                 proxyReceptorUrl = '/secure/receptor'
@@ -106,7 +106,7 @@ grails {
                 }
             }
 		    logout {
-                afterLogoutUrl = (System.getenv('GRAILS_PLUGIN_LOGOUT_AFTERLOGOUTURL') ?: 'https://cas-server/logout?url=http://myportal/main_page.html' )
+                afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?:  'http://APPLICATION_NAVIGATOR_HOST:PORT/applicationNavigator/logout/customLogout' )
                 mepErrorLogoutUrl = 'https://URL:PORT/'
             }
         }
@@ -117,7 +117,7 @@ grails {
 //
 //  +++ Protecting against cross-frame scripting vulnerability when integrating with Application Navigator +++
 //
-// ************************************************************************************************************
+// ************************************************************************************************************             
 grails.plugin.xframeoptions.urlPattern = '/login/auth'
 grails.plugin.xframeoptions.deny = true
 
@@ -165,7 +165,7 @@ communication {
 //                       +++ LOGGER CONFIGURATION +++
 //
 // ******************************************************************************
-String loggingFileDir =  (System.getenv('CATALINA_HOME') ?: 'target')
+String loggingFileDir =  "/usr/local/tomcat/"
 
 String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
 
@@ -287,7 +287,7 @@ grails.resources.adhoc.excludes = ['/WEB-INF/**']
  *              Web session timeout Configuration (in seconds)                  *
  *                                                                              *
  ***************************************************************************** **/
-defaultWebSessionTimeout = (System.getenv('DEFAULTWEBSESSIONTIMEOUT') ?: 1500)
+defaultWebSessionTimeout = (System.getenv('DEFAULTWEBSESSIONTIMEOUT') ? Integer.parseInt(System.getenv('DEFAULTWEBSESSIONTIMEOUT')): 1500)
 
 
 /** *****************************************************************************
@@ -295,27 +295,36 @@ defaultWebSessionTimeout = (System.getenv('DEFAULTWEBSESSIONTIMEOUT') ?: 1500)
  *           Home Page link when error happens during authentication.           *
  *                                                                              *
  ***************************************************************************** **/
-grails.plugin.springsecurity.homePageUrl=(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL') ?: 'http://URL:PORT/')
+grails.plugin.springsecurity.homePageUrl=(System.getenv('BANNER9_HOMEPAGEURL') ?: 'http://APPLICATION_NAVIGATOR_HOST:PORT/applicationNavigator' )
 
 /**********************************************************************************
 ***    Google Analytics                                                            *
 ***********************************************************************************/
-banner.analytics.trackerId=(System.getenv('BANNER_ANALYTICS_TRACKERID') ?: "")
-banner.analytics.allowEllucianTracker=(System.getenv('BANNER_ANALYTICS_ALLOWELLUCIANTRACKER') ?: true)
-/*
-banner.analytics.trackerId="<institution's google analytics tracker ID - default blank>"
-banner.analytics.allowEllucianTracker=<true|false - default true>
-*/
+banner.analytics.trackerId=(System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')
+banner.analytics.allowEllucianTracker=(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER') ? Boolean.parseBoolean(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER')): false)
+
 /**********************************************************************************
-***    Theming                                                          *
+***    Theming - Configuration to use themes served by the Theme Server                      
+*** banner.theme.url 
+           Required only if theme server is remote   
+           References the URL to the application hosting the Theme Server. 
+           Example : http://<hostname>:<port>/CommunicationManagement/ssb/theme                    *
+*** banner.theme.name 
+           This is the desired theme name to use. In a MEP environment, the application uses the MEP code 
+           as the theme name instead of the banner.theme.name. A theme by this name must be created in the Theme Editor
+           on the server specified by banner.theme.url
+*** banner.theme.template
+           This is the name of the scss file containing the theme settings 
+*** banner.theme.cacheTimeOut
+           Time in seconds, required only if the app is theme server. The value indicates 
+           how long the CSS file that was generated using the template and the theme is cached.
 ***********************************************************************************/
 banner.theme.url=(System.getenv('BANNER_THEME_URL') ?: "http://ThemeServer:8080/BannerExtensibility/theme" )
 banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: "default" )
-banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: "all" )
-/*
+banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: "CommunicationManagement" )
+banner.theme.cacheTimeOut = 120  
 
-banner.theme.url="http://<hostname>:<port>/<application_name>/theme"
-banner.theme.name="<theme_name>" (e.g. ellucian)
-banner.theme.template="<theme_template_name>"
-banner.theme.cacheTimeOut=<time_interval_in_seconds"> (e.g. 120)
-*/
+
+
+
+
