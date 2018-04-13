@@ -1,7 +1,8 @@
 #Dockerfile for StudentAPI
-FROM harbor.usu.edu/banner/base-bannerselfservice:oraclelinux6-tomcat8-java8
+FROM edurepo/banner9-selfservice:tomcat8-jre8-alpine
 MAINTAINER "Eric Allen <eric.allen@usu.edu>"
 
-ENV API_VERSION 9.10
+ENV API_VERSION 9.11 \
+    TIMEZONE=America/Denver
 
-COPY StudentApi.war /usr/local/tomcat/webapps/StudentApi.war
+COPY StudentApi /usr/local/tomcat/webapps/StudentApi

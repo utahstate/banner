@@ -55,7 +55,7 @@ jmx {
 // The logging levels that may be configured are, in order: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
 //
 log4j = {
-    def String loggingFileDir  =  (System.getProperty('catalina.base') ?: 'target')
+    def String loggingFileDir  =  '/usr/local/tomcat')
     def String logAppName      = "StudentApi"
     def String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
     appenders {
@@ -159,7 +159,7 @@ log4j = {
 // Disabling this setting does mean all audit user trails will be the username
 // configured for your bannerSsbDataSource.
 
-apiOracleUsersProxied=(Boolean.parseBoolean(System.getenv('APIORACLEUSERSPROXIED') ?: false))
+apiOracleUsersProxied=(System.getenv('APIORACLEUSERSPROXIED') ?Boolean.parseBoolean(System.getenv('APIORACLEUSERSPROXIED')) : false)
 
 /*******************************************************************************
  *                                                                             *
@@ -178,7 +178,7 @@ apiOracleUsersProxied=(Boolean.parseBoolean(System.getenv('APIORACLEUSERSPROXIED
 
 // Cors is disabled by default, set to true to enable.
 
-cors.enabled = false
+cors.enabled = (System.getenv('CORS_ENABLED') ?Boolean.parseBoolean(System.getenv('CORS_ENABLED')) : false)
 
 // Regex pattern for allowed origins.  If the origin supplied by the browser matches,
 // then the CORS plugin will echo back the received Origin in the Allowed origin field
