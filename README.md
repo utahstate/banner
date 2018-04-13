@@ -27,4 +27,6 @@ BANNER_THEME_TEMPLATE=CommunicationManagement
 mkdir CommunicationManagement
 cd CommunicationManagement
 jar xvf ../CommunicationManagement.war
+cd ..
+cp WEB-INF/classes/* CommunicationManagement/WEB-INF/classes/
 ```
