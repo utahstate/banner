@@ -1,7 +1,8 @@
 #Dockerfile for Banner Integration API
-FROM harbor.usu.edu/banner/base-bannerselfservice:oraclelinux6-tomcat8-java8
-MAINTAINER "Eric Allen <eric.allen@usu.edu>
+FROM edurepo/banner9-selfservice:tomcat8-jre8-alpine
+MAINTAINER "Eric Allen <eric.allen@usu.edu>"
 
-ENV INTERGRATION_API 9.10
+ENV API_VERSION 9.11 \
+    TIMEZONE=America/Denver
 
-COPY IntegrationApi.war /usr/local/tomcat/webapps/IntegrationApi.war
+COPY IntegrationApi /usr/local/tomcat/webapps/IntegrationApi

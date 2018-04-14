@@ -1,16 +1,16 @@
 /** *****************************************************************************
- Copyright 2014-2016 Ellucian Company L.P. and its affiliates.
+ Copyright 2014-2017 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
 
 /** ****************************************************************************
  *                                                                              *
- *         Integration API Configuration                                            *
+ *         Integration API Configuration                                        *
  *                                                                              *
  ***************************************************************************** **/
 
 /** ****************************************************************************
 
-This file contains configuration needed by the Finance API Banner 9
+This file contains configuration needed by the Integration API Banner 9
 web application. Please refer to the administration guide for
 additional information regarding the configuration items contained within this file.
 
@@ -33,7 +33,7 @@ This configuration file contains the following sections:
 // Disabling this setting does mean all audit user trails will be the username
 // configured for your bannerSsbDataSource.
 
-apiOracleUsersProxied=(System.getenv('APIORACLEUSERSPROXIED') ?: false)
+apiOracleUsersProxied=(System.getenv('APIORACLEUSERSPROXIED') ?Boolean.parseBoolean(System.getenv('APIORACLEUSERSPROXIED')) : false)
 
 /*******************************************************************************
  *                                                                             *
@@ -52,7 +52,7 @@ apiOracleUsersProxied=(System.getenv('APIORACLEUSERSPROXIED') ?: false)
 
 // Cors is disabled by default, set to true to enable.
 
-cors.enabled = false
+cors.enabled = (System.getenv('CORS_ENABLED') ?Boolean.parseBoolean(System.getenv('CORS_ENABLED')) : false)
 
 // Regex pattern for allowed origins.  If the origin supplied by the browser matches,
 // then the CORS plugin will echo back the received Origin in the Allowed origin field
@@ -92,7 +92,7 @@ jmx {
 // The logging levels that may be configured are, in order: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
 //
 log4j = {
-    String loggingFileDir  =  (System.getenv('CATALINA_HOME') ?: 'target')
+    String loggingFileDir  =  '/usr/local/tomcat'
     String logAppName      = "IntegrationApi"
     String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
     appenders {
@@ -175,3 +175,4 @@ log4j = {
     off 'grails.app.controllers.net.hedtech.restfulapi.RestfulApiController'
     off 'grails.app.services'
 }
+
