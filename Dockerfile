@@ -5,4 +5,4 @@ ENV BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER=false \
     TIMEZONE=America\Denver
 
 
-COPY --chown:tomcat:tomcat  BannerGeneralSsb /usr/local/tomcat/webapps/BannerGeneralSsb
+COPY --chown=tomcat:tomcat  BannerGeneralSsb /usr/local/tomcat/webapps/BannerGeneralSsb
