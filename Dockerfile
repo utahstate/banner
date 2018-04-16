@@ -1,8 +1,8 @@
-FROM harbor.usu.edu/banner/base-bannerselfservice:oraclelinux6-tomcat8-java8
+FROM edurepo/banner9-selfservice:tomcat8-jre8-alpine
 MAINTAINER "Eric Allen <eric.allen@usu.edu>"
 
 ENV BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER=false \
     TIMEZONE=America\Denver
 
 
-COPY BannerGeneralSsb /usr/local/tomcat/webapps/BannerGeneralSsb
+COPY --chown:tomcat:tomcat  BannerGeneralSsb /usr/local/tomcat/webapps/BannerGeneralSsb
