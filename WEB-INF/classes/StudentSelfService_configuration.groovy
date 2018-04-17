@@ -47,7 +47,7 @@ jmx {
 //                       +++ Self Service Support +++
 // ******************************************************************************
 
-ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
+ssbEnabled = (System.getenv('SSBENABLED') ? Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
 ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.parseBoolean(System.getenv('SSBORACLEUSERSPROXIED')) : true)
 ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED')) : true) //true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
@@ -83,7 +83,7 @@ classListApp.attrURL = (System.getenv('CLASSLISTAPP_ATTRURL') ?: 'http://host:po
  *******************************************************************************/
 log4j = {
 
-    String loggingFileDir  = (System.getenv('CATALINA_HOME') ?: '/test/target')
+    String loggingFileDir  = '/usr/local/tomcat'
     String logAppName      = "StudentSelfService"
     String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
 
@@ -205,15 +205,15 @@ log4j = {
 //
 banner {
     sso {
-        authenticationProvider           = (System.getenv('BANNER_SSO_AUTHENTICATIONPROVIDER') ?: 'default') //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
-        authenticationAssertionAttribute = (System.getenv('BANNER_SSO_AUTHENTICATIONASSERTIONATTRIBUTE')?:'UDC_IDENTIFIER')
+        authenticationProvider           = 'cas' //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
+        authenticationAssertionAttribute = 'UDC_IDENTIFIER'
         if(authenticationProvider != 'default') {
             grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
         }
         if(authenticationProvider == 'saml') {
             grails.plugin.springsecurity.auth.loginFormUrl = '/saml/login'
         }
-    }
+    }8
 }
 
 /** *****************************************************************************
@@ -226,15 +226,15 @@ grails {
     plugin {
         springsecurity {
             cas {
-                active = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE') ? Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE')) : false )
-                serverUrlPrefix = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERURLPREFIX') ?: 'http://CAS_HOST:PORT/cas')
-                serviceUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVICEURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/j_spring_cas_security_check')
-                serverName = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERNAME') ?: 'http://BANNER9_HOST:PORT')
-                proxyCallbackUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_PROXYCALLBACKURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/secure/receptor')
+                active = true
+                serverUrlPrefix  = (System.getenv('CAS_URL') ?: 'http://CAS_HOST:PORT/cas')
+                serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/StudentSelfService/j_spring_cas_security_check"
+                serverName       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT')
+                proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/StudentSelfService/secure/receptor"
                 loginUri         = '/login'
                 sendRenew        = false
                 proxyReceptorUrl = '/secure/receptor'
-                useSingleSignout = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT') ? Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT')) :true)
+                useSingleSignout = true
                 key = 'grails-spring-security-cas'
                 artifactParameter = 'SAMLart'
                 serviceParameter = 'TARGET'
@@ -245,7 +245,7 @@ grails {
                 }
             }
             logout {
-                afterLogoutUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_LOGOUT_AFTERLOGOUTURL') ?: 'https://cas-server/logout?url=http://myportal/main_page.html')
+                afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?: 'https://cas-server/logout?url=http://myportal/main_page.html')
             }
         }
     }
@@ -286,7 +286,7 @@ grails.resources.mappers.yuijsminify.excludes = ['**/*.min.js','**/angularjs-col
 // Degree works url is in the form of:
 // <protocol>://<host>:<port>/dev/dwadvss/banmain/IRISLink.cgi?CAS=ENABLED&SERVICE=LOGON&SCRIPT=SD2WORKS&PORTALSTUID=<STUDENTID>
 // <STUDENTID> will be replaced with the Banner ID of the student.
-bannerXE.url.mapper.degreeWorksUrl=(System.getenv('BANNERXE_URL_MAPPER_DEGREEWORKSURL')?: '<protocol>://<host>:<port>/dev/dwadvss/banmain/IRISLink.cgi?CAS=ENABLED&SERVICE=LOGON&SCRIPT=SD2WORKS&PORTALSTUID=<STUDENTID>')
+bannerXE.url.mapper.degreeWorksUrl=(System.getenv('DEGREEWORKS_URL')?: '<protocol>://<host>:<port>/dev/dwadvss/banmain/IRISLink.cgi?CAS=ENABLED&SERVICE=LOGON&SCRIPT=SD2WORKS&PORTALSTUID=<STUDENTID>')
 
 /************************************************************
     Extensibility extensions & i18n file location

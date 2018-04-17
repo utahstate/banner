@@ -37,7 +37,7 @@ This configuration file contains the following sections:
  *                         On-Line Help Configuration                          *
  *                                                                             *
  *******************************************************************************/
-onLineHelp.url = "http://HOST:PORT/banner9OH"
+onLineHelp.url = (System.getenv('ONLINEHELP_URL') ?: "http://HOST:PORT/banner9OH" )
 
 
 /** ****************************************************************************
@@ -45,7 +45,7 @@ onLineHelp.url = "http://HOST:PORT/banner9OH"
  *              Transaction timeout Configuration (in seconds)                  *
  *                                                                              *
  ***************************************************************************** **/
-banner.transactionTimeout = 30
+banner.transactionTimeout = (System.getenv('BANNER_TRANSACTIONTIMEOUT') ? Integer.parseInt(System.getenv('BANNER_TRANSACTIONTIMEOUT')) : 30 )
 
 
 /** ****************************************************************************
@@ -104,8 +104,8 @@ bannerSsbDataSource {
 
 /* Location for images */
 //banner.picturesPath=System.getProperty('base.dir') + '/test/images'
-banner.picturesPath='/opt/xe/images'
-banner8.SS.url = 'https://ssb.banner.usu.edu/zprod/'
+banner.picturesPath=(System.getenv('BANNER_PICTUREPATH') ?: '/opt/banner/images')
+banner8.SS.url = (System.getenv('BANNER8_SS_URL') ?: '<scheme>://<server hosting Self-Service Banner 8.x>:<port>/<context root>/')
 
 /********************************************************************************************
 NOTE - MEP Context URLs are now fully supported when going from XE App to an 8x app
