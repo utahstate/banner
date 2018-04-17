@@ -55,7 +55,7 @@ jmx {
 // The logging levels that may be configured are, in order: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
 //
 log4j = {
-    def String loggingFileDir  =  '/usr/local/tomcat')
+    def String loggingFileDir  =  '/usr/local/tomcat'
     def String logAppName      = "StudentApi"
     def String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
     appenders {
