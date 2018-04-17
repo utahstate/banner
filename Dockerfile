@@ -5,4 +5,4 @@ MAINTAINER "Eric Allen <eric.allen@usu.edu>"
 ENV API_VERSION 9.11 \
     TIMEZONE=America/Denver
 
-COPY IntegrationApi /usr/local/tomcat/webapps/IntegrationApi
+COPY --chown=tomcat:tomcat IntegrationApi /usr/local/tomcat/webapps/IntegrationApi
