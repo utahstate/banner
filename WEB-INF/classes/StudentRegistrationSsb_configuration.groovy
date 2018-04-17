@@ -421,13 +421,13 @@ grails.plugin.xframeoptions.urlPattern = '/login/auth'
 grails.plugin.xframeoptions.deny = true
 
 /** *****************************************************************************
- *                                                                              *
- *           Theme server support ( Platform 9.19, 9.20.2)                             *
- *                                                                              *
- ***************************************************************************** **/
- banner.theme.url=(System.getenv('BANNER_THEME_URL') ?: "http://ThemeServer:8080/pathTo/ssb/theme" )
- banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: "default" )
- banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: "all" )
+*                                                                              *
+*           Theme server support ( Platform 9.19, 9.20.2)                             *
+*                                                                              *
+***************************************************************************** **/
+banner.theme.url=(System.getenv('BANNER_THEME_URL') ?: "http://ThemeServer:8080/pathTo/ssb/theme" )
+banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: "default" )
+banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: "all" )
 banner.theme.cacheTimeOut=120 //Replace time_interval_in_seconds with a number like 120
 
 /** *****************************************************************************
@@ -451,15 +451,15 @@ configJob.actualCount = -1
 /************************************************************
  Extensibility extensions & i18n file location
  ************************************************************/
-/*
+
 webAppExtensibility {
     locations {
-                extensions = "path to the directory location where extensions JSON files will be written to and read from"
-                resources = "path to the directory location where i18n files will be written to and read from"
+                extensions = "/opt/banner/extensions/ss_ext/extensions/"
+                resources = "/opt/banner/extensions/ss_ext/i18n/"
     }
     adminRoles = "ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"
 }
-*/
+
 
 /** *****************************************************************************
  *                                                                              *
