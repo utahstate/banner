@@ -33,7 +33,7 @@ This configuration file contains the following sections:
 // Disabling this setting does mean all audit user trails will be the username
 // configured for your bannerSsbDataSource.
 
-apiOracleUsersProxied=(System.getenv('APIORACLEUSERSPROXIED') ?Boolean.parseBoolean(System.getenv('APIORACLEUSERSPROXIED')) : false)
+apiOracleUsersProxied=(System.getenv('APIORACLEUSERSPROXIED') ? Boolean.parseBoolean(System.getenv('APIORACLEUSERSPROXIED')) : false)
 
 /*******************************************************************************
  *                                                                             *
@@ -52,7 +52,7 @@ apiOracleUsersProxied=(System.getenv('APIORACLEUSERSPROXIED') ?Boolean.parseBool
 
 // Cors is disabled by default, set to true to enable.
 
-cors.enabled = (System.getenv('CORS_ENABLED') ?Boolean.parseBoolean(System.getenv('CORS_ENABLED')) : false)
+cors.enabled = (System.getenv('CORS_ENABLED') ? Boolean.parseBoolean(System.getenv('CORS_ENABLED')) : false)
 
 // Regex pattern for allowed origins.  If the origin supplied by the browser matches,
 // then the CORS plugin will echo back the received Origin in the Allowed origin field
