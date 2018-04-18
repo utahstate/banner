@@ -12,8 +12,7 @@ ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod
 ENV JAVA_OPTS -Duser.timezone=\$TIMEZONE -XX:+UseParallelGC\
     -Dlog4j.configuration=config.properties -Xms\$XMS -Xmx\$XMX
 
-RUN apk add --no-cache xmlstarlet \
-    && rm -Rf /usr/local/tomcat/webapps/* \
+RUN rm -Rf /usr/local/tomcat/webapps/* \
     && apk add --no-cache tzdata \
     && cp /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
     && addgroup -S tomcat \
