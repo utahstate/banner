@@ -75,10 +75,6 @@ ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod
 ENV JAVA_OPTS -Duser.timezone=\$TIMEZONE -XX:+UseParallelGC\
     -Dlog4j.configuration=config.properties -Xms\$XMS -Xmx\$XMX
 
-RUN curl -fSL https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -o /tmp/epel-release-latest-7.noarch.rpm \
-  && yum install /tmp/epel-release-latest-7.noarch.rpm -y \
-  && yum install xmlstarlet -y \
-  && rm -rf /var/cache/yum
 ADD https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/ojdbc7/12.1.0.2/ojdbc7-12.1.0.2.jar /usr/local/tomcat/lib/ojdbc7.jar
 ADD https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/xdb6/12.1.0.2/xdb6-12.1.0.2.jar /usr/local/tomcat/lib/xdb6.jar
 
