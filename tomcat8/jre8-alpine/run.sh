@@ -20,13 +20,13 @@ setProperty() {
   #Set CAS server for BannerAdmin.ws
   if [ "$prop" = "cas.url" ]; then
     sed -i "s|^cas\.server\.location.*|cas\.server\.location = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
-  fi 
+  fi
 
   #Set Banner9.baseurl for BannerAdmin.ws
   if [ "$prop" = "banner9.baseurl" ]; then
     sed -i "s|^webapp\.location.*|webapp\.location = $val\/\${webapp.context}|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
     sed -i "s|<param name=\"APPNAV_HELP_URL\".*|<param name=\"APPNAV_HELP_URL\" value=\"$val\/bannerHelp\/Main?page=\" \/>|g" /usr/local/tomcat/webapps/BannerAdmin/config.xml
-  fi 
+  fi
 
 
   if [ $(grep -c "$prop" "$PROPFILE") -eq 0 ]; then
@@ -46,17 +46,36 @@ setPropsFromFile() {
   done
 }
 
+setPropFromEnvPointingToFile() {
+  prop=$1
+  val=$2
+  [ -z "$val" ] && return
+  # If the value is a file, use the contents of that file as the new value
+  if [ -f "$val" ]; then
+    val=$(cat "$val")
+    setProperty "$prop" "$val"
+  else
+    # If it's not a file, use the value of the variable as the password
+    setProperty "$prop" "$val"
+  fi
+}
+
 if [ -f "$CONFIG_FILE" ]; then
     setPropsFromFile "$CONFIG_FILE"
 fi
 
-# Pull properties from docker secrets
-if [ -d /run/secrets ]; then
-  for file in /run/secrets/*; do
-    prop=$(basename "$file")
-    val=$(cat "$file")
-    setProperty "$prop" "$val"
-  done
+setPropFromEnvPointingToFile banproxy.password "$BANPROXY_PASSWORD"
+
+# If BANPROXY_PASSWORD is not set then use secrets to maintain backwards
+# compatibility
+if [ ! -z "$BANPROXY_PASSWORD" ]; then
+  if [ -d /run/secrets ]; then
+    for file in /run/secrets/*; do
+      prop=$(basename "$file")
+      val=$(cat "$file")
+      setProperty "$prop" "$val"
+    done
+  fi
 fi
 
 setPropFromEnv() {
@@ -72,7 +91,6 @@ setPropFromEnv() {
 if [ -z $CONFIG_FILE ]; then
   setPropFromEnv bannerdb.jdbc "$BANNERDB_JDBC"
   setPropFromEnv banproxy.username "$BANPROXY_USERNAME"
-  setPropFromEnv banproxy.password "$BANPROXY_PASSWORD"
   setPropFromEnv banproxy.initialsize "$BANPROXY_INITALSIZE"
   setPropFromEnv banproxy.maxtotal "$BANPROXY_MAXTOTAL"
   setPropFromEnv banproxy.maxidle "$BANPROXY_MAXIDLE"
