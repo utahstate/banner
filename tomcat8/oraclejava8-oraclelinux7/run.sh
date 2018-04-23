@@ -1,6 +1,6 @@
 #!/bin/sh
 # shellcheck disable=SC2013,SC2046
-# Thanks to Virginia Tech for some of the setup in this file
+# Thanks to Virginia Tech and College of William and Mary for some of the setup in this file
 
 PROPFILE="/usr/local/tomcat/conf/catalina.properties"
 if [ ! -f "$PROPFILE" ]; then
@@ -45,14 +45,34 @@ if [ -f "$CONFIG_FILE" ]; then
     setPropsFromFile "$CONFIG_FILE"
 fi
 
-# Pull properties from docker secrets
-if [ -d /run/secrets ]; then
-  for file in /run/secrets/*; do
-    prop=$(basename "$file")
-    val=$(cat "$file")
-    setProperty "$prop" "$val"
-  done
+# Maintain backwards compatibility if BANPROXY_PASSWORD and BANSSUSER_PASSWORD
+# aren't set
+if [ -z $BANPROXY_PASSWORD && -z $BANSSUSER_PASSWORD ]; then
+  if [ -d /run/secrets ]; then
+    for file in /run/secrets/*; do
+      prop=$(basename "$file")
+      val=$(cat "$file")
+      setProperty "$prop" "$val"
+    done
+  fi
 fi
+
+setPropFromEnvPointingToFile() {
+  prop=$1
+  val=$2
+  [ -z "$val" ] && return
+  # If the value is a file, use the contents of that file as the new value
+  if [ -f "$val" ]; then
+    val=$(cat "$val")
+    setProperty "$prop" "$val"
+  else
+    # If it's not a file, use the value of the variable as the password
+    setProperty "$prop" "$val"
+  fi
+}
+
+setPropFromEnvPointingToFile banproxy.password "$BANPROXY_PASSWORD"
+setPropFromEnvPointingToFile banssuser.password "$BANSSUSER_PASSWORD"
 
 setPropFromEnv() {
   prop=$1
@@ -67,13 +87,11 @@ setPropFromEnv() {
 if [ -z $CONFIG_FILE ]; then
   setPropFromEnv bannerdb.jdbc "$BANNERDB_JDBC"
   setPropFromEnv banproxy.username "$BANPROXY_USERNAME"
-  setPropFromEnv banproxy.password "$BANPROXY_PASSWORD"
   setPropFromEnv banproxy.initialsize "$BANPROXY_INITALSIZE"
   setPropFromEnv banproxy.maxtotal "$BANPROXY_MAXTOTAL"
   setPropFromEnv banproxy.maxidle "$BANPROXY_MAXIDLE"
   setPropFromEnv banproxy.maxwait "$BANPROXY_MAXWAIT"
   setPropFromEnv banssuser.username "$BANSSUSER_USERNAME"
-  setPropFromEnv banssuser.password "$BANSSUSER_PASSWORD"
   setPropFromEnv banssuser.initialsize "$BANSSUSER_INITALSIZE"
   setPropFromEnv banssuser.maxtotal "$BANSSUSER_MAXTOTAL"
   setPropFromEnv banssuser.maxidle "$BANSSUSER_MAXIDLE"
