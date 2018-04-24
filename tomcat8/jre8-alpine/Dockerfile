@@ -3,7 +3,6 @@ FROM tomcat:8.0-jre8-alpine
 ENV TIMEZONE="America/New_York"
 ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod \
   BANPROXY_USERNAME=banproxy \
-  BANPROXY_PASSWORD=password \
   BANPROXY_INITALSIZE=25 \
   BANPROXY_MAXTOTAL=400 \
   BANPROXY_MAXIDLE=-1 \

@@ -66,7 +66,6 @@ FROM tomcat8 as banner9-selfservice
 
 ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod \
   BANPROXY_USERNAME=banproxy \
-  BANPROXY_PASSWORD=password \
   BANPROXY_INITALSIZE=25 \
   BANPROXY_MAXTOTAL=400 \
   BANPROXY_MAXIDLE=-1 \
