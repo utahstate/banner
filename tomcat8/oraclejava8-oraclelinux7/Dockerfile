@@ -84,8 +84,11 @@ RUN cd /usr/local/tomcat/lib/ \
   && curl https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/xdb6/12.1.0.2/xdb6-12.1.0.2.jar.sha1 --output xdb6.jar.sha1 \
   && echo -n " xdb6.jar" >> xdb6.jar.sha1 \
   && sha1sum -c xdb6.jar.sha1 \
+  && curl https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/ucp/12.1.0.2/ucp-12.1.0.2.jar.sha1 --output ucp.jar.sha1 \
+  && echo -n " ucp.jar" >> ucp.jar.sha1 \
+  && sha1sum -c ucp.jar.sha1 \
   && rm *.sha1 \
-  && chown tomcat:tomcat ojdbc7.jar xdb6.jar && chmod +r ojdbc7.jar xdb6.jar
+  && chown tomcat:tomcat *.jar && chmod +r *.jar
 
 COPY context.xml /usr/local/tomcat/conf/context.xml
 COPY server.xml /usr/local/tomcat/conf/server.xml
