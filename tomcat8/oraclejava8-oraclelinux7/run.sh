@@ -2,6 +2,9 @@
 # shellcheck disable=SC2013,SC2046
 # Thanks to Virginia Tech and College of William and Mary for some of the setup in this file
 
+# Fail fast
+set -e
+
 PROPFILE="/usr/local/tomcat/conf/catalina.properties"
 if [ ! -f "$PROPFILE" ]; then
   echo "Unable to find properties file $PROPFILE"
@@ -47,7 +50,7 @@ fi
 
 # Maintain backwards compatibility if BANPROXY_PASSWORD and BANSSUSER_PASSWORD
 # aren't set
-if [ -z $BANPROXY_PASSWORD && -z $BANSSUSER_PASSWORD ]; then
+if [ -z "${BANPROXY_PASSWORD}" ] && [ -z "${BANSSUSER_PASSWORD}" ]; then
   if [ -d /run/secrets ]; then
     for file in /run/secrets/*; do
       prop=$(basename "$file")
@@ -79,12 +82,12 @@ setPropFromEnv() {
   val=$2
   # If no value was given, abort
   [ -z "$val" ] && return
-  if [ $(grep -c $prop $PROPFILE) -eq 0 ]; then
-    setProperty $prop $val
+  if [ $(grep -c "$prop" $PROPFILE) -eq 0 ]; then
+    setProperty "$prop" "$val"
   fi
 }
 
-if [ -z $CONFIG_FILE ]; then
+if [ -z "$CONFIG_FILE" ]; then
   setPropFromEnv bannerdb.jdbc "$BANNERDB_JDBC"
   setPropFromEnv banproxy.username "$BANPROXY_USERNAME"
   setPropFromEnv banproxy.initialsize "$BANPROXY_INITALSIZE"
