@@ -2,11 +2,11 @@ FROM oraclelinux:7 as java8
 
 RUN yum install curl -y && rm -rf /var/cache/yum
 
-ENV JAVA_VERSION=8u162 \
-    JAVA_BNUMBER=12 \
-    JAVA_SEMVER=1.8.0_162 \
+ENV JAVA_VERSION=8u172 \
+    JAVA_BNUMBER=11 \
+    JAVA_SEMVER=1.8.0_172 \
     JAVA_HOME=/opt/jre-home \
-    JAVA_HASH=0da788060d494f5095bf8624735fa2f1 \
+    JAVA_HASH=a58eab1ec242421181065cdc37240b08 \
     TIMEZONE=America/New_York
 
 
@@ -47,7 +47,7 @@ RUN  for key in \
 	done
 
 ENV TOMCAT_MAJOR=8
-ENV TOMCAT_VERSION=8.0.50
+ENV TOMCAT_VERSION=8.0.51
 ENV TOMCAT_TGZ_URL=https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
 
 
