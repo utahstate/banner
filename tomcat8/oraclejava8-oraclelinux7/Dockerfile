@@ -76,6 +76,7 @@ ENV JAVA_OPTS -Duser.timezone=\$TIMEZONE -XX:+UseParallelGC\
 
 ADD https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/ojdbc7/12.1.0.2/ojdbc7-12.1.0.2.jar /usr/local/tomcat/lib/ojdbc7.jar
 ADD https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/xdb6/12.1.0.2/xdb6-12.1.0.2.jar /usr/local/tomcat/lib/xdb6.jar
+ADD https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/ucp/12.1.0.2/ucp-12.1.0.2.jar /usr/local/tomcat/lib/ucp.jar
 
 RUN cd /usr/local/tomcat/lib/ \
   && curl https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/ojdbc7/12.1.0.2/ojdbc7-12.1.0.2.jar.sha1 --output ojdbc7.jar.sha1 \
