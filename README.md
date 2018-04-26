@@ -6,8 +6,15 @@ Banner 9 Self Service Base is a base image to build the Banner 9 self service ap
 
 https://hub.docker.com/r/edurepo/banner9-selfservice/
 
+Tomcat 8
+
 - tomcat8-jre8-alpine
 - tomcat8-oraclejava8-oraclelinux7
+
+Tomcat 8.5
+
+- tomcat8.5-jre8-alpine
+- tomcat8.5-oraclejava8-oraclelinux7
 
 ## How to use
 
