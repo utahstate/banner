@@ -10,6 +10,11 @@ Tomcat8
 - tomcat8-jre8-alpine
 - tomcat8-oraclejava8-oracelinux7
 
+Tomcat 8.5
+
+- tomcat8.5-jre8-alpine
+- tomcat8.5-oraclejava8-oraclelinux7
+
 ## How to use
 
 This base image is designed to have Banner 9 admin applications built on it. It is built for those applciations that require banproxy and not ban_ss_user.  Multiple builds are available.  At a minimum both builds of alpine and oracle linux will be available.  Alpine for its small size and oracle linux for Banner support compliance.
