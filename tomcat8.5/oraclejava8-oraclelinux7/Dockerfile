@@ -95,6 +95,11 @@ COPY context.xml /usr/local/tomcat/conf/context.xml
 COPY server.xml /usr/local/tomcat/conf/server.xml
 COPY run.sh /usr/local/tomcat/bin
 
+# Configure logging to forward tomcat logs to docker log collector
+COPY logging.properties /usr/local/tomcat/conf/logging.properties
+RUN ln -s /dev/stderr /usr/local/tomcat/logs/localhost.log
+RUN ln -s /dev/stderr /usr/local/tomcat/logs/stacktrace.log
+
 RUN chown -R tomcat:tomcat /usr/local/tomcat && chmod +x /usr/local/tomcat/bin/run.sh
 EXPOSE 8080
 USER tomcat
