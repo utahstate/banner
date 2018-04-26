@@ -2,11 +2,11 @@ FROM oraclelinux:7-slim as java8
 
 RUN yum install curl -y && rm -rf /var/cache/yum
 
-ENV JAVA_VERSION=8u162 \
-    JAVA_BNUMBER=12 \
-    JAVA_SEMVER=1.8.0_162 \
+ENV JAVA_VERSION=8u172 \
+    JAVA_BNUMBER=11 \
+    JAVA_SEMVER=1.8.0_172 \
     JAVA_HOME=/opt/jre-home \
-    JAVA_HASH=0da788060d494f5095bf8624735fa2f1 \
+    JAVA_HASH=a58eab1ec242421181065cdc37240b08 \
     TIMEZONE=America/New_York
 
 
@@ -66,13 +66,11 @@ FROM tomcat8 as banner9-selfservice
 
 ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod \
   BANPROXY_USERNAME=banproxy \
-  BANPROXY_PASSWORD=password \
   BANPROXY_INITALSIZE=25 \
   BANPROXY_MAXTOTAL=400 \
   BANPROXY_MAXIDLE=-1 \
   BANPROXY_MAXWAIT=30000 \
   BANSSUSER_USERNAME=ban_ss_user \
-  BANSSUSER_PASSWORD=password \
   BANSSUSER_INITALSIZE=25 \
   BANSSUSER_MAXTOTAL=400 \
   BANSSUSER_MAXIDLE=-1 \

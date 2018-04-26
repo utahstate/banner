@@ -56,7 +56,7 @@
               validationQuery="select 1 from dual"
               validationInterval="30000"
               accessToUnderlyingConnectionAllowed="true"
-              removeAbandoned="true"
+              removeAbandonedOnBorrow="true" removeAbandonedTimeout="180"
               testOnBorrow="true"/>
     <Resource name="jdbc/bannerSsbDataSource" auth="Container"
               type="javax.sql.DataSource"
@@ -71,7 +71,7 @@
               validationQuery="select 1 from dual"
               validationInterval="30000"
               accessToUnderlyingConnectionAllowed="true"
-              removeAbandoned="true"
+              removeAbandonedOnBorrow="true" removeAbandonedTimeout="180"
               testOnBorrow="true"/>
   </GlobalNamingResources>
 
