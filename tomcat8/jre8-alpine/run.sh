@@ -102,4 +102,9 @@ if [ -z "$CONFIG_FILE" ]; then
   setPropFromEnv banner9.baseurl "$BANNER9_URL"
   setPropFromEnv theme.url "$THEME_URL"
 fi
+
+if [ -n "$JMX_PORT" ]; then
+  export CATALINA_OPTS="$CATALINA_OPTS -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=$JMX_PORT -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
+fi
+
 exec catalina.sh run
