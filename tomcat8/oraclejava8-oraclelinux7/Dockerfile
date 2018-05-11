@@ -99,6 +99,11 @@ COPY context.xml /usr/local/tomcat/conf/context.xml
 COPY server.xml /usr/local/tomcat/conf/server.xml
 COPY run.sh /usr/local/tomcat/bin
 
+# Configure logging to forward tomcat logs to docker log collector
+COPY logging.properties /usr/local/tomcat/conf/logging.properties
+RUN ln -s /dev/stderr /usr/local/tomcat/logs/localhost.log
+RUN ln -s /dev/stderr /usr/local/tomcat/logs/stacktrace.log
+
 RUN mkdir -p /opt/banner/config && mkdir -p /opt/banner/images && chown -R tomcat:tomcat /opt/banner
 
 RUN chown -R tomcat:tomcat $CATALINA_HOME && chmod +x /usr/local/tomcat/bin/run.sh
