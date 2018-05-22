@@ -1,6 +1,6 @@
 FROM oraclelinux:7-slim as java8
 
-RUN yum install curl tar gzip -y && rm -rf /var/cache/yum
+RUN yum install gzip tar curl -y && rm -rf /var/cache/yum
 
 ENV JAVA_VERSION=8u172 \
     JAVA_BNUMBER=11 \
@@ -19,7 +19,7 @@ RUN cd / \
     && rm server-jre-$JAVA_VERSION-linux-x64.tar.gz \
     && ln -s /opt/jdk$JAVA_SEMVER/ /opt/jre-home;
 
-FROM java8 as tomcat8
+FROM java8 as tomcat8.5
 
 ENV CATALINA_HOME /usr/local/tomcat
 ENV PATH $CATALINA_HOME/bin:$PATH
@@ -47,7 +47,7 @@ RUN  for key in \
 	done
 
 ENV TOMCAT_MAJOR=8
-ENV TOMCAT_VERSION=8.5.30
+ENV TOMCAT_VERSION=8.5.31
 ENV TOMCAT_TGZ_URL=https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
 
 
@@ -62,7 +62,7 @@ RUN set -x \
   && chown -R tomcat:tomcat $CATALINA_HOME
 
 
-FROM tomcat8 as banner9-selfservice
+FROM tomcat8.5 as banner9-selfservice
 
 ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod \
   BANPROXY_USERNAME=banproxy \

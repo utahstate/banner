@@ -1,6 +1,6 @@
 FROM oraclelinux:7-slim as java8
 
-RUN yum install curl tar gzip -y && rm -rf /var/cache/yum
+RUN yum install gzip tar curl -y && rm -rf /var/cache/yum
 
 ENV JAVA_VERSION=8u172 \
     JAVA_BNUMBER=11 \
@@ -47,7 +47,7 @@ RUN  for key in \
 	done
 
 ENV TOMCAT_MAJOR=8
-ENV TOMCAT_VERSION=8.0.51
+ENV TOMCAT_VERSION=8.0.52
 ENV TOMCAT_TGZ_URL=https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
 
 
