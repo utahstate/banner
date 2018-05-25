@@ -24,9 +24,7 @@ node {
         }
       }
       sh "mkdir StudentApi"
-      sh "cd StudentApi"
-      sh "${javaHome}/bin/jar xvf ../StudentApi.war"
-      sh "cd .."
+      sh "cd StudentApi && ${javaHome}/bin/jar xvf ../StudentApi.war"
       sh "cp -r WEB-INF/classes/ StudentApi/WEB-INF/classes/"
     }
 
