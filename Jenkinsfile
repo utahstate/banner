@@ -23,7 +23,9 @@ node {
           s3Download(file: 'IntegrationApi.war', bucket:'usu-banner-builds', path:"banner/input/integrationapi/${env.BRANCH_NAME}/IntegrationApi.war", force:true)
         }
       }
-      sh "${javaHome}/bin/jar uvf IntegrationApi.war WEB-INF"
+      sh "mkdir IntegrationApi"
+      sh "cd IntegrationApi && ${javaHome}/bin/jar xvf ../IntegrationApi.war"
+      sh "cp -r WEB-INF/classes/ IntegrationApi/WEB-INF/classes/"
     }
 
   stage 'Build Image'
