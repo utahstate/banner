@@ -13,15 +13,12 @@ node{
 
   stage 'Build War'
     gitlabCommitStatus("Build War"){
-    echo 'Copy Application'
-    //sh 'scp jenkins@build.banner.usu.edu:/u01/deploy/zdevl/self-service/BannerFinanceSSB.war .'
-    withAWS(credentials:"Jenkins-S3", region:'us-east-1'){
-      s3Download(file:'FinanceSelfService.war', bucket:'usu-banner-builds', path:"banner/input/financeselfservice/${env.BRANCH_NAME}/FinanceSelfService.war", force:true)
-    }
+      withAWS(credentials:"Jenkins-S3", region:'us-east-1'){
+        s3Download(file:'FinanceSelfService.war', bucket:'usu-banner-builds', path:"banner/input/financeselfservice/${env.BRANCH_NAME}/FinanceSelfService.war", force:true)
+      }
 
-    echo 'Add Config'
-    sh 'mkdir FinanceSelfService && cd FinanceSelfService && ${javaHome}/bin/jar xvf ../FinanceSelfService.war'
-    sh "cp WEB-INF/classes/* FinanceSelfService/WEB-INF/classes"
+      sh 'mkdir FinanceSelfService && cd FinanceSelfService && ${javaHome}/bin/jar xvf ../FinanceSelfService.war'
+      sh "cp WEB-INF/classes/* FinanceSelfService/WEB-INF/classes"
     }
 
   stage 'Build Image'
