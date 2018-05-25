@@ -23,7 +23,11 @@ node {
           s3Download(file: 'StudentApi.war', bucket:'usu-banner-builds', path:"banner/input/studentapi/${env.BRANCH_NAME}/StudentApi.war", force:true)
         }
       }
-      sh "${javaHome}/bin/jar uvf StudentApi.war WEB-INF"
+      sh "mkdir StudentApi"
+      sh "cd StudentApi"
+      sh "${javaHome}/bin/jar xvf ../StudentApi.war"
+      sh "cd .."
+      sh "cp -r WEB-INF/classes/ StudentApi/WEB-INF/classes/"
     }
 
   stage 'Build Image'
