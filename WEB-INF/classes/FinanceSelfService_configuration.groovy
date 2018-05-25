@@ -66,7 +66,7 @@ jmx {
 // The logging levels that may be configured are, in order: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
 //
 log4j = {
-    def String loggingFileDir = (System.getenv('CATALINA_HOME') ?: "target")
+    def String loggingFileDir = "/usr/local/tomcat"
     def String logAppName = "BannerFinanceSSB"
     def String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
     appenders {
@@ -193,7 +193,7 @@ grails.plugin.xframeoptions.deny = true
  *                                                                              *
  ***************************************************************************** **/
 // Default is false for ssbapplications.
-sdeEnabled = (System.getenv('SDEENABLED') ? Boolean.valueOf(System.getenv('SDEENABLED')): false)
+sdeEnabled = (System.getenv('SDEENABLED') ? Boolean.parseBoolean(System.getenv('SDEENABLED')): false )
 
 /** *****************************************************************************
  *                                                                              *
@@ -207,7 +207,7 @@ sdeEnabled = (System.getenv('SDEENABLED') ? Boolean.valueOf(System.getenv('SDEEN
 //
 banner {
     sso {
-        authenticationProvider = (System.getenv('BANNER_SSO_AUTHENTICATIONPROVIDER') ?: 'default') //  Valid values are: 'default', 'cas' and 'saml'
+        authenticationProvider = 'cas' //  Valid values are: 'default', 'cas' and 'saml'
         authenticationAssertionAttribute = (System.getenv('BANNER_SSO_AUTHENTICATIONASSERTIONATTRIBUTE')?:'UDC_IDENTIFIER')
         if (authenticationProvider != 'default') {
             grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
@@ -229,15 +229,15 @@ grails {
     plugin {
         springsecurity {
             cas {
-                active = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE') ? Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE')) : false )
-                serverUrlPrefix = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERURLPREFIX') ?: 'http://CAS_HOST:PORT/cas')
-                serviceUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVICEURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/j_spring_cas_security_check')
-                serverName = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERNAME') ?: 'http://BANNER9_HOST:PORT')
-                proxyCallbackUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_PROXYCALLBACKURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/secure/receptor')
+                active = true
+                serverUrlPrefix  = (System.getenv('CAS_URL') ?: 'http://CAS_HOST:PORT/cas')
+                serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/FinanceSelfService/j_spring_cas_security_check"
+                serverName       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT')
+                proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/FinanceSelfService/secure/receptor"
                 loginUri = '/login'
                 sendRenew = false
                 proxyReceptorUrl = '/secure/receptor'
-                useSingleSignout = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT') ? Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT')) :true)
+                useSingleSignout = true
                 key = 'grails-spring-security-cas'
                 artifactParameter = 'SAMLart'
                 serviceParameter = 'TARGET'
@@ -248,7 +248,7 @@ grails {
                 }
             }
             logout {
-                afterLogoutUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_LOGOUT_AFTERLOGOUTURL') ?: 'https://cas-server/logout?url=http://myportal/main_page.html')
+                afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?:  'https://cas-server/logout?url=http://myportal/main_page.html' )
             }
         }
     }
@@ -292,16 +292,16 @@ grails.plugin.springsecurity.saml.metadata.sp.defaults = [
 
 webAppExtensibility {
     locations {
-        extensions = "C:/BanXE/Extensions/ss_ext/extensions/"
+        extensions = "/opt/banner/extensions/ss_ext/extensions/"
         // for unix based Example:-'/home/oracle/config_extn/ssb/extensions/'
-        resources = "C:/BanXE/Extensions/ss_ext/i18n/"
+        resources = "/opt/banner/extensions/ss_ext/i18n/"
         // for unix based Example:-'/home/oracle/config_extn/ssb/i18n/'
     }
     adminRoles = "ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"
 }
 
 // URL of application home page Example: http://localhost:port/BannerFinanceSSB
-grails.plugin.springsecurity.homePageUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEULR') ?: 'http://localhost:port/BannerFinanceSSB')
+grails.plugin.springsecurity.homePageUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL') ?: 'http://localhost:port/FinanceSelfService/')
 
 /******************************************************************************
  *   Configuration to use themes served by the Theme Server                   *
