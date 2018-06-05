@@ -22,8 +22,9 @@ node {
           s3Download(file:'applicationNavigator.war', bucket:'usu-banner-builds', path:"banner/input/applicationnavigator/${env.BRANCH_NAME}/applicationNavigator.war", force:true)
         }
       }
-      sh "${javaHome}/bin/jar uvf applicationNavigator.war WEB-INF"
-      sh "${javaHome}/bin/jar uvf applicationNavigator.war css" 
+      sh "mkdir applicationNavigator  && cd applicationNavigator && ${javaHome}/bin/jar xvf ../applicationNavigator.war"
+      sh "cp WEB-INF/classes/* applicationNavigator/WEB-INF/classes/"
+      sh "cp css/* applicationNavigator/css/"
    }
 
 

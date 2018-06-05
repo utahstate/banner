@@ -66,9 +66,9 @@ jmx {
 //
 log4j = {
 
-    def String loggingFileDir  = (System.getenv('CATALINA_HOME') ?: '/target')
+    def String loggingFileDir  = "/usr/local/tomcat/logs"
     def String logAppName      = "applicationNavigator"
-    def String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
+    def String loggingFileName = "${loggingFileDir}/${logAppName}.log".toString()
 
     appenders {
         rollingFile name:'appLog', file:loggingFileName, maxFileSize:"${10*1024*1024}", maxBackupIndex:10, layout:pattern( conversionPattern: '%d{[EEE, dd-MMM-yyyy @ HH:mm:ss.SSS]} [%t] %-5p %c %x - %m%n' )
@@ -196,7 +196,7 @@ ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueO
 //
 banner {
     sso {
-        authenticationProvider           = (System.getenv('BANNER_SSO_AUTHENTICATIONPROVIDER') ?: 'default') //  Valid values are: 'saml' and 'cas' for SSO. 'default' value to be used only when creating the release zip file.
+        authenticationProvider           = 'cas' //  Valid values are: 'saml' and 'cas' for SSO. 'default' value to be used only when creating the release zip file.
         authenticationAssertionAttribute = 'UDC_IDENTIFIER'
         if(authenticationProvider != 'default') {
             grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
@@ -228,7 +228,6 @@ grails.plugin.springsecurity.logout.afterLogoutUrl = (System.getenv('GRAILS_PLUG
 // Can be institutional home page ex: http://myportal/main_page.html
 grails.plugin.springsecurity.homePageUrl=(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL') ?: 'http://APPLICATION_NAVIGATOR_HOST:PORT/applicationNavigator' )
 
-
 /********************************************************************************
  *                                                                              *
  *                             CAS SSO Configuration                            *
@@ -239,7 +238,7 @@ grails {
     plugin {
         springsecurity {
             cas {
-                active           = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE') ? Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE')) : false )
+                active           = true
                 serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/applicationNavigator/j_spring_cas_security_check"
                 serverName       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT')
                 proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/applicationNavigator/secure/receptor"
@@ -336,7 +335,7 @@ seamless.exposeMenu=true
 // Example: seamless.brandTitle=["Default": "Ellucian University","<MEP_CODE>":"<MEP_BRAND_TITLE>", "<MEP_CODE>":"<MEP_BRAND_TITLE>"]
 seamless.brandTitle=["Default": (System.getenv('SEAMLESS_BRANDTITLE') ?: "Ellucian University" )]
 
-seamless.sessionTimeout = (System.getenv('SEAMLESS_SESSIONTIMEOUT') ? Integer.parseInt(System.getenv('SEAMLESS_SESSIONTIMEOUT')) :30 )           // Session timeout in minutes. A value of -1 indicates session does not timeout
+seamless.sessionTimeout = (System.getenv('SEAMLESS_SESSIONTIMEOUT') ? Integer.parseInt(System.getenv('SEAMLESS_SESSIONTIMEOUT')) :30 )             // Session timeout in minutes. A value of -1 indicates session does not timeout
 seamless.sessionTimeoutNotification = (System.getenv('SEAMLESS_SESSIONTIMEOUTNOTIFICATION') ? Integer.parseInt(System.getenv('SEAMLESS_SESSIONTIMEOUTNOTIFICATION')) : 5 )  // Notification prompt x minutes before sessionTimeout
 
 // This list includes objects to be excluded from search
