@@ -1,13 +1,14 @@
-FROM edurepo/banner9-admin:tomcat8-jre8-alpine
-LABEL banner.common="9.3.12.0.3" \
-      banner.accountreceivable="9.3.6.1.2" \
-      banner.documentmanagement="9.3.0.29" \
-      banner.finance="9.3.7.0.2" \
-      banner.financialaid="9.3.8.0.3" \
-      banner.general="9.3.9.0.4" \
-      banner.humanresources="9.3.6.0.3" \
-      banner.positioncontrol="9.3.6.0.3" \
-      banner.student="9.3.10.0.6"
+#FROM edurepo/banner9-admin:tomcat8-jre8-alpine
+FROM bandock/banner9-admin:tomcat8-jre8-alpine-prefetch
+LABEL banner.common="9.3.13.0.6" \
+      banner.accountreceivable="9.3.7.0.3" \
+      banner.documentmanagement="9.3.1.0.4" \
+      banner.finance="9.3.8.0.4" \
+      banner.financialaid="9.3.9.0.2" \
+      banner.general="9.3.10.0.2" \
+      banner.humanresources="9.3.7.0.2" \
+      banner.positioncontrol="9.3.7.0.3" \
+      banner.student="9.3.11.0.5"
 
 ENV TIMEZONE=America/Denver
 
