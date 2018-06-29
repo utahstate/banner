@@ -28,7 +28,7 @@
 
  *******************************************************************************/
 
-pageBuilder.enabled = (System.getenv('PAGEBUILDER_ENABLED') ? Boolean.parseBoolean(System.getenv('PAGEBUILDER_ENABLED')) : true)
+pageBuilder.enabled = true
 
 if (!pageBuilder.enabled) {
   grails.plugin.springsecurity.securityConfigType = grails.plugin.springsecurity.SecurityConfigType.InterceptUrlMap
@@ -102,8 +102,8 @@ jmx {
 // ******************************************************************************
 
 
-ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
-ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
+ssbEnabled = true
+ssbOracleUsersProxied = true
 ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.valueOf(System.getenv('SSBPASSWORD_RESET_ENABLED')): true) //true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
 
@@ -120,8 +120,8 @@ ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolea
 //
 banner {
     sso {
-        authenticationProvider           = (System.getenv('BANNER_SSO_AUTHENTICATIONPROVIDER') ?: 'default')  //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
-        authenticationAssertionAttribute = (System.getenv('BANNER_SSO_AUTHENTICATIONASSERTIONATTRIBUTE') ?: 'UDC_IDENTIFIER')
+        authenticationProvider           = 'cas'  //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
+        authenticationAssertionAttribute = 'UDC_IDENTIFIER'
         if(authenticationProvider != 'default') {
             grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
         }
@@ -141,15 +141,15 @@ grails {
     plugin {
         springsecurity {
             cas {
-                active = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE') ? Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_ACTIVE')) : false )
-                serverUrlPrefix  = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERURLPREFIX') ?: 'http://CAS_HOST:PORT/cas' )
-                serviceUrl       = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVICEURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/j_spring_cas_security_check')
-                serverName       = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERNAME') ?: 'http://BANNER9_HOST:PORT' )
-                proxyCallbackUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_PROXYCALLBACKURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/secure/receptor' )
-                loginUri         = '/login'
+                active = true
+                serverUrlPrefix  = (System.getenv('CAS_URL') ?: 'http://CAS_HOST:PORT/cas')
+                serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/BannerExtensibility/j_spring_cas_security_check"
+                serverName       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT')
+                proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/BannerExtensibility/secure/receptor"
+		loginUri         = '/login'
                 sendRenew        = false
                 proxyReceptorUrl = '/secure/receptor'
-                useSingleSignout = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT') ? Boolean.parseBoolean(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT')) :true)
+                useSingleSignout = true
                 key = 'grails-spring-security-cas'
                 artifactParameter = 'SAMLart'
                 serviceParameter = 'TARGET'
@@ -160,8 +160,8 @@ grails {
                 }
             }
             logout {
-                afterLogoutUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_LOGOUT_AFTERLOGOUTURL') ?: 'http://CAS_HOST:PORT/cas/logout?url=http://BANNER9_HOST:PORT/APP_NAME/')
-                // afterLogoutUrl = '/' // This can be used to navigate to the landing page when not using CAS
+                afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?: 'https://cas-server/logout?url=http://myportal/main_page.html')
+		// afterLogoutUrl = '/' // This can be used to navigate to the landing page when not using CAS
             }
         }
     }
@@ -213,17 +213,17 @@ grails.plugin.springsecurity.saml.metadata.sp.defaults = [
  *                                                                              *
  *******************************************************************************/
 grails.plugin.xframeoptions.urlPattern = '/login/auth'
-//grails.plugin.xframeoptions.deny = true
-grails.plugin.xframeoptions.allowFrom = (System.getenv('APPNAV_HOST_URL') ?: 'https://hostname/')
+grails.plugin.xframeoptions.deny = true
+
 
 // ******************************************************************************
 //
 //                       +++ LOGGER CONFIGURATION +++
 //
 // ******************************************************************************
-String loggingFileDir =  (System.getenv('CATALAINA_HOME') ?: '/target')
+String loggingFileDir =  '/usr/local/tomcat/logs'
 String logAppName = "BannerExtensibility"
-String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
+String loggingFileName = "${loggingFileDir}/${logAppName}.log".toString()
 
 
 // Note that logging is configured separately for each environment ('development', 'test', and 'production').
@@ -341,3 +341,19 @@ webAppExtensibility {
     // Comma separated list of roles
     adminRoles = "ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"
 }
+
+/************************************************************
+                    SS Config Changes
+************************************************************/
+configJob {
+    delay = 60000
+    interval = 60000
+    actualCount = -1
+    //actualCount will be the count how many times the configJob would run.
+}
+ssconfig.app.seeddata.keys = [['ssbEnabled'], ['importTheme'],['ssbOracleUsersProxied'],['defaultTimeout'],['pageBuilder.enabled'],['grails.plugin.springsecurity.interceptUrlMap']]
+banner.analytics.trackerId=(System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')
+banner.analytics.allowEllucianTracker=(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER') ? Boolean.parseBoolean(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER')): true) // true|false - default true
+
+productName="Banner General"
+banner.applicationName="BannerExtensibility"

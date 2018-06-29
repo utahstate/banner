@@ -2,7 +2,7 @@ properties([gitLabConnection('gitlab.usu.edu')])
 
 node {
   def javaHome = tool 'OracleJDK8'
-  def baseImage = docker.image('harbor.usu.edu/banner/base-bannerselfservice:oraclelinux6-tomcat8-java8')
+  def baseImage = docker.image('edurepo/banner9-selfservice:tomcat8-jre8-alpine')
 
   stage 'Checkout'
     checkout scm
@@ -22,8 +22,9 @@ node {
           s3Download(file:'BannerExtensibility.war', bucket:'usu-banner-builds', path:"banner/input/bannerextensibility/${env.BRANCH_NAME}/BannerExtensibility.war", force:true)
         }
       }
-      sh "${javaHome}/bin/jar uvf BannerExtensibility.war WEB-INF"
-      sh "${javaHome}/bin/jar uvf BannerExtensibility.war js"
+      sh "mkdir BannerExtensibility  && cd BannerExtensibility && ${javaHome}/bin/jar xvf ../BannerExtensibility.war"
+      sh "cp WEB-INF/classes/* BannerExtensibility/WEB-INF/classes/"
+
     }
 
 

@@ -1,33 +1,21 @@
-FROM harbor.usu.edu/banner/base-bannerselfservice:oraclelinux6-tomcat8-java8
-MAINTAINER "Eric Allen <eric.allen@usu.edu>"
+FROM edurepo/banner9-selfservice:tomcat8-jre8-alpine
+LABEL version="9.2" \
+  maintainer="Eric Allen <eric.allen@usu.edu>"
 
 USER root
-RUN mkdir -p /opt/xe/extensibility/pb \
-  && mkdir -p /opt/xe/extensibility/pb/i18n \
-  && mkdir -p /opt/xe/extensibility/pb/page \
-  && mkdir -p /opt/xe/extensibility/pb/css \
-  && mkdir -p /opt/xe/extensibility/pb/virtdom \
-  && mkdir -p /opt/xe/extensibility/themes \
-  && chown -R tomcat:tomcat /opt/xe/extensibility
+RUN mkdir -p /opt/banner/extensibility/pb \
+  && mkdir -p /opt/banner/extensibility/pb/i18n \
+  && mkdir -p /opt/banner/extensibility/pb/page \
+  && mkdir -p /opt/banner/extensibility/pb/css \
+  && mkdir -p /opt/banner/extensibility/pb/virtdom \
+  && mkdir -p /opt/banner/extensibility/themes \
+  && chown -R tomcat:tomcat /opt/banner/extensibility
 
 VOLUME /opt/xe/extensibility
 USER tomcat
 
-ENV JAVA_OPTS -Duser.timezone=\$TIMEZONE \
-    -Xms\$XMS -Xmx\$XMX \
-    -XX:MaxPermSize=\$MAXPERMSIZE -Dbanproxy.jdbc.url=\$BANPROXY_JDBC_URL \
-    -Dbanproxy.password=\$BANPROXY_PASSWORD \
-    -Dbanproxy.initialsize=\$BANPROXY_INITIALSIZE \
-    -Dbanproxy.maxactive=\$BANPROXY_MAXACTIVE \
-    -Dbanproxy.maxidle=\$BANPROXY_MAXIDLE \
-    -Dbanproxy.maxwait=\$BANPROXY_MAXWAIT \
-    -Dbanssuser.jdbc.url=\$BANSSUSER_JDBC_URL \
-    -Dbanssuser.password=\$BANSSUSER_PASSWORD \
-    -Dbanssuser.initialsize=\$BANSSUSER_INITIALSIZE \
-    -Dbanssuser.maxactive=\$BANSSUSER_MAXACTIVE \
-    -Dbanssuser.maxidle=\$BANSSUSER_MAXIDLE \
-    -Dbanssuser.maxwait=\$BANSSUSER_MAXACTIVE \
-    -Dcas.serverurlprefix=\$GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERURLPREFIX \
-    -Dserver.name=\$GRAILS_PLUGIN_SPRINGSECURITY_CAS_SERVERNAME
+ENV TIMEZONE=America/Denver \
+    BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER=false
 
-COPY BannerExtensibility.war /usr/local/tomcat/webapps/BannerExtensibility.war
+
+COPY --chown=tomcat:tomcat BannerExtensibility /usr/local/tomcat/webapps/BannerExtensibility
