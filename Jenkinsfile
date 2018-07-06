@@ -20,7 +20,7 @@ node {
         }
       } else {
         withAWS(credentials:"Jenkins-S3", region:'us-east-1'){
-          s3Download(file: 'EmployeeSelfService.war', bucket:'usu-banner-builds', path:"banner/input/employeeselfservice/9.5/EmployeeSelfService.war", force:true)
+          s3Download(file: 'EmployeeSelfService.war', bucket:'usu-banner-builds', path:"banner/input/employeeselfservice/${env.BRANCH_NAME}/EmployeeSelfService.war", force:true)
         }
       }
       sh "mkdir EmployeeSelfService && cd EmployeeSelfService && ${javaHome}/bin/jar xvf ../EmployeeSelfService.war"
