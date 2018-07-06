@@ -24,7 +24,7 @@ node {
         }
       }
       sh "mkdir EmployeeSelfService && cd EmployeeSelfService && ${javaHome}/bin/jar xvf ../EmployeeSelfService.war"
-      sp "cp WEB-INF/classes/* EmployeeSelfService/WEB-INF/classes/"
+      sh "cp WEB-INF/classes/* EmployeeSelfService/WEB-INF/classes/"
     }
 
   stage 'Build Image'
