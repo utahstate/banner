@@ -87,9 +87,9 @@ grails {
         springsecurity {
             cas {
                 active = true
-                serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/applicationNavigator/j_spring_cas_security_check"
+                serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/EmployeeSelfService/j_spring_cas_security_check"
                 serverName       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT')
-                proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/applicationNavigator/secure/receptor"
+                proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/EmployeeSelfService/secure/receptor"
                 loginUri         = '/login'
                 sendRenew        = false
                 proxyReceptorUrl = '/secure/receptor'
