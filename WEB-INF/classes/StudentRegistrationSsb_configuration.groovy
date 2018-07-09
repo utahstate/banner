@@ -194,7 +194,7 @@ sdeEnabled=(System.getenv('SDEENABLED') ? Boolean.parseBoolean(System.getenv('SD
  *    Banner 8 SS Student Account link                                          *
  *                                                                              *
  ***************************************************************************** **/
-banner8.SS.studentAccountUrl = (System.getenv('BANNER8_SS_STUDENTACCOUNTURL') ?: "http://<host_name>:<port_number>/<banner8ssb>/twbkwbis.P_GenMenu?name=bmenu.P_ARMnu")
+banner8.SS.studentAccountUrl = (System.getenv('BANNER8_SS_URL') ?: "http://<host_name>:<port_number>/<banner8ssb>/") + "twbkwbis.P_GenMenu?name=bmenu.P_ARMnu"
 
 
 /** *****************************************************************************
@@ -344,12 +344,12 @@ bookstore = [
 //
 grails {
     mail {
-        host = (System.getenv('GRAILS_MAIL_HOST') ?: 'mailhost.sct.com')
+        host = "your.smtp.address"
     }
 }
-grails.mail.default.from=(System.getenv('GRAILS_MAIL_DEFAULT_FROM') ?: 'firstname.lastname@ellucian.com')
-allowPrint = (System.getenv('ALLOWPRINT') ? Boolean.parseBoolean(System.getenv('ALLOWPRINT')): true )
-ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED')): true )       //true - allow Pidm users to reset their password.      false - throws functionality disabled error message
+grails.mail.default.from="your_email_address@school.edu"
+allowPrint = true
+ssbPassword.reset.enabled = true        //true - allow Pidm users to reset their password.      false - throws functionality disabled error message
 
 /** *****************************************************************************
  *                                                                              *
@@ -362,7 +362,7 @@ ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolea
 //  To enable this link from the XE Registration Prepare for Registration page,
 //  set to 'Y'.  If the Update Term Data should not be accessible from XE, set to 'N'.
 //
-updateStudentTermData = (System.getenv('UPDATESTUDENTTERMDATA') ?: 'N')
+updateStudentTermData = 'N'
 
 /** *****************************************************************************
  *                                                                              *
@@ -408,7 +408,7 @@ grails.plugin.springsecurity.homePageUrl=(System.getenv('GRAILS_PLUGIN_SPRINGSEC
  *              Transaction timeout Configuration (in seconds)                  *
  *                                                                              *
  ***************************************************************************** **/
-defaultWebSessionTimeout = (System.getenv('DEFAULTWEBSESSIONTIMEOUT') ?Integer.parseInt(System.getenv('DEFAULTWEBSESSIONTIMEOUT')): 15000 )
+defaultWebSessionTimeout = 15000
 
 /** *****************************************************************************
  *                                                                              *
@@ -421,22 +421,22 @@ grails.plugin.xframeoptions.urlPattern = '/login/auth'
 grails.plugin.xframeoptions.deny = true
 
 /** *****************************************************************************
-*                                                                              *
-*           Theme server support ( Platform 9.19, 9.20.2)                             *
-*                                                                              *
-***************************************************************************** **/
-banner.theme.url=(System.getenv('BANNER_THEME_URL') ?: "http://ThemeServer:8080/pathTo/ssb/theme" )
-banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: "default" )
-banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: "all" )
-banner.theme.cacheTimeOut=120 //Replace time_interval_in_seconds with a number like 120
+ *                                                                              *
+ *           Theme server support ( Platform 9.19, 9.20.2)                             *
+ *                                                                              *
+ ***************************************************************************** **/
+banner.theme.url="http://ThemeServer:8080/pathTo/ssb/theme"
+banner.theme.name="default"
+banner.theme.template="all"
+banner.theme.cacheTimeOut=time_interval_in_seconds //Replace time_interval_in_seconds with a number like 120
 
 /** *****************************************************************************
  *                                                                              *
  *               Google Analytics (Platform 9.20)                               *
  *                                                                              *
  ***************************************************************************** **/
- banner.analytics.trackerId=(System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')
- banner.analytics.allowEllucianTracker=(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER') ? Boolean.parseBoolean(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER')): true)
+banner.analytics.trackerId=''
+banner.analytics.allowEllucianTracker=true
 
 /** *****************************************************************************
  *                                                                              *
@@ -451,15 +451,13 @@ configJob.actualCount = -1
 /************************************************************
  Extensibility extensions & i18n file location
  ************************************************************/
-
 webAppExtensibility {
     locations {
-                extensions = "/opt/banner/extensions/ss_ext/extensions/"
-                resources = "/opt/banner/extensions/ss_ext/i18n/"
+                extensions = "/opt/banner/extensibility/extensions"
+                resources = "/opt/banner/extensibility/i18n"
     }
     adminRoles = "ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"
 }
-
 
 /** *****************************************************************************
  *                                                                              *
@@ -482,9 +480,9 @@ webAppExtensibility {
 //                              ['<Key4>']]
 //
 //
-/*
+
   ssconfig.app.seeddata.keys = [
-     ['banner.picturesPath':'Path to the directory where images will be stored'],
+     ['banner.picturesPath'],
      ['banner8.SS.url'],
      ['banner8.SS.studentAccountUrl'],
      ['grails.mail.host'],
@@ -498,4 +496,4 @@ webAppExtensibility {
      ['allowPrint'],
      ['updateStudentTermData']
   ]
-*/
+
