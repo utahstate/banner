@@ -322,7 +322,7 @@ seamless.menuEndpoints = [
 // The entries added must match those entries listed in the Web Tailor menus without
 // which they will not be displayed in the Application Navigator unified menu.
 seamless.selfServiceApps = [
-     (System.getenv("BANNER9_SS_URL") ?: 'http://APPLICATION_NAVIGATOR_HOST:PORT') + "/BannerExtensibility/"
+     (System.getenv("BANNER9_URL") ?: 'http://APPLICATION_NAVIGATOR_HOST:PORT') + "/BannerExtensibility/"
 ]
 
 seamless.logLevel="off"
