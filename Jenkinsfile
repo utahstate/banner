@@ -22,7 +22,8 @@ node {
           s3Download(file:'StudentSelfService.war', bucket:'usu-banner-builds', path:"banner/input/studentselfservice/${env.BRANCH_NAME}/StudentSelfService.war", force:true)
         }
       }
-      sh "${javaHome}/bin/jar uvf StudentSelfService.war WEB-INF"
+      sh "mkdir StudentSelfService && cd StudentSelfService && ${javaHome}/bin/jar xvf ../StudentSelfService.war"
+      sh "cp WEB-INF/classes/* StudentSelfService/WEB-INF/classes"
     }
 
 
