@@ -28,16 +28,19 @@ node {
    }
 
 
-    stage 'Build Image'
-      gitlabCommitStatus("Build Image"){
-      def img
-      withDockerRegistry([credentialsId: 'docker-registry-credentials', url: "https://harbor.usu.edu/"]){
-        if (env.BRANCH_NAME == "master"){
-          img = docker.build('harbor.usu.edu/banner/applicationnavigator:latest')
+  stage 'Build Image'
+    gitlabCommitStatus("Build Image"){
+     def img
+     withDockerRegistry([credentialsId: 'docker-registry-credentials', url: "https://harbor.usu.edu/"]){
+      if (env.BRANCH_NAME == "master"){
+                  img = docker.build('harbor.usu.edu/banner/applicationnavigator:latest')
         } else {
           img = docker.build("harbor.usu.edu/banner/applicationnavigator:${env.BRANCH_NAME}")
           img.push()
         }
       }
     }
+
+  stage 'Clean Workspace'
+    cleanWs()
 }
