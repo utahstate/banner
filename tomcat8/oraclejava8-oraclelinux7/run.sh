@@ -96,6 +96,7 @@ if [ -z "$CONFIG_FILE" ]; then
   setPropFromEnv banproxy.username "$BANPROXY_USERNAME"
   setPropFromEnv banproxy.initialsize "$BANPROXY_INITALSIZE"
   setPropFromEnv banproxy.maxtotal "$BANPROXY_MAXTOTAL"
+  setPropFromEnv banproxy.maxactive "$BANPROXY_MAXACTIVE"
   setPropFromEnv banproxy.maxidle "$BANPROXY_MAXIDLE"
   setPropFromEnv banproxy.maxwait "$BANPROXY_MAXWAIT"
   setPropFromEnv cas.url "$CAS_URL"
