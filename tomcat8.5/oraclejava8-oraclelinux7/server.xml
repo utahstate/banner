@@ -56,7 +56,10 @@
   validationQuery="select 1 from dual"
   validationInterval="30000"
   accessToUnderlyingConnectionAllowed="true"
-  removeAbandonedOnBorrow="true" removeAbandonedTimeout="180"
+  removeAbandonedOnMaintenance="true" 
+  removeAbandonedOnBorrow="true"
+  removeAbandonedTimeout="2100" 
+  logAbandoned="true"
   testOnBorrow="true"/>
   </GlobalNamingResources>
 

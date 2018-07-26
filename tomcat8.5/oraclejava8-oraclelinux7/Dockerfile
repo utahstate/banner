@@ -71,8 +71,7 @@ ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod
   BANPROXY_MAXIDLE=-1 \
   BANPROXY_MAXWAIT=30000
 
-ENV JAVA_OPTS -Duser.timezone=\$TIMEZONE -XX:+UseParallelGC
-ENV CATALINA_OPTS -Xms\$XMS -Xmx\$XMX -Dlog4j.configuration=config.properties
+ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -Duser.timezone=\$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false"
 
 ADD https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/ojdbc7/12.1.0.2/ojdbc7-12.1.0.2.jar /usr/local/tomcat/lib/ojdbc7.jar
 ADD https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/xdb6/12.1.0.2/xdb6-12.1.0.2.jar /usr/local/tomcat/lib/xdb6.jar

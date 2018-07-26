@@ -8,8 +8,7 @@ ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod
   BANPROXY_MAXIDLE=-1 \
   BANPROXY_MAXWAIT=30000
 
-ENV JAVA_OPTS -Duser.timezone=\$TIMEZONE -XX:+UseParallelGC
-ENV CATALINA_OPTS -Xms\$XMS -Xmx\$XMX -Dlog4j.configuration=config.properties
+ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -Duser.timezone=\$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false"
 
 RUN rm -Rf /usr/local/tomcat/webapps/* \
     && apk add --no-cache tzdata \
