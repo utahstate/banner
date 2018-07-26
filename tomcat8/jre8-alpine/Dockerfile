@@ -13,7 +13,7 @@ ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod
   BANSSUSER_MAXIDLE=-1 \
   BANSSUSER_MAXWAIT=30000
 
-ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -Duser.timezone=\$TIMEZONE"
+ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -Duser.timezone=\$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false"
 
 RUN apk add --no-cache xmlstarlet \
     && rm -Rf /usr/local/tomcat/webapps/* \
