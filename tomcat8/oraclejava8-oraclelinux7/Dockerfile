@@ -2,11 +2,11 @@ FROM oraclelinux:7 as java8
 
 RUN yum install gzip tar curl -y && rm -rf /var/cache/yum
 
-ENV JAVA_VERSION=8u172 \
-    JAVA_BNUMBER=11 \
-    JAVA_SEMVER=1.8.0_172 \
+ENV JAVA_VERSION=8u181 \
+    JAVA_BNUMBER=13 \
+    JAVA_SEMVER=1.8.0_181 \
     JAVA_HOME=/opt/jre-home \
-    JAVA_HASH=a58eab1ec242421181065cdc37240b08 \
+    JAVA_HASH=96a7b8442fe848ef90c96a2fad6ed6d1 \
     TIMEZONE=America/New_York
 
 
@@ -47,7 +47,7 @@ RUN  for key in \
 	done
 
 ENV TOMCAT_MAJOR=8
-ENV TOMCAT_VERSION=8.0.52
+ENV TOMCAT_VERSION=8.0.53
 ENV TOMCAT_TGZ_URL=https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
 
 
@@ -74,9 +74,13 @@ ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod
   BANSSUSER_INITALSIZE=25 \
   BANSSUSER_MAXTOTAL=400 \
   BANSSUSER_MAXIDLE=-1 \
-  BANSSUSER_MAXWAIT=30000
+  BANSSUSER_MAXWAIT=30000 \
+  REMOVE_ABANDONED_ON_MAINTENANCE=true \
+  REMOVE_ABANDONED_ON_BORROW=true \
+  REMOVE_ABANDONED_TIMEOUT=2100 \
+  LOG_ABANDONED=true
 
-ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -Duser.timezone=\$TIMEZONE"
+ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -Duser.timezone=\$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false"
 
 RUN curl -fSL https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -o /tmp/epel-release-latest-7.noarch.rpm \
   && yum install /tmp/epel-release-latest-7.noarch.rpm -y \
