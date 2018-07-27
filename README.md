@@ -72,6 +72,10 @@ BANPROXY_INITALSIZE - default: 25
 BANPROXY_MAXTOTAL - default: 400
 BANPROXY_MAXIDLE - default: -1
 BANPROXY_MAXWAIT - default: 30000
+REMOVE_ABANDONED_ON_MAINTENANCE - default: true
+REMOVE_ABANDONED_ON_BORROW - default: true
+REMOVE_ABANDONED_TIMEOUT - default: 2100
+LOG_ABANDONED - default: true
 CAS_URL - example: https://cas.local.com/cas
 BANNER9_URL - example: https://banner9.school.edu
 THEME_URL - example: https://banner9.school.edu/BannerExtensibility/theme/getTheme?name=dev&amp;template=admin
@@ -91,6 +95,10 @@ banproxy.initialsize=25
 banproxy.maxtotal=400
 banproxy.maxidle=-1
 banproxy.maxwait=30000
+remove.abandoned.on.maintenance = true
+remove.abandoned.on.borrow = true
+remove.abandoned.timeout = 2100
+log.abandoned = true
 cas.url=https://cas.local.com/cas
 banner9.baseurl=https://banner9.school.edu
 theme.url=https://banner9.school.edu/BannerExtensibility/theme/getTheme?name=dev&template=admin
