@@ -101,6 +101,10 @@ if [ -z "$CONFIG_FILE" ]; then
   setPropFromEnv cas.url "$CAS_URL"
   setPropFromEnv banner9.baseurl "$BANNER9_URL"
   setPropFromEnv theme.url "$THEME_URL"
+  setPropFromEnv remove.abandoned.on.maintenance "$REMOVE_ABANDONED_ON_MAINTENANCE"
+  setPropFromEnv remove.abandoned.on.borrow "$REMOVE_ABANDONED_ON_BORROW"
+  setPropFromEnv remove.abandoned.timeout "$REMOVE_ABANDONED_TIMEOUT"
+  setPropFromEnv log.abandoned "$LOG_ABANDONED"
 fi
 
 if [ -n "$JMX_PORT" ]; then
