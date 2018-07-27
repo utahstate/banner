@@ -95,6 +95,7 @@ if [ -z "$CONFIG_FILE" ]; then
   setPropFromEnv bannerdb.jdbc "$BANNERDB_JDBC"
   setPropFromEnv banproxy.username "$BANPROXY_USERNAME"
   setPropFromEnv banproxy.initialsize "$BANPROXY_INITALSIZE"
+  setPropFromEnv banproxy.maxactive "$BANPROXY_MAXACTIVE"
   setPropFromEnv banproxy.maxtotal "$BANPROXY_MAXTOTAL"
   setPropFromEnv banproxy.maxidle "$BANPROXY_MAXIDLE"
   setPropFromEnv banproxy.maxwait "$BANPROXY_MAXWAIT"

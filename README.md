@@ -26,7 +26,7 @@ Uncompress the three banner admin wars into the same directory as the Dockerfile
 #### DockerFile
 
 ```Dockerfile
-FROM edurepo/banner9-admin:tomcat8-jre8-alpine 
+FROM edurepo/banner9-admin:tomcat8-jre8-alpine
 
 COPY --chown=tomcat:tomcat BannerAdmin /usr/local/tomcat/webapps/BannerAdmin
 COPY --chown=tomcat:tomcat BannerAdmin.ws /usr/local/tomcat/webapps/BannerAdmin.ws
@@ -72,6 +72,7 @@ BANPROXY_INITALSIZE - default: 25
 BANPROXY_MAXTOTAL - default: 400
 BANPROXY_MAXIDLE - default: -1
 BANPROXY_MAXWAIT - default: 30000
+BANPROXY_MAXACTIVE - default: 100
 CAS_URL - example: https://cas.local.com/cas
 BANNER9_URL - example: https://banner9.school.edu
 THEME_URL - example: https://banner9.school.edu/BannerExtensibility/theme/getTheme?name=dev&amp;template=admin
@@ -91,6 +92,7 @@ banproxy.initialsize=25
 banproxy.maxtotal=400
 banproxy.maxidle=-1
 banproxy.maxwait=30000
+banproxy.maxactive=100
 cas.url=https://cas.local.com/cas
 banner9.baseurl=https://banner9.school.edu
 theme.url=https://banner9.school.edu/BannerExtensibility/theme/getTheme?name=dev&template=admin

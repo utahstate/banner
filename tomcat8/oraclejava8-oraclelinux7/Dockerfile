@@ -69,7 +69,8 @@ ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod
   BANPROXY_INITALSIZE=25 \
   BANPROXY_MAXTOTAL=400 \
   BANPROXY_MAXIDLE=-1 \
-  BANPROXY_MAXWAIT=30000
+  BANPROXY_MAXWAIT=30000 \
+  BANRPOXY_MAXACTIVE=300
 
 ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -Duser.timezone=\$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false"
 
