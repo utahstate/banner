@@ -57,6 +57,10 @@ BANSSUSER_INITALSIZE - default: 25
 BANSSUSER_MAXTOTAL - default: 400
 BANSSUSER_MAXIDLE - default: -1
 BANSSUSER_MAXWAIT - default: 30000
+REMOVE_ABANDONED_ON_MAINTENANCE - default: true
+REMOVE_ABANDONED_ON_BORROW - default: true
+REMOVE_ABANDONED_TIMEOUT - default: 2100
+LOG_ABANDONED - default: true
 CAS_URL - default: https://cas.local.com/cas
 BANNER9_URL - default: https://banner9.school.edu
 ```
@@ -79,6 +83,10 @@ banssuser.initialsize = 25
 banssuser.maxtotal = 400
 banssuser.maxidle = -1
 banssuser.maxwait = 30000
+remove.abandoned.on.maintenance = true
+remove.abandoned.on.borrow = true
+remove.abandoned.timeout = 2100
+log.abandoned = true
 cas.url = https://cas.local.com/cas
 banner9.url = https://banner9.school.edu
 ```
