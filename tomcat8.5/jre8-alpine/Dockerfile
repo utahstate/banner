@@ -6,10 +6,13 @@ ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod
   BANPROXY_INITALSIZE=25 \
   BANPROXY_MAXTOTAL=400 \
   BANPROXY_MAXIDLE=-1 \
-  BANPROXY_MAXWAIT=30000
+  BANPROXY_MAXWAIT=30000 \
+  REMOVE_ABANDONED_ON_MAINTENANCE=true \
+  REMOVE_ABANDONED_ON_BORROW=true \
+  REMOVE_ABANDONED_TIMEOUT=2100 \
+  LOG_ABANDONED=true
 
-ENV JAVA_OPTS -Duser.timezone=\$TIMEZONE -XX:+UseParallelGC
-ENV CATALINA_OPTS -Xms\$XMS -Xmx\$XMX -Dlog4j.configuration=config.properties
+ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -Duser.timezone=\$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false"
 
 RUN rm -Rf /usr/local/tomcat/webapps/* \
     && apk add --no-cache tzdata \

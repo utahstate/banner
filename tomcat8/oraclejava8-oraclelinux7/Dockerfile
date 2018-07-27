@@ -2,11 +2,11 @@ FROM oraclelinux:7-slim as java8
 
 RUN yum install gzip tar curl -y && rm -rf /var/cache/yum
 
-ENV JAVA_VERSION=8u172 \
-    JAVA_BNUMBER=11 \
-    JAVA_SEMVER=1.8.0_172 \
+ENV JAVA_VERSION=8u181 \
+    JAVA_BNUMBER=13 \
+    JAVA_SEMVER=1.8.0_181 \
     JAVA_HOME=/opt/jre-home \
-    JAVA_HASH=a58eab1ec242421181065cdc37240b08 \
+    JAVA_HASH=96a7b8442fe848ef90c96a2fad6ed6d1 \
     TIMEZONE=America/New_York
 
 
@@ -47,7 +47,7 @@ RUN  for key in \
 	done
 
 ENV TOMCAT_MAJOR=8
-ENV TOMCAT_VERSION=8.0.52
+ENV TOMCAT_VERSION=8.0.53
 ENV TOMCAT_TGZ_URL=https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
 
 
@@ -69,10 +69,13 @@ ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod
   BANPROXY_INITALSIZE=25 \
   BANPROXY_MAXTOTAL=400 \
   BANPROXY_MAXIDLE=-1 \
-  BANPROXY_MAXWAIT=30000
+  BANPROXY_MAXWAIT=30000 \
+  REMOVE_ABANDONED_ON_MAINTENANCE=true \
+  REMOVE_ABANDONED_ON_BORROW=true \
+  REMOVE_ABANDONED_TIMEOUT=2100 \
+  LOG_ABANDONED=true
 
-ENV JAVA_OPTS -Duser.timezone=\$TIMEZONE -XX:+UseParallelGC
-ENV CATALINA_OPTS -Xms\$XMS -Xmx\$XMX -Dlog4j.configuration=config.properties
+ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -Duser.timezone=\$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false"
 
 ADD https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/ojdbc7/12.1.0.2/ojdbc7-12.1.0.2.jar /usr/local/tomcat/lib/ojdbc7.jar
 ADD https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/xdb6/12.1.0.2/xdb6-12.1.0.2.jar /usr/local/tomcat/lib/xdb6.jar
