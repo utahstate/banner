@@ -1,8 +1,11 @@
 properties([gitLabConnection('gitlab.usu.edu')])
 
-node {
+pipeline {
+  agent any
+  
   def javaHome = tool 'OracleJDK8'
   def baseImage = docker.image('edurepo/banner9-selfservice:tomcat8.5-jre8-alpine')
+
 
   stages {
 
