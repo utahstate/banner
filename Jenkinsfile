@@ -1,24 +1,17 @@
 properties([gitLabConnection('gitlab.usu.edu')])
 
-pipeline {
-  agent any
-  
+node {
   def javaHome = tool 'OracleJDK8'
   def baseImage = docker.image('edurepo/banner9-selfservice:tomcat8.5-jre8-alpine')
 
-
-  stages {
-
-  
-  stage ('Checkout'){
+  stage 'Checkout'
     checkout scm
     echo "Branch Name ${env.BRANCH_NAME} Build ID ${env.BUILD_ID} Build Number ${env.BUILD_NUMBER} Job Name ${env.JOB_NAME}"
     withDockerRegistry([credentialsId: 'docker-registry-credentials', url: "https://harbor.usu.edu"]){
       baseImage.pull()
     }
-  }
 
-  stage ('Build War'){
+  stage 'Build War'
     gitlabCommitStatus("Build War"){
       if (env.BRANCH_NAME == "master"){
         withAWS(credentials:"Jenkins-S3", region:'us-east-1'){
@@ -33,10 +26,9 @@ pipeline {
       sh "cp WEB-INF/classes/* applicationNavigator/WEB-INF/classes/"
       sh "cp css/* applicationNavigator/css/"
    }
-  }
 
 
-  stage ('Build Image'){
+  stage 'Build Image'
     gitlabCommitStatus("Build Image"){
      def img
      withDockerRegistry([credentialsId: 'docker-registry-credentials', url: "https://harbor.usu.edu/"]){
@@ -48,10 +40,7 @@ pipeline {
         }
       }
     }
-  }
 
-  stage ('Clean Workspace'){
+  stage 'Clean Workspace'
     cleanWs()
-  }
-  }
 }
