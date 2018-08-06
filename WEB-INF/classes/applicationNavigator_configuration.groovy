@@ -336,7 +336,7 @@ seamless.exposeMenu=true
 // Example: seamless.brandTitle=["Default": "Ellucian University","<MEP_CODE>":"<MEP_BRAND_TITLE>", "<MEP_CODE>":"<MEP_BRAND_TITLE>"]
 seamless.brandTitle=["Default": (System.getenv('SEAMLESS_BRANDTITLE') ?: "Ellucian University" )]
 
-seamless.sessionTimeout = (System.getenv('SEAMLESS_SESSIONTIMEOUT') ? Integer.parseInt(System.getenv('SEAMLESS_SESSIONTIMEOUT')) :30 )              // Session timeout in minutes. A value of -1 indicates session does not timeout
+seamless.sessionTimeout = (System.getenv('SEAMLESS_SESSIONTIMEOUT') ? Integer.parseInt(System.getenv('SEAMLESS_SESSIONTIMEOUT')) :30 )             // Session timeout in minutes. A value of -1 indicates session does not timeout
 seamless.sessionTimeoutNotification = (System.getenv('SEAMLESS_SESSIONTIMEOUTNOTIFICATION') ? Integer.parseInt(System.getenv('SEAMLESS_SESSIONTIMEOUTNOTIFICATION')) : 5 )  // Notification prompt x minutes before sessionTimeout
 
 // This list includes objects to be excluded from search
@@ -392,9 +392,9 @@ grails.plugin.xframeoptions.urlPattern = '/login/auth'
 
 
  /********************************************************************************
-  *                                                                              *
+ *                                                                              *
  *              Google Analytics Configuration                                  *
  *                                                                              *
  ********************************************************************************/
- banner.analytics.trackerId=(System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')              // institution's analytics tracker ID - blank by default
+ banner.analytics.trackerId=(System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')               // institution's analytics tracker ID - blank by default
  banner.analytics.allowEllucianTracker=(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER') ? Boolean.parseBoolean(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER')): true)  // true|false - default true

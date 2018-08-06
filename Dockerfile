@@ -1,7 +1,7 @@
 FROM edurepo/banner9-selfservice:tomcat8.5-jre8-alpine
 MAINTAINER "Eric Allen <eric.allen@usu.edu>"
 
-LABEL version="3.0.0.2"
+LABEL version="3.0.0.3"
 ENV TIMEZONE America/Denver 
 
 COPY applicationNavigator /usr/local/tomcat/webapps/applicationNavigator
