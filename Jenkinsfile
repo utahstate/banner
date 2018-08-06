@@ -4,7 +4,10 @@ node {
   def javaHome = tool 'OracleJDK8'
   def baseImage = docker.image('edurepo/banner9-selfservice:tomcat8.5-jre8-alpine')
 
-  stage 'Checkout'{
+  stages {
+
+  
+  stage ('Checkout'){
     checkout scm
     echo "Branch Name ${env.BRANCH_NAME} Build ID ${env.BUILD_ID} Build Number ${env.BUILD_NUMBER} Job Name ${env.JOB_NAME}"
     withDockerRegistry([credentialsId: 'docker-registry-credentials', url: "https://harbor.usu.edu"]){
@@ -12,7 +15,7 @@ node {
     }
   }
 
-  stage 'Build War'{
+  stage ('Build War'){
     gitlabCommitStatus("Build War"){
       if (env.BRANCH_NAME == "master"){
         withAWS(credentials:"Jenkins-S3", region:'us-east-1'){
@@ -30,7 +33,7 @@ node {
   }
 
 
-  stage 'Build Image'{
+  stage ('Build Image'){
     gitlabCommitStatus("Build Image"){
      def img
      withDockerRegistry([credentialsId: 'docker-registry-credentials', url: "https://harbor.usu.edu/"]){
@@ -44,7 +47,8 @@ node {
     }
   }
 
-  stage 'Clean Workspace'{
+  stage ('Clean Workspace'){
     cleanWs()
+  }
   }
 }
