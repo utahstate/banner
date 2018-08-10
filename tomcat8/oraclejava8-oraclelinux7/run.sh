@@ -106,6 +106,7 @@ if [ -z "$CONFIG_FILE" ]; then
   setPropFromEnv remove.abandoned.on.borrow "$REMOVE_ABANDONED_ON_BORROW"
   setPropFromEnv remove.abandoned.timeout "$REMOVE_ABANDONED_TIMEOUT"
   setPropFromEnv log.abandoned "$LOG_ABANDONED"
+  setPropFromEnv bannerdb.rowPrefetch "$DEFAULT_ROW_PREFETCH"
 fi
 
 if [ -n "$JMX_PORT" ]; then

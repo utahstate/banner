@@ -61,7 +61,8 @@
   removeAbandonedOnBorrow="${remove.abandoned.on.borrow}"
   removeAbandonedTimeout="${remove.abandoned.timeout}"
   logAbandoned="${log.abandoned}"
-  testOnBorrow="true"/>
+  testOnBorrow="true"
+  connectionProperties="defaultRowPrefetch=${bannerdb.rowPrefetch}"/>
   </GlobalNamingResources>
 
   <!-- A "Service" is a collection of one or more "Connectors" that share

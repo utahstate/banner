@@ -74,7 +74,8 @@ ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod
   REMOVE_ABANDONED_ON_MAINTENANCE=true \
   REMOVE_ABANDONED_ON_BORROW=true \
   REMOVE_ABANDONED_TIMEOUT=2100 \
-  LOG_ABANDONED=true
+  LOG_ABANDONED=true \
+  DEFAULT_ROW_PREFETCH=150
 
 ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -Duser.timezone=\$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false"
 
