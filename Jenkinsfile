@@ -7,7 +7,7 @@ node {
   stage 'Checkout'
     checkout scm
     echo "Branch Name ${env.BRANCH_NAME} Build ID ${env.BUILD_ID} Build Number ${env.BUILD_NUMBER} Job Name ${env.JOB_NAME}"
-    withDockerRegistry(){
+    withDockerRegistry([credentialsId: 'docker-registry-credentials', url: "https://harbor.usu.edu"]){
       baseImage.pull()
     }
 
