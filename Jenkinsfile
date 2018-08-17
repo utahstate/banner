@@ -1,5 +1,3 @@
-properties([gitLabConnection('gitlab.usu.edu')])
-
 node {
   def javaHome = tool 'OracleJDK8'
   def baseImage = docker.image('edurepo/banner9-selfservice:tomcat8.5-jre8-alpine')
@@ -12,7 +10,6 @@ node {
     }
 
   stage 'Build War'
-    gitlabCommitStatus("Build War"){
       if (env.BRANCH_NAME == "master"){
         withAWS(credentials:"Jenkins-S3", region:'us-east-1'){
           s3Download(file:'StudentRegistrationSsb.war', bucket:'usu-banner-builds', path:"banner/input/studentregistrationssb/9.6/StudentRegistrationSsb.war", force:true)
@@ -24,11 +21,10 @@ node {
       }
       sh "mkdir StudentRegistrationSsb && cd StudentRegistrationSsb && ${javaHome}/bin/jar xvf ../StudentRegistrationSsb.war"
       sh "cp WEB-INF/classes/* StudentRegistrationSsb/WEB-INF/classes"
-    }
+
 
 
     stage 'Build Image'
-      gitlabCommitStatus("Build Image"){
       def img
       withDockerRegistry([credentialsId: 'docker-registry-credentials', url: "https://harbor.usu.edu/"]){
         if (env.BRANCH_NAME == "master"){
@@ -38,5 +34,4 @@ node {
           img.push()
         }
       }
-    }
 }
