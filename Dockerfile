@@ -4,6 +4,15 @@ MAINTAINER "Eric Allen <eric.allen@usu.edu>"
 ENV BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER=false \
     TIMEZONE=America\Denver
 
+USER root
+
+# Fix timezone
+ENV TIMEZONE=America/Denver
+RUN cp -f /usr/share/zoneinfo/$TIMEZONE /etc/localtime
+RUN echo $TIMEZONE > /etc/timezone
+
+USER tomcat
+
 RUN mkdir -p /opt/banner/extensions/ss_ext/extensions/ \
     && mkdir -p /opt/banner/extensions/ss_ext/i18n/ \
     && chown -R tomcat:tomcat /opt/banner/extensions
