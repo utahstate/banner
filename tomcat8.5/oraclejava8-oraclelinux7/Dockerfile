@@ -47,7 +47,7 @@ RUN  for key in \
 	done
 
 ENV TOMCAT_MAJOR=8
-ENV TOMCAT_VERSION=8.5.32
+ENV TOMCAT_VERSION=8.5.33
 ENV TOMCAT_TGZ_URL=https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
 
 
@@ -80,7 +80,8 @@ ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod
   REMOVE_ABANDONED_ON_MAINTENANCE=true \
   REMOVE_ABANDONED_ON_BORROW=true \
   REMOVE_ABANDONED_TIMEOUT=2100 \
-  LOG_ABANDONED=true
+  LOG_ABANDONED=true \
+  DEFAULT_ROW_PREFETCH=150
 
 ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -Duser.timezone=\$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false"
 
