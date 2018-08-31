@@ -1,11 +1,12 @@
 FROM edurepo/banner9-selfservice:tomcat8.5-jre8-alpine
-MAINTAINER "Eric Allen <eric.allen@usu.edu>"
 
-LABEL version="3.0.0.3"
-ENV TIMEZONE America/Denver 
+LABEL version="3.1"
 
-COPY applicationNavigator /usr/local/tomcat/webapps/applicationNavigator
-
+# Fix timezone
 USER root
-RUN chown -R tomcat:tomcat /usr/local/tomcat/webapps/applicationNavigator
+ENV TIMEZONE=America/Denver
+RUN cp -f /usr/share/zoneinfo/$TIMEZONE /etc/localtime
+RUN echo $TIMEZONE > /etc/timezone
 USER tomcat
+
+COPY --chown=tomcat:tomcat applicationNavigator /usr/local/tomcat/webapps/applicationNavigator
