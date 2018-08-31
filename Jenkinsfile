@@ -31,7 +31,7 @@ node {
   stage 'Build Image'
     gitlabCommitStatus("Build Image"){
      def img
-     withDockerRegistry([credentialsId: 'docker-registry-credentials', url: "https://harbor.usu.edu/"]){
+     withDockerRegistry([credentialsId: 'docker-registry-credentials', url: "https://harbor.usu.edu"]){
       if (env.BRANCH_NAME == "master"){
                   img = docker.build('harbor.usu.edu/banner/applicationnavigator:latest')
         } else {
