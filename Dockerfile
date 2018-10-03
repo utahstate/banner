@@ -4,4 +4,4 @@ MAINTAINER "Eric Allen <eric.allen@usu.edu>"
 ENV BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER=false \
     TIMEZONE=America\Denver
 
-COPY FacultySelfService /usr/local/tomcat/webapps/FacultySelfService
+COPY --chown=tomcat:tomcat FacultySelfService /usr/local/tomcat/webapps/FacultySelfService

@@ -74,7 +74,7 @@ ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolea
  *    gradebook - Gradebook                                                           *
  *                                                                                    *
  *********************************************************************************** **/
-facultyGradeEntry.preSelectedTabId = (System.getenv('FACULTYGRADEENTRY_PRESELECTEDTABID' ?: 'final')
+facultyGradeEntry.preSelectedTabId = (System.getenv('FACULTYGRADEENTRY_PRESELECTEDTABID') ?: 'final')
 
 
 /** ***********************************************************************************
@@ -124,9 +124,9 @@ grails {
             cas {
                   active = true
                   serverUrlPrefix  = (System.getenv('CAS_URL') ?: 'http://CAS_HOST:PORT/cas')
-                  serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/StudentRegistrationSsb/j_spring_cas_security_check"
+                  serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/FacultySelfService/j_spring_cas_security_check"
                   serverName       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT')
-                  proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/StudentRegistrationSsb/secure/receptor"
+                  proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/FacultySelfService/secure/receptor"
                   loginUri         = '/login'
                   sendRenew        = false
                   proxyReceptorUrl = '/secure/receptor'
