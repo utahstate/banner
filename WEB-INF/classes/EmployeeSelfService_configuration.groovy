@@ -306,6 +306,13 @@ configJob.interval=60000 //Time in milliseconds to configure the interval at whi
 configJob.actualCount=-1 //The count of number of times the config job would run.  If value is -1, the job will run indefinitely.  If the value is o, the job will not run.  Default value is -1 when not configured.
 
 
+/** *****************************************************************************
+ *                                                                              *
+ *           Enable Effort Certification module                                 *
+ *                                                                              *
+ ***************************************************************************** **/
+banner.SS.effortReportingAppLinkAvailable='Y'
+
 /* Here are 3 patterns to use to configure the keys
 
 Pattern 1 - With key and value
