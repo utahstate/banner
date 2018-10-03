@@ -2,7 +2,7 @@ properties([gitLabConnection('gitlab.usu.edu')])
 
 node {
   def javaHome = tool 'OracleJDK8'
-  def baseImage = docker.image('edurepo/banner9-admin:tomcat8.5-jre8-alpine')
+  def baseImage = docker.image('edurepo/banner9-admin:tomcat8-jre8-alpine')
 
   stage 'Checkout'
     checkout scm
