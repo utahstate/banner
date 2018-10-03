@@ -1,16 +1,13 @@
 FROM edurepo/banner9-selfservice:tomcat8.5-jre8-alpine
-MAINTAINER "Eric Allen <eric.allen@usu.edu>"
 
-ENV BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER=false \
-    TIMEZONE=America\Denver
-
-USER root
+LABEL version="9.11"
+ENV BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER=false
 
 # Fix timezone
+USER root
 ENV TIMEZONE=America/Denver
 RUN cp -f /usr/share/zoneinfo/$TIMEZONE /etc/localtime
 RUN echo $TIMEZONE > /etc/timezone
-
 USER tomcat
 
 RUN mkdir -p /opt/banner/extensions/ss_ext/extensions/ \

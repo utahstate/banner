@@ -349,7 +349,7 @@ grails {
 }
 grails.mail.default.from=(System.getenv('GRAILS_MAIL_DEFAULT_FROM') ?: 'firstname.lastname@ellucian.com')
 allowPrint = true
-ssbPassword.reset.enabled = true        //true - allow Pidm users to reset their password.      false - throws functionality disabled error message
+ssbPassword.reset.enabled = false        //true - allow Pidm users to reset their password.      false - throws functionality disabled error message
 
 /** *****************************************************************************
  *                                                                              *
