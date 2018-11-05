@@ -1,5 +1,5 @@
 /** *****************************************************************************
- Copyright 2014-2017 Ellucian Company L.P. and its affiliates.
+ Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
 
 /** ****************************************************************************
@@ -46,7 +46,7 @@
 // application to ensure uniqueness.
 jmx {
     exported {
-        log4j = "BannerFinanceSSB-log4j"
+        log4j = "FinanceSelfService-log4j"
     }
 }
 
@@ -67,8 +67,8 @@ jmx {
 //
 log4j = {
     def String loggingFileDir = "/usr/local/tomcat"
-    def String logAppName = "BannerFinanceSSB"
-    def String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
+    def String logAppName = "FinanceSelfService"
+    def String loggingFileName = "${loggingFileDir}/${logAppName}.log".toString()
     appenders {
         rollingFile name: 'appLog', file: loggingFileName, maxFileSize: "${10 * 1024 * 1024}", maxBackupIndex: 10, layout: pattern( conversionPattern: '%d{[EEE, dd-MMM-yyyy @ HH:mm:ss.SSS]} [%t] %-5p %c %x - %m%n' )
     }
@@ -168,9 +168,9 @@ log4j = {
  *                         Self Service Support                                 *
  *                                                                              *
  ***************************************************************************** **/
-ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
-ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
-ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.valueOf(System.getenv('SSBPASSWORD_RESET_ENABLED')): true)        //true - allow Pidm users to reset their password. false - throws functionality disabled error message
+ssbEnabled = true
+ssbOracleUsersProxied = true
+ssbPassword.reset.enabled = true        //true - allow Pidm users to reset their password. false - throws functionality disabled error message
 
 /** *****************************************************************************
  *                                                                              *
@@ -193,7 +193,7 @@ grails.plugin.xframeoptions.deny = true
  *                                                                              *
  ***************************************************************************** **/
 // Default is false for ssbapplications.
-sdeEnabled = (System.getenv('SDEENABLED') ? Boolean.parseBoolean(System.getenv('SDEENABLED')): false )
+sdeEnabled = false
 
 /** *****************************************************************************
  *                                                                              *
@@ -208,7 +208,7 @@ sdeEnabled = (System.getenv('SDEENABLED') ? Boolean.parseBoolean(System.getenv('
 banner {
     sso {
         authenticationProvider = 'cas' //  Valid values are: 'default', 'cas' and 'saml'
-        authenticationAssertionAttribute = (System.getenv('BANNER_SSO_AUTHENTICATIONASSERTIONATTRIBUTE')?:'UDC_IDENTIFIER')
+        authenticationAssertionAttribute = 'UDC_IDENTIFIER'
         if (authenticationProvider != 'default') {
             grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
         }
@@ -248,11 +248,13 @@ grails {
                 }
             }
             logout {
-                afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?:  'https://cas-server/logout?url=http://myportal/main_page.html' )
+                afterLogoutUrl = 'https://cas-server/logout?url=http://myportal/main_page.html'
             }
         }
     }
 }
+
+grails.plugin.springsecurity.logout.mepErrorLogoutUrl='/logout/logoutPage'
 
 /** *************************************************************************************
  *                                                                                      *
@@ -292,32 +294,42 @@ grails.plugin.springsecurity.saml.metadata.sp.defaults = [
 
 webAppExtensibility {
     locations {
-        extensions = "/opt/banner/extensions/ss_ext/extensions/"
+        extensions = 'C:/BanXE/Extensions/ss_ext/extensions/'
         // for unix based Example:-'/home/oracle/config_extn/ssb/extensions/'
-        resources = "/opt/banner/extensions/ss_ext/i18n/"
+        resources = 'C:/BanXE/Extensions/ss_ext/i18n/'
         // for unix based Example:-'/home/oracle/config_extn/ssb/i18n/'
     }
-    adminRoles = "ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"
+    adminRoles = 'ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M'
 }
 
-// URL of application home page Example: http://localhost:port/BannerFinanceSSB
-grails.plugin.springsecurity.homePageUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL') ?: 'http://localhost:port/FinanceSelfService/')
+// URL of application home page Example: http://localhost:port/FinanceSelfService
+grails.plugin.springsecurity.homePageUrl = '<UPDATE_ME>'
 
 /******************************************************************************
  *   Configuration to use themes served by the Theme Server                   *
  ***************************************************************************** **/
-banner.theme.url = (System.getenv('BANNER_THEME_URL') ?: "http://BANNER9_HOST:PORT/ExampleApp/theme") //Required only if theme server is remote.
-//References the URL to the application hosting the Theme Server Example : http://hostname:port/BannerFinanceSSB/ssb/theme
-banner.theme.name = (System.getenv('BANNER_THEME_NAME') ?: "default") // This is the desired theme name to use. In a MEP environment, the application uses the MEP code as the theme name instead of
+banner.theme.url = '<UPDATE_ME>' //Required only if theme server is remote.
+//References the URL to the application hosting the Theme Server Example : http://hostname:port/FinanceSelfService/ssb/theme
+banner.theme.name = '<UPDATE_ME>' // This is the desired theme name to use. In a MEP environment, the application uses the MEP code as the theme name instead of
 // the banner.theme.name . A theme by this name must be created in the Theme Editor on the server specified by banner.theme.url
-banner.theme.template = (System.getenv('BANNER_THEME_TEMPLATE') ?: 'BannerFinanceSSB' ) // This is the name of the scss file containing the theme settings in war file.
+banner.theme.template = 'FinanceSelfService' // This is the name of the scss file containing the theme settings in war file.
 banner.theme.cacheTimeOut = 120 // seconds, required only if the app is theme server. The value indicates how long the CSS file that was generated using the template and the theme is cached.
 
 /******************************************************************************
  *                               Google Analytics                              *
  *******************************************************************************/
-banner.analytics.trackerId = (System.getenv('BANNER_ANALYTICS_TRACKERID') ?: '')            //institution's google analytics tracker ID - default blank
-banner.analytics.allowEllucianTracker = (System.getenv('BANNER_ANALYTICS_ALLOWELLUCIANTRACKER') ? Boolean.parseBoolean(System.getenv('BANNER_ANALYTICS_ALLOWELLUCIANTRACKER')): true )    //true|false - default true
+banner.analytics.trackerId = ''            //institution's google analytics tracker ID - default blank
+banner.analytics.allowEllucianTracker = true    //true|false - default true
+
+/** *****************************************************************************
+ *                                                                              *
+ *                      ConfigJob (Platform 9.23)                               *
+ *     Support for configurations to reside in the database.                    *
+ *                                                                              *
+ ***************************************************************************** **/
+configJob.delay = 60000
+configJob.interval = 120000
+configJob.actualCount = -1
 
 /******************************************************************************
  *                   Hibernate Secondary Level Caching                         *
@@ -341,7 +353,6 @@ bdmserver {
     Username = '<UPDATE ME>' /** User Name on BDM sever */
     Password = '<UPDATE ME>' /** User Password on BDM sever */
     BdmDataSource = '<UPDATE ME>' /** Data source */
-    KeyPassword = '<UPDATE ME>' /** Key Password */
     AppName = '<UPDATE ME>' /** Application Name */
 }
 
@@ -356,7 +367,12 @@ bdmserver {
 // finance common dashboard page
 banner {
     consolidated {
-        applications = [REQUISITION: true, FINANCEQUERY: true] // Applications that have been consolidated
+        applications = [REQUISITION: true, FINANCEQUERY: true, JOURNALS: true] // Applications that have been consolidated
+    }
+    finance{
+        excelExport{
+            fileType = 'xls' // options are xls or xlsx. If not defined, default is xls
+        }
     }
 }
 /** Name and path of logos for the PDF files. Example D:/PURCHASE_REQUISITION/LOGO/ellucian-logo.png on Windows or /u02/Tomcat7/images/ellucian-logo.png
@@ -381,6 +397,9 @@ banner {
     }
     commodity {
         copyItemText = true // copy printable commodity text to public comments, non-printable to private comments
+    }
+    nsfChecking{
+    	bypassChkOnApprovalOn = false // if false while Approval is ON, then on NSF Error, document is not allowed to be completed.
     }
 }
 
@@ -410,10 +429,24 @@ financeQuery {
     queryList {
         showHealthColumn = true
     }
-    excelExport {
-        fileType = 'xls' // options are xls or xlsx. If not defined, default is xls
-    }
     healthIcon {
         colorPercentageRange = [Green: 61..1000, Yellow: 21..60, Red: -1000..20]
+    }
+}
+
+/** *****************************************************************************
+*                                                                              *
+*                   My Journal configuration                             *
+*                                                                              *
+***************************************************************************** **/
+//JV
+banner{
+    journal{
+        documentTotal{
+            exclude = true // excluding it will not show the Document Total field in journal header popup
+        }
+		nsfChecking{
+    	bypassChkOnApprovalOn = false // if false while Approval is ON, then on NSF Error, document is not allowed to be completed.
+    }
     }
 }
