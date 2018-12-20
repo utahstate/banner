@@ -422,13 +422,20 @@ grails.plugin.xframeoptions.deny = true
 
 /** *****************************************************************************
  *                                                                              *
- *           Theme server support ( Platform 9.19, 9.20.2)                             *
+ *           Theme server support ( Platform 9.19, 9.20.2, 9.28.5)                             *
  *                                                                              *
  ***************************************************************************** **/
-banner.theme.url="http://ThemeServer:8080/pathTo/ssb/theme"
-banner.theme.name="default"
-banner.theme.template="all"
-banner.theme.cacheTimeOut=time_interval_in_seconds //Replace time_interval_in_seconds with a number like 120
+banner.theme.url="http://<hostname>:<port>/<application_name>/ssb/theme"
+   // Required only if theme server is remote. If empty the url defaults to current application.
+banner.theme.name = "<UPDATE_ME>"
+   // This is the desired theme name to use. In a MEP environment, the application uses the MEP code in addition to the theme name.
+   // Themes by MEP codes must be created in the Theme Editor on the server specified by banner.theme.url
+   // Eg: For SOUTH MEP code with banner.theme.name="default" we need to create a theme in theme editor with name "defaultSOUTH"
+banner.theme.template = "StudentRegistrationSsb-<update_app_version>" // Eg: StudentRegistrationSsb-9_12
+   // This is the name of the SCSS (template) file in war file.
+banner.theme.cacheTimeOut = 120 // Number in seconds. Eg: 120
+   // Required only if the app is the theme server.
+   // The value indicates how long the CSS file, that was generated using the template and the theme, is cached.
 
 /** *****************************************************************************
  *                                                                              *
@@ -453,8 +460,8 @@ configJob.actualCount = -1
  ************************************************************/
 webAppExtensibility {
     locations {
-                extensions = "/opt/banner/extensibility/extensions"
-                resources = "/opt/banner/extensibility/i18n"
+                extensions = "path to the directory location where extensions JSON files will be written to and read from"
+                resources = "path to the directory location where i18n files will be written to and read from"
     }
     adminRoles = "ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"
 }
@@ -482,7 +489,7 @@ webAppExtensibility {
 //
 
   ssconfig.app.seeddata.keys = [
-     ['banner.picturesPath'],
+     ['banner.picturesPath':'Path to the directory where images will be stored'],
      ['banner8.SS.url'],
      ['banner8.SS.studentAccountUrl'],
      ['grails.mail.host'],
@@ -496,4 +503,3 @@ webAppExtensibility {
      ['allowPrint'],
      ['updateStudentTermData']
   ]
-

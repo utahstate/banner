@@ -1,6 +1,6 @@
 FROM edurepo/banner9-selfservice:tomcat8.5-jre8-alpine
 
-LABEL version="9.11"
+LABEL version="9.12"
 ENV BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER=false
 
 # Fix timezone
