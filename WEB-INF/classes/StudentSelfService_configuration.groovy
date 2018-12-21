@@ -446,3 +446,22 @@ banner.analytics.trackerId=(System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')
  configJob.delay = 60000
  configJob.interval = 120000
  configJob.actualCount = -1
+
+  /** *****************************************************************************
+  *                                                                              *
+  *                      Config Migration (Platform 9.26)                        *
+  *                                                                              *
+  ***************************************************************************** **/
+  // Set values to be written to GUROCFG.
+  // ssconfig.app.seeddata.keys = [['<Key1>': <Boolean value>],
+  //                              ['<Key2>'],
+  //                              ['<Key3>': '<String Value>'],
+  //                              ['<Key4>']]
+
+  ssconfig.app.seeddata.keys = [
+    ['ssbPassword.reset.enabled': true],
+    ['banner.analytics.allowEllucianTracker': true],
+    ['defaultWebSessionTimeout': 15000]
+  ]
+
+  ssconfig.global.seeddata.keys =[]
