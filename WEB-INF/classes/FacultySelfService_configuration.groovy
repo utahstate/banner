@@ -166,13 +166,9 @@ grails {
 // The logging levels that may be configured are, in order: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
 //
 
-String loggingFileDir =  "/usr/local/tomcat/logs"
+String loggingFileDir =  "/usr/log/tomcat"
 String logAppName = "FacultySelfService"
 String loggingFileName = "${loggingFileDir}/${logAppName}.log".toString()
-
-
-//banner.analytics.trackerId=[institution's google analytics tracker ID - default blank]
-//banner.analytics.allowEllucianTracker=[true|false - default true]
 
 log4j = {
     appenders {
