@@ -59,9 +59,9 @@ jmx {
  *                              Self Service Support                                  *
  *                                                                                    *
  *********************************************************************************** **/
-ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
-ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
-ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED')): true ) //true  - allow Pidm users to reset their password.
+ ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
+ ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
+ssbPassword.reset.enabled = true //true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
 
 
@@ -90,7 +90,7 @@ facultyGradeEntry.displayMidterm = (System.getenv('FACULTYGRADEENTRY_DISPLAYMIDT
  *    false - No user will be able to access the Student Academic Review page.                          *
  *    true -  All users can access the page. If this is not configured then true is the default value.  *
  ********************************************************************************************************/
-showStudentAcademicReview = (System.getenv('SHOWSTUDENTACADEMICREVIEW') ?Boolean.parseBoolean(System.getenv('SHOWSTUDENTACADEMICREVIEW')) : true)
+showStudentAcademicReview = t(System.getenv('SHOWSTUDENTACADEMICREVIEW') ?Boolean.parseBoolean(System.getenv('SHOWSTUDENTACADEMICREVIEW')) : true)
 
 
 /** ***********************************************************************************
@@ -353,21 +353,28 @@ grails.plugin.xframeoptions.deny = true
 
 /** *****************************************************************************
  *                                                                              *
- *           Theme server support ( Platform 9.19, 9.20.2)                             *
+ *           Theme server support ( Platform 9.19, 9.20.2, 9.28.5)                             *
  *                                                                              *
  ***************************************************************************** **/
-banner.theme.url=(System.getenv('BANNER_THEME_URL') ?: "http://ThemeServer:8080/pathTo/ssb/theme" )
-banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: "default" )
-banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: "all" )
-banner.theme.cacheTimeOut=120 //Replace time_interval_in_seconds with a number like 120
+banner.theme.url="http://<hostname>:<port>/<application_name>/ssb/theme"
+  // Required only if theme server is remote. If empty the url defaults to current application.
+banner.theme.name = "<UPDATE_ME>"
+  // This is the desired theme name to use. In a MEP environment, the application uses the MEP code in addition to the theme name.
+  // Themes by MEP codes must be created in the Theme Editor on the server specified by banner.theme.url
+  // Eg: For SOUTH MEP code with banner.theme.name="default" we need to create a theme in theme editor with name "defaultSOUTH"
+banner.theme.template = "FacultySelfService-<update_app_version>" // Eg: FacultySelfService-9_8
+  // This is the name of the SCSS (template) file in war file.
+banner.theme.cacheTimeOut = 120 // Number in seconds. Eg: 120
+  // Required only if the app is the theme server.
+  // The value indicates how long the CSS file, that was generated using the template and the theme, is cached.
 
 /** *****************************************************************************
  *                                                                              *
  *               Google Analytics (Platform 9.20)                               *
  *                                                                              *
  ***************************************************************************** **/
-banner.analytics.trackerId=(System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')
-banner.analytics.allowEllucianTracker=(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER') ? Boolean.parseBoolean(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER')): true)
+banner.analytics.trackerId=''
+banner.analytics.allowEllucianTracker=true
 
 /** *****************************************************************************
  *                                                                              *

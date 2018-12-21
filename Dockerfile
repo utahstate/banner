@@ -3,7 +3,7 @@ FROM edurepo/banner9-selfservice:tomcat8.5-jre8-alpine
 
 ENV BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER=false
 
-LABEL version="9.l7"
+LABEL version="9.9"
 
 # Fix timezone
 USER root
