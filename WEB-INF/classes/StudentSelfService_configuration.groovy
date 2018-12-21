@@ -1,5 +1,5 @@
 /** ****************************************************************************
-         Copyright 2013-2017 Ellucian Company L.P. and its affiliates.
+         Copyright 2013-2018 Ellucian Company L.P. and its affiliates.
  *******************************************************************************/
 
 /** ****************************************************************************
@@ -18,9 +18,7 @@ regarding the configuration items contained within this file.
 This configuration file contains the following sections:
 
     * Self Service Support
-
     * Logging Configuration (Note: Changes here require restart -- use JMX to avoid the need restart)
-
     * CAS SSO Configuration (supporting administrative and self service users)
 
      NOTE: DataSource and JNDI configuration resides in the cross-module
@@ -49,15 +47,15 @@ jmx {
 
 ssbEnabled = (System.getenv('SSBENABLED') ? Boolean.parseBoolean(System.getenv('SSBENABLED')) : true )
 ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.parseBoolean(System.getenv('SSBORACLEUSERSPROXIED')) : true )
-ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED')) : true  )//true  - allow Pidm users to reset their password.
+ssbPassword.reset.enabled = true //true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
 
 // ******************************************************************************
 //                       +++ Navigation to other apps +++
 // ******************************************************************************
 
-classListApp.fgeURL = (System.getenv('CLASSLISTAPP_FGEURL') ?: 'http://host:port/StudentFacultyGradeEntry/' )
-classListApp.attrURL = (System.getenv('CLASSLISTAPP_ATTRURL') ?: 'http://host:port/FacultyAttendanceTrackingSsb/' )
+classListApp.fgeURL = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + '/FacultySelfService/'
+classListApp.attrURL = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + '/FacultySelfService/ssb/facultyAttendanceTracking'
 
 // ******************************************************************************
 //                       +++ LOGGER CONFIGURATION +++
@@ -296,7 +294,7 @@ webAppExtensibility {
     locations {
         extensions = "path to the directory location where extensions JSON files will be written to and read from"
         resources = "path to the directory location where i18n files will be written to and read from"
-        // for ex, 
+        // for ex,
         // extensions = "/home/oracle/config_extn/ssb/extensions/"
         // resources = "/home/oracle/config_extn/ssb/i18n/"
     }
@@ -416,27 +414,27 @@ grails.plugin.xframeoptions.deny = true
 
 /** *****************************************************************************
  *                                                                              *
- *           Theme server support ( Platform 9.19, 9.20.2)                      *
+ *           Theme server support ( Platform 9.19, 9.20.2, 9.28.5)                      *
  *                                                                              *
  ***************************************************************************** **/
-banner.theme.url = (System.getenv('BANNER_THEME_URL') ?: 'http://BANNER9_HOST:PORT/StudentSelfService/ssb/theme')         
-    // Required only if theme server is remote.
-banner.theme.name = (System.getenv('BANNER_THEME_NAME') ?: 'default')          
-    // This is the desired theme name to use. In a MEP environment, the application uses the MEP code as the theme name instead of 
-    // the banner.theme.name. A theme by this name must be created in the Theme Editor on the server specified by banner.theme.url
-banner.theme.template = (System.getenv('BANNER_THEME_TEMPLATE') ?: 'StudentSelfService')
-   // This is the name of the scss file containing the theme settings in war file.
-banner.theme.cacheTimeOut = 120 // in seconds. 
-    // Required only if the app is theme server. 
-    // The value indicates how long the CSS file that was generated using the template and the theme is cached.
-
+banner.theme.url="http://<hostname>:<port>/<application_name>/ssb/theme"
+  // Required only if theme server is remote. If empty the url defaults to current application.
+banner.theme.name = "<UPDATE_ME>"
+  // This is the desired theme name to use. In a MEP environment, the application uses the MEP code in addition to the theme name.
+  // Themes by MEP codes must be created in the Theme Editor on the server specified by banner.theme.url
+  // Eg: For SOUTH MEP code with banner.theme.name="default" we need to create a theme in theme editor with name "defaultSOUTH"
+banner.theme.template = "StudentSelfService-<update_app_version>" // Eg: StudentSelfService-9_9
+  // This is the name of the SCSS (template) file in war file.
+banner.theme.cacheTimeOut = 120 // Number in seconds. Eg: 120
+  // Required only if the app is the theme server.
+  // The value indicates how long the CSS file, that was generated using the template and the theme, is cached.
 /** *****************************************************************************
  *                                                                              *
  *               Google Analytics (Platform 9.20)                               *
  *                                                                              *
  ***************************************************************************** **/
-banner.analytics.trackerId=(System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')
- banner.analytics.allowEllucianTracker=(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER') ? Boolean.parseBoolean(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER')): true)
+banner.analytics.trackerId=''               //institution's google analytics tracker ID - default blank
+banner.analytics.allowEllucianTracker=true
 
 /** *****************************************************************************
  *                                                                              *
@@ -447,7 +445,7 @@ banner.analytics.trackerId=(System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')
  configJob.interval = 120000
  configJob.actualCount = -1
 
-  /** *****************************************************************************
+ /** *****************************************************************************
   *                                                                              *
   *                      Config Migration (Platform 9.26)                        *
   *                                                                              *
@@ -460,8 +458,13 @@ banner.analytics.trackerId=(System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')
 
   ssconfig.app.seeddata.keys = [
     ['ssbPassword.reset.enabled': true],
-    ['banner.analytics.allowEllucianTracker': true],
-    ['defaultWebSessionTimeout': 15000]
+    ['defaultWebSessionTimeout': 15000],
+    ['banner.analytics.trackerId'],
+    ['banner.analytics.allowEllucianTracker'],
+    ['banner.theme.url'],
+    ['banner.theme.name'],
+    ['banner.theme.template'],
+    ['banner.theme.cacheTimeOut'],
   ]
 
   ssconfig.global.seeddata.keys =[]
