@@ -21,7 +21,7 @@ node {
     }
     sh "mkdir applicationNavigator  && cd applicationNavigator && ${javaHome}/bin/jar xvf ../applicationNavigator.war"
     sh "cp WEB-INF/classes/* applicationNavigator/WEB-INF/classes/"
-    sh "cp css/* applicationNavigator/css/"
+    //sh "cp css/* applicationNavigator/css/"
 
 
 

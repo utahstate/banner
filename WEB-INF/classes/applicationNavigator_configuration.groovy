@@ -1,7 +1,7 @@
 /*********************************************************************************
-Copyright 2014-2017 Ellucian Company L.P. and its affiliates.
+Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
 **********************************************************************************/
- 
+
  /*******************************************************************************
  *                                                                              *
  *              Application Navigator Configuration                             *
@@ -16,18 +16,18 @@ information regarding the configuration items contained within this file.
 This configuration file contains the following sections:
 
     * Logging Configuration (Note: Changes here require restart -- use JMX to avoid the need restart)
-    
+
     * Administrative and Self Service Endpoint Support Enablement
-         
+
     * CAS / SAML2 SSO Configuration (supporting administrative and self serivce users)
 
     * Application Navigator seamless plugin configurations
 
     * Application Navigator Display Name, MEP and X-Frame-Options configurations
-    
-     NOTE: DataSource and JNDI configuration resides in the cross-module 
-           'banner_configuration.groovy' file. 
-    
+
+     NOTE: DataSource and JNDI configuration resides in the cross-module
+           'banner_configuration.groovy' file.
+
 ********************************************************************************/
 
 
@@ -47,19 +47,19 @@ jmx {
 
 
 /*******************************************************************************
- *                                                                             *                 
+ *                                                                             *
  *                          Logging Configuration                              *
  *                                                                             *
  *******************************************************************************/
 // Note that logging is configured separately for each environment ('development', 'test', and 'production').
-// By default, all 'root' logging is 'error'. level.  
+// By default, all 'root' logging is 'error'. level.
 //
 // Note that if you change logging configuration directly in this file:
 //   1) you will need to restart the application to see the changes, and
-//   2) you may see an innocuous error during initialization indicating 'Cannot add new method [getLog]' 
+//   2) you may see an innocuous error during initialization indicating 'Cannot add new method [getLog]'
 //      (this error does not preclude successful logging and can be safely ignored).
 //
-// JMX may be used to modify logging levels for specific packages identified below. 
+// JMX may be used to modify logging levels for specific packages identified below.
 // Any JMX client, such as JConsole, may be used.
 //
 // The logging levels that may be configured are, in order: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
@@ -156,8 +156,8 @@ log4j = {
  *               Administrative Endpoint Support Enablement                     *
  *                                                                              *
  ********************************************************************************/
-// Disabling 'administrativeBannerEnabled' (setting to 'false') will prevent the 
-// BannerAuthenticationProvider from attempting to authenticate users. 
+// Disabling 'administrativeBannerEnabled' (setting to 'false') will prevent the
+// BannerAuthenticationProvider from attempting to authenticate users.
 //
 //administrativeBannerEnabled = false  // default is 'true'
 
@@ -167,14 +167,14 @@ log4j = {
  *                Self Service Endpoint Support Enablement                      *
  *                                                                              *
  ********************************************************************************/
-// Set 'ssbEnabled' to true for instances that expose Self Service Banner endpoints. 
-// If this is set to false, or if this configuration item is missing, the instance 
+// Set 'ssbEnabled' to true for instances that expose Self Service Banner endpoints.
+// If this is set to false, or if this configuration item is missing, the instance
 // will only support administrative applications and not self service applications
-// in the unified menu. 
+// in the unified menu.
 //
 // If this is enabled, Application Navigator will integrate with Banner Self Service
-// applications using the SSB datasource. It is important to also ensure the 
-// corresponding commonSelfServiceMenu menu endpoint is configured below. 
+// applications using the SSB datasource. It is important to also ensure the
+// corresponding commonSelfServiceMenu menu endpoint is configured below.
 ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : false)
 
 // This setting is set to false for Application Navigator deployment by default.
@@ -234,7 +234,7 @@ grails.plugin.springsecurity.homePageUrl=(System.getenv('GRAILS_PLUGIN_SPRINGSEC
  *                             CAS SSO Configuration                            *
  *                                                                              *
  ********************************************************************************/
-// Set active = true when Application Navigator is configured for CAS SSO  
+// Set active = true when Application Navigator is configured for CAS SSO
 grails {
     plugin {
         springsecurity {
@@ -269,7 +269,7 @@ grails.plugin.springsecurity.cas.serverUrlPrefix = (System.getenv('CAS_URL') ?: 
  *                         SAML2 SSO Configuration                              *
  *                                                                              *
  ********************************************************************************/
-// Set active = true when Application Navigator is configured for SAML2 SSO  
+// Set active = true when Application Navigator is configured for SAML2 SSO
 grails.plugin.springsecurity.saml.active = false
 grails.plugin.springsecurity.saml.afterLogoutUrl ='/logout/customLogout'
 
@@ -304,12 +304,12 @@ grails.plugin.springsecurity.saml.metadata.sp.defaults = [
 //
 seamless.interceptPattern = "${grails.plugin.springsecurity.cas.serverUrlPrefix}.*"
 
-// When ssbEnabled is set to true, the commonSelfServiceMenu menu endpoint will be 
-// invoked along with the administrative commonMenu menu endpoint when loading the 
+// When ssbEnabled is set to true, the commonSelfServiceMenu menu endpoint will be
+// invoked along with the administrative commonMenu menu endpoint when loading the
 // menus.
 seamless.menuEndpoints = [
-        (System.getenv('BANNER9_URL')?: 'http://APPLICATION_NAVIGATOR_HOST:PORT') + "/applicationNavigator/commonMenu",
-        (System.getenv('BANNER9_URL')?: 'http://APPLICATION_NAVIGATOR_HOST:PORT') + "/applicationNavigator/commonSelfServiceMenu"
+  (System.getenv('BANNER9_URL')?: 'http://APPLICATION_NAVIGATOR_HOST:PORT') + "/applicationNavigator/commonMenu",
+  (System.getenv('BANNER9_URL')?: 'http://APPLICATION_NAVIGATOR_HOST:PORT') + "/applicationNavigator/commonSelfServiceMenu"
 ]
 
 // List the URL entries of Banner Self Service Applications integrating with Application
@@ -322,26 +322,27 @@ seamless.menuEndpoints = [
 //
 // The entries added must match those entries listed in the Web Tailor menus without
 // which they will not be displayed in the Application Navigator unified menu.
-seamless.selfServiceApps = [
-     (System.getenv("BANNER9_SS_URL") ?: 'http://APPLICATION_NAVIGATOR_HOST:PORT') + "/BannerExtensibility/"
-]
+seamless.selfServiceApps = []
 
 seamless.logLevel="off"
 seamless.ajaxTimeout=30000
 seamless.messageResponseTimeout=2000
 seamless.exposeMenu=true
+seamless.messageTimer = 60 // In seconds - Added for fetching the message count for GUAMESG
 
 // Configure the brand title with a default institution value or based on the MEP institution code configured in the Banner database
 // To add values by MEP code, append the name:value pair to the existing seamless.brandTitle property. Example
 // Example: seamless.brandTitle=["Default": "Ellucian University","<MEP_CODE>":"<MEP_BRAND_TITLE>", "<MEP_CODE>":"<MEP_BRAND_TITLE>"]
-seamless.brandTitle=["Default": (System.getenv('SEAMLESS_BRANDTITLE') ?: "Ellucian University" )]
+seamless.brandTitle=["Default": "Ellucian University"]
 
-seamless.sessionTimeout = (System.getenv('SEAMLESS_SESSIONTIMEOUT') ? Integer.parseInt(System.getenv('SEAMLESS_SESSIONTIMEOUT')) :30 )             // Session timeout in minutes. A value of -1 indicates session does not timeout
-seamless.sessionTimeoutNotification = (System.getenv('SEAMLESS_SESSIONTIMEOUTNOTIFICATION') ? Integer.parseInt(System.getenv('SEAMLESS_SESSIONTIMEOUTNOTIFICATION')) : 5 )  // Notification prompt x minutes before sessionTimeout
+seamless.sessionTimeout = 30             // Session timeout in minutes. A value of -1 indicates session does not timeout
+seamless.sessionTimeoutNotification = 5  // Notification prompt x minutes before sessionTimeout
+
+seamless.dbInstanceName = "Ellucian DataBase"  //To display the DB Instance Name to which the Application is connected to. Later will be moved to GUACONF
 
 // This list includes objects to be excluded from search
 seamless.excludeObjectsFromSearch = [
-        "GUAGMNU","GUAINIT","GUQSETI","FOQMENU","SOQMENU","TOQMENU","AOQMEMU","GOQMENU","ROQMENU","NOQMENU","POQMENU","FACICON","FAQINVP","FAQMINV","FAQVINV","FGQACTH","FGQAGYH","FGQDOCB","FGQDOCN","FGQDOCP","FGQFNDE","FGQFNDH","FGQLOCH","FGQORGH","FGQPRGH","FOQADDR","FOQDCSR","FOQENCB","FOQFACT","FOQINVA","FOQJVCD","FOQPACT","FOQRACT","FOQSDLF","FOQSDLV","FPCRCVP","FPQBLAP","FPQCHAP","FRCBSEL","FSCISSR","FSCSTKL","FTQATTS","FXQDOCN","FXQDOCP","**SSB_MASKING","TSQCONT","TSQEXPT","TOQCALC","GPBADMN","SFQESTS","SFQPREQ","SFQRQST","SFQRSTS","SFQSECM","SFQSECT","SHQDEGR","SHQQPNM","SHQSECT","SHQSUBJ","SHQTERM","SHQTRAM","SLQBCAT","SLQEVNT","SLQMEET","SLQROOM","SMQSACR","SMQSGCR","SMQSGDF","SMQSPDF","SOQCSCP","SOQCTRM","SOQHOLD","RPQLELG","RPQCOMP","ROQADDR","GMAPRTO"
+        "GSQTOFU","GTQSDLV","GTQZIPC","GUQINTF","GOQLETR","GUQQUIK","GUQSRCH","GUQWUTL","GXQTPID","GUAGMNU","GUAINIT","GUQSETI","FOQMENU","SOQMENU","TOQMENU","AOQMEMU","GOQMENU","ROQMENU","NOQMENU","POQMENU","FACICON","FAQINVP","FAQMINV","FAQVINV","FGQACTH","FGQAGYH","FGQDOCB","FGQDOCN","FGQDOCP","FGQFNDE","FGQFNDH","FGQLOCH","FGQORGH","FGQPRGH","FOQADDR","FOQDCSR","FOQENCB","FOQFACT","FOQINVA","FOQJVCD","FOQPACT","FOQRACT","FOQSDLF","FOQSDLV","FPCRCVP","FPQBLAP","FPQCHAP","FRCBSEL","FSCISSR","FSCSTKL","FTQATTS","FXQDOCN","FXQDOCP","**SSB_MASKING","TSQCONT","TSQEXPT","TOQCALC","GPBADMN","SFQESTS","SFQPREQ","SFQRQST","SFQRSTS","SFQSECM","SFQSECT","SHQDEGR","SHQQPNM","SHQSECT","SHQSUBJ","SHQTERM","SHQTRAM","SLQBCAT","SLQEVNT","SLQMEET","SLQROOM","SMQSACR","SMQSGCR","SMQSGDF","SMQSPDF","SOQCSCP","SOQCTRM","SOQHOLD","RPQLELG","RPQCOMP","ROQADDR","GMAPRTO"
 ]
 
 
@@ -372,7 +373,7 @@ grails.plugin.springsecurity.logout.mepErrorLogoutUrl = '/logout/customLogout'
  *              Application Navigator X-Frame-Options Configuration             *
  *                                                                              *
  ********************************************************************************/
-// Setting the X-Frame-Options will not expose Application Navigator login page  
+// Setting the X-Frame-Options will not expose Application Navigator login page
 // to the clickjacking vulnerability when loaded in an iframe.
 grails.plugin.xframeoptions.deny = true
 grails.plugin.xframeoptions.urlPattern = '/login/auth'
@@ -396,5 +397,23 @@ grails.plugin.xframeoptions.urlPattern = '/login/auth'
  *              Google Analytics Configuration                                  *
  *                                                                              *
  ********************************************************************************/
- banner.analytics.trackerId=(System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')               // institution's analytics tracker ID - blank by default
- banner.analytics.allowEllucianTracker=(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER') ? Boolean.parseBoolean(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER')): true)  // true|false - default true
+ banner.analytics.trackerId=""               // institution's analytics tracker ID - blank by default
+ banner.analytics.allowEllucianTracker=true  // true|false - default true
+
+  /********************************************************************************
+  *                                                                              *
+  *              SS -Config Configuration                                        *
+  *                                                                              *
+  ********************************************************************************/
+ configJob.delay = 60000
+ configJob.interval = 120000
+ configJob.actualCount = -1
+
+ ssconfig.app.seeddata.keys = [['seamless.sessionTimeout': 30],['seamless.sessionTimeoutNotification': 5],['seamless.messageTimer': 60],['seamless.brandTitle'],['seamless.dbInstanceName'],['seamless.selfServiceApps'],['banner.analytics.trackerId': ''],['banner.analytics.allowEllucianTracker'],['banner.theme.url'],['banner.theme.name'],['banner.theme.template'],['grails.plugin.springsecurity.logout.afterLogoutUrl']]
+
+   /********************************************************************************
+   *              Theming Configuration                                            *
+   ********************************************************************************/
+banner.theme.url="https://theme.elluciancloud.com/<AccountApiID>/theme"
+banner.theme.name="mytheme"
+banner.theme.template="applicationname"
