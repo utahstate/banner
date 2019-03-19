@@ -34,3 +34,12 @@ GRAILS_PLUGIN_SPRINGSECURITY_CAS_PROXYCALLBACKURL = http://BANNER9_HOST:PORT/APP
 GRAILS_PLUGIN_SPRINGSECURITY_LOGOUT_AFTERLOGOUTURL = http://CAS_HOST:PORT/cas/logout?url=http://BANNER9_HOST:PORT/APP_NAME/
 
 GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL = http://BANNER9_HOST:PORT/APP_NAME/
+
+
+### Config Moved to Database
+ssbEnabled
+importTheme
+ssbOracleUsersProxied
+defaultTimeout
+pageBuilder.enabled
+grails.plugin.springsecurity.interceptUrlMap

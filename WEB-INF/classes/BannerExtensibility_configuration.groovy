@@ -1,5 +1,5 @@
 /*******************************************************************************
- Copyright 2017 Ellucian Company L.P. and its affiliates.
+ Copyright 2017-2018 Ellucian Company L.P. and its affiliates.
  *******************************************************************************/
 
 /******************************************************************************
@@ -14,7 +14,7 @@
 
  * Theme
      *   url:  theme server url, if this is not specified then it points to same app
-     *   theme: used by client application, mep code is used as theme name by default
+     *   theme: used by client application
      *   template: used by client application
      *   cacheTimeOut: themes would be cached for specified duration (in seconds) in theme server
                        (This is not required if the app points to remote theme server)
@@ -59,23 +59,24 @@ pageBuilder {
  *******************************************************************************/
  banner.theme.url=(System.getenv('BANNER_THEME_URL') ?: 'http://BANNER9_HOST:PORT/BannerExtensibility/theme')
  banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: 'ellucian')
- banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: 'BannerExtensibility')
+ banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: 'BannerExtensibility-9_2_1')
  banner.theme.cacheTimeOut = (System.getenv('BANNER_THEME_CACHETIMEOUT') ? Integer.parseInt(System.getenv('BANNER_THEME_CACHETIMEOUT')) : 900)
-
-/*environments {
-     production {
-         banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"   // required only if theme server is remote
-         banner.theme.name="ellucian"                                       // Not required for MEP
-         banner.theme.template="BannerExtensibility"
-         banner.theme.cacheTimeOut = 900                                    // seconds, required only if the app is theme server
-     }
-     development {
-         banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"  // required only if theme server is remote
-         banner.theme.name="ellucian"                                      // Not required for MEP
-         banner.theme.template="BannerExtensibility"
-         banner.theme.cacheTimeOut = 120                                   // seconds, required only if the app is theme server
-     }
-}*/
+//environments {
+//     production {
+//         banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"   // required only if theme server is remote
+//         banner.theme.name="production"
+//         banner.theme.template="BannerExtensibility-9_2_1"
+//         banner.theme.cacheTimeOut = 900                                    // in seconds, not required theme server is remote
+//     }
+//     development {
+//         banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"  // required only if theme server is remote
+//         banner.theme.name="development"
+//         banner.theme.template="BannerExtensibility-9_2_1"
+//         banner.theme.cacheTimeOut = 120                                   // // in seconds, not required theme server is remote
+//         //This variable is used to get information about $$user authorities(Roles). This should be used only for Development, shouldn't be available in prod. by default it should be false.
+//         pageBuilder.development.authorities.enabled=false
+//     }
+//}
 
 
 
@@ -120,7 +121,7 @@ ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolea
 //
 banner {
     sso {
-        authenticationProvider           = 'cas'  //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
+        authenticationProvider           = 'cas' //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
         authenticationAssertionAttribute = 'UDC_IDENTIFIER'
         if(authenticationProvider != 'default') {
             grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
@@ -146,7 +147,7 @@ grails {
                 serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/BannerExtensibility/j_spring_cas_security_check"
                 serverName       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT')
                 proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/BannerExtensibility/secure/receptor"
-		loginUri         = '/login'
+                loginUri         = '/login'
                 sendRenew        = false
                 proxyReceptorUrl = '/secure/receptor'
                 useSingleSignout = true
@@ -161,7 +162,7 @@ grails {
             }
             logout {
                 afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?: 'https://cas-server/logout?url=http://myportal/main_page.html')
-		// afterLogoutUrl = '/' // This can be used to navigate to the landing page when not using CAS
+                // afterLogoutUrl = '/' // This can be used to navigate to the landing page when not using CAS
             }
         }
     }
@@ -192,8 +193,8 @@ grails.plugin.springsecurity.saml.keyManager.defaultKey = 'extensibility'
 grails.plugin.springsecurity.saml.keyManager.storeFile = 'classpath:security/bekeystore.jks'
 grails.plugin.springsecurity.saml.keyManager.storePass = 'password'
 grails.plugin.springsecurity.saml.keyManager.passwords = [ 'extensibility': 'password' ]
-grails.plugin.springsecurity.saml.metadata.sp.file = 'security/banner-BannerExtensibility-sp.xml'
-grails.plugin.springsecurity.saml.metadata.providers = [adfs: 'security/banner-BannerExtensibility-idp.xml']
+grails.plugin.springsecurity.saml.metadata.sp.file = 'security/banner-BannerExtensibility-saml_sp.xml'
+grails.plugin.springsecurity.saml.metadata.providers = [adfs: 'security/banner-BannerExtensibility-saml_idp.xml']
 grails.plugin.springsecurity.saml.metadata.defaultIdp = 'adfs'
 grails.plugin.springsecurity.saml.metadata.sp.defaults = [
     local: true,
@@ -351,9 +352,28 @@ configJob {
     actualCount = -1
     //actualCount will be the count how many times the configJob would run.
 }
-ssconfig.app.seeddata.keys = [['ssbEnabled'], ['importTheme'],['ssbOracleUsersProxied'],['defaultTimeout'],['pageBuilder.enabled'],['grails.plugin.springsecurity.interceptUrlMap']]
-banner.analytics.trackerId=(System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')
-banner.analytics.allowEllucianTracker=(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER') ? Boolean.parseBoolean(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER')): true) // true|false - default true
+
+/************************************************************
+                   Disabling Loacle for self service
+************************************************************/
+
+locale=false
+
+
+ssconfig.app.seeddata.keys = [['banner.analytics.allowEllucianTracker'], ['banner.analytics.trackerId'], ['banner.applicationName'],
+ ['banner.theme.cacheTimeOut'], ['banner.theme.name'], ['banner.theme.template'], ['banner.theme.url'],
+ ['loginEndpoint'], ['pageBuilder.enabled'], ['productName'], ['ssbEnabled'], ['ssbOracleUsersProxied'], ['locale']]
+
+
+ /** ********************************************************************************
+ *                                                                                 *
+ * Google Analytics                                                                *
+ * banner.analytics.trackerId=[institution's analytics tracker ID - default blank] *
+ * banner.analytics.allowEllucianTracker=[true|false - default true]               *
+ * Added as part of Platform Platform 9.20                                         *
+ ******************************************************************************** **/
+banner.analytics.trackerId=""     // institution's analytics tracker ID - blank by default
+banner.analytics.allowEllucianTracker=true
 
 productName="Banner General"
 banner.applicationName="BannerExtensibility"
