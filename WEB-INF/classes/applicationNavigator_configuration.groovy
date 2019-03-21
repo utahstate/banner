@@ -1,5 +1,5 @@
 /*********************************************************************************
-Copyright 2014-2018 Ellucian Company L.P. and its affiliates.
+Copyright 2014-2019 Ellucian Company L.P. and its affiliates.
 **********************************************************************************/
 
  /*******************************************************************************
@@ -175,7 +175,7 @@ log4j = {
 // If this is enabled, Application Navigator will integrate with Banner Self Service
 // applications using the SSB datasource. It is important to also ensure the
 // corresponding commonSelfServiceMenu menu endpoint is configured below.
-ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : false)
+ssbEnabled = false
 
 // This setting is set to false for Application Navigator deployment by default.
 // Only set 'ssbOracleUsersProxied = true' to ensure that database connections
@@ -185,7 +185,7 @@ ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('S
 // This setting in Application Navigator has no impact on integrated Banner 9 Self-
 // Service applications. The integrated Banner 9 Self-Service applications can be
 // configured separately to allow FGAC on the application specific SSB pages.
-ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : false)
+ssbOracleUsersProxied = false
 
 
 /********************************************************************************
@@ -207,7 +207,6 @@ banner {
     }
 }
 
-
 /********************************************************************************
  *                                                                              *
  *                Application Navigator Logout URL                              *
@@ -218,6 +217,7 @@ banner {
  //  'https://CAS_HOST:PORT/cas/logout?url=http://APPLICATION_NAVIGATOR_HOST:PORT/'
  // For other authentication providers use the setting noted below.
 grails.plugin.springsecurity.logout.afterLogoutUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_LOGOUT_AFTERLOGOUTURL') ?:  'http://APPLICATION_NAVIGATOR_HOST:PORT/applicationNavigator/logout/customLogout' )
+
 
 
 /********************************************************************************
@@ -308,8 +308,8 @@ seamless.interceptPattern = "${grails.plugin.springsecurity.cas.serverUrlPrefix}
 // invoked along with the administrative commonMenu menu endpoint when loading the
 // menus.
 seamless.menuEndpoints = [
-  (System.getenv('BANNER9_URL')?: 'http://APPLICATION_NAVIGATOR_HOST:PORT') + "/applicationNavigator/commonMenu",
-  (System.getenv('BANNER9_URL')?: 'http://APPLICATION_NAVIGATOR_HOST:PORT') + "/applicationNavigator/commonSelfServiceMenu"
+(System.getenv('BANNER9_URL')?: 'http://APPLICATION_NAVIGATOR_HOST:PORT') + "/applicationNavigator/commonMenu",
+(System.getenv('BANNER9_URL')?: 'http://APPLICATION_NAVIGATOR_HOST:PORT') + "/applicationNavigator/commonSelfServiceMenu"
 ]
 
 // List the URL entries of Banner Self Service Applications integrating with Application
@@ -328,35 +328,16 @@ seamless.logLevel="off"
 seamless.ajaxTimeout=30000
 seamless.messageResponseTimeout=2000
 seamless.exposeMenu=true
-seamless.messageTimer = 60 // In seconds - Added for fetching the message count for GUAMESG
 
 // Configure the brand title with a default institution value or based on the MEP institution code configured in the Banner database
 // To add values by MEP code, append the name:value pair to the existing seamless.brandTitle property. Example
 // Example: seamless.brandTitle=["Default": "Ellucian University","<MEP_CODE>":"<MEP_BRAND_TITLE>", "<MEP_CODE>":"<MEP_BRAND_TITLE>"]
 seamless.brandTitle=["Default": "Ellucian University"]
 
-seamless.sessionTimeout = 30             // Session timeout in minutes. A value of -1 indicates session does not timeout
-seamless.sessionTimeoutNotification = 5  // Notification prompt x minutes before sessionTimeout
-
-seamless.dbInstanceName = "Ellucian DataBase"  //To display the DB Instance Name to which the Application is connected to. Later will be moved to GUACONF
-
 // This list includes objects to be excluded from search
 seamless.excludeObjectsFromSearch = [
         "GSQTOFU","GTQSDLV","GTQZIPC","GUQINTF","GOQLETR","GUQQUIK","GUQSRCH","GUQWUTL","GXQTPID","GUAGMNU","GUAINIT","GUQSETI","FOQMENU","SOQMENU","TOQMENU","AOQMEMU","GOQMENU","ROQMENU","NOQMENU","POQMENU","FACICON","FAQINVP","FAQMINV","FAQVINV","FGQACTH","FGQAGYH","FGQDOCB","FGQDOCN","FGQDOCP","FGQFNDE","FGQFNDH","FGQLOCH","FGQORGH","FGQPRGH","FOQADDR","FOQDCSR","FOQENCB","FOQFACT","FOQINVA","FOQJVCD","FOQPACT","FOQRACT","FOQSDLF","FOQSDLV","FPCRCVP","FPQBLAP","FPQCHAP","FRCBSEL","FSCISSR","FSCSTKL","FTQATTS","FXQDOCN","FXQDOCP","**SSB_MASKING","TSQCONT","TSQEXPT","TOQCALC","GPBADMN","SFQESTS","SFQPREQ","SFQRQST","SFQRSTS","SFQSECM","SFQSECT","SHQDEGR","SHQQPNM","SHQSECT","SHQSUBJ","SHQTERM","SHQTRAM","SLQBCAT","SLQEVNT","SLQMEET","SLQROOM","SMQSACR","SMQSGCR","SMQSGDF","SMQSPDF","SOQCSCP","SOQCTRM","SOQHOLD","RPQLELG","RPQCOMP","ROQADDR","GMAPRTO"
 ]
-
-
-/********************************************************************************
- *                                                                              *
- *               Application Navigator Display Name Configuration               *
- *                                                                              *
- ********************************************************************************/
-// Product name and Application Name configured to utilize the display name api
-// (for which rule is configured in gurnhir table), which return the username
-// in the desired format as per the usage defined in GURNDSP table.
-productName='Banner General'                    // Name of the product - The name in the gurnhir table and in this config must match
-banner.applicationName='Application Navigator'  // Application Name - The name in the gurnhir table and in this config must match
-
 
 /********************************************************************************
  *                                                                              *
@@ -366,7 +347,6 @@ banner.applicationName='Application Navigator'  // Application Name - The name i
 //
 mepEnabled = false
 grails.plugin.springsecurity.logout.mepErrorLogoutUrl = '/logout/customLogout'
-
 
 /********************************************************************************
  *                                                                              *
@@ -392,28 +372,32 @@ grails.plugin.xframeoptions.urlPattern = '/login/auth'
 // grails.plugin.springsecurity.portMapper.httpsPort = <SSL_PORT_NUMBER>
 
 
- /********************************************************************************
- *                                                                              *
- *              Google Analytics Configuration                                  *
- *                                                                              *
- ********************************************************************************/
- banner.analytics.trackerId=""               // institution's analytics tracker ID - blank by default
- banner.analytics.allowEllucianTracker=true  // true|false - default true
+/********************************************************************************
+*                                                                              *
+*              SS -Config Configuration                                        *
+*                                                                              *
+********************************************************************************/
+configJob.delay = 60000
+configJob.interval = 120000
+configJob.actualCount = -1
 
-  /********************************************************************************
-  *                                                                              *
-  *              SS -Config Configuration                                        *
-  *                                                                              *
-  ********************************************************************************/
- configJob.delay = 60000
- configJob.interval = 120000
- configJob.actualCount = -1
-
- ssconfig.app.seeddata.keys = [['seamless.sessionTimeout': 30],['seamless.sessionTimeoutNotification': 5],['seamless.messageTimer': 60],['seamless.brandTitle'],['seamless.dbInstanceName'],['seamless.selfServiceApps'],['banner.analytics.trackerId': ''],['banner.analytics.allowEllucianTracker'],['banner.theme.url'],['banner.theme.name'],['banner.theme.template'],['grails.plugin.springsecurity.logout.afterLogoutUrl']]
-
-   /********************************************************************************
-   *              Theming Configuration                                            *
-   ********************************************************************************/
+/********************************************************************************
+*              Theming Configuration                                            *
+********************************************************************************/
 banner.theme.url="https://theme.elluciancloud.com/<AccountApiID>/theme"
-banner.theme.name="mytheme"
-banner.theme.template="applicationname"
+
+ssconfig.app.seeddata.keys = [['seamless.sessionTimeout': 30],['seamless.sessionTimeoutNotification': 5],['seamless.messageTimer': 60],
+                                ['banner.analytics.trackerId': ''],['banner.analytics.allowEllucianTracker': true],
+                                ['banner.theme.url'],
+                                ['banner.theme.name': 'mytheme'],
+                                ['banner.theme.template': 'applicationname'],
+                                ['seamless.dbInstanceName': "Ellucian DataBase"],
+                                ['productName': 'Banner General'],
+                                ['banner.applicationName': 'Application Navigator'],
+                                ['grails.plugin.springsecurity.logout.afterLogoutUrl'],
+                                ['grails.plugin.springsecurity.logout.mepErrorLogoutUrl']]
+
+/********************************************************************************
+*                     NLS Configuration                                         *
+********************************************************************************/
+enableNLS = false
