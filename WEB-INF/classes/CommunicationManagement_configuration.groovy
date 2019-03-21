@@ -1,7 +1,7 @@
 /*********************************************************************************
- Copyright 2015-2018 Ellucian Company L.P. and its affiliates.
+ Copyright 2015-2019 Ellucian Company L.P. and its affiliates.
  *********************************************************************************/
- 
+
  /** ****************************************************************************
  *                                                                              *
  *          Self-Service Banner Communication Management Configuration          *
@@ -11,20 +11,20 @@
 /** ****************************************************************************
 
 This file contains configuration needed by the Self-Service Banner Communication Management
-web application. Please refer to the administration guide for 
-additional information regarding the configuration items contained within this file. 
+web application. Please refer to the administration guide for
+additional information regarding the configuration items contained within this file.
 
-This configuration file contains the following sections: 
-    
+This configuration file contains the following sections:
+
     * Self Service Support
-    
-    * Logging Configuration (Note: Changes here require restart -- use JMX to avoid the need restart) 
-         
+
+    * Logging Configuration (Note: Changes here require restart -- use JMX to avoid the need restart)
+
     * CAS SSO Configuration (supporting administrative and self service users)
-    
-     NOTE: DataSource and JNDI configuration resides in the cross-module 
-           'banner_configuration.groovy' file. 
-    
+
+     NOTE: DataSource and JNDI configuration resides in the cross-module
+           'banner_configuration.groovy' file.
+
 ***************************************************************************** **/
 
 logAppName = "CommunicationManagement"
@@ -36,11 +36,15 @@ logAppName = "CommunicationManagement"
 // ******************************************************************************
 
 // The names used to register Mbeans must be unique for all applications deployed
-// into the JVM.  This configuration should be updated for each instance of each
-// application to ensure uniqueness.
+// into the JVM.  The below configuration updates the name for each instance of
+// Communication Management application to ensure uniqueness.
 jmx {
     exported {
-        log4j = "communication-management-directory-log4j"
+        java.util.Random rand = new java.util.Random()
+        int max = 100
+        def node = rand.nextInt(max+1)
+        log4j = node+"-"+"communication-management-directory-log4j"
+
     }
 }
 
@@ -51,12 +55,18 @@ jmx {
 // ******************************************************************************
 
 
-ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
-ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
-ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED')) : true) //true  - allow Pidm users to reset their password.
+ssbEnabled = true
+ssbOracleUsersProxied = true
+ssbPassword.reset.enabled = true //true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
+enableNLS=true
 
-
+/** ****************************************************************************
+ *                                                                             *
+ *              Commmgr User DataSource Configuration                          *
+ *                                                                             *
+ *******************************************************************************/
+commmgrDataSourceEnabled = false  //Set this to true if using the bannerCommmgrDataSource
 
 /** *****************************************************************************
  *                                                                              *
@@ -64,7 +74,7 @@ ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolea
  *                                                                              *
  ***************************************************************************** **/
 //
-// Set authenticationProvider to either default or cas 
+// Set authenticationProvider to either default or cas
 banner {
     sso {
 		authenticationProvider = 'cas'
@@ -149,7 +159,7 @@ grails.plugin.springsecurity.saml.metadata.sp.defaults = [
 //
 //  +++ Protecting against cross-frame scripting vulnerability when integrating with Application Navigator +++
 //
-// ************************************************************************************************************             
+// ************************************************************************************************************
 grails.plugin.xframeoptions.urlPattern = '/login/auth'
 grails.plugin.xframeoptions.deny = true
 
@@ -190,6 +200,20 @@ communication {
         enabled = true
         idleWaitTime = 30000
         clusterCheckinInterval = 15000
+    }
+
+    //These configuration values decide the display of the recurrent scheduling UI component.
+    //Enabling seconds, minutes and hourly scheduling allows users to create communications that recur N seconds, minutes or hours respectively.
+    //This may cause a strain on your system.
+
+    recurringScheduleOptions {
+            enableMinutesScheduling = false
+            enableHourlyScheduling = false
+            enableDailyScheduling = true
+            enableWeeklyScheduling = true
+            enableMonthlyScheduling = true
+            enableYearlyScheduling = false
+            enableAdvancedOption = false
     }
 }
 
@@ -330,7 +354,7 @@ grails.resources.adhoc.excludes = ['/WEB-INF/**']
  *              Web session timeout Configuration (in seconds)                  *
  *                                                                              *
  ***************************************************************************** **/
-defaultWebSessionTimeout = (System.getenv('DEFAULTWEBSESSIONTIMEOUT') ? Integer.parseInt(System.getenv('DEFAULTWEBSESSIONTIMEOUT')): 1500)
+defaultWebSessionTimeout = 1500
 
 /** ***************************************************************************
  *               Web Application Extensibility                                  *
@@ -350,38 +374,137 @@ webAppExtensibility {
  *           Home Page link when error happens during authentication.           *
  *                                                                              *
  ***************************************************************************** **/
-grails.plugin.springsecurity.homePageUrl=(System.getenv('BANNER9_HOMEPAGEURL') ?: 'http://BANNER9_HOST:PORT/CommunicationManagement' )
+grails.plugin.springsecurity.homePageUrl='http://URL:PORT/'
 
 
 /**********************************************************************************
 ***    Google Analytics                                                           *
 **********************************************************************************/
-banner.analytics.trackerId=(System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')
-banner.analytics.allowEllucianTracker=(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER') ? Boolean.parseBoolean(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER')): false)
+banner.analytics.trackerId=
+banner.analytics.allowEllucianTracker=false
 
 
 /**********************************************************************************
-***    Theming - Configuration to use themes served by the Theme Server                      
-*** banner.theme.url 
-           Required only if theme server is remote   
-           References the URL to the application hosting the Theme Server. 
+***    Theming - Configuration to use themes served by the Theme Server
+*** banner.theme.url
+           Required only if theme server is remote
+           References the URL to the application hosting the Theme Server.
            Example : http://<hostname>:<port>/CommunicationManagement/ssb/theme                    *
-*** banner.theme.name 
-           This is the desired theme name to use. In a MEP environment, the application uses the MEP code 
+*** banner.theme.name
+           This is the desired theme name to use. In a MEP environment, the application uses the MEP code
            as the theme name instead of the banner.theme.name. A theme by this name must be created in the Theme Editor
            on the server specified by banner.theme.url
 *** banner.theme.template
-           This is the name of the scss file containing the theme settings 
+           This is the name of the scss file containing the theme settings
 *** banner.theme.cacheTimeOut
-           Time in seconds, required only if the app is theme server. The value indicates 
+           Time in seconds, required only if the app is theme server. The value indicates
            how long the CSS file that was generated using the template and the theme is cached.
 ***********************************************************************************/
-banner.theme.url=(System.getenv('BANNER_THEME_URL') ?: "http://ThemeServer:8080/BannerExtensibility/theme" )
-banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: "default" )
-banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: "CommunicationManagement" )
-banner.theme.cacheTimeOut = 120  
+banner.theme.url = "<UPDATE_ME>"
+banner.theme.name = "<UPDATE_ME>"
+banner.theme.template = 'CommunicationManagement-9_5'
+banner.theme.cacheTimeOut = 120
 
+/** ******************************************************************************
+ *                                                                               *
+ *                      ConfigJob  (time in milliseconds                         *
+ *                                                                               *
+ *             Support for configurations to reside in the database.             *
+ *                                                                               *
+ * configJob.delay  //This is to configure when the quartz scheduler should start*
+                      after the server startup, if its not configured then the   *
+                      default value is 60000                                     *
+ * configJob.interval //This is to configure the interval at which the quartz    *
+                        scheduler should run, if its not configured then the     *
+                        default value is 60000.                                  *
+ * configJob.actualCount //Actual count will be the count how many times the     *
+                           config job would run.                                 *
+                          If the value is -1 then the job will run indefinitely. *
+                          If the value is 0 job will not run.                    *
+                          If not configured then the default value is -1.        *
+ *                                                                               *
+ *                                                                               *
+ *                                                                               *
+ ********************************************************************************/
+configJob.delay = 60000
+configJob.interval = 120000
+configJob.actualCount = -1
 
+/** *****************************************************************************
+ *                                                                              *
+ * Migrating the SeedData Keys Configuration and the security intercept urls
+                                 to the database                                *
+ *                                                                              *
+ ***************************************************************************** **/
+/* Here are 3 patterns to use to configure the SeedData keys
 
+Pattern 1 - With key and value
+Syntax:
+ssconfig.app.seeddata.keys = [
+['<Key1>': <Boolean value>], ['<Key2>': <Boolean Value2>], ['<Key3>': '<String Value>'], ['<Key4>':<Numeric value>]
+]
 
+Pattern 2 - With key only (value derived from configuration files)
+Syntax:
+ssconfig.app.seeddata.keys = [
+['<Key1>'], ['<Key2>'], ['<Key3>'], ['<Key4>']
+]
 
+Pattern 3 - Combination of Pattern 1 and 2 - With key only and key/value pairs.
+Syntax:
+ssconfig.app.seeddata.keys = [
+['<Key1>': <Boolean value>], ['<Key2>'], ['<Key3>': '<String Value>'], ['<Key4>']
+]
+
+**************************************************************************************/
+
+ssconfig.app.seeddata.keys = [
+
+    ['grails.plugin.springsecurity.interceptUrlMap'],
+
+    ['ssbEnabled'],
+    ['ssbOracleUsersProxied'],
+    ['ssbPassword.reset.enabled'],
+
+    ['commmgrDataSourceEnabled'],
+
+    ['communication.weblogicDeployment'],
+    ['communication.communicationGroupSendMonitor.enabled'],
+    ['communication.communicationGroupSendMonitor.monitorIntervalInSeconds'],
+
+    ['communication.communicationGroupSendItemProcessingEngine.enabled'],
+    ['communication.communicationGroupSendItemProcessingEngine.maxThreads'],
+    ['communication.communicationGroupSendItemProcessingEngine.maxQueueSize'],
+    ['communication.communicationGroupSendItemProcessingEngine.continuousPolling'],
+    ['communication.communicationGroupSendItemProcessingEngine.pollingInterval'],
+    ['communication.communicationGroupSendItemProcessingEngine.deleteSuccessfullyCompleted'],
+
+    ['communication.communicationJobProcessingEngine.enabled'],
+    ['communication.communicationJobProcessingEngine.maxThreads'],
+    ['communication.communicationJobProcessingEngine.maxQueueSize'],
+    ['communication.communicationJobProcessingEngine.continuousPolling'],
+    ['communication.communicationJobProcessingEngine.pollingInterval'],
+    ['communication.communicationJobProcessingEngine.deleteSuccessfullyCompleted'],
+
+    ['communication.scheduler.enabled'],
+    ['communication.scheduler.idleWaitTime'],
+    ['communication.scheduler.clusterCheckinInterval'],
+
+    ['communication.recurringScheduleOptions.enableMinutesScheduling'],
+    ['communication.recurringScheduleOptions.enableHourlyScheduling'],
+    ['communication.recurringScheduleOptions.enableDailyScheduling'],
+    ['communication.recurringScheduleOptions.enableWeeklyScheduling'],
+    ['communication.recurringScheduleOptions.enableMonthlyScheduling'],
+    ['communication.recurringScheduleOptions.enableYearlyScheduling'],
+    ['communication.recurringScheduleOptions.enableAdvancedOption'],
+
+    ['defaultWebSessionTimeout'],
+
+    ['banner.theme.url'],
+    ['banner.theme.name'],
+    ['banner.theme.template'],
+    ['banner.theme.cacheTimeOut'],
+
+    ['banner.analytics.trackerId'],
+    ['banner.analytics.allowEllucianTracker']
+]
