@@ -51,8 +51,8 @@ jmx {
 // ******************************************************************************
 
 
-ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : false)
-ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : false)
+ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
+ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
 ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED')) : true) //true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
 
@@ -82,16 +82,15 @@ banner {
 //
 // ******************************************************************************
 
-grails.plugin.springsecurity.saml.active = false
 grails {
     plugin {
         springsecurity {
             cas {
                 active = true
                 serverUrlPrefix  = (System.getenv('CAS_URL') ?: 'http://CAS_HOST:PORT/cas')
-                serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/applicationNavigator/j_spring_cas_security_check"
+                serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/CommunicationManagement/j_spring_cas_security_check"
                 serverName       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT')
-                proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/applicationNavigator/secure/receptor"
+                proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/CommunicationManagement/secure/receptor"
                 loginUri         = '/login'
                 sendRenew        = false
                 proxyReceptorUrl = '/secure/receptor'
@@ -106,12 +105,45 @@ grails {
                 }
             }
 		    logout {
-                afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?:  'http://APPLICATION_NAVIGATOR_HOST:PORT/applicationNavigator/logout/customLogout' )
+                afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?:  'http://BANNER9_HOST:PORT/CommunicationManagement/logout/customLogout' )
                 mepErrorLogoutUrl = 'https://URL:PORT/'
             }
         }
     }
 }
+/** *****************************************************************************
+ *                                                                              *
+ *                        SAML CONFIGURATION                                    *
+ *        Un-comment the below code when authentication mode is saml.           *
+ *                                                                              *
+ ***************************************************************************** **/
+// set active = true when authentication provider section configured for saml
+grails.plugin.springsecurity.saml.active = false
+
+/*grails.plugin.springsecurity.auth.loginFormUrl = '/saml/login'
+grails.plugin.springsecurity.saml.afterLogoutUrl ='/logout/customLogout'
+banner.sso.authentication.saml.localLogout='false'                                                    // To disable single logout set this to true,default 'false'.
+
+grails.plugin.springsecurity.saml.keyManager.storeFile = 'classpath:security/<KEY_NAME>.jks'          // for unix File based Example:- 'file:/home/u02/samlkeystore.jks'
+grails.plugin.springsecurity.saml.keyManager.storePass = 'test1234'
+grails.plugin.springsecurity.saml.keyManager.passwords = [ 'banner-<short-appName>-sp': 'test1234' ]  // banner-<short-appName>-sp is the value set in EIS Service provider setup
+grails.plugin.springsecurity.saml.keyManager.defaultKey = 'banner-<short-appName>-sp'                 // banner-<short-appName>-sp is the value set in EIS Service provider setup
+
+grails.plugin.springsecurity.saml.metadata.sp.file = 'security/banner-<Application_Name>-sp.xml'     // for unix file based Example:-'/home/u02/sp-local.xml'
+grails.plugin.springsecurity.saml.metadata.providers = [adfs: 'security/banner-<Application_Name>-idp.xml'] // for unix file based Example: '/home/u02/idp-local.xml'
+grails.plugin.springsecurity.saml.metadata.defaultIdp = 'adfs'
+grails.plugin.springsecurity.saml.metadata.sp.defaults = [
+        local: true,
+        alias: 'banner-<short-appName>-sp',                                   // banner-<short-appName>-sp is the value set in EIS Service provider setup
+        securityProfile: 'metaiop',
+        signingKey: 'banner-<short-appName>-sp',                              // banner-<short-appName>-sp is the value set in EIS Service provider setup
+        encryptionKey: 'banner-<short-appName>-sp',                           // banner-<short-appName>-sp is the value set in EIS Service provider setup
+        tlsKey: 'banner-<short-appName>-sp',                                  // banner-<short-appName>-sp is the value set in EIS Service provider setup
+        requireArtifactResolveSigned: false,
+        requireLogoutRequestSigned: false,
+        requireLogoutResponseSigned: false
+]
+*/
 
 // ************************************************************************************************************
 //
@@ -157,6 +189,7 @@ communication {
     scheduler {
         enabled = true
         idleWaitTime = 30000
+        clusterCheckinInterval = 15000
     }
 }
 
@@ -165,9 +198,9 @@ communication {
 //                       +++ LOGGER CONFIGURATION +++
 //
 // ******************************************************************************
-String loggingFileDir =  "/usr/local/tomcat/"
+String loggingFileDir =  "/usr/local/tomcat/logs"
 
-String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
+String loggingFileName = "${loggingFileDir}/${logAppName}.log".toString()
 
 
 // Note that logging is configured separately for each environment ('development', 'test', and 'production').
@@ -273,6 +306,16 @@ log4j = {
     //                   controller // Not effective with mixins -- see comment above
     //                   domain     - For domain entities
 }
+/** *****************************************************************************
+ *                                                                              *
+ * The errors reported by YUI in each of these files are because YUI            *
+ * compressor/minifier does not support ES5 – the version of JavaScript         *
+ * incorporated in browsers since IE9.   Specifically, ES5 allows use of JS     *
+ * reserved words as property names with the ‘.NAME’ syntax(e.g., “object.case”)*
+ * This results in a syntax error in YUI minifier, but is legal ES5 syntax.     *
+ *                                                                              *
+ ***************************************************************************** **/
+grails.resources.mappers.yuijsminify.excludes = ['**/*.min.js','**/angularjs-color-picker.js', '**/m.js', '**/bundle-aurora_defer.js']
 
 /** *****************************************************************************
  *                                                                              *
@@ -289,19 +332,33 @@ grails.resources.adhoc.excludes = ['/WEB-INF/**']
  ***************************************************************************** **/
 defaultWebSessionTimeout = (System.getenv('DEFAULTWEBSESSIONTIMEOUT') ? Integer.parseInt(System.getenv('DEFAULTWEBSESSIONTIMEOUT')): 1500)
 
+/** ***************************************************************************
+ *               Web Application Extensibility                                  *
+ *******************************************************************************/
+
+webAppExtensibility {
+    locations {
+       extensions = "path to the directory location where extensions JSON files will be written to and read from"
+       resources = "path to the directory location where i18n files will be written to and read from"
+    }
+    adminRoles = "ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"
+}
+
 
 /** *****************************************************************************
  *                                                                              *
  *           Home Page link when error happens during authentication.           *
  *                                                                              *
  ***************************************************************************** **/
-grails.plugin.springsecurity.homePageUrl=(System.getenv('BANNER9_HOMEPAGEURL') ?: 'http://APPLICATION_NAVIGATOR_HOST:PORT/applicationNavigator' )
+grails.plugin.springsecurity.homePageUrl=(System.getenv('BANNER9_HOMEPAGEURL') ?: 'http://BANNER9_HOST:PORT/CommunicationManagement' )
+
 
 /**********************************************************************************
-***    Google Analytics                                                            *
-***********************************************************************************/
+***    Google Analytics                                                           *
+**********************************************************************************/
 banner.analytics.trackerId=(System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')
 banner.analytics.allowEllucianTracker=(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER') ? Boolean.parseBoolean(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER')): false)
+
 
 /**********************************************************************************
 ***    Theming - Configuration to use themes served by the Theme Server                      
