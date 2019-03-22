@@ -14,8 +14,14 @@ RUN mkdir -p /opt/banner/extensibility/pb \
 VOLUME /opt/xe/extensibility
 USER tomcat
 
-ENV TIMEZONE=America/Denver \
-    BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER=false
+# Fix timezone
+USER root
+ENV TIMEZONE=America/Denver
+RUN cp -f /usr/share/zoneinfo/$TIMEZONE /etc/localtime
+RUN echo $TIMEZONE > /etc/timezone
+USER tomcat
+
+RUN sed -i 's/shared.loader=.*/shared.loader=xom-*.jar,bcprov*.jar/' /usr/local/tomcat/conf/catalina.properties
 
 
 COPY --chown=tomcat:tomcat BannerExtensibility /usr/local/tomcat/webapps/BannerExtensibility

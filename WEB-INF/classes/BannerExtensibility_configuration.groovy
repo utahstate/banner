@@ -57,26 +57,22 @@ pageBuilder {
  *              Theme Configuration                                             *
  *                                                                              *
  *******************************************************************************/
- banner.theme.url=(System.getenv('BANNER_THEME_URL') ?: 'http://BANNER9_HOST:PORT/BannerExtensibility/theme')
- banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: 'ellucian')
- banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: 'BannerExtensibility-9_2_1')
- banner.theme.cacheTimeOut = (System.getenv('BANNER_THEME_CACHETIMEOUT') ? Integer.parseInt(System.getenv('BANNER_THEME_CACHETIMEOUT')) : 900)
-//environments {
-//     production {
-//         banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"   // required only if theme server is remote
-//         banner.theme.name="production"
-//         banner.theme.template="BannerExtensibility-9_2_1"
-//         banner.theme.cacheTimeOut = 900                                    // in seconds, not required theme server is remote
-//     }
-//     development {
-//         banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"  // required only if theme server is remote
-//         banner.theme.name="development"
-//         banner.theme.template="BannerExtensibility-9_2_1"
-//         banner.theme.cacheTimeOut = 120                                   // // in seconds, not required theme server is remote
-//         //This variable is used to get information about $$user authorities(Roles). This should be used only for Development, shouldn't be available in prod. by default it should be false.
-//         pageBuilder.development.authorities.enabled=false
-//     }
-//}
+environments {
+     production {
+         banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"   // required only if theme server is remote
+         banner.theme.name="production"
+         banner.theme.template="BannerExtensibility-9_3"
+         banner.theme.cacheTimeOut = 900                                    // in seconds, not required theme server is remote
+     }
+     development {
+         banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"  // required only if theme server is remote
+         banner.theme.name="development"
+         banner.theme.template="BannerExtensibility-9_3"
+         banner.theme.cacheTimeOut = 120                                   // // in seconds, not required theme server is remote
+         //This variable is used to get information about $$user authorities(Roles). This should be used only for Development, shouldn't be available in prod. by default it should be false.
+         pageBuilder.development.authorities.enabled=false
+     }
+}
 
 
 
@@ -105,7 +101,7 @@ jmx {
 
 ssbEnabled = true
 ssbOracleUsersProxied = true
-ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.valueOf(System.getenv('SSBPASSWORD_RESET_ENABLED')): true) //true  - allow Pidm users to reset their password.
+ssbPassword.reset.enabled = true //true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
 
 
@@ -168,7 +164,7 @@ grails {
     }
 }
 
-grails.plugin.springsecurity.homePageUrl= (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/')
+grails.plugin.springsecurity.homePageUrl=(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/')
 
 //This setting contains the institution-specific redirect URL for MEP if Return Home is clicked.
 grails.plugin.springsecurity.logout.mepErrorLogoutUrl = '/logout/customLogout'
@@ -178,7 +174,7 @@ grails.plugin.springsecurity.logout.mepErrorLogoutUrl = '/logout/customLogout'
 // This entry is required to ensure that 'Sign In' link takes you to corresponding login i.e. for CAS,
 // any other authentication system or Default (Banner).
 // Example navigates to home page after sign in
-loginEndpoint=(System.getenv('LOGINENDPOINT') ?: 'http://BANNER9_HOST:PORT/APP_NAME/customPage/page/pbadm.ssoauth?url=/' )
+loginEndpoint='http://BANNER9_HOST:PORT/APP_NAME/customPage/page/pbadm.ssoauth?url=/'
 
 
 /*******************************************************************************
@@ -222,7 +218,7 @@ grails.plugin.xframeoptions.deny = true
 //                       +++ LOGGER CONFIGURATION +++
 //
 // ******************************************************************************
-String loggingFileDir =  '/usr/local/tomcat/logs'
+String loggingFileDir =  "/usr/local/tomcat/logs"
 String logAppName = "BannerExtensibility"
 String loggingFileName = "${loggingFileDir}/${logAppName}.log".toString()
 
@@ -353,16 +349,9 @@ configJob {
     //actualCount will be the count how many times the configJob would run.
 }
 
-/************************************************************
-                   Disabling Loacle for self service
-************************************************************/
-
-locale=false
-
-
 ssconfig.app.seeddata.keys = [['banner.analytics.allowEllucianTracker'], ['banner.analytics.trackerId'], ['banner.applicationName'],
  ['banner.theme.cacheTimeOut'], ['banner.theme.name'], ['banner.theme.template'], ['banner.theme.url'],
- ['loginEndpoint'], ['pageBuilder.enabled'], ['productName'], ['ssbEnabled'], ['ssbOracleUsersProxied'], ['locale']]
+ ['loginEndpoint'], ['pageBuilder.enabled'], ['productName'], ['ssbEnabled'], ['ssbOracleUsersProxied']]
 
 
  /** ********************************************************************************
