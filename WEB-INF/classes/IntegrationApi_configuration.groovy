@@ -92,9 +92,9 @@ jmx {
 // The logging levels that may be configured are, in order: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
 //
 log4j = {
-    String loggingFileDir  =  '/usr/local/tomcat'
+    String loggingFileDir  =  "/usr/local/tomcat/logs"
     String logAppName      = "IntegrationApi"
-    String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
+    String loggingFileName = "${loggingFileDir}/${logAppName}.log".toString()
     appenders {
         rollingFile name:'appLog', file:loggingFileName, maxFileSize:"${10*1024*1024}", maxBackupIndex:10, layout:pattern( conversionPattern: '%d{[EEE, dd-MMM-yyyy @ HH:mm:ss.SSS]} [%t] %-5p %c %x - %m%n' )
     }
@@ -175,4 +175,3 @@ log4j = {
     off 'grails.app.controllers.net.hedtech.restfulapi.RestfulApiController'
     off 'grails.app.services'
 }
-

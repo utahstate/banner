@@ -2,7 +2,7 @@
 FROM edurepo/banner9-selfservice:tomcat8.5-jre8-alpine
 MAINTAINER "Eric Allen <eric.allen@usu.edu>"
 
-LABEL api_version=9.13.0.1
+LABEL api_version=9.15
 
 #Fix timezone
 USER root
