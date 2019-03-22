@@ -1,6 +1,6 @@
 FROM edurepo/banner9-selfservice:tomcat8.5-jre8-alpine
 
-LABEL version="9.12"
+LABEL version="9.13"
 ENV BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER=false
 
 # Fix timezone
@@ -14,7 +14,7 @@ USER tomcat
 RUN mkdir -p /opt/banner/extensions/ss_ext/extensions/ \
     && mkdir -p /opt/banner/extensions/ss_ext/i18n/ \
     && chown -R tomcat:tomcat /opt/banner/extensions
-    
+
 RUN sed -i 's/shared.loader=.*/shared.loader=xom-*.jar,bcprov*.jar/' /usr/local/tomcat/conf/catalina.properties
 
 COPY --chown=tomcat:tomcat  StudentRegistrationSsb /usr/local/tomcat/webapps/StudentRegistrationSsb

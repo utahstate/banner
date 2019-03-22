@@ -176,8 +176,8 @@ log4j = {
  *                         Self Service Support                                 *
  *                                                                              *
  ***************************************************************************** **/
-ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
-ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
+ssbEnabled = true
+ssbOracleUsersProxied = true
 
 
 /** *****************************************************************************
@@ -186,7 +186,7 @@ ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueO
  *                                                                              *
  ***************************************************************************** **/
 // Default is false for ssbapplications.
-sdeEnabled=(System.getenv('SDEENABLED') ? Boolean.parseBoolean(System.getenv('SDEENABLED')): false )
+sdeEnabled=false
 
 
 /** *****************************************************************************
@@ -194,7 +194,7 @@ sdeEnabled=(System.getenv('SDEENABLED') ? Boolean.parseBoolean(System.getenv('SD
  *    Banner 8 SS Student Account link                                          *
  *                                                                              *
  ***************************************************************************** **/
-banner8.SS.studentAccountUrl = (System.getenv('BANNER8_SS_URL') ?: "http://<host_name>:<port_number>/<banner8ssb>/") + "twbkwbis.P_GenMenu?name=bmenu.P_ARMnu"
+banner8.SS.studentAccountUrl = "http://<host_name>:<port_number>/<banner8ssb>/twbkwbis.P_GenMenu?name=bmenu.P_ARMnu"
 
 
 /** *****************************************************************************
@@ -344,12 +344,12 @@ bookstore = [
 //
 grails {
     mail {
-        host = 'mail.usu.edu'
+        host = "your.smtp.address"
     }
 }
-grails.mail.default.from='no-reply@usu.edu'
+grails.mail.default.from="your_email_address@school.edu"
 allowPrint = true
-ssbPassword.reset.enabled = false        //true - allow Pidm users to reset their password.      false - throws functionality disabled error message
+ssbPassword.reset.enabled = true        //true - allow Pidm users to reset their password.      false - throws functionality disabled error message
 
 /** *****************************************************************************
  *                                                                              *
@@ -374,7 +374,7 @@ updateStudentTermData = 'N'
 // BANNER_AIP_EXCLUDE_LIST is the list of psuedo controller names that will be
 // exempt from the logic in the AIP filters that control the navigation for halted processes.
 //
-GENERALLOCATION=(System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + '/BannerGeneralSsb'
+GENERALLOCATION='http://Path/To/BannerGeneralSsb'
 BANNER_AIP_EXCLUDE_LIST='about|cssManager|cssRender|error|excelExportBase|dateConverter|keepAlive|login|logout|resetPassword|securityQa|selfServiceMenu|survey|test|theme|getTheme|themeEditor|userAgreement|userPreference'
 
 /** *****************************************************************************
@@ -401,7 +401,7 @@ grails.resources.mappers.yuijsminify.excludes = ['**/*.min.js','**/angularjs-col
  *           Home Page link when error happens during authentication.           *
  *                                                                              *
  ***************************************************************************** **/
-grails.plugin.springsecurity.homePageUrl=(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL') ?: 'http://BANNER9_HOME:PORT/StudentRegistrationSsb' )
+grails.plugin.springsecurity.homePageUrl='http://URL:PORT/'
 
 /** ****************************************************************************
  *                                                                              *
@@ -487,7 +487,7 @@ webAppExtensibility {
 //                              ['<Key4>']]
 //
 //
-
+/*
   ssconfig.app.seeddata.keys = [
      ['banner.picturesPath':'Path to the directory where images will be stored'],
      ['banner8.SS.url'],
@@ -503,3 +503,4 @@ webAppExtensibility {
      ['allowPrint'],
      ['updateStudentTermData']
   ]
+*/
