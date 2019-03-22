@@ -248,9 +248,9 @@ grails {
             cas {
                 active = true
                 serverUrlPrefix  = (System.getenv('CAS_URL') ?: 'http://CAS_HOST:PORT/cas')
-                serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/StudentRegistrationSsb/j_spring_cas_security_check"
+                serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/BannerGeneralSsb/j_spring_cas_security_check"
                 serverName       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT')
-                proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/StudentRegistrationSsb/secure/receptor"
+                proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/BannerGeneralSsb/secure/receptor"
                 loginUri = '/login'
                 sendRenew = false
                 proxyReceptorUrl = '/secure/receptor'
