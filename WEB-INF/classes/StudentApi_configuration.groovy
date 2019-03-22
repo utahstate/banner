@@ -55,9 +55,9 @@ jmx {
 // The logging levels that may be configured are, in order: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
 //
 log4j = {
-    def String loggingFileDir  =  '/usr/local/tomcat'
+    def String loggingFileDir  =  "/usr/local/tomcat/logs"
     def String logAppName      = "StudentApi"
-    def String loggingFileName = "${loggingFileDir}/logs/${logAppName}.log".toString()
+    def String loggingFileName = "${loggingFileDir}/${logAppName}.log".toString()
     appenders {
         rollingFile name:'appLog', file:loggingFileName, maxFileSize:"${10*1024*1024}", maxBackupIndex:10, layout:pattern( conversionPattern: '%d{[EEE, dd-MMM-yyyy @ HH:mm:ss.SSS]} [%t] %-5p %c %x - %m%n' )
     }
