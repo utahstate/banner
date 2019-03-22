@@ -1,5 +1,5 @@
 /*********************************************************************************
- Copyright 2015-2018 Ellucian Company L.P. and its affiliates.
+ Copyright 2015-2019 Ellucian Company L.P. and its affiliates.
  *********************************************************************************/
 
 /** ****************************************************************************
@@ -106,7 +106,7 @@ log4j = {
                 error 'appLog'
                 additivity = true
             }
-            debug 'net.hedtech.banner.aip.filter.GateKeepingFilters'
+            error 'net.hedtech.banner.aip.filter.GateKeepingFilters'
             error 'grails.app.service'
             error 'grails.app.controller'
             info 'net.hedtech.banner.representations'
@@ -124,13 +124,14 @@ log4j = {
 
     // ******** non-Grails classes (e.g., in src/ or grails-app/utils/) *********
     off 'net.hedtech.banner.service'
-    off 'net.hedtech.banner.student'
-    off 'net.hedtech.banner.student.catalog'
-    off 'net.hedtech.banner.student.faculty'
-    off 'net.hedtech.banner.student.generalstudent'
-    off 'net.hedtech.banner.student.system'
     off 'net.hedtech.banner.representations'
     off 'BannerUiSsGrailsPlugin'
+
+    off 'net.hedtech.banner.aip.post.engine.ActionItemAsynchronousTaskProcessingEngineImpl'
+    off 'net.hedtech.banner.aip.post.job.ActionItemJobTaskManagerService'
+    off 'net.hedtech.banner.aip.post.job.ActionItemJobService'
+    off 'net.hedtech.banner.aip.post.grouppost.ActionItemPostMonitor'
+    off 'net.hedtech.banner.aip.post.grouppost.ActionItemPostCompositeService'
 
     // ******** Grails framework classes *********
     off 'org.codehaus.groovy.grails.web.servlet'        // controllers
@@ -182,13 +183,22 @@ log4j = {
  ***************************************************************************** **/
 
 
-ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
-ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
-ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED')): true ) //true  - allow Pidm users to reset their password.
+ ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
+ ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.parseBoolean(System.getenv('SSBORACLEUSERSPROXIED')) : true)
+ ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED')): true ) //true  - allow Pidm users to reset their password.
 //false - throws functionality disabled error message
 
 // In CAS and SAML modes, set to true to allow API calls to bypass single sign-on authentication
+// Set to true if enabling the Proxy application
 guestAuthenticationEnabled = (System.getenv('GUESTAUTHENTICATIONENABLED') ?Boolean.parseBoolean(System.getenv('GUESTAUTHENTICATIONENABLED')) : false)
+
+/** ****************************************************************************
+ *                                                                             *
+ *              Commmgr User DataSource Configuration                          *
+ *                                                                             *
+ *******************************************************************************/
+commmgrDataSourceEnabled = false  //Set this to true if using the bannerCommmgrDataSource
+
 
 // Product and application name to refer to this app for name display rules
 productName = "General"
@@ -211,7 +221,7 @@ grails.plugin.xframeoptions.deny = true
  *                                                                              *
  ***************************************************************************** **/
 // Default is false for ssbapplications.
-sdeEnabled=(System.getenv('SDEENABLED') ? Boolean.parseBoolean(System.getenv('SDEENABLED')): false )
+sdeEnabled = false
 
 /** *****************************************************************************
  *                                                                              *
@@ -334,17 +344,17 @@ grails.plugin.springsecurity.homePageUrl = (System.getenv('GRAILS_PLUGIN_SPRINGS
  *                   Theme Server Support                                       *
  *                                                                              *
  ***************************************************************************** **/
-banner.theme.url=(System.getenv('BANNER_THEME_URL') ?: "http://ThemeServer:8080/pathTo/ssb/theme" ) //Required only if theme server is remote.
+banner.theme.url = (System.getenv('BANNER_THEME_URL') ?: "http://ThemeServer:8080/pathTo/ssb/theme" ) //Required only if theme server is remote.
 //References the URL to the application hosting the Theme Server Example : http://hostname:port/BannerGeneralSsb/ssb/theme
-banner.theme.name=(System.getenv('BANNER_THEME_NAME') ?: "default" ) // This is the desired theme name to use. In a MEP environment, the application uses the MEP code as the theme name instead of the banner.theme.name . A theme by this name must be created in the Theme Editor on the server specified by banner.theme.url
-banner.theme.template=(System.getenv('BANNER_THEME_TEMPLATE') ?: "BannerGeneralSsb" ) // This is the name of the scss file containing the theme settings in war file.
+banner.theme.name = (System.getenv('BANNER_THEME_NAME') ?: "default" ) // This is the desired theme name to use. In a MEP environment, the application uses the MEP code as the theme name instead of the banner.theme.name . A theme by this name must be created in the Theme Editor on the server specified by banner.theme.url
+banner.theme.template = (System.getenv('BANNER_THEME_TEMPLATE') ?: "BannerGeneralSsb-9_3" ) // This is the name of the scss file containing the theme settings in war file.
 banner.theme.cacheTimeOut = 120 // seconds, required only if the app is theme server. The value indicates how long the CSS file that was generated using the template and the theme is cached.
 
 /******************************************************************************
  *                               Google Analytics                              *
  *******************************************************************************/
-banner.analytics.trackerId=(System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')
-banner.analytics.allowEllucianTracker=(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER') ? Boolean.parseBoolean(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER')): true)
+banner.analytics.trackerId = (System.getenv('BANNER_ANALYSTICS_TRACKERID') ?: '')            //institution's google analytics tracker ID - default blank
+banner.analytics.allowEllucianTracker = (System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER') ? Boolean.parseBoolean(System.getenv('BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER')): true)    //true|false - default true
 
 /*******************************************************************************
  *                                                                              *
@@ -360,9 +370,7 @@ grails.resources.adhoc.excludes = ['/WEB-INF/**']
  *                                                                              *
  *******************************************************************************/
 pageBuilder.enabled = (System.getenv('PAGEBUILDER_ENABLED') ? Boolean.parseBoolean(System.getenv('PAGEBUILDER_ENABLED')): true)
-if (!pageBuilder.enabled) {
-  grails.plugin.springsecurity.securityConfigType = grails.plugin.springsecurity.SecurityConfigType.InterceptUrlMap
-}
+
 // initial load location on file system. Files located in "pb" directory. pb directory located at root of app as sibling to the config files
 pbRoot = (System.getenv('PBROOT') ?: '/opt/banner/pb') // Example /temp/pb
 pageBuilder {
@@ -377,19 +385,71 @@ pageBuilder {
     // debugRoles = "ROLE_GPBADMN_BAN_DEFAULT_PAGEBUILDER_M"
 }
 
+/* Temp fix for AIP to avoid conflicts with Banner Extensibility app Requestmap and enabled uploadProperties in API app.*/
+def extensibilityFormMap = [
+    '/theme/**'                     : ['IS_AUTHENTICATED_ANONYMOUSLY'],
+    '/themeEditor/**'               : ['ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M'],
+    '/ssb/uploadProperties/**'      : ['ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M'],
+    '/**/logout'                    : ['IS_AUTHENTICATED_ANONYMOUSLY'],
+    '/**/login/auth'                : ['IS_AUTHENTICATED_ANONYMOUSLY'],
+    '/customPage/page/**'           : ['ROLE_DENY_ALL']
+]
+grails.plugin.springsecurity.interceptUrlMap << extensibilityFormMap
+
+/** *****************************************************************************
+ *                                                                              *
+ *               Configuration for Payment Gateway                              *
+ *                                                                              *
+ ***************************************************************************** **/
+proxy.payment.gateway = [
+                PAYVEND_URL : 'https://<Payment_Gateway_URL>',
+                PAYVEND_VENDOR : '<Payment_Vendor_Name>'
+                ]
+
 
 /** *****************************************************************************
  *                                                                              *
  *                 Configuration for AIP application                     *
  *                                                                              *
  ***************************************************************************** **/
-BCMLOCATION=(System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + '/CommunicationManagement' // The URL of BCM application. Please note, Banner Communication Manangement (BCM) is dependent application for General SS 9.2.
+BCMLOCATION='http://<HOST_NAME>:<PORT>/CommunicationManagement' // The URL of BCM application. Please note, Banner Communication Management (BCM) is dependent application for General SS 9.3.
                                                          //Example localhost:8080/CommunicationManagement
 BANNER_AIP_BLOCK_PROCESS_PERSONA= ['EVERYONE', 'STUDENT', 'REGISTRAR', 'FACULTYINSTRUCTOR', 'FACULTYADVISOR', 'FACULTYBOTH'] // Add/update if any change in persona
 BANNER_AIP_EXCLUDE_LIST='aipActionItemPosting|aipAdmin|aip|aipPageBuilder|BCM|about|cssManager|cssRender|error|excelExportBase|dateConverter|keepAlive|login|logout|resetPassword|securityQa|selfServiceMenu|survey|test|theme|themeEditor|userAgreement|userPreference'// No change in this.
 // in case of new controller which needs to be ignored, can be added here.
-GENERALLOCATION=(System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') '+/BannerGeneralSsb' // Example localhost:8080/BannerGeneralSsb
-ssconfig.app.seeddata.keys = [['BCMLOCATION'], ['BANNER_AIP_BLOCK_PROCESS_PERSONA']]
+GENERALLOCATION='http://<HOST_NAME>:<PORT>/BannerGeneralSsb' // Example localhost:8080/BannerGeneralSsb
+
+/*****************************************************************************************************/
+ // AIP Configuration for restricted attachment type, allowed attachment size and file storage location
+/*****************************************************************************************************/
+    aip.restricted.attachment.type=['EXE']/* AIP restricted file types*/
+    aip.allowed.attachment.max.size='26214400' 	/* AIP file size in Bytes*/
+    aip.attachment.file.storage.location='AIP'	/* File storage location. Possible values are 'AIP' and 'BDM'. Default is 'AIP'*/
+    aip.institution.maximum.attachment.number=10      /* Maximum number of attachments for each response that can be uploaded for an action item*/
+
+/** *****************************************************************************
+ *                  BDM Configurations                                          *
+ ***************************************************************************** **/
+  bdm.enabled = false
+  bdmserver {
+	AXWebServicesUrl = 'http://<APPXTENDER_HOST_IP>/AppXtenderServices/axservicesinterface.asmx'
+	/* URL of ApplicationXtender Web Services */
+	AXWebAccessURL = 'http://<APPXTENDER_HOST_IP>/appxtender/' /* URL of ApplicationXtender Web Access */
+	Username = '<UPDATE ME>' 		/* Name of AX Application User */
+	BdmDataSource = '<UPDATE ME>' 	/* Data source of AX Application */
+	AppName = 'B-G-DOCS' 			/* Name of AX Application. Use 'B-G-DOCS' for documents related to Banner General Self Service Application*/
+	file.location = '<UPDATE ME>'	/* Location of BDM Document folder. Example C:/BDM_DOCUMENTS_FOLDER/ on Windows or /u02/Tomcat7/BDM_DOCUMENTS_FOLDER in Linux: */
+	defaultFileSize = 3				/* BDM file size in MB.*/
+	defaultfile.ext=['EXE']			/* BDM restricted file types */
+  }
+  /** *****************************************************************************
+   *                  ClamAV Antivirus Scanner Configurations                     *
+   ***************************************************************************** **/
+   clamav.enabled = false
+
+   clamav.host = '<CLAMD_HOST_IP>' 	  /*Host IP address where the ClamAV daemon ( clamd ) is running. Default is '127.0.0.1' */
+   clamav.port = '<CLAMD_PORT>'		  /* Port on which clamd process is listening. Default is 3310*/
+   clamav.connectionTimeout = 5000 	  /* Connection timeout to connect to clamd process.Time in milliseconds. Default is 5000*/
 
 /*******************************************************************************
  *                                                                             *
@@ -400,16 +460,67 @@ configJob.delay = 60000
 configJob.interval = 120000
 configJob.actualCount = -1
 
+/** *****************************************************************************
+ *                                                                              *
+ * Migrating the SeedData Keys Configuration to the database                    *
+ *                                                                              *
+ *******************************************************************************/
+/* Here are 3 patterns to use to configure the SeedData keys
+
+Pattern 1 - With key and value
+Syntax:
+ssconfig.app.seeddata.keys = [
+['<Key1>': <Boolean value>], ['<Key2>': <Boolean Value2>], ['<Key3>': '<String Value>'], ['<Key4>':<Numeric value>]
+]
+
+Pattern 2 - With key only (value derived from configuration files)
+Syntax:
+ssconfig.app.seeddata.keys = [
+['<Key1>'], ['<Key2>'], ['<Key3>'], ['<Key4>']
+]
+
+Pattern 3 - Combination of Pattern 1 and 2 - With key only and key/value pairs.
+Syntax:
+ssconfig.app.seeddata.keys = [
+['<Key1>': <Boolean value>], ['<Key2>'], ['<Key3>': '<String Value>'], ['<Key4>']
+]
+
+*/
+//Below are keys configured using pattern 2
+ssconfig.app.seeddata.keys = [
+	['BCMLOCATION'],
+    ['GENERALLOCATION'],
+	['BANNER_AIP_BLOCK_PROCESS_PERSONA'],
+	['aip.restricted.attachment.type'],
+	['aip.allowed.attachment.max.size'],
+	['aip.institution.maximum.attachment.number'],
+	['aip.attachment.file.storage.location'],
+	['bdmserver.AXWebServicesUrl'],
+	['bdmserver.AXWebAccessURL'],
+	['bdmserver.Username'],
+	['bdmserver.BdmDataSource'],
+	['bdmserver.AppName'],
+	['bdmserver.file.location'],
+	['bdmserver.defaultFileSize'],
+	['bdmserver.defaultfile.ext'],
+	['bdm.enabled']
+]
+
+
+
+/** *****************************************************************************
+ *                  Action Item processing Configurations                       *
+ ***************************************************************************** **/
 aip {
     weblogicDeployment = false
 
     actionItemPostMonitor {
-        enabled = (System.getenv('AIP_ACTIONITEMPOSTMONITOR_ENABLED') ? Boolean.parseBoolean(System.getenv('AIP_ACTIONITEMPOSTMONITOR_ENABLED')) : false )
+        enabled = false
         monitorIntervalInSeconds = 10
     }
 
     actionItemPostWorkProcessingEngine {
-        enabled = (System.getenv('AIP_ACTIONITEMPOSTWORKPROCESSINGENGINE_ENABLED') ? Boolean.parseBoolean(System.getenv('AIP_ACTIONITEMPOSTWORKPROCESSINGENGINE_ENABLED')) : false )
+        enabled = false
         maxThreads = 1
         maxQueueSize = 5000
         continuousPolling = true
@@ -418,7 +529,7 @@ aip {
     }
 
     actionItemJobProcessingEngine {
-        enabled = (System.getenv('AIP_ACTIONITEMJOBPROCESSINGENGINE_ENABLED') ? Boolean.parseBoolean(System.getenv('AIP_ACTIONITEMJOBPROCESSINGENGINE_ENABLED')) : false )
+        enabled = false
         maxThreads = 2
         maxQueueSize = 5000
         continuousPolling = true
@@ -427,7 +538,7 @@ aip {
     }
 
     scheduler {
-        enabled = (System.getenv('AIP_SCHEDULER_ENABLED') ? Boolean.parseBoolean(System.getenv('AIP_SCHEDULER_ENABLED')) : false )
+        enabled = false
         idleWaitTime = 30000
     }
 }
