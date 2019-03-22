@@ -1,7 +1,7 @@
 #Dockerfile for StudentAPI
 FROM edurepo/banner9-selfservice:tomcat8.5-jre8-alpine
 
-LABEL api_version=9.13
+LABEL api_version=9.13.0.1
 
 #Fix timezone
 USER root
@@ -10,4 +10,5 @@ RUN cp -f /usr/share/zoneinfo/$TIMEZONE /etc/localtime
 RUN echo $TIMEZONE > /etc/timezone
 USER tomcat
 
+RUN sed -i 's/shared.loader=.*/shared.loader=xom-*.jar, bcprov*.jar/' /usr/local/tomcat/conf/catalina.properties
 COPY StudentApi /usr/local/tomcat/webapps/StudentApi
