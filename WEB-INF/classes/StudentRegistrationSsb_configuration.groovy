@@ -344,10 +344,10 @@ bookstore = [
 //
 grails {
     mail {
-        host = (System.getenv('GRAILS_MAIL_HOST') ?: 'mailhost.sct.com')
+        host = 'mail.usu.edu'
     }
 }
-grails.mail.default.from=(System.getenv('GRAILS_MAIL_DEFAULT_FROM') ?: 'firstname.lastname@ellucian.com')
+grails.mail.default.from='no-reply@usu.edu'
 allowPrint = true
 ssbPassword.reset.enabled = false        //true - allow Pidm users to reset their password.      false - throws functionality disabled error message
 
