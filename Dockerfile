@@ -1,13 +1,13 @@
 FROM bandock/banner9-admin:tomcat8.5.37-jre8-alpine
-LABEL banner.common="9.3.16.0.3" \
+LABEL banner.common="9.3.16.1.1" \
       banner.accountreceivable="9.3.10.0.4" \
       banner.documentmanagement="9.3.1.0.4" \
       banner.finance="9.3.11.0.2" \
-      banner.financialaid="9.3.12.1.1" \
+      banner.financialaid="9.3.13.1.1" \
       banner.general="9.3.13.0.2" \
       banner.humanresources="9.3.10.0.4" \
       banner.positioncontrol="9.3.10.0.2" \
-      banner.student="9.3.14.0.3"
+      banner.student="9.3.14.0.3" 
 
 #Fix timezone
 USER root
