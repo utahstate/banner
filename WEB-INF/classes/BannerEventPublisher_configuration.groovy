@@ -69,7 +69,7 @@ bep {
 //RabbitMQ configuration
 rabbitmq {
 	host = (System.getenv('RABBITMQ_HOST') ?: "rabbitmqHost")
-	port = (System.getenv('RABBITMQ_PORT') ?: "5672")
+	port = 5672
 	userName = (System.getenv('RABBITMQ_USERNAME') ?: "rabbitmqAdm")
 	password = (System.getenv('RABBITMQ_PASSWORD') ?: "#UPDATEME#")
 	virtualHostName = (System.getenv('RABBITMQ_VIRTUALHOSTNAME') ?: "bep_events_host")
