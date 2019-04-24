@@ -66,7 +66,7 @@ enableNLS=true
  *              Commmgr User DataSource Configuration                          *
  *                                                                             *
  *******************************************************************************/
-commmgrDataSourceEnabled = false  //Set this to true if using the bannerCommmgrDataSource
+commmgrDataSourceEnabled = true  //Set this to true if using the bannerCommmgrDataSource
 
 /** *****************************************************************************
  *                                                                              *
