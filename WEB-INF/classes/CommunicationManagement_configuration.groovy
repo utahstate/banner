@@ -115,7 +115,7 @@ grails {
                 }
             }
 		    logout {
-                afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?:  'http://BANNER9_HOST:PORT/CommunicationManagement/logout/customLogout' )
+                afterLogoutUrl = afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?:  'http://BANNER9_HOST:PORT/CommunicationManagement/logout/customLogout' )
                 mepErrorLogoutUrl = 'https://URL:PORT/'
             }
         }
@@ -402,7 +402,7 @@ banner.analytics.allowEllucianTracker=false
 ***********************************************************************************/
 banner.theme.url = "<UPDATE_ME>"
 banner.theme.name = "<UPDATE_ME>"
-banner.theme.template = 'CommunicationManagement-9_5'
+banner.theme.template = 'CommunicationManagement-9_5_0_1'
 banner.theme.cacheTimeOut = 120
 
 /** ******************************************************************************

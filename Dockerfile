@@ -1,7 +1,7 @@
 FROM harbor.usu.edu/banner/base-bcm:tomcat8.5.38-jre8-alpine
 MAINTAINER "Eric Allen <eric.allen@usu.edu>"
 
-LABEL version="9.5"
+LABEL version="9.5.0.1"
 
 # Fix timezone
 USER root
