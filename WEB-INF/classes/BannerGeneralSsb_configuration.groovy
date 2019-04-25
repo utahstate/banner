@@ -197,7 +197,7 @@ guestAuthenticationEnabled = (System.getenv('GUESTAUTHENTICATIONENABLED') ?Boole
  *              Commmgr User DataSource Configuration                          *
  *                                                                             *
  *******************************************************************************/
-commmgrDataSourceEnabled = false  //Set this to true if using the bannerCommmgrDataSource
+commmgrDataSourceEnabled = true  //Set this to true if using the bannerCommmgrDataSource
 
 
 // Product and application name to refer to this app for name display rules

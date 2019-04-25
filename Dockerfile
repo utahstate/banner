@@ -1,7 +1,7 @@
-FROM edurepo/banner9-selfservice:tomcat8.5-jre8-alpine
+FROM harbor.usu.edu/banner/base-bcm:tomcat8.5.38-jre8-alpine
 MAINTAINER "Eric Allen <eric.allen@usu.edu>"
 
-
+LABEL version=9.3
 
 ENV BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER=false
 
