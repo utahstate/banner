@@ -8,7 +8,7 @@ LABEL banner.common="9.3.16.1.1" \
       banner.humanresources="9.3.10.0.4" \
       banner.positioncontrol="9.3.10.0.2" \
       banner.student="9.3.14.0.3" \
-      cleanaddress="9.3.12"
+      cleanaddress="9.3.13"
 
 #Fix timezone
 USER root
