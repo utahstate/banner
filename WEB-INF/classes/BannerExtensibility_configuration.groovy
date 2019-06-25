@@ -1,5 +1,5 @@
 /*******************************************************************************
- Copyright 2017-2018 Ellucian Company L.P. and its affiliates.
+ Copyright 2017-2019 Ellucian Company L.P. and its affiliates.
  *******************************************************************************/
 
 /******************************************************************************
@@ -39,7 +39,7 @@ if (!pageBuilder.enabled) {
  *              Page Builder Artifact File Location Configuration               *
  *                                                                              *
  *******************************************************************************/
-pbRoot = (System.getenv('PBROOT') ?: '/temp/pb')
+pbRoot =(System.getenv('PBROOT') ?: '/temp/pb')
 pageBuilder {
 	locations {
 	  bundle        = "${pbRoot}/i18n"
@@ -61,13 +61,13 @@ environments {
      production {
          banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"   // required only if theme server is remote
          banner.theme.name="production"
-         banner.theme.template="BannerExtensibility-9_3"
+         banner.theme.template="BannerExtensibility-9_4"
          banner.theme.cacheTimeOut = 900                                    // in seconds, not required theme server is remote
      }
      development {
          banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"  // required only if theme server is remote
          banner.theme.name="development"
-         banner.theme.template="BannerExtensibility-9_3"
+         banner.theme.template="BannerExtensibility-9_4"
          banner.theme.cacheTimeOut = 120                                   // // in seconds, not required theme server is remote
          //This variable is used to get information about $$user authorities(Roles). This should be used only for Development, shouldn't be available in prod. by default it should be false.
          pageBuilder.development.authorities.enabled=false
@@ -101,7 +101,7 @@ jmx {
 
 ssbEnabled = true
 ssbOracleUsersProxied = true
-ssbPassword.reset.enabled = true //true  - allow Pidm users to reset their password.
+ssbPassword.reset.enabled = false //true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
 
 
@@ -157,7 +157,7 @@ grails {
                 }
             }
             logout {
-                afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?: 'https://cas-server/logout?url=http://myportal/main_page.html')
+                afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?: 'https://cas-server/logout?service=http://myportal/main_page.html')
                 // afterLogoutUrl = '/' // This can be used to navigate to the landing page when not using CAS
             }
         }
@@ -165,7 +165,6 @@ grails {
 }
 
 grails.plugin.springsecurity.homePageUrl=(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/')
-
 //This setting contains the institution-specific redirect URL for MEP if Return Home is clicked.
 grails.plugin.springsecurity.logout.mepErrorLogoutUrl = '/logout/customLogout'
 
@@ -305,6 +304,7 @@ log4j = {
     error 'net.hedtech.banner.sspb'
     error 'net.hedtech.banner.virtualDomain'
     error 'net.hedtech.tools'
+    groovy.sql.Sql.LOG.level = java.util.logging.Level.SEVERE
 
     // Grails provides a convenience for enabling logging within artefacts, using 'grails.app.XXX'.
     // Unfortunately, this configuration is not effective when 'mixing in' methods that perform logging.
@@ -349,9 +349,16 @@ configJob {
     //actualCount will be the count how many times the configJob would run.
 }
 
+/************************************************************
+                   Disabling Loacle for self service
+************************************************************/
+
+locale=false
+
+
 ssconfig.app.seeddata.keys = [['banner.analytics.allowEllucianTracker'], ['banner.analytics.trackerId'], ['banner.applicationName'],
  ['banner.theme.cacheTimeOut'], ['banner.theme.name'], ['banner.theme.template'], ['banner.theme.url'],
- ['loginEndpoint'], ['pageBuilder.enabled'], ['productName'], ['ssbEnabled'], ['ssbOracleUsersProxied']]
+ ['loginEndpoint'], ['pageBuilder.enabled'], ['productName'], ['ssbEnabled'], ['ssbOracleUsersProxied'], ['locale']]
 
 
  /** ********************************************************************************
@@ -362,7 +369,7 @@ ssconfig.app.seeddata.keys = [['banner.analytics.allowEllucianTracker'], ['banne
  * Added as part of Platform Platform 9.20                                         *
  ******************************************************************************** **/
 banner.analytics.trackerId=""     // institution's analytics tracker ID - blank by default
-banner.analytics.allowEllucianTracker=true
+banner.analytics.allowEllucianTracker=True
 
 productName="Banner General"
 banner.applicationName="BannerExtensibility"

@@ -1,5 +1,5 @@
-FROM edurepo/banner9-selfservice:tomcat8-jre8-alpine
-LABEL version="9.2" \
+FROM bandock/banner9-selfservice:tomcat8.5.41-jre8-alpine
+LABEL version="9.4" \
   maintainer="Eric Allen <eric.allen@usu.edu>"
 
 USER root
