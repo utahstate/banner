@@ -176,8 +176,8 @@ log4j = {
  *                         Self Service Support                                 *
  *                                                                              *
  ***************************************************************************** **/
-ssbEnabled = true
-ssbOracleUsersProxied = true
+ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
+ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
 
 
 /** *****************************************************************************
@@ -186,7 +186,7 @@ ssbOracleUsersProxied = true
  *                                                                              *
  ***************************************************************************** **/
 // Default is false for ssbapplications.
-sdeEnabled=false
+sdeEnabled=(System.getenv('SDEENABLED') ? Boolean.parseBoolean(System.getenv('SDEENABLED')): false )
 
 
 /** *****************************************************************************
@@ -194,7 +194,7 @@ sdeEnabled=false
  *    Banner 8 SS Student Account link                                          *
  *                                                                              *
  ***************************************************************************** **/
-banner8.SS.studentAccountUrl = "http://<host_name>:<port_number>/<banner8ssb>/twbkwbis.P_GenMenu?name=bmenu.P_ARMnu"
+banner8.SS.studentAccountUrl = (System.getenv('BANNER8_SS_URL') ?: "http://<host_name>:<port_number>/<banner8ssb>/") + "twbkwbis.P_GenMenu?name=bmenu.P_ARMnu"
 
 
 /** *****************************************************************************
@@ -323,12 +323,13 @@ grails.plugin.springsecurity.saml.metadata.sp.defaults = [
 //
 bookstore = [
 [
-  url: "http://usu.verbacompare.com/comparison?trm={0}&catids={1}",
-  label: "bookstore.links.usu.comparison",
-  params: [".termDesc", "COURSEREFERENCENUMBER"],
+  url: (System.getenv('BOOKSTORE_URL') ?: 'http://alexandria.usu.edu') + "/catalog?term={0}&crn={1}",
+  label: "Course Materials",
+  params: ["TERM", "COURSEREFERENCENUMBER"],
   page: "30",
 ]
 ]
+
 
 /** *****************************************************************************
  *                                                                              *
@@ -344,12 +345,12 @@ bookstore = [
 //
 grails {
     mail {
-        host = "your.smtp.address"
+        host = 'mail.usu.edu'
     }
 }
-grails.mail.default.from="your_email_address@school.edu"
+grails.mail.default.from='no-reply@usu.edu'
 allowPrint = true
-ssbPassword.reset.enabled = true        //true - allow Pidm users to reset their password.      false - throws functionality disabled error message
+ssbPassword.reset.enabled = false        //true - allow Pidm users to reset their password.      false - throws functionality disabled error message
 
 /** *****************************************************************************
  *                                                                              *
@@ -374,7 +375,7 @@ updateStudentTermData = 'N'
 // BANNER_AIP_EXCLUDE_LIST is the list of psuedo controller names that will be
 // exempt from the logic in the AIP filters that control the navigation for halted processes.
 //
-GENERALLOCATION='http://Path/To/BannerGeneralSsb'
+GENERALLOCATION=(System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + '/BannerGeneralSsb'
 BANNER_AIP_EXCLUDE_LIST='about|cssManager|cssRender|error|excelExportBase|dateConverter|keepAlive|login|logout|resetPassword|securityQa|selfServiceMenu|survey|test|theme|getTheme|themeEditor|userAgreement|userPreference'
 
 /** *****************************************************************************
@@ -401,7 +402,7 @@ grails.resources.mappers.yuijsminify.excludes = ['**/*.min.js','**/angularjs-col
  *           Home Page link when error happens during authentication.           *
  *                                                                              *
  ***************************************************************************** **/
-grails.plugin.springsecurity.homePageUrl='http://URL:PORT/'
+grails.plugin.springsecurity.homePageUrl=(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL') ?: 'http://BANNER9_HOME:PORT/StudentRegistrationSsb' )
 
 /** ****************************************************************************
  *                                                                              *
@@ -487,7 +488,7 @@ webAppExtensibility {
 //                              ['<Key4>']]
 //
 //
-/*
+
   ssconfig.app.seeddata.keys = [
      ['banner.picturesPath':'Path to the directory where images will be stored'],
      ['banner8.SS.url'],
@@ -503,4 +504,4 @@ webAppExtensibility {
      ['allowPrint'],
      ['updateStudentTermData']
   ]
-*/
+
