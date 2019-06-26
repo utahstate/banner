@@ -47,7 +47,7 @@ jmx {
 
 ssbEnabled = (System.getenv('SSBENABLED') ? Boolean.parseBoolean(System.getenv('SSBENABLED')) : true )
 ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.parseBoolean(System.getenv('SSBORACLEUSERSPROXIED')) : true )
-ssbPassword.reset.enabled = true //true  - allow Pidm users to reset their password.
+ssbPassword.reset.enabled = false //true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
 
 // ******************************************************************************
@@ -294,7 +294,7 @@ webAppExtensibility {
     locations {
         extensions = "path to the directory location where extensions JSON files will be written to and read from"
         resources = "path to the directory location where i18n files will be written to and read from"
-        // for ex,
+        // for ex, 
         // extensions = "/home/oracle/config_extn/ssb/extensions/"
         // resources = "/home/oracle/config_extn/ssb/i18n/"
     }
@@ -372,9 +372,9 @@ grails.plugin.springsecurity.saml.metadata.sp.defaults = [
 // 3. Follett book site will require substitution of "<<Campus Store ID>>" with the actual campus ID, as well as parameters which will be substituted at run time.
 bookstore = [
 [
-  url: "http://usu.verbacompare.com/comparison?trm={0}&catids={1}",
-  label: "bookstore.links.usu.comparison",
-  params: [".termDesc", "COURSEREFERENCENUMBER"],
+  url: (System.getenv('BOOKSTORE_URL') ?: 'http://alexandria.usu.edu') + "/catalog?term={0}&crn={1}",
+  label: "Course Materials",
+  params: ["TERM", "COURSEREFERENCENUMBER"],
   page: "30",
 ]
 ]
@@ -391,7 +391,7 @@ banner.applicationName = "Student Self-Service"
 /** ****************************************************************************
  *              Transaction timeout Configuration (in seconds)                 *
  *************************************************************************** **/
-defaultWebSessionTimeout = (System.getenv('DEFAULTWEBSESSIONTIMEOUT') ? Integer.parseInt(System.getenv('DEFAULTWEBSESSIONTIMEOUT')): 15000)
+defaultWebSessionTimeout = 15000
 
 // ******************************************************************************
 //                       +++ Footer Timeout Configuration +++
