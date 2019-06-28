@@ -1,8 +1,8 @@
 #Dockerfile for Banner Integration API
-FROM edurepo/banner9-selfservice:tomcat8.5-jre8-alpine
+FROM bandock/banner9-selfservice:tomcat8.5.41-jre8-alpine
 MAINTAINER "Eric Allen <eric.allen@usu.edu>"
 
-LABEL api_version=9.15
+LABEL api_version=9.16
 
 #Fix timezone
 USER root

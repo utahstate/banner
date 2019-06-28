@@ -1,5 +1,5 @@
 /** *****************************************************************************
- Copyright 2014-2017 Ellucian Company L.P. and its affiliates.
+ Copyright 2014-2019 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
 
 /** ****************************************************************************
@@ -33,7 +33,7 @@ This configuration file contains the following sections:
 // Disabling this setting does mean all audit user trails will be the username
 // configured for your bannerSsbDataSource.
 
-apiOracleUsersProxied=false
+apiOracleUsersProxied=(System.getenv('APIORACLEUSERSPROXIED') ? Boolean.parseBoolean(System.getenv('APIORACLEUSERSPROXIED')) : false)
 
 /*******************************************************************************
  *                                                                             *
@@ -175,3 +175,13 @@ log4j = {
     off 'grails.app.controllers.net.hedtech.restfulapi.RestfulApiController'
     off 'grails.app.services'
 }
+
+/*******************************************************************************
+ *                                                                             *
+ *                               X-Media-Type                                  *
+ *                                                                             *
+ *******************************************************************************/
+// Set this to true to get the Accept request header as the X-Media-Type response header.
+// This is provided to help callers to delay transitioning to full semantic versioning of the X-Media-Type response header.
+restfulApi.useAcceptHeaderAsMediaTypeHeader = (System.getenv('RESTFULAPI_ACCEPTHEADER')? Boolean.parseBoolean(System.getenv('RESTFULAPI_ACCEPTHEADER')):  false)
+
