@@ -1,5 +1,5 @@
 /** *****************************************************************************
- Copyright 2013-2016 Ellucian Company L.P. and its affiliates.
+ Copyright 2013-2019 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
 
 /** ****************************************************************************
@@ -203,3 +203,13 @@ Note: It might also be necessary to increase transaction timeout to fetch more r
 //api.courses.page.maxUpperLimit=1000
 //api.sections.page.maxUpperLimit=1000
 //api."instructional-events".page.maxUpperLimit=1000
+
+/*******************************************************************************
+ *                                                                             *
+ *                               X-Media-Type                                  *
+ *                                                                             *
+ *******************************************************************************/
+// Set this to true to get the Accept request header as the X-Media-Type response header.
+// This is provided to help callers to delay transitioning to full semantic versioning of the X-Media-Type response header.
+restfulApi.useAcceptHeaderAsMediaTypeHeader = (System.getenv('RESTFULAPI_ACCEPTHEADER')? Boolean.parseBoolean(System.getenv('RESTFULAPI_ACCEPTHEADER')):  false)
+
