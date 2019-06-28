@@ -33,7 +33,7 @@ This configuration file contains the following sections:
 // Disabling this setting does mean all audit user trails will be the username
 // configured for your bannerSsbDataSource.
 
-apiOracleUsersProxied=(System.getenv('APIORACLEUSERSPROXIED') ? Boolean.parseBoolean(System.getenv('APIORACLEUSERSPROXIED')) : false)
+apiOracleUsersProxied=false
 
 /*******************************************************************************
  *                                                                             *
