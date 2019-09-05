@@ -1,4 +1,4 @@
-FROM tomcat:8.5.41-jre8-alpine
+FROM tomcat:8.5.45-jdk8-corretto
 
 ENV TIMEZONE="America/New_York"
 ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod \
@@ -14,28 +14,25 @@ ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod
   LOG_ABANDONED=true \
   DEFAULT_ROW_PREFETCH=150
 
-ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -Duser.timezone=\$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false"
+RUN yum update -y \
+    && yum install shadow-utils -y \
+    && groupadd -r tomcat && useradd -r -g tomcat tomcat
 
-RUN rm -Rf /usr/local/tomcat/webapps/* \
-    && apk add --no-cache tzdata \
-    && cp /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
-    && addgroup -S tomcat \
-    && adduser -S -G tomcat -h /usr/local/tomcat tomcat
-
+ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -XX:MaxPermSize=1024m -Duser.timezone=\$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false"
 ADD https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/ojdbc7/12.1.0.2/ojdbc7-12.1.0.2.jar /usr/local/tomcat/lib/ojdbc7.jar
 ADD https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/xdb6/12.1.0.2/xdb6-12.1.0.2.jar /usr/local/tomcat/lib/xdb6.jar
 ADD https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/ucp/12.1.0.2/ucp-12.1.0.2.jar /usr/local/tomcat/lib/ucp.jar
 
+
 RUN cd /usr/local/tomcat/lib/ \
-  && apk add --no-cache curl \
   && curl https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/ojdbc7/12.1.0.2/ojdbc7-12.1.0.2.jar.sha1 --output ojdbc7.jar.sha1 \
-  && echo -n "  ojdbc7.jar" >> ojdbc7.jar.sha1 \
+  && echo -n " ojdbc7.jar" >> ojdbc7.jar.sha1 \
   && sha1sum -c ojdbc7.jar.sha1 \
   && curl https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/xdb6/12.1.0.2/xdb6-12.1.0.2.jar.sha1 --output xdb6.jar.sha1 \
-  && echo -n "  xdb6.jar" >> xdb6.jar.sha1 \
+  && echo -n " xdb6.jar" >> xdb6.jar.sha1 \
   && sha1sum -c xdb6.jar.sha1 \
   && curl https://developer.byu.edu/maven2/content/groups/thirdparty/com/oracle/ucp/12.1.0.2/ucp-12.1.0.2.jar.sha1 --output ucp.jar.sha1 \
-  && echo -n "  ucp.jar" >> ucp.jar.sha1 \
+  && echo -n " ucp.jar" >> ucp.jar.sha1 \
   && sha1sum -c ucp.jar.sha1 \
   && rm *.sha1 \
   && chown tomcat:tomcat *.jar && chmod +r *.jar
@@ -50,7 +47,6 @@ RUN ln -s /dev/stderr /usr/local/tomcat/logs/localhost.log
 RUN ln -s /dev/stderr /usr/local/tomcat/logs/stacktrace.log
 
 RUN chown -R tomcat:tomcat /usr/local/tomcat && chmod +x /usr/local/tomcat/bin/run.sh
-
 EXPOSE 8080
 USER tomcat
 CMD ["bin/run.sh"]
