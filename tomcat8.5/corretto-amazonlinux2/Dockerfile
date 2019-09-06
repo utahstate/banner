@@ -28,6 +28,7 @@ RUN yum update -y \
     && yum install -y xmlstarlet shadow-utils \
     && groupadd -r tomcat && useradd -r -g tomcat tomcat
 
+#switched to using local ojdbc8.jar and xdb8.jar. Unable to find a good download. 
 ADD ojdbc8.jar /usr/local/tomcat/lib/ojdbc8.jar
 ADD xdb6.jar /usr/local/tomcat/lib/xdb6.jar
 

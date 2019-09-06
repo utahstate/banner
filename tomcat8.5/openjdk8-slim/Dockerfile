@@ -31,7 +31,7 @@ RUN apt-get update -y \
     && apt-get install -y curl xmlstarlet --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* 
 
-
+#switched to using local ojdbc8.jar and xdb8.jar. Unable to find a good download. 
 ADD ojdbc8.jar /usr/local/tomcat/lib/ojdbc8.jar
 ADD xdb6.jar /usr/local/tomcat/lib/xdb6.jar
 
