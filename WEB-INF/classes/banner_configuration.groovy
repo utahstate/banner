@@ -1,5 +1,5 @@
 /*********************************************************************************
-Copyright 2013-2017 Ellucian Company L.P. and its affiliates.
+Copyright 2013 Ellucian Company L.P. and its affiliates.
  **********************************************************************************/
  
  /** ****************************************************************************
@@ -37,7 +37,7 @@ This configuration file contains the following sections:
  *                         On-Line Help Configuration                          *
  *                                                                             *
  *******************************************************************************/
-onLineHelp.url = (System.getenv('ONLINEHELP_URL') ?: "http://HOST:PORT/banner9OH" )
+onLineHelp.url = "http://HOST:PORT/banner9OH"
 
 
 /** ****************************************************************************
@@ -105,7 +105,7 @@ bannerSsbDataSource {
 /* Location for images */
 banner.picturesPath=(System.getenv('BANNER_PICTURESPATH') ?: '/test/images' )
 
-banner8.SS.url = (System.getenv('BANNER8_SS_URL') ?: 'http://<host_name>:<port_number>/<banner8>/' )
+banner8.SS.url = (System.getenv('BANNER8_SS_URL') ?: 'http://<SSO MANAGER HOST>:<PORT>/ssomanager/c/SSB?pkg=' )
 
 // For supporting Single Sign-On for a Multi-Entity Processing (MEP) Database, a property can be used that
 // contains a list of the institutional MEP codes available in the database with their respective URL values.
@@ -113,10 +113,10 @@ banner8.SS.url = (System.getenv('BANNER8_SS_URL') ?: 'http://<host_name>:<port_n
 // with the Banner 8.x SSB Direct Access URL for the given MEP institution. Example below shows the
 // configuration for two MEP institutions - NORTH and SOUTH.
 // When using the mep.banner8.SS.url property, comment out the property banner8.SS.url
-//mep.banner8.SS.url = [
-//    NORTH : 'http://<SSO MANAGER HOST>:<PORT>/ssomanager/c/SSB?pkg=http://<BANNER8 SSB HOST>:<PORT>/SMPL_NORTH/',
-//    SOUTH : 'http://<SSO MANAGER HOST>:<PORT>/ssomanager/c/SSB?pkg=http://<BANNER8 SSB HOST>:<PORT>/SMPL_SOUTH/'
-//]
+mep.banner8.SS.url = [
+    NORTH : 'http://<SSO MANAGER HOST>:<PORT>/ssomanager/c/SSB?pkg=http://<BANNER8 SSB HOST>:<PORT>/SMPL_NORTH/',
+    SOUTH : 'http://<SSO MANAGER HOST>:<PORT>/ssomanager/c/SSB?pkg=http://<BANNER8 SSB HOST>:<PORT>/SMPL_SOUTH/'
+]
 
 
 
