@@ -175,7 +175,7 @@ log4j = {
 // If this is enabled, Application Navigator will integrate with Banner Self Service
 // applications using the SSB datasource. It is important to also ensure the
 // corresponding commonSelfServiceMenu menu endpoint is configured below.
-ssbEnabled = false
+ssbEnabled = true
 
 // This setting is set to false for Application Navigator deployment by default.
 // Only set 'ssbOracleUsersProxied = true' to ensure that database connections
@@ -322,7 +322,9 @@ seamless.menuEndpoints = [
 //
 // The entries added must match those entries listed in the Web Tailor menus without
 // which they will not be displayed in the Application Navigator unified menu.
-seamless.selfServiceApps = []
+seamless.selfServiceApps = [
+     (System.getenv("BANNER9_SS_URL") ?: 'http://APPLICATION_NAVIGATOR_HOST:PORT') + "/BannerExtensibility/"
+]
 
 seamless.logLevel="off"
 seamless.ajaxTimeout=30000
