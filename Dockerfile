@@ -1,4 +1,4 @@
-FROM harbor.usu.edu/banner/base-bcm:tomcat8.5.38-jre8-alpine
+FROM harbor.usu.edu/banner/base-bcm:tomcat8.5.41-jre8-apline
 MAINTAINER "Eric Allen <eric.allen@usu.edu>"
 
 LABEL version="9.5.0.1"
