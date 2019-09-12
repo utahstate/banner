@@ -26,6 +26,8 @@ ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -XX:MaxMetaspaceSize=\$MAXMETASPA
 RUN yum update -y \
     && amazon-linux-extras install epel \
     && yum install -y xmlstarlet shadow-utils \
+    && rm -Rf /usr/local/tomcat/webapps/* \
+    && cp /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
     && groupadd -r tomcat && useradd -r -g tomcat tomcat
 
 #switched to using local ojdbc8.jar and xdb8.jar. Unable to find a good download. 
