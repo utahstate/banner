@@ -1,7 +1,4 @@
-FROM edurepo/banner9-selfservice:tomcat8.5-jre8-alpine
-
-
-ENV BANNER_ANALYSTICS_ALLOWELLUCIANTRACKER=false
+FROM edurepo/banner9-selfservice:tomcat8.5.45-jre8-corretto
 
 LABEL version="9.9"
 
