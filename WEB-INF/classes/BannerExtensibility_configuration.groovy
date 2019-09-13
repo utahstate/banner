@@ -21,7 +21,6 @@
 
  * Self Service Support
  * CAS SSO Configuration (supporting self service users)
- * Logging Configuration (Note: Changes here require restart -- use JMX to avoid the need restart)
 
  NOTE: Banner DataSource and JNDI configuration resides in the cross-module
  'banner_configuration.groovy' file.
@@ -39,7 +38,7 @@ if (!pageBuilder.enabled) {
  *              Page Builder Artifact File Location Configuration               *
  *                                                                              *
  *******************************************************************************/
-pbRoot = "c:/temp/pb"
+pbRoot = (System.getenv('PB_ROOT')?: '/opt/banner/extensibilty/pb')
 pageBuilder {
 	locations {
 	  bundle        = "${pbRoot}/i18n"
@@ -61,35 +60,17 @@ environments {
      production {
          banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"   // required only if theme server is remote
          banner.theme.name="production"
-         banner.theme.template="BannerExtensibility-9_4_0_1"
+         banner.theme.template="BannerExtensibility-9_5"
          banner.theme.cacheTimeOut = 900                                    // in seconds, not required theme server is remote
      }
      development {
          banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"  // required only if theme server is remote
          banner.theme.name="development"
-         banner.theme.template="BannerExtensibility-9_4_0_1"
+         banner.theme.template="BannerExtensibility-9_5"
          banner.theme.cacheTimeOut = 120                                   // // in seconds, not required theme server is remote
          //This variable is used to get information about $$user authorities(Roles). This should be used only for Development, shouldn't be available in prod. by default it should be false.
          pageBuilder.development.authorities.enabled=false
      }
-}
-
-
-
-
-// ******************************************************************************
-//
-//                       +++ JMX Bean Names +++
-//
-// ******************************************************************************
-
-// The names used to register Mbeans must be unique for all applications deployed
-// into the JVM.  This configuration should be updated for each instance of each
-// application to ensure uniqueness.
-jmx {
-    exported {
-        log4j = "BannerExtensibility-log4j"
-    }
 }
 
 // ******************************************************************************
@@ -101,7 +82,7 @@ jmx {
 
 ssbEnabled = true
 ssbOracleUsersProxied = true
-ssbPassword.reset.enabled = true //true  - allow Pidm users to reset their password.
+ssbPassword.reset.enabled = false//true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
 
 
@@ -115,34 +96,34 @@ ssbPassword.reset.enabled = true //true  - allow Pidm users to reset their passw
 // If using cas or saml, Either the CAS CONFIGURATION or the SAML CONFIGURATION
 // will also need configured/uncommented as well as set to active.
 //
+
+
 banner {
-    sso {
-        authenticationProvider           = 'cas' //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
+   sso {
+        authenticationProvider = 'cas' //  Valid values are: 'saml' and 'cas' for SSO. 'default' value to be used only when creating the release zip file.
         authenticationAssertionAttribute = 'UDC_IDENTIFIER'
-        if(authenticationProvider != 'default') {
-            grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
-        }
-        if(authenticationProvider == 'saml') {
-            grails.plugin.springsecurity.auth.loginFormUrl = '/saml/login'
-        }
     }
 }
 
-/** *****************************************************************************
- *                                                                              *
- *                             CAS CONFIGURATION                                *
- *                                                                              *
- ***************************************************************************** **/
-// set active = true when authentication provider section configured for cas
+if (banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' ) {
+   grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
+}
+
+// ******************************************************************************
+//
+//                       +++ CAS CONFIGURATION +++
+//
+// ******************************************************************************
+
 grails {
-    plugin {
+   plugin {
         springsecurity {
             cas {
                 active = true
-                serverUrlPrefix  = (System.getenv('CAS_URL') ?: 'http://CAS_HOST:PORT/cas')
-                serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/BannerExtensibility/j_spring_cas_security_check"
-                serverName       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT')
-                proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/BannerExtensibility/secure/receptor"
+                serverUrlPrefix = (System.getenv('CAS_URL') ?: 'http://CAS_HOST:PORT/cas')
+                serviceUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + '/BannerExtensibility/login/cas'
+                serverName = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') 
+                proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + '/BannerExtensibility/secure/receptor'
                 loginUri         = '/login'
                 sendRenew        = false
                 proxyReceptorUrl = '/secure/receptor'
@@ -151,18 +132,20 @@ grails {
                 artifactParameter = 'SAMLart'
                 serviceParameter = 'TARGET'
                 serverUrlEncoding = 'UTF-8'
-                filterProcessesUrl = '/j_spring_cas_security_check'
+                filterProcessesUrl = '/login/cas'
                 if (useSingleSignout){
-                    grails.plugin.springsecurity.useSessionFixationPrevention = false
+                   grails.plugin.springsecurity.useSessionFixationPrevention = false
                 }
             }
             logout {
                 afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?: 'https://cas-server/logout?service=http://myportal/main_page.html')
                 // afterLogoutUrl = '/' // This can be used to navigate to the landing page when not using CAS
+                mepErrorLogoutUrl = '/logout/logoutPage'
             }
         }
     }
 }
+
 
 grails.plugin.springsecurity.homePageUrl= (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/')
 
@@ -177,32 +160,45 @@ grails.plugin.springsecurity.logout.mepErrorLogoutUrl = '/logout/customLogout'
 loginEndpoint='http://BANNER9_HOST:PORT/APP_NAME/customPage/page/pbadm.ssoauth?url=/'
 
 
+/** *************************************************************************************
+ *                                                                                      *
+ *                        SAML CONFIGURATION                                            *
+ *  Un-comment the below code and set active = true when authentication mode is saml.   *
+ * keep the below saml configuration commented for all other login such as default      *
+ * and CAS to avoid Deployment failures                                                 *
+ *                                                                                      *
+ ************************************************************************************* **/
+
 /*******************************************************************************
- *                                                                              *
- *              SAML CONFIGURATION                                                    *
- *                                                                              *
- *******************************************************************************/
+                            SAML2 SSO CONFIGURATION
+NOTE:   Uncomment Below saml configuration only for SAML login.
+        keep the below saml configuration commented for all other login such as default and CAS to avoid Deployment failures.
+***************************************************************************** **/
+// set active = true when authentication provider section configured for saml
+/*
 grails.plugin.springsecurity.saml.active = false
-grails.plugin.springsecurity.saml.afterLogoutUrl ='/logout/customLogout'
-banner.sso.authentication.saml.localLogout='false'
-grails.plugin.springsecurity.saml.keyManager.defaultKey = 'extensibility'
-grails.plugin.springsecurity.saml.keyManager.storeFile = 'classpath:security/bekeystore.jks'
-grails.plugin.springsecurity.saml.keyManager.storePass = 'password'
-grails.plugin.springsecurity.saml.keyManager.passwords = [ 'extensibility': 'password' ]
-grails.plugin.springsecurity.saml.metadata.sp.file = 'security/banner-BannerExtensibility-saml_sp.xml'
-grails.plugin.springsecurity.saml.metadata.providers = [adfs: 'security/banner-BannerExtensibility-saml_idp.xml']
-grails.plugin.springsecurity.saml.metadata.defaultIdp = 'adfs'
+grails.plugin.springsecurity.auth.loginFormUrl = ‘/saml/login’
+grails.plugin.springsecurity.saml.afterLogoutUrl =‘/logout/customLogout’
+banner.sso.authentication.saml.localLogout=‘false’                                                    // To disable single logout set this to true,default ‘false’.
+grails.plugin.springsecurity.saml.keyManager.storeFile = ‘classpath:security/<KEY_NAME>.jks’          // for unix File based Example:- ‘file:/home/u02/samlkeystore.jks’
+grails.plugin.springsecurity.saml.keyManager.storePass = ‘test1234’
+grails.plugin.springsecurity.saml.keyManager.passwords = [ ‘banner-<short-appName>-sp’: ‘test1234’ ]  // banner-<short-appName>-sp is the value set in EIS Service provider setup
+grails.plugin.springsecurity.saml.keyManager.defaultKey = ‘banner-<short-appName>-sp’                 // banner-<short-appName>-sp is the value set in EIS Service provider setup
+grails.plugin.springsecurity.saml.metadata.sp.file = ‘security/banner-<Application_Name>-sp.xml’     // for unix file based Example:-‘/home/u02/sp-local.xml’
+grails.plugin.springsecurity.saml.metadata.providers = [adfs: ‘security/banner-<Application_Name>-idp.xml’] // for unix file based Example: ‘/home/u02/idp-local.xml’
+grails.plugin.springsecurity.saml.metadata.defaultIdp = ‘adfs’
 grails.plugin.springsecurity.saml.metadata.sp.defaults = [
-    local: true,
-    alias: 'extensibility',
-    securityProfile: 'metaiop',
-    signingKey: 'extensibility',
-    encryptionKey: 'extensibility',
-    tlsKey: 'extensibility',
-    requireArtifactResolveSigned: false,
-    requireLogoutRequestSigned: false,
-    requireLogoutResponseSigned: false
+       local: true,
+       alias: ‘banner-<short-appName>-sp’,                                   // banner-<short-appName>-sp is the value set in EIS Service provider setup
+       securityProfile: ‘metaiop’,
+       signingKey: ‘banner-<short-appName>-sp’,                              // banner-<short-appName>-sp is the value set in EIS Service provider setup
+       encryptionKey: ‘banner-<short-appName>-sp’,                           // banner-<short-appName>-sp is the value set in EIS Service provider setup
+       tlsKey: ‘banner-<short-appName>-sp’,                                  // banner-<short-appName>-sp is the value set in EIS Service provider setup
+       requireArtifactResolveSigned: false,
+       requireLogoutRequestSigned: false,
+       requireLogoutResponseSigned: false
 ]
+*/
 
 /*******************************************************************************
  *                                                                              *
@@ -212,116 +208,6 @@ grails.plugin.springsecurity.saml.metadata.sp.defaults = [
 grails.plugin.xframeoptions.urlPattern = '/login/auth'
 grails.plugin.xframeoptions.deny = true
 
-
-// ******************************************************************************
-//
-//                       +++ LOGGER CONFIGURATION +++
-//
-// ******************************************************************************
-String loggingFileDir =  "/usr/local/tomcat/logs"
-String logAppName = "BannerExtensibility"
-String loggingFileName = "${loggingFileDir}/${logAppName}.log".toString()
-
-
-// Note that logging is configured separately for each environment ('development', 'test', and 'production').
-// By default, all 'root' logging is 'off'.  Logging levels for root, or specific packages/artifacts, should be configured via JMX.
-// Note that you may enable logging here, but it:
-//   1) requires a restart, and
-//   2) will report an error indicating 'Cannot add new method [getLog]'. (although the logging will in fact work)
-//
-// JMX should be used to modify logging levels (and enable logging for specific packages). Any JMX client, such as JConsole, may be used.
-//
-// The logging levels that may be configured are, in order: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
-//
-log4j = {
-    appenders {
-        rollingFile name:'appLog',
-        file:loggingFileName,
-        maxFileSize:"${10*1024*1024}",
-        maxBackupIndex:10,
-        layout:pattern( conversionPattern: '%d{[EEE, dd-MMM-yyyy @ HH:mm:ss.SSS]} [%t] %-5p %c %x - %m%n' )
-    }
-
-    root {
-        error 'stdout','appLog'
-        additivity = true
-    }
-
-
-
-    // Log4j configuration notes:
-    // The following are some common packages that you may want to enable for logging in the section above.
-    // You may enable any of these within this file (which will require a restart),
-    // or you may add these to a running instance via JMX.
-    //
-    // Note that settings for specific packages/artifacts will override those for the root logger.
-    // Setting any of these to 'off' will prevent logging from that package/artifact regardless of the root logging level.
-
-    // ******** non-Grails classes (e.g., in src/ or grails-app/utils/) *********
-    warn 'net.hedtech.banner.service'
-    warn 'net.hedtech.banner.student'
-    warn 'net.hedtech.banner.student.catalog'
-    warn 'net.hedtech.banner.student.common'
-    warn 'net.hedtech.banner.student.registration'
-    warn 'net.hedtech.banner.student.schedule'
-    warn 'net.hedtech.banner.student.faculty'
-    warn 'net.hedtech.banner.student.generalstudent'
-    warn 'net.hedtech.banner.student.system'
-    warn 'net.hedtech.banner.representations'
-    warn 'BannerUiSsGrailsPlugin'
-
-    // ******** Grails framework classes *********
-    error 'org.codehaus.groovy.grails.web.servlet'        // controllers
-    error 'org.codehaus.groovy.grails.web.pages'          // GSP
-    error 'org.codehaus.groovy.grails.web.sitemesh'       // layouts
-    error 'org.codehaus.groovy.grails.web.mapping.filter' // URL mapping
-    error 'org.codehaus.groovy.grails.web.mapping'        // URL mapping
-    error 'org.codehaus.groovy.grails.commons'            // core / classloading
-    error 'org.codehaus.groovy.grails.plugin'            // plugins
-    error 'org.codehaus.groovy.grails.orm.hibernate'      // hibernate integration
-    error 'org.springframework'                           // Spring IoC
-    error 'org.hibernate'                                 // hibernate ORM
-    error 'grails.converters'                             // JSON and XML marshalling/parsing
-    off   'grails.app.service.org.grails.plugin.resource' // Resource Plugin
-    off   'org.grails.plugin.resource'                    // Resource Plugin
-    error 'org.hibernate.type'
-    error 'org.hibernate.SQL'
-
-    // ******* Security framework classes **********
-    error 'net.hedtech.banner.security'
-    error  'net.hedtech.banner.db'
-    error 'net.hedtech.banner.security.BannerAccessDecisionVoter'
-    error 'net.hedtech.banner.security.BannerAuthenticationProvider'
-    error 'net.hedtech.banner.security.CasAuthenticationProvider'
-    error 'net.hedtech.banner.security.SelfServiceBannerAuthenticationProvider'
-    error 'grails.plugin.springsecurity'
-    error 'org.springframework.security'
-    error 'org.apache.http.headers'
-    error 'org.apache.http.wire'
-
-    // **** Banner and PageBuilder classes ****
-    error 'net.hedtech.banner.menu'
-    error 'net.hedtech.banner.tools'
-    error 'net.hedtech.banner.sspb'
-    error 'net.hedtech.banner.virtualDomain'
-    error 'net.hedtech.tools'
-    groovy.sql.Sql.LOG.level = java.util.logging.Level.SEVERE
-
-    // Grails provides a convenience for enabling logging within artefacts, using 'grails.app.XXX'.
-    // Unfortunately, this configuration is not effective when 'mixing in' methods that perform logging.
-    // Therefore, for controllers and services it is recommended that you enable logging using the controller
-    // or service class name (see above 'class name' based configurations).  For example:
-    //     all  'net.hedtech.banner.testing.FooController' // turns on all logging for the FooController
-    //
-    off 'grails.app' // apply to all artefacts
-    // debug 'grails.app.<artefactType>.ClassName // where artefactType is in:
-    //                   bootstrap  - For bootstrap classes
-    //                   dataSource - For data sources
-    //                   tagLib     - For tag libraries
-    //                   service    // Not effective with mixins -- see comment above
-    //                   controller // Not effective with mixins -- see comment above
-    //                   domain     - For domain entities
-}
 
 /*******************************************************************************
  *                                                                              *
@@ -350,12 +236,12 @@ configJob {
     //actualCount will be the count how many times the configJob would run.
 }
 
+
 /************************************************************
                    Disabling Loacle for self service
 ************************************************************/
 
 locale=false
-
 
 ssconfig.app.seeddata.keys = [['banner.analytics.allowEllucianTracker'], ['banner.analytics.trackerId'], ['banner.applicationName'],
  ['banner.theme.cacheTimeOut'], ['banner.theme.name'], ['banner.theme.template'], ['banner.theme.url'],
@@ -372,5 +258,35 @@ ssconfig.app.seeddata.keys = [['banner.analytics.allowEllucianTracker'], ['banne
 banner.analytics.trackerId=""     // institution's analytics tracker ID - blank by default
 banner.analytics.allowEllucianTracker=true
 
+
+/** *************************************************************************************************************
+ * Response Headers                                                                                				*
+ * 																   												*
+ * This is the map which takes the "header property" as key and value as shown in below example					*
+ * responseHeaders = [ "X-Content-Type-Options": "nosniff" , "X-XSS-Protection": "1; mode=block" ...]			*
+ * Added as part of Platform Platform 9.32                                         							    *
+ ************************************************************************************************************* **/
+responseHeaders =[
+    "X-Content-Type-Options": "nosniff",
+    "X-XSS-Protection": "1; mode=block"
+]
+
 productName="Banner General"
 banner.applicationName="BannerExtensibility"
+
+
+/*********************************************************************************
+*                     Application Server Configuration                          *
+* When deployed on Tomcat this configuration should be targetServer="tomcat"    *
+* When deployed on Weblogic this configuration should be targetServer="weblogic"*
+*********************************************************************************/
+targetServer="tomcat"
+
+
+/********************************************************************************
+*                                                                               *
+* AboutInfoAccessRoles will help to check whether user is allowed to view       *
+* the platform version                                                          *
+*                                                                               *
+*********************************************************************************/
+aboutInfoAccessRoles = ["ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"]
