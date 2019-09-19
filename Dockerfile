@@ -1,7 +1,7 @@
-FROM harbor.usu.edu/banner/base-bcm:tomcat8.5.41-jre8-apline
+FROM harbor.usu.edu/banner/base-bcm:tomcat8.5.45-jre8-corretto
 MAINTAINER "Eric Allen <eric.allen@usu.edu>"
 
-LABEL version="9.5.0.1"
+LABEL version="9.6"
 
 # Fix timezone
 USER root
@@ -10,5 +10,4 @@ RUN cp -f /usr/share/zoneinfo/$TIMEZONE /etc/localtime
 RUN echo $TIMEZONE > /etc/timezone
 USER tomcat
 
-RUN sed -i 's/shared.loader=.*/shared.loader=xom-*.jar,bcprov*.jar/' /usr/local/tomcat/conf/catalina.properties
 COPY --chown=tomcat:tomcat CommunicationManagement /usr/local/tomcat/webapps/CommunicationManagement

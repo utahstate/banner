@@ -1,7 +1,7 @@
 /*********************************************************************************
  Copyright 2015-2019 Ellucian Company L.P. and its affiliates.
  *********************************************************************************/
-
+ 
  /** ****************************************************************************
  *                                                                              *
  *          Self-Service Banner Communication Management Configuration          *
@@ -11,20 +11,20 @@
 /** ****************************************************************************
 
 This file contains configuration needed by the Self-Service Banner Communication Management
-web application. Please refer to the administration guide for
-additional information regarding the configuration items contained within this file.
+web application. Please refer to the administration guide for 
+additional information regarding the configuration items contained within this file. 
 
-This configuration file contains the following sections:
-
+This configuration file contains the following sections: 
+    
     * Self Service Support
-
-    * Logging Configuration (Note: Changes here require restart -- use JMX to avoid the need restart)
-
+    
+    * Logging Configuration (Note: Changes here require restart -- use JMX to avoid the need restart) 
+         
     * CAS SSO Configuration (supporting administrative and self service users)
-
-     NOTE: DataSource and JNDI configuration resides in the cross-module
-           'banner_configuration.groovy' file.
-
+    
+     NOTE: DataSource and JNDI configuration resides in the cross-module 
+           'banner_configuration.groovy' file. 
+    
 ***************************************************************************** **/
 
 logAppName = "CommunicationManagement"
@@ -66,7 +66,7 @@ enableNLS=true
  *              Commmgr User DataSource Configuration                          *
  *                                                                             *
  *******************************************************************************/
-commmgrDataSourceEnabled = true  //Set this to true if using the bannerCommmgrDataSource
+commmgrDataSourceEnabled = false  //Set this to true if using the bannerCommmgrDataSource
 
 /** *****************************************************************************
  *                                                                              *
@@ -74,15 +74,15 @@ commmgrDataSourceEnabled = true  //Set this to true if using the bannerCommmgrDa
  *                                                                              *
  ***************************************************************************** **/
 //
-// Set authenticationProvider to either default or cas
+// Set authenticationProvider to either default or cas 
 banner {
     sso {
 		authenticationProvider = 'cas'
         authenticationAssertionAttribute = 'UDC_IDENTIFIER'
-        if(authenticationProvider != 'default') {
-            grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
         }
-	}
+}
+if (banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' ) {
+   grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
 }
 
 
@@ -98,9 +98,9 @@ grails {
             cas {
                 active = true
                 serverUrlPrefix  = (System.getenv('CAS_URL') ?: 'http://CAS_HOST:PORT/cas')
-                serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/CommunicationManagement/j_spring_cas_security_check"
-                serverName       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT')
-                proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/CommunicationManagement/secure/receptor"
+                serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + '/CommunicationManagement/login/cas'
+                serverName       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') 
+                proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + '/CommunicationManagement/secure/receptor'
                 loginUri         = '/login'
                 sendRenew        = false
                 proxyReceptorUrl = '/secure/receptor'
@@ -108,14 +108,14 @@ grails {
                 key = 'grails-spring-security-cas'
                 artifactParameter = 'SAMLart'
                 serviceParameter = 'TARGET'
-                filterProcessesUrl = '/j_spring_cas_security_check'
+                filterProcessesUrl = '/login/cas'
                 serverUrlEncoding = 'UTF-8'
                 if (active && useSingleSignout){
                     grails.plugin.springsecurity.useSessionFixationPrevention = false
                 }
             }
 		    logout {
-                afterLogoutUrl = afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?:  'http://BANNER9_HOST:PORT/CommunicationManagement/logout/customLogout' )
+                afterLogoutUrl = '/'   // 'https://cas-server/logout?url=http://myportal/main_page.html'
                 mepErrorLogoutUrl = 'https://URL:PORT/'
             }
         }
@@ -159,7 +159,7 @@ grails.plugin.springsecurity.saml.metadata.sp.defaults = [
 //
 //  +++ Protecting against cross-frame scripting vulnerability when integrating with Application Navigator +++
 //
-// ************************************************************************************************************
+// ************************************************************************************************************             
 grails.plugin.xframeoptions.urlPattern = '/login/auth'
 grails.plugin.xframeoptions.deny = true
 
@@ -203,9 +203,9 @@ communication {
     }
 
     //These configuration values decide the display of the recurrent scheduling UI component.
-    //Enabling seconds, minutes and hourly scheduling allows users to create communications that recur N seconds, minutes or hours respectively.
+    //Enabling seconds, minutes and hourly scheduling allows users to create communications that recur N seconds, minutes or hours respectively. 
     //This may cause a strain on your system.
-
+    
     recurringScheduleOptions {
             enableMinutesScheduling = false
             enableHourlyScheduling = false
@@ -215,121 +215,24 @@ communication {
             enableYearlyScheduling = false
             enableAdvancedOption = false
     }
+
+    //Set to true if communications generated from the CommunicationManagement system should also be
+    //tracked in the Banner Mail system (GURMAIL)
+
+    bannerMailTrackingEnabled = false
+
+    //Set to true if using the Banner Bank automated clearance system (BACS)
+    //Default is false
+
+    bacsEnabled = false
+
 }
 
-// ******************************************************************************
-//
-//                       +++ LOGGER CONFIGURATION +++
-//
-// ******************************************************************************
-String loggingFileDir =  "/usr/local/tomcat/logs"
+responseHeaders =[
+   "X-Content-Type-Options": "nosniff",
+   "X-XSS-Protection": "1; mode=block"
+]
 
-String loggingFileName = "${loggingFileDir}/${logAppName}.log".toString()
-
-
-// Note that logging is configured separately for each environment ('development', 'test', and 'production').
-// By default, all 'root' logging is 'off'.  Logging levels for root, or specific packages/artifacts, should be configured via JMX.
-// Note that you may enable logging here, but it:
-//   1) requires a restart, and
-//   2) will report an error indicating 'Cannot add new method [getLog]'. (although the logging will in fact work)
-//
-// JMX should be used to modify logging levels (and enable logging for specific packages). Any JMX client, such as JConsole, may be used.
-//
-// The logging levels that may be configured are, in order: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
-//
-log4j = {
-    appenders {
-        rollingFile name:'appLog', file:loggingFileName, maxFileSize:"${10*1024*1024}", maxBackupIndex:10, layout:pattern( conversionPattern: '%d{[EEE, dd-MMM-yyyy @ HH:mm:ss.SSS]} [%t] %-5p %c %x - %m%n' )
-    }
-
-    switch( grails.util.Environment.current.name.toString() ) {
-        case 'development':
-            root {
-                off 'stdout','appLog'
-                additivity = true
-            }
-            info  'net.hedtech.banner.configuration.ApplicationConfigurationUtils'
-            error 'net.hedtech.banner.representations'
-            error 'net.hedtech.banner.supplemental.SupplementalDataService'
-            break
-        case 'test':
-            root {
-                error 'stdout','appLog'
-                additivity = true
-            }
-            break
-        case 'production':
-            root {
-                error 'appLog'
-                additivity = true
-            }
-            error 'grails.app.service'
-            error 'grails.app.controller'
-            info 'net.hedtech.banner.representations'
-            info 'net.hedtech.banner.supplemental.SupplementalDataService'
-            break
-    }
-
-    // Log4j configuration notes:
-    // The following are some common packages that you may want to enable for logging in the section above.
-    // You may enable any of these within this file (which will require a restart),
-    // or you may add these to a running instance via JMX.
-    //
-    // Note that settings for specific packages/artifacts will override those for the root logger.
-    // Setting any of these to 'off' will prevent logging from that package/artifact regardless of the root logging level.
-
-    // ******** non-Grails classes (e.g., in src/ or grails-app/utils/) *********
-    error 'net'
-    // off 'net.hedtech.banner.general.communication'
-    // off 'net.hedtech.banner.general.asynchronous'
-    // off 'net.hedtech.banner.general.communication.groupsend'
-    // off 'net.hedtech.banner.general.communication.field'
-    // off 'net.hedtech.banner.general.communication.job'
-    // off 'net.hedtech.banner.communication.CommunicationControllerUtility'
-    off  'BannerUiSsGrailsPlugin'
-
-    // ******** Grails framework classes *********
-    off 'org.codehaus.groovy.grails.web.servlet'        // controllers
-    off 'org.codehaus.groovy.grails.web.pages'          // GSP
-    off 'org.codehaus.groovy.grails.web.sitemesh'       // layouts
-    off 'org.codehaus.groovy.grails.web.mapping.filter' // URL mapping
-    off 'org.codehaus.groovy.grails.web.mapping'        // URL mapping
-    off 'org.codehaus.groovy.grails.commons'            // core / classloading
-    off 'org.codehaus.groovy.grails.plugins'            // plugins
-    off 'org.codehaus.groovy.grails.orm.hibernate'      // hibernate integration
-    off 'org.springframework'                           // Spring IoC
-    off 'org.hibernate'                                 // hibernate ORM
-    off 'grails.converters'                             // JSON and XML marshalling/parsing
-    off 'grails.app.service.org.grails.plugin.resource' // Resource Plugin
-    off 'org.grails.plugin.resource'                    // Resource Plugin
-
-    // ******* Security framework classes **********
-    off 'net.hedtech.banner.security'
-    off 'net.hedtech.banner.db'
-    off 'net.hedtech.banner.security.BannerAccessDecisionVoter'
-    off 'net.hedtech.banner.security.BannerAuthenticationProvider'
-    off 'net.hedtech.banner.security.CasAuthenticationProvider'
-    off 'net.hedtech.banner.security.SelfServiceBannerAuthenticationProvider'
-    off 'grails.plugin.springsecurity'
-    off 'org.springframework.security'
-    off 'org.apache.http.headers'
-    off 'org.apache.http.wire'
-
-    // Grails provides a convenience for enabling logging within artefacts, using 'grails.app.XXX'.
-    // Unfortunately, this configuration is not effective when 'mixing in' methods that perform logging.
-    // Therefore, for controllers and services it is recommended that you enable logging using the controller
-    // or service class name (see above 'class name' based configurations).  For example:
-    //     all  'net.hedtech.banner.testing.FooController' // turns on all logging for the FooController
-    //
-    // debug 'grails.app' // apply to all artefacts
-    // debug 'grails.app.<artefactType>.ClassName // where artefactType is in:
-    //                   bootstrap  - For bootstrap classes
-    //                   dataSource - For data sources
-    //                   tagLib     - For tag libraries
-    //                   service    // Not effective with mixins -- see comment above
-    //                   controller // Not effective with mixins -- see comment above
-    //                   domain     - For domain entities
-}
 /** *****************************************************************************
  *                                                                              *
  * The errors reported by YUI in each of these files are because YUI            *
@@ -367,7 +270,13 @@ webAppExtensibility {
     }
     adminRoles = "ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"
 }
+/** ****************************************************************************
+ *                                                                             *
+ *              Access roles for viewing platform version in About dialog      *
+ *                                                                             *
+ *******************************************************************************/
 
+aboutInfoAccessRoles = ['ROLE_SELFSERVICE_BAN_DEFAULT_M']
 
 /** *****************************************************************************
  *                                                                              *
@@ -385,25 +294,25 @@ banner.analytics.allowEllucianTracker=false
 
 
 /**********************************************************************************
-***    Theming - Configuration to use themes served by the Theme Server
-*** banner.theme.url
-           Required only if theme server is remote
-           References the URL to the application hosting the Theme Server.
+***    Theming - Configuration to use themes served by the Theme Server                      
+*** banner.theme.url 
+           Required only if theme server is remote   
+           References the URL to the application hosting the Theme Server. 
            Example : http://<hostname>:<port>/CommunicationManagement/ssb/theme                    *
-*** banner.theme.name
-           This is the desired theme name to use. In a MEP environment, the application uses the MEP code
+*** banner.theme.name 
+           This is the desired theme name to use. In a MEP environment, the application uses the MEP code 
            as the theme name instead of the banner.theme.name. A theme by this name must be created in the Theme Editor
            on the server specified by banner.theme.url
 *** banner.theme.template
-           This is the name of the scss file containing the theme settings
+           This is the name of the scss file containing the theme settings 
 *** banner.theme.cacheTimeOut
-           Time in seconds, required only if the app is theme server. The value indicates
+           Time in seconds, required only if the app is theme server. The value indicates 
            how long the CSS file that was generated using the template and the theme is cached.
 ***********************************************************************************/
-banner.theme.url = "<UPDATE_ME>"
-banner.theme.name = "<UPDATE_ME>"
-banner.theme.template = 'CommunicationManagement-9_5_0_1'
-banner.theme.cacheTimeOut = 120
+banner.theme.url = "<UPDATE_ME>"  
+banner.theme.name = "<UPDATE_ME>"  
+banner.theme.template = 'CommunicationManagement-9_6' 
+banner.theme.cacheTimeOut = 120  
 
 /** ******************************************************************************
  *                                                                               *
@@ -466,30 +375,6 @@ ssconfig.app.seeddata.keys = [
     ['ssbOracleUsersProxied'],
     ['ssbPassword.reset.enabled'],
 
-    ['commmgrDataSourceEnabled'],
-
-    ['communication.weblogicDeployment'],
-    ['communication.communicationGroupSendMonitor.enabled'],
-    ['communication.communicationGroupSendMonitor.monitorIntervalInSeconds'],
-
-    ['communication.communicationGroupSendItemProcessingEngine.enabled'],
-    ['communication.communicationGroupSendItemProcessingEngine.maxThreads'],
-    ['communication.communicationGroupSendItemProcessingEngine.maxQueueSize'],
-    ['communication.communicationGroupSendItemProcessingEngine.continuousPolling'],
-    ['communication.communicationGroupSendItemProcessingEngine.pollingInterval'],
-    ['communication.communicationGroupSendItemProcessingEngine.deleteSuccessfullyCompleted'],
-
-    ['communication.communicationJobProcessingEngine.enabled'],
-    ['communication.communicationJobProcessingEngine.maxThreads'],
-    ['communication.communicationJobProcessingEngine.maxQueueSize'],
-    ['communication.communicationJobProcessingEngine.continuousPolling'],
-    ['communication.communicationJobProcessingEngine.pollingInterval'],
-    ['communication.communicationJobProcessingEngine.deleteSuccessfullyCompleted'],
-
-    ['communication.scheduler.enabled'],
-    ['communication.scheduler.idleWaitTime'],
-    ['communication.scheduler.clusterCheckinInterval'],
-
     ['communication.recurringScheduleOptions.enableMinutesScheduling'],
     ['communication.recurringScheduleOptions.enableHourlyScheduling'],
     ['communication.recurringScheduleOptions.enableDailyScheduling'],
@@ -497,8 +382,9 @@ ssconfig.app.seeddata.keys = [
     ['communication.recurringScheduleOptions.enableMonthlyScheduling'],
     ['communication.recurringScheduleOptions.enableYearlyScheduling'],
     ['communication.recurringScheduleOptions.enableAdvancedOption'],
-
+    
     ['defaultWebSessionTimeout'],
+    ['aboutInfoAccessRoles'],
 
     ['banner.theme.url'],
     ['banner.theme.name'],
@@ -508,3 +394,54 @@ ssconfig.app.seeddata.keys = [
     ['banner.analytics.trackerId'],
     ['banner.analytics.allowEllucianTracker']
 ]
+
+/*********************************************************************************
+*                     Application Server Configuration                           *
+* When deployed on Tomcat this configuration should be targetServer="tomcat"     *
+* When deployed on Weblogic this configuration should be targetServer="weblogic" *
+**********************************************************************************/
+targetServer="tomcat"
+
+// ******************************************************************************
+//
+//                       +++ QUARTZ CONFIGURATION +++
+//                               DO NOT UPDATE
+// ******************************************************************************
+quartz {
+
+     println "Reading Quartz Scheduler properties from external configuration!"
+     
+     autoStartup = communication.scheduler.enabled ==true ? true: false
+	 jdbcStore =  false
+	 waitForJobsToCompleteOnShutdown=true
+	 purgeQuartzTablesOnStartup=false
+	 pluginEnabled=true
+
+       scheduler.skipUpdateCheck = true
+       scheduler.instanceName = 'Banner Quartz Scheduler'
+       scheduler.instanceId = 'BCM'
+
+       if (communication.scheduler.idleWaitTime) {
+           scheduler.idleWaitTime =communication.scheduler.idleWaitTime
+       }
+
+       boolean isWebLogic = communication.weblogicDeployment == true
+       if (isWebLogic) {
+           println( "Setting driverDelegateClass to org.quartz.impl.jdbcjobstore.oracle.weblogic.WebLogicOracleDelegate" )
+           jobStore.driverDelegateClass = 'org.quartz.impl.jdbcjobstore.oracle.weblogic.WebLogicOracleDelegate'
+       } else {
+           println( "Setting driverDelegateClass to org.quartz.impl.jdbcjobstore.oracle.OracleDelegate" )
+           jobStore.driverDelegateClass = 'org.quartz.impl.jdbcjobstore.oracle.OracleDelegate'
+       }
+       jobStore.class = 'net.hedtech.banner.general.scheduler.quartz.BannerDataSourceJobStoreCMT'
+
+       jobStore.tablePrefix = 'GCRQRTZ_' // Share tables. communication has own instance
+       jobStore.isClustered = true
+       if (communication.scheduler.clusterCheckinInterval) {
+           jobStore.clusterCheckinInterval = communication.scheduler.clusterCheckinInterval
+       }
+       jobStore.useProperties = false
+
+    println "Completed reading Quartz Scheduler properties from external configuration!"
+}
+
