@@ -7,7 +7,7 @@ USER root
 ENV TIMEZONE=America/Denver
 RUN cp -f /usr/share/zoneinfo/$TIMEZONE /etc/localtime
 RUN echo $TIMEZONE > /etc/timezone
-COPY --chown=tomcat:tomcat server.xml /usr/local/tomcat/conf/server.xml
+
 USER tomcat
 
 RUN mkdir -p /opt/banner/extensions/ss_ext/extensions/ \

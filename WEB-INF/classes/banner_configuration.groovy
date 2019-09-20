@@ -102,6 +102,34 @@ bannerSsbDataSource {
     //elvyx.url    = "jdbc:elvyx://localhost:4448/?elvyx.real_driver=${bannerSsbDataSource.driver}&elvyx.real_jdbc=${bannerSsbDataSource.url}&user=${bannerSsbDataSource.username}&password=${bannerSsbDataSource.password}"
 }
 
+/** ****************************************************************************
+  *                                                                             *
+  *              Commmgr User DataSource Configuration                          *
+  *                                                                             *
+  *******************************************************************************/
+
+ bannerCommmgrDataSource {
+
+     // JNDI configuration for use in 'production' environment
+     jndiName = "jdbc/bannerCommmgrDataSource"
+
+     // Local configuration for use in 'development' and 'test' environments
+     //
+     url   = "jdbc:oracle:thin:@HOST:PORT:SID"
+
+     username = "USERNAME"
+     password = "PASSWORD"
+     driver   = "oracle.jdbc.OracleDriver"
+
+
+     // Local configuration for using elvyx to view SQL statements that are bound. To enable this driver, simply uncomment the
+     // elvyx driver and url below. Do NOT comment out the 'myDataSource.url' above -- it is still needed for the authentication data source.
+     // To use elvyx, download from "http://www.elvyx.com", unzip, and run from it's top-level directory: java -jar lib/elvyx-1.0.24.jar
+     //
+     //elvyx.driver = "com.elvyx.Driver"
+     //elvyx.url    = "jdbc:elvyx://localhost:4448/?elvyx.real_driver=${bannerCommmgrDataSource.driver}&elvyx.real_jdbc=${bannerCommmgrDataSource.url}&user=${bannerCommmgrDataSource.username}&password=${bannerCommmgrDataSource.password}"
+ }
+
 /* Location for images */
 banner.picturesPath=(System.getenv('BANNER_PICTUREPATH') ?: '/opt/banner/images')
 
