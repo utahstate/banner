@@ -33,8 +33,6 @@ setProperty() {
     sed -i "s|<param name=\"APPNAV_API_URL\".*|<param name=\"APPNAV_API_URL\" value=\"$val/applicationNavigator/static/dist/m.js\" />|g" /usr/local/tomcat/webapps/BannerAdmin/config.xml
   fi
 
-  if [ "$prop" = "
-
   if [ $(grep -c "$prop" "$PROPFILE") -eq 0 ]; then
     echo "${prop}=$val" >> "$PROPFILE"
   else
