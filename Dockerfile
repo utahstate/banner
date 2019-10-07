@@ -1,4 +1,4 @@
-FROM edurepo/banner9-selfservice:tomcat8-jre8-alpine
+FROM edurepo/banner9-selfservice:tomcat8.5.45-jre8-corretto
 
 ENV TIMEZONE=America\Denver
 
