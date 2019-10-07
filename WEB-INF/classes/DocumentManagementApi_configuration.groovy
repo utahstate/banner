@@ -1,5 +1,5 @@
 /** *****************************************************************************
- Copyright 2016 Ellucian Company L.P. and its affiliates.
+ Copyright 2016-2017 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
 
 /** ****************************************************************************
@@ -36,11 +36,13 @@ bdmserver.file.location = (System.getenv('BDMSERVER_FILE_LOCATION') ?: '/tmp/upl
 bdmserver.AXWebServicesUrl = (System.getenv('BDMSERVER_AXWEBSERVICEURL') ?: 'http://axserver/appxtender/axservicesinterface.asmx')
 bdmserver.AXWebAccessURL = (System.getenv('BDMSERVER_AXWEBACCESSURL') ?: 'http://axserver/appxtender/')
 bdmserver.Username = (System.getenv('BDMSERVER_USERNAME') ?: 'BDMAPI_SUPERUSER')
-bdmserver.Password = (System.getenv('BDMSERVER_PASSWORD') ?: 'MYPASSWORD')
 bdmserver.DataSource = (System.getenv('BDMSERVER_DATASOURCE') ?: 'TEST')
 bdmserver.BdmDataSource = (System.getenv('BDMSERVER_BDMDATASOURCE') ?: 'TEST')
-bdmserver.KeyPassword = (System.getenv('BDMSERVER_KEYPASSWORD') ?: 'PASSWORD')
-
+bdmserver.KeyPassword = (System.getenv('BDMSERVER_KEYPASSWORD') ?: 'password')
+//file extension restriction default values 
+bdmserver.defaultfile_ext= [".exe",".zip"]
+//default file size in MB to be restricted
+bdmserver.defaultFileSize= 128
 
 /** ****************************************************************************
  *                                                                             *
