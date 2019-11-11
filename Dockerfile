@@ -1,6 +1,7 @@
-FROM edurepo/banner9-admin:tomcat8.5.46-corretto8
+FROM edurepo/banner9-admin:tomcat8.5.46-corretto8-1
 LABEL banner.common="9.3.18.0.10" \
       banner.accountreceivable="9.3.12.0.2" \
+      banner.documentmanagement="9.3.1.0.4" \
       banner.finance="9.3.13.0.5" \
       banner.financialaid="9.3.17.0.3" \
       banner.general="9.3.15.0.6" \
