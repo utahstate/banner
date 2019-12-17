@@ -1,10 +1,10 @@
 /*********************************************************************************
- Copyright 2013-2017 Ellucian Company L.P. and its affiliates.
+ Copyright 2013-2019 Ellucian Company L.P. and its affiliates.
  *********************************************************************************/
 
- /** ****************************************************************************
+/** ****************************************************************************
  *                                                                              *
- *          Self-Service Banner 9 Employee Self-Service Configuration             *
+ *         Banner 9 Employee Self-Service Configuration                         *
  *                                                                              *
  ***************************************************************************** **/
 
@@ -27,35 +27,22 @@ This configuration file contains the following sections:
 
 ***************************************************************************** **/
 
-logAppName = "EmployeeSelfService"
-
-// ******************************************************************************
-//
-//                       +++ JMX Bean Names +++
-//
-// ******************************************************************************
-
-// The names used to register Mbeans must be unique for all applications deployed
-// into the JVM.  This configuration should be updated for each instance of each
-// application to ensure uniqueness.
-jmx {
-    exported {
-        log4j = "EmployeeSelfService-log4j"
-    }
-}
+/***********************************************************************************
+                     Application Server Configuration
+ When deployed on Tomcat this configuration should be targetServer="tomcat"
+ When deployed on Weblogic this configuration should be targetServer="weblogic"
+*********************************************************************************/
+targetServer="tomcat"
 
 // ******************************************************************************
 //
 //                       +++ Self Service Support +++
 //
 // ******************************************************************************
-
-
 ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
 ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
 ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED')) : true) //true  - allow Pidm users to reset their password.
                                   //false - throws functionality disabled error message
-
 
 // *****************************************************************************
 //
@@ -76,10 +63,10 @@ banner {
     sso {
 		authenticationProvider = 'cas'
         authenticationAssertionAttribute = 'UDC_IDENTIFIER'
-        if(authenticationProvider != 'default') {
-            grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
         }
-	}
+}
+if (banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' ) {
+   grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
 }
 
 grails {
@@ -87,7 +74,8 @@ grails {
         springsecurity {
             cas {
                 active = true
-                serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/EmployeeSelfService/j_spring_cas_security_check"
+                serverUrlPrefix  = (System.getenv('CAS_URL') ?: 'http://CAS_HOST:PORT/cas')
+                serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') +'/EmployeeSelfService/login/cas'
                 serverName       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT')
                 proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/EmployeeSelfService/secure/receptor"
                 loginUri         = '/login'
@@ -97,7 +85,7 @@ grails {
                 key = 'grails-spring-security-cas'
                 artifactParameter = 'SAMLart'
                 serviceParameter = 'TARGET'
-                filterProcessesUrl = '/j_spring_cas_security_check'
+                filterProcessesUrl = '/login/cas'
                 serverUrlEncoding = 'UTF-8'
                 if (useSingleSignout){
                     grails.plugin.springsecurity.useSessionFixationPrevention = false
@@ -111,7 +99,6 @@ grails {
     }
 }
 
-grails.plugin.springsecurity.cas.serverUrlPrefix = (System.getenv('CAS_URL') ?: 'http://CAS_HOST:PORT/cas')
 /** *************************************************************************************
  *                                                                              		*
  *                        SAML CONFIGURATION                                    		*
@@ -143,118 +130,6 @@ grails.plugin.springsecurity.saml.metadata.sp.defaults = [
         requireLogoutRequestSigned: false,
         requireLogoutResponseSigned: false
 ]*/
-
-// ******************************************************************************
-//
-//                       +++ LOGGER CONFIGURATION +++
-//
-// ******************************************************************************
-String loggingFileDir =  "/usr/local/tomcat/logs"
-String loggingFileName = "${loggingFileDir}/${logAppName}.log".toString()
-
-
-// Note that logging is configured separately for each environment ('development', 'test', and 'production').
-// By default, all 'root' logging is 'off'.  Logging levels for root, or specific packages/artifacts, should be configured via JMX.
-// Note that you may enable logging here, but it:
-//   1) requires a restart, and
-//   2) will report an error indicating 'Cannot add new method [getLog]'. (although the logging will in fact work)
-//
-// JMX should be used to modify logging levels (and enable logging for specific packages). Any JMX client, such as JConsole, may be used.
-//
-// The logging levels that may be configured are, in order: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
-//
-log4j = {
-    appenders {
-        rollingFile name:'appLog', file:loggingFileName, maxFileSize:"${10*1024*1024}", maxBackupIndex:10, layout:pattern( conversionPattern: '%d{[EEE, dd-MMM-yyyy @ HH:mm:ss.SSS]} [%t] %-5p %c %x - %m%n' )
-    }
-
-    switch( grails.util.Environment.current.name.toString() ) {
-        case 'development':
-            root {
-                off 'stdout','appLog'
-                additivity = true
-            }
-            info  'net.hedtech.banner.configuration.ApplicationConfigurationUtils'
-            error 'net.hedtech.banner.representations'
-            error 'net.hedtech.banner.supplemental.SupplementalDataService'
-            error 'net.hedtech.banner.pdf'
-            error 'org.apache.fop'
-            break
-        case 'test':
-            root {
-                error 'stdout','appLog'
-                additivity = true
-            }
-            break
-        case 'production':
-            root {
-                error 'appLog'
-                additivity = true
-            }
-            error 'grails.app.service'
-            error 'grails.app.controller'
-            error 'net.hedtech.banner.representations'
-            error 'net.hedtech.banner.supplemental.SupplementalDataService'
-            error 'net.hedtech.banner.pdf'
-            error 'org.apache.fop'
-            break
-    }
-
-    // Log4j configuration notes:
-    // The following are some common packages that you may want to enable for logging in the section above.
-    // You may enable any of these within this file (which will require a restart),
-    // or you may add these to a running instance via JMX.
-    //
-    // Note that settings for specific packages/artifacts will override those for the root logger.
-    // Setting any of these to 'off' will prevent logging from that package/artifact regardless of the root logging level.
-
-    // ******** non-Grails classes (e.g., in src/ or grails-app/utils/) *********
-    off 'net.hedtech.banner.service'
-    off 'net.hedtech.banner.representations'
-    off 'BannerUiSsGrailsPlugin'
-
-    // ******** Grails framework classes *********
-    off 'org.codehaus.groovy.grails.web.servlet'        // controllers
-    off 'org.codehaus.groovy.grails.web.pages'          // GSP
-    off 'org.codehaus.groovy.grails.web.sitemesh'       // layouts
-    off 'org.codehaus.groovy.grails.web.mapping.filter' // URL mapping
-    off 'org.codehaus.groovy.grails.web.mapping'        // URL mapping
-    off 'org.codehaus.groovy.grails.commons'            // core / classloading
-    off 'org.codehaus.groovy.grails.plugins'            // plugins
-    off 'org.codehaus.groovy.grails.orm.hibernate'      // hibernate integration
-    off 'org.springframework'                           // Spring IoC
-    off 'org.hibernate'                                 // hibernate ORM
-    off 'grails.converters'                             // JSON and XML marshalling/parsing
-    off 'grails.app.service.org.grails.plugin.resource' // Resource Plugin
-    off 'org.grails.plugin.resource'                    // Resource Plugin
-
-    // ******* Security framework classes **********
-    off 'net.hedtech.banner.security'
-    off 'net.hedtech.banner.db'
-    off 'net.hedtech.banner.security.BannerAccessDecisionVoter'
-    off 'net.hedtech.banner.security.BannerAuthenticationProvider'
-    off 'net.hedtech.banner.security.CasAuthenticationProvider'
-    off 'net.hedtech.banner.security.SelfServiceBannerAuthenticationProvider'
-    off 'grails.plugin.springsecurity'
-    off 'org.springframework.security'
-    off 'org.apache.http.headers'
-    off 'org.apache.http.wire'
-
-    // Grails provides a convenience for enabling logging within artefacts, using 'grails.app.XXX'.
-    // Unfortunately, this configuration is not effective when 'mixing in' methods that perform logging.
-    // Therefore, for controllers and services it is recommended that you enable logging using the controller
-    // or service class name (see above 'class name' based configurations).  For example:
-    //     all  'net.hedtech.banner.testing.FooController' // turns on all logging for the FooController
-    //
-    // debug 'grails.app' // apply to all artefacts
-    // debug 'grails.app.<artefactType>.ClassName // where artefactType is in:
-    //                   bootstrap  - For bootstrap classes
-    //                   dataSource - For data sources
-    //                   tagLib     - For tag libraries
-    //                   service    // Not effective with mixins -- see comment above
-    //                   controller // Not effective with mixins -- see comment above
-    //                   domain     - For domain entities
-}
 
 
 /** *****************************************************************************
@@ -296,7 +171,6 @@ hibernate.cache.use_query_cache=true         // Default true. Make it false for 
 grails.plugin.springsecurity.homePageUrl=(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL') ?: 'http://HOST:PORT/' )
 
 
-
 /** *************************************************************************************
 *                                                                                       *
 *                    ++++Quartz scheduler Configurations ++++                           *
@@ -305,13 +179,6 @@ configJob.delay=60000   //Time in milliseconds to configure when the quartz sche
 configJob.interval=60000 //Time in milliseconds to configure the interval at which the quartz schedule should run, default value is 60000 if not configured.
 configJob.actualCount=-1 //The count of number of times the config job would run.  If value is -1, the job will run indefinitely.  If the value is o, the job will not run.  Default value is -1 when not configured.
 
-
-/** *****************************************************************************
- *                                                                              *
- *           Enable Effort Certification module                                 *
- *                                                                              *
- ***************************************************************************** **/
-banner.SS.effortReportingAppLinkAvailable='Y'
 
 /* Here are 3 patterns to use to configure the keys
 
@@ -339,5 +206,3 @@ ssconfig.app.seeddata.keys = [
 ssconfig.app.seeddata.keys = [
 ['grails.plugin.springsecurity.interceptUrlMap'],
 ]
-
-
