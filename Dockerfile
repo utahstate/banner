@@ -1,4 +1,4 @@
-FROM tomcat:8.5-jre8-alpine
+FROM tomcat:8.5.47-jdk8-openjdk-slim
 
 ENV TIMEZONE="America/Denver" \
     STUDENTAPI_URL="https://localhost/StudentApi/api" \
@@ -12,7 +12,8 @@ ENV TIMEZONE="America/Denver" \
     EMA_CONFIG="secret"
 
 RUN rm -Rf /usr/local/tomcat/webapps/* \
-    && apk add --no-cache tzdata \
+    && apt-get install tzdata -y \
+    && apt-get clean \
     && cp /usr/share/zoneinfo/$TIMEZONE /etc/localtime
 
 COPY EllucianMessagingAdapter /usr/local/tomcat/webapps/EllucianMessagingAdapter

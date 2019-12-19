@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <emsConfig>
     <clientErpType>Banner</clientErpType> <!-- Colleague or Banner -->
     <configId>ETHOS-INTEGRATION</configId> <!-- Change this to match config name for Colleague (HUB is delivered default), set to ETHOS-INTEGRATION for Banner -->
@@ -22,6 +22,7 @@
                 <vpdiCode></vpdiCode> <!--Leave blank if MEP is not used -->
             </apiKey>
         </apiKeys>
+        <mepSharedDataApiKey></mepSharedDataApiKey> <!-- API key to use when publishing shared data in a MEP environment -->
     </bannerStudentConfig>
 
     <bannerIntegrationConfig>
@@ -34,5 +35,34 @@
                 <vpdiCode></vpdiCode> <!--Leave blank if MEP is not used -->
             </apiKey>
         </apiKeys>
+        <mepSharedDataApiKey></mepSharedDataApiKey> <!-- API key to use when publishing shared data in a MEP environment -->
     </bannerIntegrationConfig>
+
+    <!-- startup logging level...this will be overridden by the value returned from the api config endpoint -->
+    <logLevel>INFO</logLevel>
+
+    <!-- Number of messages to pull from RabbitMQ for parallel processing api calls -->
+    <amqpBatchSize>80</amqpBatchSize>
+
+    <!-- Parallel processing settings for making api calls -->
+    <autoConfigurePool>true</autoConfigurePool> <!-- Pool grows as messages come in (max # of threads is limited by batch size). 60 sec idle threads will be evicted -->
+    <processingThreads>4</processingThreads> <!-- Number of connection pool threads to use for parallel api calls.  This is not used if 'autoConfigurePool' it true -->
+
+    <!-- Api timeout retry settings -->
+    <apiTimeoutInterval>300000</apiTimeoutInterval> <!-- value in milliseconds -->
+    <maxRetryAttempts>1</maxRetryAttempts>
+    <initialRetryInterval>500</initialRetryInterval>
+    <maxRetryInterval>2000</maxRetryInterval>
+    <retryMultiplier>2</retryMultiplier>
+
+    <!-- Number of messages to publish to ethos integration at once...max of 20 -->
+    <ethosPublishBatchSize>20</ethosPublishBatchSize>
+
+    <enableMemoryMetricCollection>false</enableMemoryMetricCollection>
+    <metricCollectionInterval>5</metricCollectionInterval>
+
+    <!-- Banner database connection settings.  This is only necessary for a Banner MEP environment -->
+    <bannerConnectString>jdbc:oracle:thin:@host:port:SID</bannerConnectString>
+    <jdbcDriver>oracle.jdbc.OracleDriver</jdbcDriver>
+
 </emsConfig>
