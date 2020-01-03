@@ -204,3 +204,6 @@ targetServer="tomcat"
 *                                                                               *
 ******************************************************************************* **/
 enableNLS=true
+
+degreeworks_url=(System.getenv('DEGREEWORKS_URL') ?: 'http://degreeworks/dashboard/')
+banneradmin_url=(System.getenv('BANNERADMIN_URL') ?: 'https://admin/')

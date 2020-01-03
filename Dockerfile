@@ -1,7 +1,7 @@
-FROM edurepo/banner9-selfservice:tomcat8.5.45-jre8-corretto
+FROM edurepo/banner9-selfservice:tomcat8.5.46-jre8-corretto
 LABEL MAINTAINER="Eric Allen <eric.allen@usu.edu>"
 
-LABEL version="9.10"
+LABEL version="9.11"
 
 # Fix timezone
 USER root
