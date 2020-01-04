@@ -1,4 +1,4 @@
-FROM edurepo/banner9-admin:tomcat8.5.46-corretto8-1
+FROM edurepo/banner9-admin:tomcat8.5.47-corretto8
 LABEL banner.common="9.3.18.0.10" \
       banner.accountreceivable="9.3.12.0.2" \
       banner.documentmanagement="9.3.1.0.4" \
