@@ -178,31 +178,3 @@ grails.plugin.springsecurity.homePageUrl=(System.getenv('GRAILS_PLUGIN_SPRINGSEC
 configJob.delay=60000   //Time in milliseconds to configure when the quartz scheduler should start after the server startup, if its not configured then the default value is 60000.
 configJob.interval=60000 //Time in milliseconds to configure the interval at which the quartz schedule should run, default value is 60000 if not configured.
 configJob.actualCount=-1 //The count of number of times the config job would run.  If value is -1, the job will run indefinitely.  If the value is o, the job will not run.  Default value is -1 when not configured.
-
-
-/* Here are 3 patterns to use to configure the keys
-
-Pattern 1 - With key and value
-Syntax:
-ssconfig.app.seeddata.keys = [
-['<Key1>': <Boolean value>], ['<Key2>': <Boolean Value2>], ['<Key3>': '<String Value>'], ['<Key4>':<Numeric value>]
-]
-
-Pattern 2 - With key only (value derived from configuration files)
-Syntax:
-ssconfig.app.seeddata.keys = [
-['<Key1>'], ['<Key2>'], ['<Key3>'], ['<Key4>']
-]
-
-Pattern 3 - Combination of Pattern 1 and 2 - With key only and key/value pairs.
-Syntax:
-ssconfig.app.seeddata.keys = [
-['<Key1>': <Boolean value>], ['<Key2>'], ['<Key3>': '<String Value>'], ['<Key4>']
-]
-
-*/
-
-//Down below are keys configured using pattern 2
-ssconfig.app.seeddata.keys = [
-['grails.plugin.springsecurity.interceptUrlMap'],
-]
