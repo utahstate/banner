@@ -48,7 +48,7 @@ pageBuilder {
 	}
     // Uncomment debugRoles to reveal detailed SQL error messages for
     // Virtual domains to users with any of the comma separated roles
-    // debugRoles = "ROLE_GPBADMN_BAN_DEFAULT_PAGEBUILDER_M"
+    debugRoles = "ROLE_GPBADMN_BAN_DEFAULT_PAGEBUILDER_M"
 }
 
 /*******************************************************************************
