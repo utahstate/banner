@@ -9,25 +9,38 @@
  *
  *    In a PRODUCTION environment:
  *        This file will reside in the Banner application's classpath.
+ *    Each Banner application will have its own logging file.  Example: applicationNavigator.log
+ *    Banner logging files are set up to roll on a daily basis with SizeAndTimeBasedRolling Policy. Example: applicationNavigator-2019-03-05-0.log
  *
  *        Default settings for Banner production logging:
  *           Logging is directed to a file (not the console).
  *           Log file directory: <user.home>/banner_logs
+ *        Default settings for Banner logging:
  *           Root logger level: ERROR
  *           Logging is turned off for specific packages (see below).
+ *           Logging is turned DEBUG for specific packages (see below) with commented. This should be uncomment based on requirement.
  *
  *    In a DEVELOPMENT or TEST environment:
  *        This file resides in the project's /grails-app/conf directory.
+ *        User can specify the different logging directory using the following system property:
+ *            -Dbanner.logging.dir=<full directory path>  (THIS MUST BE AN ABSOLUTE PATH WITH WRITE PERMISSION)
+ *            Example: -Dbanner.logging.dir=/home/tomcat/logs
  *
  *        Default settings for Banner development and test logging:
  *            Logging is directed to a file and the console.
  *            Log file directory: <project home>/build
  *            Root logger level: ERROR
  *            Logging is turned off for specific packages (see below).
+ *        If different logging directory is not configured then the log files will be generated in the build folder as Provided default by Grails.
  *
  *    Banner logging files are set up to roll on a daily basis.  Example: EmployeeSelfService-2019-03-05.log
  *    Use JMX to change logger levels for ROOT or specific packages/artifacts.
  *    Valid logger levels in order: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
+ *        Use JMX to change logger levels for ROOT or specific packages/artifacts.
+ *
+ *        Optionally, you can modify this file to change the logger level for ROOT or specific packages/artifacts.
+ *
+ *        Valid logger levels in order: ALL < TRACE < DEBUG < INFO < WARN < ERROR < OFF
  */
 
 import ch.qos.logback.core.util.FileSize
@@ -40,114 +53,114 @@ import org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverte
 
 import java.nio.charset.Charset
 
-ExternalConfigurationUtils.setupExternalLogbackConfig()
-
 conversionRule 'clr', ColorConverter
 conversionRule 'wex', WhitespaceThrowableProxyConverter
 
-def appName = Metadata.current.getApplicationName()
+// This line is only required in logback.groovy which is present in /grails-app/conf.
+// This should be commented in the external logback.groovy
+ExternalConfigurationUtils.setupExternalLogbackConfig()
 
-// Set the application name for logging purposes
-def loggingAppName = appName
 
-// See http://logback.qos.ch/manual/groovy.html for details on configuration
+def encoderPattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5p %c %X - %m%n"
+
+def loggingAppName =  Metadata.current.getApplicationName()   // The application name for logging purposes.
+
+// Set the logging output directory
+def loggingDir = System.properties["banner.logging.dir"] ?: "/usr/local/tomcat/logs"
+
+// Define console appender
 appender('STDOUT', ConsoleAppender) {
     encoder(PatternLayoutEncoder) {
         charset = Charset.forName('UTF-8')
-
-        pattern =
-                '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} ' + // Date
-                        '%clr(%5p) ' + // Log level
-                        '%clr(---){faint} %clr([%15.15t]){faint} ' + // Thread
-                        '%clr(%-40.40logger{39}){cyan} %clr(:){faint} ' + // Logger
-                        '%m%n%wex' // Message
+        pattern = "${encoderPattern}"
     }
 }
 
-// Set the logging output directory
-def loggingDir
-switch (Environment.current) {
-    case Environment.PRODUCTION:
-        loggingDir = "/usr/local/tomcat/logs"
-        break
-    default: // Development or test mode
-        loggingDir = BuildSettings.TARGET_DIR
-        break
-}
-
+// Define RollingFileAppender log
 appender("APP_LOG", RollingFileAppender) {
     file = "${loggingDir}/${loggingAppName}.log"
-    append = true
     encoder(PatternLayoutEncoder) {
-        pattern = "%d{[yyyy-MM-dd @ HH:mm:ss.SSS]} %-5p %c{2} - %m%n"
+        pattern = encoderPattern
+
     }
-    rollingPolicy(TimeBasedRollingPolicy) {
-        fileNamePattern = "${loggingDir}/${loggingAppName}-%d.log"
-        maxHistory = 10
-        totalSizeCap = FileSize.valueOf("2GB")
+    rollingPolicy(SizeAndTimeBasedRollingPolicy) {
+        fileNamePattern = "${loggingDir}/${loggingAppName}-%d{yyyy-MM-dd}-%i.log"
+        maxFileSize = FileSize.valueOf("10MB")   // Max size allowed for each log files
+        maxHistory = 30 //Deletes older log files older than 30 days.
+        totalSizeCap = FileSize.valueOf("100MB") // Total Max size allowed for the log files on disk
     }
     logger("appLog", ERROR, ['APP_LOG'], true)
 }
+println "Application log file location [${Environment.current}]: ${loggingDir}"
+
 
 // Set the root logger level.
 if (Environment.current == Environment.PRODUCTION) {
-    root(ERROR, ['APP_LOG'])
+    root(ERROR, ['STDOUT', 'APP_LOG'])
 } else {
     root(ERROR, ['STDOUT', 'APP_LOG'])
 }
+
 
 //  Turn off package/artifact specific logging.
 //  You may enable any of these using JMX (recommended) or within this file (which will require a restart).
 //  Note that settings for specific packages/artifacts will override those for the root logger.
 //  Setting any of these to 'off' will prevent logging from that package/artifact regardless of the root logging level.
-logger("net.hedtech.seamless.*", OFF)
-logger("net.hedtech.banner.service", OFF)
-logger("net.hedtech.banner.representations", OFF)
-logger("BannerUiSsGrailsPlugin", OFF)
+//******* Application packages *******
+//logger("net.hedtech.seamless", OFF)
+//logger("net.hedtech.banner.service", OFF)
+
+// Uncomment the package/artifact for specific logging.
+// You may enable any of these using JMX (recommended) or within this file (which will require a restart).
+// Note that settings for specific packages/artifacts will override those for the root logger.
+// Setting any of these to 'off' will prevent logging from that package/artifact regardless of the root logging level.
+
 
 // ******** Grails framework classes *********
-logger("org.codehaus.groovy.grails.web.servlet", OFF)        // controllers
-logger("org.codehaus.groovy.grails.web.pages", OFF)          // GSP
-logger("org.codehaus.groovy.grails.web.sitemesh", OFF)       // layouts
-logger("org.codehaus.groovy.grails.web.mapping.filter", OFF) // URL mapping
-logger("org.codehaus.groovy.grails.web.mapping", OFF)        // URL mapping
-logger("org.codehaus.groovy.grails.commons", OFF)            // core / classloading
-logger("org.codehaus.groovy.grails.plugin", OFF)             // plugin
-logger("org.codehaus.groovy.grails.orm.hibernate", OFF)      // hibernate integration
-logger("org.springframework", OFF)                           // Spring IoC
-logger("org.hibernate", OFF)                                 // hibernate ORM
-logger("grails.converters", OFF)                             // JSON and XML marshalling/parsing
-logger("grails.app.service.org.grails.plugin.resource", OFF) // Resource Plugin
-logger("org.grails.plugin.resource", OFF)                    // Resource Plugin
-
-// ******* Security framework classes **********
-
-logger("net.hedtech.banner.security.*", OFF)
-logger("net.hedtech.banner.db", OFF)
-logger("net.hedtech.banner.security.BannerAccessDecisionVoter", OFF)
-logger("net.hedtech.banner.security.BannerAuthenticationProvider", OFF)
-logger("net.hedtech.banner.security.CasAuthenticationProvider", OFF)
-logger("net.hedtech.banner.security.SelfServiceBannerAuthenticationProvider", OFF)
-logger("net.hedtech.banner.security.BannerUser", OFF)
-logger("grails.plugin.springsecurity", OFF)
-logger("org.springframework.security", OFF)
-logger("org.apache.http.headers", OFF)
-logger("org.apache.http.wire", OFF)
-logger("org.hibernate.type", OFF)
-logger("org.hibernate.SQL", OFF)
-logger("org.hibernate.*", OFF)                                 // hibernate ORM
-logger("javax.servlet.http.HttpSessionListener", OFF)
-logger("net.hedtech.banner.service.HttpSessionService", OFF)
-logger("net.sf.*", OFF)
-logger("de.javakaffee.*", OFF)
-logger("org.hibernate.cache.*", OFF)
-logger("net.sf.ehcache.*", OFF)
-
-logger("asset.pipeline.gradle", OFF)
-logger("grails.plugins.DefaultGrailsPluginManager", OFF)
+//logger("grails.app.controllers", DEBUG)                        // controllers
+//logger("grails.app.services", DEBUG)                           // services
+//logger("org.grails.web.mapping", DEBUG)                        // URL mapping
+//logger("grails.plugins.DefaultGrailsPluginManager", DEBUG)     // grails plugins
 
 
-//  Configure JMX access.
+// ******* Banner Security framework classes **********
+//logger("net.hedtech.banner.security", DEBUG)
+//logger("net.hedtech.banner.db", DEBUG)
+//logger("net.hedtech.banner.security.BannerAccessDecisionVoter", DEBUG)
+//logger("net.hedtech.banner.security.BannerAuthenticationProvider", DEBUG)
+//logger("net.hedtech.banner.security.SelfServiceBannerAuthenticationProvider", DEBUG)
+//logger("net.hedtech.banner.security.BannerUser", DEBUG)
+
+
+// ******* Grails and Spring Security framework classes **********
+//logger("grails.plugin.springsecurity", DEBUG)
+//logger("grails.plugin.springsecurity.web.GrailsSecurityFilterChain", DEBUG)
+//logger("org.springframework.security", DEBUG)
+
+
+//******** CAS & SAML classes **********
+//logger ("org.jasig.cas.client.session.SingleSignOutFilter", DEBUG)
+//logger ("org.jasig.cas.client.session.SingleSignOutHandler", DEBUG)
+//logger ("org.jasig.cas", DEBUG)
+//logger ("grails.plugin.springsecurity", DEBUG)
+//logger ("net.hedtech.banner.security.BannerSamlSessionFilter", DEBUG)
+//logger ("net.hedtech.banner.security.CasAuthenticationProvider", DEBUG)
+//logger ("net.hedtech.banner.security.BannerSamlAuthenticationProvider", DEBUG)
+//logger ("net.hedtech.jasig.cas.client", DEBUG)
+//logger ("org.springframework.security.cas.web.CasAuthenticationFilter", DEBUG)
+//logger ("org.springframework.security.web.FilterChainProxy", DEBUG)
+//logger ("org.grails.plugin.springsecurity.saml", DEBUG)
+
+// ******* hibernate ORM **********
+//logger("org.hibernate.type", DEBUG)
+//logger("org.hibernate.SQL", DEBUG)
+
+
+//******* Application packages *******
+//logger("net.hedtech.banner.ui.ss", DEBUG)
+
+
+// ******* Configure JMX access *******
 //  The names used to register Mbeans must be unique for all applications deployed into the JVM.
 //  This configuration should be updated for each instance of each application to ensure uniqueness.
 jmxConfigurator("${loggingAppName}-logback")
