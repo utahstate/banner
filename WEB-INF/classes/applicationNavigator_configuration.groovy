@@ -1,5 +1,5 @@
 /*********************************************************************************
-Copyright 2014-2019 Ellucian Company L.P. and its affiliates.
+Copyright 2014-2020 Ellucian Company L.P. and its affiliates.
 **********************************************************************************/
  
  /*******************************************************************************
@@ -74,17 +74,16 @@ ssbOracleUsersProxied = false
  ********************************************************************************/
 //
 banner {
-    sso {
-        authenticationProvider           = 'cas' //  Valid values are: 'saml' and 'cas' for SSO. 'default' value to be used only when creating the release zip file.
-        authenticationAssertionAttribute = 'UDC_IDENTIFIER'
-        if(authenticationProvider != 'default') {
-            grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
-        }
-        if(authenticationProvider == 'saml') {
-            grails.plugin.springsecurity.auth.loginFormUrl = '/saml/login'
-        }
+    sso
+    {
+    authenticationProvider = 'cas'
+    authenticationAssertionAttribute = 'UDC_IDENTIFIER'
     }
 }
+if(banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' )
+    {
+    grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
+    }
 
 /********************************************************************************
  *                                                                              *
@@ -148,33 +147,29 @@ grails.plugin.springsecurity.cas.serverUrlPrefix = (System.getenv('CAS_URL') ?: 
  *                         SAML2 SSO Configuration                              *
  *                                                                              *
  ********************************************************************************/
-// Set active = true when Application Navigator is configured for SAML2 SSO  
-// grails.plugin.springsecurity.saml.active = false
-// grails.plugin.springsecurity.saml.afterLogoutUrl ='/logout/customLogout'
-
-// banner.sso.authentication.saml.localLogout='false'	 // Setting localLogout to false, allows the application to send a single or global logout request to the Identity Service Provider
-
-// grails.plugin.springsecurity.saml.keyManager.storeFile = 'classpath:security/samlkeystore.jks'     // for unix based 'file:/home/u02/samlkeystore.jks'
-// grails.plugin.springsecurity.saml.keyManager.storePass = 'changeit'
-// grails.plugin.springsecurity.saml.keyManager.passwords = [ 'banner-appnav-sp': 'changeit' ]        // banner-appnav-sp is the value set in EIS Service provider setup
-// grails.plugin.springsecurity.saml.keyManager.defaultKey = 'banner-appnav-sp'                       // banner-appnav-sp is the value set in EIS Service provider setup
-
-// grails.plugin.springsecurity.saml.metadata.sp.file = 'security/banner-appnav-sp.xml'               // for unix based '/home/u02/banner-appnav-sp.xml'
-// grails.plugin.springsecurity.saml.metadata.providers = [adfs: 'security//banner-appnav-idp.xml']   // for unix based '/home/u02/banner-appnav-idp.xml'
-// grails.plugin.springsecurity.saml.metadata.defaultIdp = 'adfs'
-// grails.plugin.springsecurity.saml.metadata.sp.defaults = [
-        // local: true,
-        // alias: 'banner-appnav-sp',                                                                 // banner-appnav-sp is the value set in EIS Service provider setup
-        // securityProfile: 'metaiop',
-        // signingKey: 'banner-appnav-sp',                                                            // banner-appnav-sp is the value set in EIS Service provider setup
-        // encryptionKey: 'banner-appnav-sp',                                                         // banner-appnav-sp is the value set in EIS Service provider setup
-        // tlsKey: 'banner-appnav-sp',                                                                // banner-appnav-sp is the value set in EIS Service provider setup
-        // requireArtifactResolveSigned: false,
-        // requireLogoutRequestSigned: false,
-        // requireLogoutResponseSigned: false
-// ]
-
-
+//Set active = true when Application Navigator is configured for SAML2 SSO
+/*grails.plugin.springsecurity.saml.active = false
+grails.plugin.springsecurity.auth.loginFormUrl = ‘/saml/login’
+grails.plugin.springsecurity.saml.afterLogoutUrl ='/logout/customLogout'
+banner.sso.authentication.saml.localLogout='false'	 // Setting localLogout to false, allows the application to send a single or global logout request to the Identity Service Provider
+grails.plugin.springsecurity.saml.keyManager.storeFile = 'classpath:security/samlkeystore.jks'     // for unix based 'file:/home/u02/samlkeystore.jks'
+grails.plugin.springsecurity.saml.keyManager.storePass = 'changeit'
+grails.plugin.springsecurity.saml.keyManager.passwords = [ 'banner-appnav-sp': 'changeit' ]        // banner-appnav-sp is the value set in EIS Service provider setup
+grails.plugin.springsecurity.saml.keyManager.defaultKey = 'banner-appnav-sp'                       // banner-appnav-sp is the value set in EIS Service provider setup
+grails.plugin.springsecurity.saml.metadata.sp.file = 'security/banner-appnav-sp.xml'               // for unix based '/home/u02/banner-appnav-sp.xml'
+grails.plugin.springsecurity.saml.metadata.providers = [adfs: 'security//banner-appnav-idp.xml']   // for unix based '/home/u02/banner-appnav-idp.xml'
+grails.plugin.springsecurity.saml.metadata.defaultIdp = 'adfs'
+grails.plugin.springsecurity.saml.metadata.sp.defaults = [
+    local: true,
+    alias: 'banner-appnav-sp',                                                                 // banner-appnav-sp is the value set in EIS Service provider setup
+    securityProfile: 'metaiop',
+    signingKey: 'banner-appnav-sp',                                                            // banner-appnav-sp is the value set in EIS Service provider setup
+    encryptionKey: 'banner-appnav-sp',                                                         // banner-appnav-sp is the value set in EIS Service provider setup
+    tlsKey: 'banner-appnav-sp',                                                                // banner-appnav-sp is the value set in EIS Service provider setup
+    requireArtifactResolveSigned: false,
+    requireLogoutRequestSigned: false,
+    requireLogoutResponseSigned: false
+]*/
 /********************************************************************************
  *                                                                              *
  *              Application Navigator Seamless plugin Configuration             *
@@ -202,7 +197,7 @@ seamless.menuEndpoints = [
 // The entries added must match those entries listed in the Web Tailor menus without
 // which they will not be displayed in the Application Navigator unified menu.
 seamless.selfServiceApps = [
-     (System.getenv("BANNER9_SS_URL") ?: 'http://APPLICATION_NAVIGATOR_HOST:PORT') + "/BannerExtensibility/"
+(System.getenv("BANNER9_SS_URL") ?: 'http://APPLICATION_NAVIGATOR_HOST:PORT') + "/BannerExtensibility/"
 ]
 
 seamless.logLevel="off"
