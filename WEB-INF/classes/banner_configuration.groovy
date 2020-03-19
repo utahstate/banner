@@ -117,3 +117,6 @@ mep.banner8.SS.url = [
     NORTH : 'http://<SSO MANAGER HOST>:<PORT>/ssomanager/c/SSB?pkg=http://<BANNER8 SSB HOST>:<PORT>/SMPL_NORTH/',
     SOUTH : 'http://<SSO MANAGER HOST>:<PORT>/ssomanager/c/SSB?pkg=http://<BANNER8 SSB HOST>:<PORT>/SMPL_SOUTH/'
 ]
+
+
+

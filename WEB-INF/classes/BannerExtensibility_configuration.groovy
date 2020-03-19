@@ -60,13 +60,13 @@ environments {
      production {
          banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"   // required only if theme server is remote
          banner.theme.name="production"
-         banner.theme.template="BannerExtensibility-9_5_0_1"
+         banner.theme.template="BannerExtensibility-9_6"
          banner.theme.cacheTimeOut = 900                                    // in seconds, not required theme server is remote
      }
      development {
          banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"  // required only if theme server is remote
          banner.theme.name="development"
-         banner.theme.template="BannerExtensibility-9_5_0_1"
+         banner.theme.template="BannerExtensibility-9_6"
          banner.theme.cacheTimeOut = 120                                   // // in seconds, not required theme server is remote
          //This variable is used to get information about $$user authorities(Roles). This should be used only for Development, shouldn't be available in prod. by default it should be false.
          pageBuilder.development.authorities.enabled=false
@@ -169,14 +169,9 @@ loginEndpoint='http://BANNER9_HOST:PORT/APP_NAME/customPage/page/pbadm.ssoauth?u
  *                                                                                      *
  ************************************************************************************* **/
 
-/*******************************************************************************
-                            SAML2 SSO CONFIGURATION
-NOTE:   Uncomment Below saml configuration only for SAML login.
-        keep the below saml configuration commented for all other login such as default and CAS to avoid Deployment failures.
-***************************************************************************** **/
 // set active = true when authentication provider section configured for saml
-/*
-grails.plugin.springsecurity.saml.active = false
+
+/*grails.plugin.springsecurity.saml.active = false
 grails.plugin.springsecurity.auth.loginFormUrl = ‘/saml/login’
 grails.plugin.springsecurity.saml.afterLogoutUrl =‘/logout/customLogout’
 banner.sso.authentication.saml.localLogout=‘false’                                                    // To disable single logout set this to true,default ‘false’.
@@ -197,8 +192,7 @@ grails.plugin.springsecurity.saml.metadata.sp.defaults = [
        requireArtifactResolveSigned: false,
        requireLogoutRequestSigned: false,
        requireLogoutResponseSigned: false
-]
-*/
+]*/
 
 /*******************************************************************************
  *                                                                              *
@@ -290,3 +284,13 @@ targetServer="tomcat"
 *                                                                               *
 *********************************************************************************/
 aboutInfoAccessRoles = ["ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"]
+
+
+/********************************************************************************
+*                                                                               *
+* Upload Limit will be override by app level settings if it is exists         *
+* otherwise it will override default settings.                                   *                        *
+* APP LEVEL WILL ALLOW UPTO 1MB. DEFAULT LIMIT IS UPTO 128KB                                                                              *
+*********************************************************************************/
+grails.controllers.upload.maxFileSize=1000000
+grails.controllers.upload.maxRequestSize=1000000
