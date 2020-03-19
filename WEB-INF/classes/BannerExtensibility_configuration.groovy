@@ -1,5 +1,5 @@
 /*******************************************************************************
- Copyright 2017-2019 Ellucian Company L.P. and its affiliates.
+ Copyright 2017-2020 Ellucian Company L.P. and its affiliates.
  *******************************************************************************/
 
 /******************************************************************************
@@ -48,7 +48,7 @@ pageBuilder {
 	}
     // Uncomment debugRoles to reveal detailed SQL error messages for
     // Virtual domains to users with any of the comma separated roles
-    debugRoles = "ROLE_GPBADMN_BAN_DEFAULT_PAGEBUILDER_M"
+    // debugRoles = "ROLE_GPBADMN_BAN_DEFAULT_PAGEBUILDER_M"
 }
 
 /*******************************************************************************
@@ -60,13 +60,13 @@ environments {
      production {
          banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"   // required only if theme server is remote
          banner.theme.name="production"
-         banner.theme.template="BannerExtensibility-9_5"
+         banner.theme.template="BannerExtensibility-9_5_0_1"
          banner.theme.cacheTimeOut = 900                                    // in seconds, not required theme server is remote
      }
      development {
          banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"  // required only if theme server is remote
          banner.theme.name="development"
-         banner.theme.template="BannerExtensibility-9_5"
+         banner.theme.template="BannerExtensibility-9_5_0_1"
          banner.theme.cacheTimeOut = 120                                   // // in seconds, not required theme server is remote
          //This variable is used to get information about $$user authorities(Roles). This should be used only for Development, shouldn't be available in prod. by default it should be false.
          pageBuilder.development.authorities.enabled=false
@@ -82,7 +82,7 @@ environments {
 
 ssbEnabled = true
 ssbOracleUsersProxied = true
-ssbPassword.reset.enabled = false//true  - allow Pidm users to reset their password.
+ssbPassword.reset.enabled = false //true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
 
 
@@ -147,7 +147,7 @@ grails {
 }
 
 
-grails.plugin.springsecurity.homePageUrl= (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL') ?: 'http://BANNER9_HOST:PORT/APP_NAME/')
+grails.plugin.springsecurity.homePageUrl= 'http://BANNER9_HOST:PORT/APP_NAME/'
 
 //This setting contains the institution-specific redirect URL for MEP if Return Home is clicked.
 grails.plugin.springsecurity.logout.mepErrorLogoutUrl = '/logout/customLogout'
@@ -256,7 +256,7 @@ ssconfig.app.seeddata.keys = [['banner.analytics.allowEllucianTracker'], ['banne
  * Added as part of Platform Platform 9.20                                         *
  ******************************************************************************** **/
 banner.analytics.trackerId=""     // institution's analytics tracker ID - blank by default
-banner.analytics.allowEllucianTracker=true
+banner.analytics.allowEllucianTracker=false
 
 
 /** *************************************************************************************************************

@@ -103,7 +103,7 @@ bannerSsbDataSource {
 }
 
 /* Location for images */
-banner.picturesPath=(System.getenv('BANNER_PICTUREPATH') ?: '/opt/banner/images')
+banner.picturesPath='/opt/banner/images'
 
 banner8.SS.url = (System.getenv('BANNER8_SS_URL') ?:'http://<SSO MANAGER HOST>:<PORT>/ssomanager/c/SSB?pkg=')
 
