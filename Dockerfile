@@ -1,4 +1,4 @@
-FROM edurepo/banner9-selfservice:tomcat8.5.46-jre8-corretto
+FROM edurepo/banner9-selfservice:tomcat8.5.53-jre8-corretto
 LABEL MAINTAINER="Eric Allen <eric.allen@usu.edu>"
 
 LABEL version="9.11"
