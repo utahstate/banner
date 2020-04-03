@@ -1,5 +1,5 @@
 #Dockerfile for StudentAPI
-FROM edurepo/banner9-selfservice:tomcat8.5.46-jre8-corretto
+FROM edurepo/banner9-selfservice:tomcat8.5.53-jre8-corretto
 
 LABEL api_version=9.18
 

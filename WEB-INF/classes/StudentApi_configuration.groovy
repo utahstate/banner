@@ -203,7 +203,7 @@ Note: It might also be necessary to increase transaction timeout to fetch more r
 //api.courses.page.maxUpperLimit=1000
 //api.sections.page.maxUpperLimit=1000
 //api."instructional-events".page.maxUpperLimit=1000
-api."educational-institution-units".page.maxUpperLimit=100
+//api."educational-institution-units".page.maxUpperLimit=100
 
 /*******************************************************************************
  *                                                                             *
