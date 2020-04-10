@@ -49,8 +49,8 @@ def encoderPattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5p %c %X - %m%n"
 def loggingAppName =  Metadata.current.getApplicationName()   // The application name for logging purposes.
 
 // Set the logging output directory
-//def loggingDir = System.properties["banner.logging.dir"] ?: BuildSettings.TARGET_DIR
-def loggingDir = '/usr/local/tomcat/logs'
+def loggingDir = System.properties["banner.logging.dir"] ?: '/usr/local/tomcat/logs'
+
 // Define console appender
 appender('STDOUT', ConsoleAppender) {
     encoder(PatternLayoutEncoder) {
@@ -79,7 +79,7 @@ println "Application log file location [${Environment.current}]: ${loggingDir}"
 
 // Set the root logger level.
 if (Environment.current == Environment.PRODUCTION) {
-    root(ERROR, ['APP_LOG'])
+    root(ERROR, ['STDOUT', 'APP_LOG'])
 } else {
     root(ERROR, ['STDOUT', 'APP_LOG'])
 }
