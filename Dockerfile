@@ -4,4 +4,4 @@ LABEL version="9.10"
 
 ENV TIMEZONE=America/Denver
 
-COPY --chown=tomcat:tomcat EmployeeSelfService /usr/local/tomcat/webapps/EmployeeSelfService
+COPY --chown=tomcat:tomcat EmployeeSelfService /usr/local/tomcat/webapps/ess
