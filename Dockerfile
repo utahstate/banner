@@ -11,4 +11,4 @@ RUN echo $TIMEZONE > /etc/timezone
 USER tomcat
 
 
-COPY StudentApi /usr/local/tomcat/webapps/StudentApi
+COPY --chown=tomcat:tomcat StudentApi /usr/local/tomcat/webapps/StudentApi
