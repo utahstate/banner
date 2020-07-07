@@ -1,101 +1,155 @@
+/******************************************************************************
+ Copyright 2019 Ellucian Company L.P. and its affiliates.
+ ******************************************************************************/
 
+/**
+ *    This is the default logging configuration for the BannerGeneralSsb application.
+ *
+ *    Each Banner application will have its own logging file.  Example: BannerGeneralSsb.log
+ *    Banner logging files are set up to roll on a daily basis with SizeAndTimeBasedRolling Policy. Example: BannerGeneralSsb-2019-03-05-0.log
+ *
+ *        Default settings for Banner logging:
+ *           Root logger level: ERROR
+ *           Logging is turned DEBUG for specific packages (see below) with commented. This should be uncomment based on requirement.
+ *
+ *        User can specify the different logging directory using the following system property:
+ *            -Dbanner.logging.dir=<full directory path>  (THIS MUST BE AN ABSOLUTE PATH WITH WRITE PERMISSION)
+ *            Example: -Dbanner.logging.dir=/home/tomcat/logs
+ *
+ *        If a different logging directory is not configured, then the log files will be generated in the build folder per Grails default.
+ *
+ *        Use JMX to change logger levels for ROOT or specific packages/artifacts.
+ *
+ *        Optionally, you can modify this file to change the logger level for ROOT or specific packages/artifacts.
+ *
+ *        Valid logger levels in order: ALL < TRACE < DEBUG < INFO < WARN < ERROR < OFF
+ */
+
+import ch.qos.logback.core.util.FileSize
 import grails.util.BuildSettings
+import grails.util.Environment
 import grails.util.Metadata
 import org.springframework.boot.logging.logback.ColorConverter
 import org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter
-import net.hedtech.banner.configuration.ExternalConfigurationUtils
+
 import java.nio.charset.Charset
+import net.hedtech.banner.configuration.ExternalConfigurationUtils
 
 conversionRule 'clr', ColorConverter
 conversionRule 'wex', WhitespaceThrowableProxyConverter
 
-// See http://logback.qos.ch/manual/groovy.html for details on configuration
+// This line is only required in logback.groovy which is present in /grails-app/conf.
+// This should be commented in the external logback.groovy
+ExternalConfigurationUtils.setupExternalLogbackConfig()
+
+
+def encoderPattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5p %c %X - %m%n"
+
+def loggingAppName =  Metadata.current.getApplicationName()   // The application name for logging purposes.
+
+def targetDir = "/usr/local/tomcat/logs"
+// Set the logging output directory
+def loggingDir = System.properties["banner.logging.dir"] ?: ${targetDir}
+
+// Define console appender
 appender('STDOUT', ConsoleAppender) {
     encoder(PatternLayoutEncoder) {
         charset = Charset.forName('UTF-8')
-
-        pattern =
-                '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} ' + // Date
-                        '%clr(%5p) ' + // Log level
-                        '%clr(---){faint} %clr([%15.15t]){faint} ' + // Thread
-                        '%clr(%-40.40logger{39}){cyan} %clr(:){faint} ' + // Logger
-                        '%m%n%wex' // Message
+        pattern = "${encoderPattern}"
     }
 }
 
-def targetDir = "/usr/local/tomcat/logs"
-String appname = Metadata.current.getApplicationName()
-ExternalConfigurationUtils.setupExternalLogbackConfig()
-
-appender("FULL_STACKTRACE", FileAppender) {
-    //file = "target/stacktrace.log"
-    file = "${targetDir}/${appname}.log"
-    append = true
+// Define RollingFileAppender log
+appender("APP_LOG", RollingFileAppender) {
+    file = "${loggingDir}/${loggingAppName}.log"
     encoder(PatternLayoutEncoder) {
-        pattern = "%d{[dd-MMM-yyyy @ HH:mm:ss.SSS]} %-5p %c{2} - %m%n"
+        pattern = encoderPattern
+
     }
+    rollingPolicy(SizeAndTimeBasedRollingPolicy) {
+        fileNamePattern = "${loggingDir}/${loggingAppName}-%d{yyyy-MM-dd}-%i.log"
+        maxFileSize = FileSize.valueOf("10MB")   // Max size allowed for each log files
+        maxHistory = 30 //Deletes older log files older than 30 days.
+        totalSizeCap = FileSize.valueOf("100MB") // Total Max size allowed for the log files on disk
+    }
+    logger("appLog", ERROR, ['APP_LOG'], true)
 }
-logger("StackTrace", ERROR, ['FULL_STACKTRACE'], false)
+println "Application log file location [${Environment.current}]: ${loggingDir}"
 
-root(ERROR, ['STDOUT','FULL_STACKTRACE'])
 
-logger("net.hedtech.banner.service", OFF)
-logger("net.hedtech.banner.representations", OFF)
-logger("BannerUiSsGrailsPlugin", OFF)
+// Set the root logger level.
+if (Environment.current == Environment.PRODUCTION) {
+    root(ERROR, ['STDOUT', 'APP_LOG'])
+} else {
+    root(ERROR, ['STDOUT', 'APP_LOG'])
+}
+
+// Uncomment the package/artifact for specific logging.
+// You may enable any of these using JMX (recommended) or within this file (which will require a restart).
+// Note that settings for specific packages/artifacts will override those for the root logger.
+// Setting any of these to 'off' will prevent logging from that package/artifact regardless of the root logging level.
+
 
 // ******** Grails framework classes *********
-logger("org.codehaus.groovy.grails.web.servlet", OFF)        // controllers
-logger("org.codehaus.groovy.grails.web.pages", OFF)          // GSP
-logger("org.codehaus.groovy.grails.web.sitemesh", OFF)       // layouts
-logger("org.codehaus.groovy.grails.web.mapping.filter", OFF) // URL mapping
-logger("org.codehaus.groovy.grails.web.mapping", OFF)        // URL mapping
-logger("org.codehaus.groovy.grails.commons", OFF)            // core / classloading
-logger("org.codehaus.groovy.grails.plugin", OFF)            // plugin
-logger("org.codehaus.groovy.grails.orm.hibernate", OFF)      // hibernate integration
-logger("org.springframework", OFF)                           // Spring IoC
-logger("org.hibernate", OFF)                                 // hibernate ORM
-logger("grails.converters", OFF)                             // JSON and XML marshalling/parsing
-logger("grails.app.service.org.grails.plugin.resource", OFF) // Resource Plugin
-logger("org.grails.plugin.resource", OFF)                    // Resource Plugin
-
-// ******* Security framework classes **********
-
-logger("net.hedtech.banner.security.*", OFF)
-logger("net.hedtech.banner.db", OFF)
-logger("net.hedtech.banner.security.BannerAccessDecisionVoter", OFF)
-logger("net.hedtech.banner.security.BannerAuthenticationProvider", OFF)
-logger("net.hedtech.banner.security.CasAuthenticationProvider", OFF)
-logger("net.hedtech.banner.security.SelfServiceBannerAuthenticationProvider", OFF)
-logger("net.hedtech.banner.security.BannerUser", OFF)
-logger("grails.plugin.springsecurity", OFF)
-logger("org.springframework.security", OFF)
-logger("org.apache.http.headers", OFF)
-logger("org.apache.http.wire", OFF)
-logger("org.hibernate.type", OFF)
-logger("org.hibernate.SQL", OFF)
-
-logger("org.hibernate.*", OFF)                                 // hibernate ORM
-logger("javax.servlet.http.HttpSessionListener", OFF)
-logger("net.hedtech.banner.service.HttpSessionService", OFF)
-logger("net.sf.*", OFF)
-logger("de.javakaffee.*", OFF)
-logger("org.hibernate.cache.*", OFF)
-logger("net.sf.ehcache.*", OFF)
-
-logger("asset.pipeline.gradle", OFF)
-
-logger("grails.plugins.DefaultGrailsPluginManager", OFF)
+//logger("grails.app.controllers", DEBUG)                        // controllers
+//logger("grails.app.services", DEBUG)                           // services
+//logger("org.grails.web.mapping", DEBUG)                        // URL mapping
+//logger("grails.plugins.DefaultGrailsPluginManager", DEBUG)     // grails plugins
 
 
-logger("net.hedtech.banner.aip.ActionItemAsynchronousTaskProcessingEngineImpl", OFF)
-logger("net.hedtech.banner.aip.post.job.ActionItemJobTaskManagerService",OFF)
-logger("net.hedtech.banner.aip.post.job.ActionItemJobService",OFF)
-logger("net.hedtech.banner.aip.post.job.ActionItemPostMonitor",OFF)
-logger("net.hedtech.banner.aip.post.job.ActionItemPostCompositeService",OFF)
-logger("net.hedtech.banner.service.ServiceBase", OFF)
-logger("net.hedtech.banner.aip.post.grouppost.ActionItemPost", OFF)
+// ******* Banner Security framework classes **********
+//logger("net.hedtech.banner.security", DEBUG)
+//logger("net.hedtech.banner.db", DEBUG)
+//logger("net.hedtech.banner.security.BannerAccessDecisionVoter", DEBUG)
+//logger("net.hedtech.banner.security.BannerAuthenticationProvider", DEBUG)
+//logger("net.hedtech.banner.security.SelfServiceBannerAuthenticationProvider", DEBUG)
+//logger("net.hedtech.banner.security.BannerUser", DEBUG)
 
-logger("banner.general.ssb.app.BootStrap",OFF)
-logger("banner.aip.BannerAipGrailsPlugin",OFF)
-logger("org.quartz",INFO)
 
+// ******* Grails and Spring Security framework classes **********
+//logger("grails.plugin.springsecurity", DEBUG)
+//logger("grails.plugin.springsecurity.web.GrailsSecurityFilterChain", DEBUG)
+//logger("org.springframework.security", DEBUG)
+
+
+// ******** CAS & SAML classes **********
+//logger("org.jasig.cas.client.session.SingleSignOutFilter", DEBUG)
+//logger("org.jasig.cas.client.session.SingleSignOutHandler", DEBUG)
+//logger("org.jasig.cas", DEBUG)
+//logger("grails.plugin.springsecurity", DEBUG)
+//logger("net.hedtech.banner.security.BannerSamlSessionFilter", DEBUG)
+//logger("net.hedtech.banner.security.CasAuthenticationProvider", DEBUG)
+//logger("net.hedtech.banner.security.BannerSamlAuthenticationProvider", DEBUG)
+//logger("net.hedtech.jasig.cas.client", DEBUG)
+//logger("org.springframework.security.cas.web.CasAuthenticationFilter", DEBUG)
+//logger("org.springframework.security.web.FilterChainProxy", DEBUG)
+//logger("org.grails.plugin.springsecurity.saml", DEBUG)
+
+
+// ******* Hibernate ORM **********
+//logger("org.hibernate.type", DEBUG)
+//logger("org.hibernate.SQL", DEBUG)
+
+
+// ******* Application packages and classes *******
+//logger("banner.general.ssb.app.BootStrap", DEBUG)
+//logger("net.hedtech.banner.service.ServiceBase", DEBUG)
+//logger("net.hedtech.banner.ui.ss", DEBUG)
+//logger("net.sf.*", DEBUG)
+
+
+// ******* Action Item Processing (AIP) classes *******
+//logger("banner.aip.BannerAipGrailsPlugin", DEBUG)
+//logger("net.hedtech.banner.aip.ActionItemAsynchronousTaskProcessingEngineImpl", DEBUG)
+//logger("net.hedtech.banner.aip.post.job.ActionItemJobTaskManagerService", DEBUG)
+//logger("net.hedtech.banner.aip.post.job.ActionItemJobService", DEBUG)
+//logger("net.hedtech.banner.aip.post.job.ActionItemPostMonitor", DEBUG)
+//logger("net.hedtech.banner.aip.post.job.ActionItemPostCompositeService", DEBUG)
+//logger("net.hedtech.banner.aip.post.grouppost.ActionItemPost", DEBUG)
+//logger("org.quartz",DEBUG)
+
+
+// ******* Configure JMX access *******
+//  The names used to register Mbeans must be unique for all applications deployed into the JVM.
+//  This configuration should be updated for each instance of each application to ensure uniqueness.
+jmxConfigurator("${loggingAppName}-logback")
