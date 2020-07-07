@@ -1,7 +1,7 @@
-FROM harbor.usu.edu/banner/base-bcm:tomcat8.5.45-jre8-corretto
+FROM harbor.usu.edu/banner/base-bcm:tomcat8.5.56-jre8-corretto
 MAINTAINER "Eric Allen <eric.allen@usu.edu>"
 
-LABEL version="9.6"
+LABEL version="9.7"
 
 # Fix timezone
 USER root

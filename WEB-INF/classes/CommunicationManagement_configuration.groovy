@@ -1,5 +1,5 @@
 /*********************************************************************************
- Copyright 2015-2019 Ellucian Company L.P. and its affiliates.
+ Copyright 2015-2020 Ellucian Company L.P. and its affiliates.
  *********************************************************************************/
  
  /** ****************************************************************************
@@ -27,26 +27,7 @@ This configuration file contains the following sections:
     
 ***************************************************************************** **/
 
-logAppName = "CommunicationManagement"
-
-// ******************************************************************************
-//
-//                       +++ JMX Bean Names +++
-//
-// ******************************************************************************
-
-// The names used to register Mbeans must be unique for all applications deployed
-// into the JVM.  The below configuration updates the name for each instance of
-// Communication Management application to ensure uniqueness.
-jmx {
-    exported {
-        java.util.Random rand = new java.util.Random()
-        int max = 100
-        def node = rand.nextInt(max+1)
-        log4j = node+"-"+"communication-management-directory-log4j"
-
-    }
-}
+footerFadeAwayTime = 0
 
 // ******************************************************************************
 //
@@ -60,6 +41,16 @@ ssbOracleUsersProxied = true
 ssbPassword.reset.enabled = true //true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
 enableNLS=true
+
+// ******************************************************************************
+//
+//                       API Configuration
+// In CAS and SAML modes, set the below attributes to true to allow API calls to bypass single sign-on authentication
+//
+// ******************************************************************************
+guestAuthenticationEnabled = false
+apiOracleUsersProxied = false
+
 
 /** ****************************************************************************
  *                                                                             *
@@ -115,7 +106,7 @@ grails {
                 }
             }
 		    logout {
-                afterLogoutUrl = '/'   // 'https://cas-server/logout?url=http://myportal/main_page.html'
+                afterLogoutUrl =  '/' //'https://cas-server/logout?url=http://myportal/main_page.html'
                 mepErrorLogoutUrl = 'https://URL:PORT/'
             }
         }
@@ -202,20 +193,6 @@ communication {
         clusterCheckinInterval = 15000
     }
 
-    //These configuration values decide the display of the recurrent scheduling UI component.
-    //Enabling seconds, minutes and hourly scheduling allows users to create communications that recur N seconds, minutes or hours respectively. 
-    //This may cause a strain on your system.
-    
-    recurringScheduleOptions {
-            enableMinutesScheduling = false
-            enableHourlyScheduling = false
-            enableDailyScheduling = true
-            enableWeeklyScheduling = true
-            enableMonthlyScheduling = true
-            enableYearlyScheduling = false
-            enableAdvancedOption = false
-    }
-
     //Set to true if communications generated from the CommunicationManagement system should also be
     //tracked in the Banner Mail system (GURMAIL)
 
@@ -252,17 +229,9 @@ grails.resources.mappers.yuijsminify.excludes = ['**/*.min.js','**/angularjs-col
 grails.resources.adhoc.includes = ['/images/**', '/css/**', '/js/**', '/plugins/**', '/fonts/**']
 grails.resources.adhoc.excludes = ['/WEB-INF/**']
 
-/** ****************************************************************************
- *                                                                              *
- *              Web session timeout Configuration (in seconds)                  *
- *                                                                              *
- ***************************************************************************** **/
-defaultWebSessionTimeout = 1500
-
 /** ***************************************************************************
  *               Web Application Extensibility                                  *
  *******************************************************************************/
-
 webAppExtensibility {
     locations {
        extensions = "path to the directory location where extensions JSON files will be written to and read from"
@@ -270,13 +239,6 @@ webAppExtensibility {
     }
     adminRoles = "ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"
 }
-/** ****************************************************************************
- *                                                                             *
- *              Access roles for viewing platform version in About dialog      *
- *                                                                             *
- *******************************************************************************/
-
-aboutInfoAccessRoles = ['ROLE_SELFSERVICE_BAN_DEFAULT_M']
 
 /** *****************************************************************************
  *                                                                              *
@@ -285,34 +247,6 @@ aboutInfoAccessRoles = ['ROLE_SELFSERVICE_BAN_DEFAULT_M']
  ***************************************************************************** **/
 grails.plugin.springsecurity.homePageUrl='http://URL:PORT/'
 
-
-/**********************************************************************************
-***    Google Analytics                                                           *
-**********************************************************************************/
-banner.analytics.trackerId=
-banner.analytics.allowEllucianTracker=false
-
-
-/**********************************************************************************
-***    Theming - Configuration to use themes served by the Theme Server                      
-*** banner.theme.url 
-           Required only if theme server is remote   
-           References the URL to the application hosting the Theme Server. 
-           Example : http://<hostname>:<port>/CommunicationManagement/ssb/theme                    *
-*** banner.theme.name 
-           This is the desired theme name to use. In a MEP environment, the application uses the MEP code 
-           as the theme name instead of the banner.theme.name. A theme by this name must be created in the Theme Editor
-           on the server specified by banner.theme.url
-*** banner.theme.template
-           This is the name of the scss file containing the theme settings 
-*** banner.theme.cacheTimeOut
-           Time in seconds, required only if the app is theme server. The value indicates 
-           how long the CSS file that was generated using the template and the theme is cached.
-***********************************************************************************/
-banner.theme.url = "<UPDATE_ME>"  
-banner.theme.name = "<UPDATE_ME>"  
-banner.theme.template = 'CommunicationManagement-9_6' 
-banner.theme.cacheTimeOut = 120  
 
 /** ******************************************************************************
  *                                                                               *
@@ -338,62 +272,6 @@ banner.theme.cacheTimeOut = 120
 configJob.delay = 60000
 configJob.interval = 120000
 configJob.actualCount = -1
-
-/** *****************************************************************************
- *                                                                              *
- * Migrating the SeedData Keys Configuration and the security intercept urls
-                                 to the database                                *
- *                                                                              *
- ***************************************************************************** **/
-/* Here are 3 patterns to use to configure the SeedData keys
-
-Pattern 1 - With key and value
-Syntax:
-ssconfig.app.seeddata.keys = [
-['<Key1>': <Boolean value>], ['<Key2>': <Boolean Value2>], ['<Key3>': '<String Value>'], ['<Key4>':<Numeric value>]
-]
-
-Pattern 2 - With key only (value derived from configuration files)
-Syntax:
-ssconfig.app.seeddata.keys = [
-['<Key1>'], ['<Key2>'], ['<Key3>'], ['<Key4>']
-]
-
-Pattern 3 - Combination of Pattern 1 and 2 - With key only and key/value pairs.
-Syntax:
-ssconfig.app.seeddata.keys = [
-['<Key1>': <Boolean value>], ['<Key2>'], ['<Key3>': '<String Value>'], ['<Key4>']
-]
-
-**************************************************************************************/
-
-ssconfig.app.seeddata.keys = [
-
-    ['grails.plugin.springsecurity.interceptUrlMap'],
-
-    ['ssbEnabled'],
-    ['ssbOracleUsersProxied'],
-    ['ssbPassword.reset.enabled'],
-
-    ['communication.recurringScheduleOptions.enableMinutesScheduling'],
-    ['communication.recurringScheduleOptions.enableHourlyScheduling'],
-    ['communication.recurringScheduleOptions.enableDailyScheduling'],
-    ['communication.recurringScheduleOptions.enableWeeklyScheduling'],
-    ['communication.recurringScheduleOptions.enableMonthlyScheduling'],
-    ['communication.recurringScheduleOptions.enableYearlyScheduling'],
-    ['communication.recurringScheduleOptions.enableAdvancedOption'],
-    
-    ['defaultWebSessionTimeout'],
-    ['aboutInfoAccessRoles'],
-
-    ['banner.theme.url'],
-    ['banner.theme.name'],
-    ['banner.theme.template'],
-    ['banner.theme.cacheTimeOut'],
-
-    ['banner.analytics.trackerId'],
-    ['banner.analytics.allowEllucianTracker']
-]
 
 /*********************************************************************************
 *                     Application Server Configuration                           *
