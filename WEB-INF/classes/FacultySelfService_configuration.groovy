@@ -1,5 +1,5 @@
 /**************************************************************************************
-    Copyright 2018-2019 Ellucian Company L.P. and its affiliates.
+    Copyright 2018-2020 Ellucian Company L.P. and its affiliates.
  **************************************************************************************/
 
 /** ***********************************************************************************
@@ -37,6 +37,7 @@ This configuration file contains the following sections:
  *********************************************************************************** **/
 ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
 ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
+
 
 
 
@@ -97,22 +98,11 @@ grails {
     }
 }
 
-all.studentcard.cardEnabled.view=['gradeEntry','studentAcademicReview','facultyAttendanceRoster']
-all.studentcard.cardEnabled.roles= ['faculty','facultyoverride','facultyadvisor']
-all.studentcard.name.view= ['gradeEntry','studentAcademicReview','facultyAttendanceRoster']
-all.studentcard.name.roles= ['faculty','facultyoverride','facultyadvisor']
-all.studentcard.photo.view= ['gradeEntry','studentAcademicReview','facultyAttendanceRoster']
-all.studentcard.photo.roles= ['faculty','facultyoverride','facultyadvisor']
-all.studentcard.major.view= ['gradeEntry','studentAcademicReview','facultyAttendanceRoster']
-all.studentcard.major.roles= ['faculty','facultyoverride','facultyadvisor']
-all.studentcard.program.view= ['gradeEntry','studentAcademicReview','facultyAttendanceRoster']
-all.studentcard.program.roles= ['faculty','facultyoverride','facultyadvisor']
-all.studentcard.address.view= ['gradeEntry','studentAcademicReview','facultyAttendanceRoster']
-all.studentcard.address.roles= ['faculty','facultyoverride','facultyadvisor']
-all.studentcard.telephone.view= ['gradeEntry','studentAcademicReview','facultyAttendanceRoster']
-all.studentcard.telephone.roles= ['faculty','facultyoverride','facultyadvisor']
-all.studentcard.email.view= ['gradeEntry','studentAcademicReview','facultyAttendanceRoster']
-all.studentcard.email.roles= ['faculty','facultyoverride','facultyadvisor']
+//Access the student profile page through clicking on student name hyperlink or contact card view profile button click.
+//To ensure that the Banner Student Faculty Grade Entry module can communicate with the Banner Student Student Profile module,
+// modify the bannerXE.url.mapper.studentProfile parameter to point to the full path to the Banner Student Student Profile module
+
+
 
 /** ***********************************************************************************
  *                                                                                    *
@@ -187,7 +177,6 @@ grails.plugin.xframeoptions.deny = true
  *     Support for configurations to reside in the database.                    *
  *                                                                              *
  ***************************************************************************** **/
-configJob.delay = 60000
 configJob.interval = 120000
 configJob.actualCount = -1
 
@@ -214,3 +203,4 @@ targetServer="tomcat"
 *                                                                               *
 ******************************************************************************* **/
 enableNLS=true
+banner.applicationName="Faculty Self Service"
