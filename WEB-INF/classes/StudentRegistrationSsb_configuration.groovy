@@ -218,3 +218,12 @@ targetServer="tomcat"
 *                                                                               *
 ******************************************************************************* **/
 enableNLS=true
+
+/** *************************************************************************************************************
+ * Response Headers                                                                                				*
+ * 																   												*
+ * This is the map which takes the "header property" as key and value as shown in below example					*
+ * responseHeaders = [ "X-Content-Type-Options": "nosniff" , "X-XSS-Protection": "1; mode=block" ...]			*
+ * Added as part of Platform Platform 9.32                                         							    *
+ ************************************************************************************************************* **/
+responseHeaders = ["X-Content-Type-Options": "nosniff","X-XSS-Protection": "1; mode=block"]
