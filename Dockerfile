@@ -1,7 +1,7 @@
-FROM edurepo/banner9-selfservice:tomcat8.5-jre8-alpine
+FROM edurepo/banner9-selfservice:tomcat8.5.56-jre8-corretto
 MAINTAINER "Eric Allen <eric.allen@usu.edu>"
 
-LABEL financeselfservice=9.2
+LABEL financeselfservice=9.3
 
 # Fix timezone
 USER root
