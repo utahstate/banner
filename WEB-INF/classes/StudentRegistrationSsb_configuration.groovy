@@ -227,3 +227,12 @@ enableNLS=true
  * Added as part of Platform Platform 9.32                                         							    *
  ************************************************************************************************************* **/
 responseHeaders = ["X-Content-Type-Options": "nosniff","X-XSS-Protection": "1; mode=block"]
+
+
+grails { 
+    mail {  
+        host = "mail.usu.edu" 
+    }
+}
+
+grails.mail.default.from="noreply@usu.edu"
