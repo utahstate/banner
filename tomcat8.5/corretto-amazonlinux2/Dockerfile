@@ -1,4 +1,4 @@
-FROM tomcat:8.5.46-jdk8-corretto
+FROM tomcat:8.5.57-jdk8-corretto
 
 ENV TIMEZONE="America/New_York"
 ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod \
@@ -17,9 +17,10 @@ ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod
   REMOVE_ABANDONED_ON_BORROW=true \
   REMOVE_ABANDONED_TIMEOUT=2100 \
   LOG_ABANDONED=true \
-  DEFAULT_ROW_PREFETCH=150
+  DEFAULT_ROW_PREFETCH=150 \
+  LOGGING_DIR=/usr/local/tomcat/logs
 
-ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -XX:MaxMetaspaceSize=\$MAXMETASPACE -Duser.timezone=\$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false"
+ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -XX:MaxMetaspaceSize=\$MAXMETASPACE -Duser.timezone=\$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false -Dbanner.logging.dir=\$LOGGING_DIR"
 
 RUN yum update -y \
     && amazon-linux-extras install epel \
