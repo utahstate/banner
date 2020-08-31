@@ -197,13 +197,15 @@ seamless.menuEndpoints = [
 // The entries added must match those entries listed in the Web Tailor menus without
 // which they will not be displayed in the Application Navigator unified menu.
 seamless.selfServiceApps = [
-(System.getenv("BANNER9_SS_URL") ?: 'http://APPLICATION_NAVIGATOR_HOST:PORT') + "/BannerExtensibility/"
+    (System.getenv("BANNER9_SS_URL") ?: 'http://APPLICATION_NAVIGATOR_HOST:PORT') + "/BannerExtensibility/"
 ]
 
 seamless.logLevel="off"
 seamless.ajaxTimeout=30000
 seamless.messageResponseTimeout=2000
 seamless.exposeMenu=true
+seamless.footerFadeAwayTime = 0  // Footer fade away time in milliseconds. A value of less than or equal to 0 indicates that the footer will not fade away.
+//seamless.defaultInfoTextLocale = "en_US" //This is an example for configuring default locale for custom text on the landing page.
 
 // Configure the brand title with a default institution value or based on the MEP institution code configured in the Banner database
 // To add values by MEP code, append the name:value pair to the existing seamless.brandTitle property. Example
@@ -243,26 +245,37 @@ grails.plugin.xframeoptions.urlPattern = '/login/auth'
 // grails.plugin.springsecurity.portMapper.httpsPort = <SSL_PORT_NUMBER>
 
 
-/********************************************************************************
-*                                                                              *
-*              SS -Config Configuration                                        *
-*                                                                              *
-********************************************************************************/
-configJob.delay = 60000
-configJob.interval = 120000
-configJob.actualCount = -1
+/** ********************************************************************************
+ *                                                                                 *
+ *                   SS Config Dynamic Loading Job Properties                      *
+ *                                                                                 *
+ * Properties to set the interval and the number of times the config job would run *
+ * for ConfigJob.groovy i.e. the job scheduled to update the configuration 		   *
+ * properties from DB. We recommend configuring interval of the configJob in 	   *
+ * such a way that it does not run as often, to help improve performance.          *
+ *                                                                                 *
+ * interval - in milliseonds, this is to configure the interval at which the        *
+ * quartz scheduler should run. If it is not configured, the default value is 60000*
+ *                                                                                 *
+ * actualCount - the number of times the config job would run. If the value is -1, *
+ * the job will run indefinitely. If the value is 0, the job will not run.         *
+ * If not configured, the default value is -1                                      *
+ *   																			   *
+ ******************************************************************************** **/
+configJob {
+	interval = 86400000 // 24 hours
+	actualCount = -1
+
+}
 
 /***Use this seeddata section to move required configurations to Database. **/
 ssconfig.app.seeddata.keys = [['seamless.sessionTimeout': 30],['seamless.sessionTimeoutNotification': 5],['seamless.messageTimer': 60],
-                                ['banner.analytics.trackerId': ''],['banner.analytics.allowEllucianTracker': true],
                                 ['banner.theme.url'],
                                 ['banner.theme.name': 'mytheme'],
                                 ['banner.theme.template': 'applicationname'],
                                 ['seamless.dbInstanceName': "Ellucian DataBase"],
                                 ['productName': 'Banner General'],
-                                ['banner.applicationName': 'Application Navigator'],
-                                ['grails.plugin.springsecurity.logout.afterLogoutUrl'],
-                                ['grails.plugin.springsecurity.logout.mepErrorLogoutUrl']]
+                                ['banner.applicationName': 'Application Navigator']]
 
 /********************************************************************************
 *              Theming Configuration                                            *
