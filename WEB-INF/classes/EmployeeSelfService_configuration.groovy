@@ -1,8 +1,8 @@
 /*********************************************************************************
- Copyright 2013-2019 Ellucian Company L.P. and its affiliates.
+ Copyright 2013-2020 Ellucian Company L.P. and its affiliates.
  *********************************************************************************/
 
-/** ****************************************************************************
+/** *****************************************************************************
  *                                                                              *
  *         Banner 9 Employee Self-Service Configuration                         *
  *                                                                              *
@@ -18,8 +18,6 @@ This configuration file contains the following sections:
 
     * Self Service Support
 
-    * Logging Configuration (Note: Changes here require restart -- use JMX to avoid the need restart)
-
     * CAS SSO Configuration (supporting administrative and self service users)
 
      NOTE: DataSource and JNDI configuration resides in the cross-module
@@ -27,48 +25,56 @@ This configuration file contains the following sections:
 
 ***************************************************************************** **/
 
-/***********************************************************************************
-                     Application Server Configuration
- When deployed on Tomcat this configuration should be targetServer="tomcat"
- When deployed on Weblogic this configuration should be targetServer="weblogic"
-*********************************************************************************/
-targetServer="tomcat"
-
-// ******************************************************************************
-//
-//                       +++ Self Service Support +++
-//
-// ******************************************************************************
+/** *****************************************************************************
+ *                                                                              *
+ *                        SELF SERVICE SUPPORT                                  *
+ *                                                                              *
+ ***************************************************************************** **/
 ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
 ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
-ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED')) : true) //true  - allow Pidm users to reset their password.
-                                  //false - throws functionality disabled error message
 
-// *****************************************************************************
-//
-//                     +++ iframe Denial Setting +++
-//
-// *****************************************************************************
+/** *****************************************************************************
+ *                                                                              *
+ *               SUPPLEMENTAL DATA SUPPORT ENABLEMENT                           *
+ *                                                                              *
+ ***************************************************************************** **/
+// Default is false for ssb applications.
+sdeEnabled=(System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED')) : false)
+
+/** *****************************************************************************
+ *                                                                              *
+ *                     APPLICATION NAVIGATOR SUPPORT                            *
+ *                                                                              *
+ *   This setting is needed if the application needs to work inside             *
+ *   Application Navigator and the secured application pages will be accessible *
+ *   as part of the single-sign on solution.                                    *
+ *                                                                              *
+ ***************************************************************************** **/
 grails.plugin.xframeoptions.urlPattern = '/login/auth'
 grails.plugin.xframeoptions.deny = true
 
-
-// ******************************************************************************
-//
-//                       +++ CAS CONFIGURATION +++
-//
-// ******************************************************************************
-
+/** *****************************************************************************
+ *                                                                              *
+ *                AUTHENTICATION PROVIDER CONFIGURATION                         *
+ *                                                                              *
+ ***************************************************************************** **/
 banner {
     sso {
 		authenticationProvider = 'cas'
         authenticationAssertionAttribute = 'UDC_IDENTIFIER'
         }
 }
+
 if (banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' ) {
    grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
 }
 
+/** *****************************************************************************
+ *                                                                              *
+ *                            CAS CONFIGURATION                                 *
+ *                                                                              *
+ ***************************************************************************** **/
+// set active = true when authentication provider section configured for cas
 grails {
     plugin {
         springsecurity {
@@ -99,14 +105,16 @@ grails {
     }
 }
 
-/** *************************************************************************************
- *                                                                              		*
- *                        SAML CONFIGURATION                                    		*
- *  Un-comment the below code and set active = true when authentication mode is saml.   *
- *                                                                              		*
- ************************************************************************************* **/
+/** *****************************************************************************
+ *                                                                              *
+ *                            CAS CONFIGURATION                                 *
+ *                                                                              *
+ *  Un-comment the below code and set active = true when authentication mode    *
+ *  is saml.                                                                    *
+ ***************************************************************************** **/
 /*
 grails.plugin.springsecurity.saml.active = false
+grails.plugin.springsecurity.auth.loginFormUrl = '/saml/login'
 grails.plugin.springsecurity.saml.afterLogoutUrl ='/logout/customLogout'
 
 banner.sso.authentication.saml.localLogout='false'	// To disable single logout set this to true,default 'false'.
@@ -131,22 +139,34 @@ grails.plugin.springsecurity.saml.metadata.sp.defaults = [
         requireLogoutResponseSigned: false
 ]*/
 
+/** ****************************************************************************
+ *                                                                             *
+ *                   HIBERNATE SECONDARY LEVEL CACHING                         *
+ *                                                                             *
+ **************************************************************************** **/
+hibernate.cache.use_second_level_cache=true  // Default true. Make it false for Institution which is MEP enabled for HR or POSNCTL modules
+hibernate.cache.use_query_cache=true         // Default true. Make it false for Institution which is MEP enabled for HR or POSNCTL modules
 
 /** *****************************************************************************
  *                                                                              *
- *                 Eliminate access to the WEB-INF folder                       *
+ *           HOME PAGE LINK WHEN ERROR HAPPENS DURING AUTHENTICATION.           *
+ *                                                                              *
+ ***************************************************************************** **/
+grails.plugin.springsecurity.homePageUrl=(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL') ?: 'http://HOST:PORT/' )
+
+/** *****************************************************************************
+ *                                                                              *
+ *                 ELIMINATE ACCESS TO THE WEB-INF FOLDER                       *
  *                                                                              *
  ***************************************************************************** **/
 grails.resources.adhoc.includes = ['/images/**', '/css/**', '/js/**', '/plugins/**', '/fonts/**']
 grails.resources.adhoc.excludes = ['/WEB-INF/**']
 
-
-
-
-/** ***************************************************************************
- *               Web Application Extensibility                                  *
- *******************************************************************************/
-
+/** *****************************************************************************
+ *                                                                              *
+ *                    WEB APPLICATION EXTENSIBILITY                             *
+ *                                                                              *
+ ***************************************************************************** **/
 webAppExtensibility {
     locations {
        extensions = "path to the directory location where extensions JSON files will be written to and read from"
@@ -155,26 +175,39 @@ webAppExtensibility {
     adminRoles = "ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"
 }
 
-/******************************************************************************
- *                   Hibernate Secondary Level Caching                         *
- *******************************************************************************/
-hibernate.cache.use_second_level_cache=true  // Default true. Make it false for Institution which is MEP enabled for HR or POSNCTL modules
-hibernate.cache.use_query_cache=true         // Default true. Make it false for Institution which is MEP enabled for HR or POSNCTL modules
-
-
+/** *****************************************************************************
+ *                                                                              *
+ *                      QUARTZ SCHEDULER CONFIGURATIONS                         *
+ *                                                                              *
+ ***************************************************************************** **/
+ configJob.delay=60000     //Time in milliseconds to configure when the quartz scheduler should start after the server startup, if its not configured then the default value is 60000.
+ configJob.interval=60000  //Time in milliseconds to configure the interval at which the quartz schedule should run, default value is 60000 if not configured.
+ configJob.actualCount=-1  //The count of number of times the config job would run.  If value is -1, the job will run indefinitely.  If the value is o, the job will not run.  Default value is -1 when not configured.
 
 /** *****************************************************************************
  *                                                                              *
- *           Home Page link when error happens during authentication.           *
+ *                APPLICATION SERVER CONFIGURATION                              *
+ *                                                                              *
+ * When deployed to Tomcat, targetServer="tomcat"                               *
+ * When deployed to WebLogic, targetServer="weblogic"                           *
  *                                                                              *
  ***************************************************************************** **/
-grails.plugin.springsecurity.homePageUrl=(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL') ?: 'http://HOST:PORT/' )
+targetServer="tomcat"
 
+/** ******************************************************************************
+ *                      ConfigJob (Platform 9.29)                                *
+ * Used in BannerDS to wrap dbase calls in locale ( or not )                     *
+ * Performance implications.  SS applications should set to true.                *
+ * If loaded to GUROCFG - requires restart.                                      *
+ *                                                                               *
+ ****************************************************************************** **/
+enableNLS=true
 
-/** *************************************************************************************
-*                                                                                       *
-*                    ++++Quartz scheduler Configurations ++++                           *
-************************************************************************************** **/
-configJob.delay=60000   //Time in milliseconds to configure when the quartz scheduler should start after the server startup, if its not configured then the default value is 60000.
-configJob.interval=60000 //Time in milliseconds to configure the interval at which the quartz schedule should run, default value is 60000 if not configured.
-configJob.actualCount=-1 //The count of number of times the config job would run.  If value is -1, the job will run indefinitely.  If the value is o, the job will not run.  Default value is -1 when not configured.
+/** ************************************************************************************************************
+ *                                       RESPONSE HEADERS                                                      *
+ *                                                                                                             *
+ * This is the map which takes the "header property" as key and value as shown in below example                *
+ * responseHeaders = [ "X-Content-Type-Options": "nosniff" , "X-XSS-Protection": "1; mode=block" ...]          *
+ * Added as part of Platform Platform 9.32                                                                     *
+ ************************************************************************************************************ **/
+responseHeaders = ["X-Content-Type-Options": "nosniff","X-XSS-Protection": "1; mode=block"]
