@@ -51,11 +51,9 @@
       password="${banproxy.password}"
       initialSize="${banproxy.initialsize}"
       maxTotal="${banproxy.maxtotal}"
-      maxActive="${banproxy.maxactive}"
       maxIdle="${banproxy.maxidle}"
       maxWaitMillis="${banproxy.maxwait}"
       validationQuery="select 1 from dual"
-      validationInterval="30000"
       accessToUnderlyingConnectionAllowed="true"
       removeAbandonedOnMaintenance="${remove.abandoned.on.maintenance}"
       removeAbandonedOnBorrow="${remove.abandoned.on.borrow}"
@@ -114,7 +112,13 @@
     -->
 
     <!-- Define an AJP 1.3 Connector on port 8009 -->
-    <Connector port="8009" protocol="AJP/1.3" redirectPort="8443" />
+    <!-- Define an AJP 1.3 Connector on port 8009 -->
+    <!--
+    <Connector protocol="AJP/1.3"
+               address="::1"
+               port="8009"
+               redirectPort="8443" />
+    -->
 
 
     <!-- An Engine represents the entry point (within Catalina) that processes
