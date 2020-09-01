@@ -1,4 +1,4 @@
-FROM harbor.usu.edu/banner/base-bep:tomcat8.5.50-jre8-corretto
+FROM harbor.usu.edu/banner/base-bep:tomcat8.5.54-jre8-corretto-2
 
 LABEL version="9.3"
 
