@@ -57,7 +57,7 @@ apiOracleUsersProxied = false
  *              Commmgr User DataSource Configuration                          *
  *                                                                             *
  *******************************************************************************/
-commmgrDataSourceEnabled = false  //Set this to true if using the bannerCommmgrDataSource
+commmgrDataSourceEnabled = true  //Set this to true if using the bannerCommmgrDataSource
 
 /** *****************************************************************************
  *                                                                              *
@@ -106,7 +106,7 @@ grails {
                 }
             }
 		    logout {
-                afterLogoutUrl =  '/' //'https://cas-server/logout?url=http://myportal/main_page.html'
+                afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?: 'https://cas-server/logout?url=http://myportal/main_page.html')
                 mepErrorLogoutUrl = 'https://URL:PORT/'
             }
         }
@@ -248,30 +248,28 @@ webAppExtensibility {
 grails.plugin.springsecurity.homePageUrl='http://URL:PORT/'
 
 
-/** ******************************************************************************
- *                                                                               *
- *                      ConfigJob  (time in milliseconds                         *
- *                                                                               *
- *             Support for configurations to reside in the database.             *
- *                                                                               *
- * configJob.delay  //This is to configure when the quartz scheduler should start*
-                      after the server startup, if its not configured then the   *
-                      default value is 60000                                     *
- * configJob.interval //This is to configure the interval at which the quartz    *
-                        scheduler should run, if its not configured then the     *
-                        default value is 60000.                                  *
- * configJob.actualCount //Actual count will be the count how many times the     *
-                           config job would run.                                 *
-                          If the value is -1 then the job will run indefinitely. *
-                          If the value is 0 job will not run.                    *
-                          If not configured then the default value is -1.        *
- *                                                                               *
- *                                                                               *
- *                                                                               *
- ********************************************************************************/
-configJob.delay = 60000
-configJob.interval = 120000
-configJob.actualCount = -1
+/** ********************************************************************************
+ *                                                                                 *
+ *                   SS Config Dynamic Loading Job Properties                      *
+ *                                                                                 *
+ * Properties to set the interval and the number of times the config job would run *
+ * for ConfigJob.groovy i.e. the job scheduled to update the configuration 		   *
+ * properties from DB. We recommend configuring interval of the configJob in 	   *
+ * such a way that it does not run as often, to help improve performance.          *
+ *                                                                                 *
+ * interval - in milliseonds, this is to configure the interval at which the       *
+ * quartz scheduler should run. If it is not configured, the default value is 60000*
+ *                                                                                 *
+ * actualCount - the number of times the config job would run. If the value is -1, *
+ * the job will run indefinitely. If the value is 0, the job will not run.         *
+ * If not configured, the default value is -1                                      *
+ *   																			   *
+ ******************************************************************************** **/
+
+configJob {
+    interval = 86400000 // 24 hours
+    actualCount = -1
+}
 
 /*********************************************************************************
 *                     Application Server Configuration                           *
