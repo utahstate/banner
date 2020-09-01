@@ -1,6 +1,6 @@
-FROM harbor.usu.edu/banner/base-bep:tomcat8.5.54-jre8-corretto-2
+FROM harbor.usu.edu/banner/base-bep:tomcat8.5.57-jre8-corretto
 
-LABEL version="9.3"
+LABEL version="9.4"
 
 # Fix timezone
 USER root

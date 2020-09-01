@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright 2017-2019 Ellucian Company L.P. and its affiliates.
+Copyright 2017-2020 Ellucian Company L.P. and its affiliates.
 *******************************************************************************/
 
 /** ****************************************************************************
@@ -144,3 +144,8 @@ aboutInfoAccessRoles = ["ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"]
 * When deployed on Weblogic this configuration should be targetServer=“weblogic”*
 *********************************************************************************/
 targetServer="tomcat"
+
+configJob {
+	interval = 86400000 // 24 hours
+	actualCount = -1
+}
