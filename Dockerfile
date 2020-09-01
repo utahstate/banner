@@ -1,6 +1,6 @@
-FROM edurepo/banner9-selfservice:tomcat8.5.46-jre8-corretto
+FROM edurepo/banner9-selfservice:tomcat8.5.57-jre8-corretto
 
-LABEL version="9.11"
+LABEL version="9.12"
 
 ENV TIMEZONE=America/Denver
 

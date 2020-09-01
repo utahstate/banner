@@ -39,7 +39,7 @@ ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueO
  *                                                                              *
  ***************************************************************************** **/
 // Default is false for ssb applications.
-sdeEnabled=(System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED')) : false)
+sdeEnabled=false
 
 /** *****************************************************************************
  *                                                                              *
@@ -107,14 +107,13 @@ grails {
 
 /** *****************************************************************************
  *                                                                              *
- *                            CAS CONFIGURATION                                 *
+ *                           SAML CONFIGURATION                                 *
+ *          Un-comment the below code when authentication mode is saml.         *
  *                                                                              *
- *  Un-comment the below code and set active = true when authentication mode    *
- *  is saml.                                                                    *
  ***************************************************************************** **/
-/*
+// set active = true when authentication provider section configured for saml
 grails.plugin.springsecurity.saml.active = false
-grails.plugin.springsecurity.auth.loginFormUrl = '/saml/login'
+/* grails.plugin.springsecurity.auth.loginFormUrl = '/saml/login'
 grails.plugin.springsecurity.saml.afterLogoutUrl ='/logout/customLogout'
 
 banner.sso.authentication.saml.localLogout='false'	// To disable single logout set this to true,default 'false'.
@@ -175,14 +174,27 @@ webAppExtensibility {
     adminRoles = "ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"
 }
 
-/** *****************************************************************************
- *                                                                              *
- *                      QUARTZ SCHEDULER CONFIGURATIONS                         *
- *                                                                              *
- ***************************************************************************** **/
- configJob.delay=60000     //Time in milliseconds to configure when the quartz scheduler should start after the server startup, if its not configured then the default value is 60000.
- configJob.interval=60000  //Time in milliseconds to configure the interval at which the quartz schedule should run, default value is 60000 if not configured.
- configJob.actualCount=-1  //The count of number of times the config job would run.  If value is -1, the job will run indefinitely.  If the value is o, the job will not run.  Default value is -1 when not configured.
+/** ********************************************************************************
+ *                                                                                 *
+ *                   SS Config Dynamic Loading Job Properties                      *
+ *                                                                                 *
+ * Properties to set the interval and the number of times the config job would run *
+ * for ConfigJob.groovy i.e. the job scheduled to update the configuration 		   *
+ * properties from DB. We recommend configuring interval of the configJob in 	   *
+ * such a way that it does not run as often, to help improve performance.          *
+ *                                                                                 *
+ * interval - in milliseonds, this is to configure the interval at which the        *
+ * quartz scheduler should run. If it is not configured, the default value is 60000*
+ *                                                                                 *
+ * actualCount - the number of times the config job would run. If the value is -1, *
+ * the job will run indefinitely. If the value is 0, the job will not run.         *
+ * If not configured, the default value is -1                                      *
+ *   																			   *
+ ******************************************************************************** **/
+configJob {
+	interval = 86400000 // 24 hours
+	actualCount = -1
+	}
 
 /** *****************************************************************************
  *                                                                              *
