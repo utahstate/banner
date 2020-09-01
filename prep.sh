@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INSTANCE=zpprd
+INSTANCE=zdevl
 APP=FinanceSelfService
 
 #Remove old war and app folder

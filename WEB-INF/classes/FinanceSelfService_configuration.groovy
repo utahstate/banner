@@ -1,5 +1,5 @@
 /** *****************************************************************************
- Copyright 2014-2019 Ellucian Company L.P. and its affiliates.
+ Copyright 2014-2020 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
 
 /** ****************************************************************************
@@ -154,15 +154,28 @@ grails.plugin.springsecurity.homePageUrl =  (System.getenv('GRAILS_PLUGIN_SPRING
 
 
 
-/** *****************************************************************************
- *                                                                              *
- *                      ConfigJob (Platform 9.23)                               *
- *     Support for configurations to reside in the database.                    *
- *                                                                              *
- ***************************************************************************** **/
-configJob.interval = 120000
-configJob.actualCount = -1
+/** ********************************************************************************
+ *                                                                                 *
+ *                   SS Config Dynamic Loading Job Properties                      *
+ *                                                                                 *
+ * Properties to set the interval and the number of times the config job would run *
+ * for ConfigJob.groovy i.e. the job scheduled to update the configuration 		   *
+ * properties from DB. We recommend configuring interval of the configJob in 	   *
+ * such a way that it does not run as often, to help improve performance.          *
+ *                                                                                 *
+ * interval - in milliseonds, this is to configure the interval at which the        *
+ * quartz scheduler should run. If it is not configured, the default value is 60000*
+ *                                                                                 *
+ * actualCount - the number of times the config job would run. If the value is -1, *
+ * the job will run indefinitely. If the value is 0, the job will not run.         *
+ * If not configured, the default value is -1                                      *
+ *   																			   *
+ ******************************************************************************** **/
 
+configJob {
+	interval = 86400000 // 24 hours
+	actualCount = -1
+	}
 
 /*********************************************************************************
 *                     Application Server Configuration                          *
