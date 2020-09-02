@@ -30,11 +30,15 @@ import ch.qos.logback.core.util.FileSize
 import grails.util.BuildSettings
 import grails.util.Environment
 import grails.util.Metadata
+import groovy.json.JsonOutput
+import net.hedtech.banner.configuration.ExternalConfigurationUtils
+import net.logstash.logback.composite.GlobalCustomFieldsJsonProvider
+import net.logstash.logback.composite.loggingevent.*
+import net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder
 import org.springframework.boot.logging.logback.ColorConverter
 import org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter
 
 import java.nio.charset.Charset
-import net.hedtech.banner.configuration.ExternalConfigurationUtils
 
 conversionRule 'clr', ColorConverter
 conversionRule 'wex', WhitespaceThrowableProxyConverter
@@ -50,6 +54,8 @@ def loggingAppName =  Metadata.current.getApplicationName()   // The application
 
 // Set the logging output directory
 def loggingDir = System.properties["banner.logging.dir"] ?: '/usr/local/tomcat/logs'
+def fileLoggingFormat = "JSON"
+def timeStampPatternAsPerLoggingMaturation = "yyyy-MMM-dd @ hh:mm:ss.sssZ"
 
 // Define console appender
 appender('STDOUT', ConsoleAppender) {
@@ -59,20 +65,56 @@ appender('STDOUT', ConsoleAppender) {
     }
 }
 
-// Define RollingFileAppender log
-appender("APP_LOG", RollingFileAppender) {
-    file = "${loggingDir}/${loggingAppName}.log"
-    encoder(PatternLayoutEncoder) {
-        pattern = encoderPattern
+if ( fileLoggingFormat.toLowerCase() == "json" ) {
+    appender("APP_LOG", RollingFileAppender) {
+        file = "${loggingDir}/${loggingAppName}.json"
+        append = true
+        encoder (LoggingEventCompositeJsonEncoder) {
+            providers(LoggingEventJsonProviders) {
+                timestamp(LoggingEventFormattedTimestampJsonProvider) {
+                    fieldName = 'timestamp'
+                    timeZone = 'UTC'
+                    pattern = "${timeStampPatternAsPerLoggingMaturation}"
+                }
+                logLevel(LogLevelJsonProvider)
+                loggerName(LoggerNameJsonProvider) {
+                    fieldName = 'componentName'
+                    shortenedLoggerNameLength = 35
+                }
+                message(MessageJsonProvider) {
+                    fieldName = 'message'
+                }
+                uuid (UuidProvider) {
+                    fieldName = 'messageId'
+                }
+                mdc (MdcJsonProvider)
+            }
+        }
+        rollingPolicy(FixedWindowRollingPolicy) {
+            maxIndex = 30
+            fileNamePattern = "${loggingDir}/${loggingAppName}.json.%i"
+        }
+        triggeringPolicy(SizeBasedTriggeringPolicy) {
+            maxFileSize = "10MB"
+        }
+        logger("appLog", ERROR, ['APP_LOG'], true)
+    }
+} else {
+    // Define RollingFileAppender log
+    appender("APP_LOG", RollingFileAppender) {
+        file = "${loggingDir}/${loggingAppName}.log"
+        encoder(PatternLayoutEncoder) {
+            pattern = encoderPattern
 
+        }
+        rollingPolicy(SizeAndTimeBasedRollingPolicy) {
+            fileNamePattern = "${loggingDir}/${loggingAppName}-%d{yyyy-MM-dd}-%i.log"
+            maxFileSize = FileSize.valueOf("10MB")   // Max size allowed for each log files
+            maxHistory = 30 //Deletes older log files older than 30 days.
+            totalSizeCap = FileSize.valueOf("100MB") // Total Max size allowed for the log files on disk
+        }
+        logger("appLog", ERROR, ['APP_LOG'], true)
     }
-    rollingPolicy(SizeAndTimeBasedRollingPolicy) {
-        fileNamePattern = "${loggingDir}/${loggingAppName}-%d{yyyy-MM-dd}-%i.log"
-        maxFileSize = FileSize.valueOf("10MB")   // Max size allowed for each log files
-        maxHistory = 30 //Deletes older log files older than 30 days.
-        totalSizeCap = FileSize.valueOf("100MB") // Total Max size allowed for the log files on disk
-    }
-    logger("appLog", ERROR, ['APP_LOG'], true)
 }
 println "Application log file location [${Environment.current}]: ${loggingDir}"
 
