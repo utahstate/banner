@@ -1,12 +1,44 @@
+/******************************************************************************
+ Copyright 2019-2020 Ellucian Company L.P. and its affiliates.
+ ******************************************************************************/
+
+/**
+ *    This is the default logging configuration for the FacultySelfService application.
+ *
+ *    Each Banner application will have its own logging file.  Example: FacultySelfService.log
+ *    Banner logging files are set up to roll on a daily basis with SizeAndTimeBasedRolling Policy. Example: FacultySelfService-2019-03-05-0.log
+ *
+ *        Default settings for Banner logging:
+ *           Root logger level: ERROR
+ *           Logging for specific packages is set to DEBUG(see below) but is commented. This can be uncommented to enable DEBUG level logging for
+ *           a specific package.
+ *
+ *        User can specify the location where log files are saved using the following system property:
+ *            -Dbanner.logging.dir=<full directory path>  (THIS MUST BE AN ABSOLUTE PATH WITH WRITE PERMISSION)
+ *            Example: -Dbanner.logging.dir=/home/tomcat/logs
+ *
+ *        If logging directory is not configured then the log files by default will be generated in the build folder as provided default by Grails.
+ *
+ *        Use JMX to change logger levels for ROOT or specific packages/artifacts.
+ *
+ *        Optionally, you can modify this file to change the logger level for ROOT or specific packages/artifacts.
+ *
+ *        Valid logger levels in order: ALL < TRACE < DEBUG < INFO < WARN < ERROR < OFF
+ */
+
 import ch.qos.logback.core.util.FileSize
 import grails.util.BuildSettings
 import grails.util.Environment
 import grails.util.Metadata
+import groovy.json.JsonOutput
+import net.hedtech.banner.configuration.ExternalConfigurationUtils
+import net.logstash.logback.composite.GlobalCustomFieldsJsonProvider
+import net.logstash.logback.composite.loggingevent.*
+import net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder
 import org.springframework.boot.logging.logback.ColorConverter
 import org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter
 
 import java.nio.charset.Charset
-import net.hedtech.banner.configuration.ExternalConfigurationUtils
 
 conversionRule 'clr', ColorConverter
 conversionRule 'wex', WhitespaceThrowableProxyConverter
@@ -16,12 +48,11 @@ conversionRule 'wex', WhitespaceThrowableProxyConverter
 ExternalConfigurationUtils.setupExternalLogbackConfig()
 
 def encoderPattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5p %c %X - %m%n"
-
 def loggingAppName =  Metadata.current.getApplicationName()   // The application name for logging purposes.
+def loggingDir = System.properties["banner.logging.dir"] ?: '/usr/local/tomcat/logs'
+def fileLoggingFormat = "JSON" // for json file format use value "JSON" for default log file formate value should be blank ""
+def timeStampPatternAsPerLoggingMaturation = "yyyy-MMM-dd @ hh:mm:ss.sssZ"
 
-// Set the logging output directory
-//def loggingDir = System.properties["banner.logging.dir"] ?: BuildSettings.TARGET_DIR
-def loggingDir = '/usr/local/tomcat/logs'
 // Define console appender
 appender('STDOUT', ConsoleAppender) {
     encoder(PatternLayoutEncoder) {
@@ -31,18 +62,56 @@ appender('STDOUT', ConsoleAppender) {
 }
 
 // Define RollingFileAppender log
-appender("APP_LOG", RollingFileAppender) {
-    file = "${loggingDir}/${loggingAppName}.log"
-    encoder(PatternLayoutEncoder) {
-        pattern = encoderPattern
+if ( fileLoggingFormat.toLowerCase() == "json" ) {
+    appender("APP_LOG", RollingFileAppender) {
+        file = "${loggingDir}/${loggingAppName}.json"
+        append = true
+        encoder (LoggingEventCompositeJsonEncoder) {
+            providers(LoggingEventJsonProviders) {
+                timestamp(LoggingEventFormattedTimestampJsonProvider) {
+                    fieldName = 'timestamp'
+                    timeZone = 'UTC'
+                    pattern = "${timeStampPatternAsPerLoggingMaturation}"
+                }
+                logLevel(LogLevelJsonProvider)
+                loggerName(LoggerNameJsonProvider) {
+                    fieldName = 'componentName'
+                    shortenedLoggerNameLength = 35
+                }
+                message(MessageJsonProvider) {
+                    fieldName = 'message'
+                }
+                uuid (UuidProvider) {
+                    fieldName = 'messageId'
+                }
+                mdc (MdcJsonProvider)
+            }
+        }
+        rollingPolicy(FixedWindowRollingPolicy) {
+            maxIndex = 30
+            fileNamePattern = "${loggingDir}/${loggingAppName}.json.%i"
+        }
+        triggeringPolicy(SizeBasedTriggeringPolicy) {
+            maxFileSize = "10MB"
+        }
+        logger("appLog", ERROR, ['APP_LOG'], true)
     }
-    rollingPolicy(SizeAndTimeBasedRollingPolicy) {
-        fileNamePattern = "${loggingDir}/${loggingAppName}-%d{yyyy-MM-dd}-%i.log"
-        maxFileSize = FileSize.valueOf("10MB")   // Max size allowed for each log files
-        maxHistory = 30 //Deletes older log files older than 30 days.
-        totalSizeCap = FileSize.valueOf("100MB") // Total Max size allowed for the log files on disk
+} else {
+    // Define RollingFileAppender log
+    appender("APP_LOG", RollingFileAppender) {
+        file = "${loggingDir}/${loggingAppName}.log"
+        encoder(PatternLayoutEncoder) {
+            pattern = encoderPattern
+
+        }
+        rollingPolicy(SizeAndTimeBasedRollingPolicy) {
+            fileNamePattern = "${loggingDir}/${loggingAppName}-%d{yyyy-MM-dd}-%i.log"
+            maxFileSize = FileSize.valueOf("10MB")   // Max size allowed for each log files
+            maxHistory = 30 //Deletes older log files older than 30 days.
+            totalSizeCap = FileSize.valueOf("100MB") // Total Max size allowed for the log files on disk
+        }
+        logger("appLog", ERROR, ['APP_LOG'], true)
     }
-    logger("appLog", ERROR, ['APP_LOG'], true)
 }
 println "Application log file location [${Environment.current}]: ${loggingDir}"
 
