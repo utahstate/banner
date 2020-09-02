@@ -1,6 +1,6 @@
-/** ****************************************************************************
-         Copyright 2017 Ellucian Company L.P. and its affiliates.
- *******************************************************************************/
+ /******************************************************************************
+ Copyright 2017-2020 Ellucian Company L.P. and its affiliates.
+ ******************************************************************************/
  
 /** ****************************************************************************
  *                                                                              *
@@ -20,16 +20,25 @@ additional information regarding the configuration items contained within this f
 
  // Logging configuration has moved to logback.groovy file under <App>/grails-app/conf/logback.groovy
 ***************************************************************************** **/
-
+/** *****************************************************************************
+ *                                                                              *
+ *                         Self Service Support                                 *
+ *                                                                              *
+ ***************************************************************************** **/
+ssbEnabled = true
+ssbOracleUsersProxied = true
 /** *****************************************************************************
  *                                                                              *
  *                      ConfigJob (Platform 9.23)                               *
  *     Support for configurations to reside in the database.                    *
+ *     Platform 9.33.2.1 removes support for delay                              *
+ *     Platform 9.34 changes interval to 24 hours.                              *
  *                                                                              *
  ***************************************************************************** **/
-configJob.delay = 60000
-configJob.interval = 12000
-configJob.actualCount = -1
+configJob {
+	interval = 86400000 // 24 hours
+	actualCount = -1
+	}
 
 
 
@@ -42,12 +51,6 @@ configJob.actualCount = -1
 // BannerAuthenticationProvider from attempting to authenticate users.
 administrativeBannerEnabled = true  // default is 'true'
 
-// Set 'ssbOracleUsersProxied = true' to ensure that database connections are proxied
-// when the user has an oracle account.  This allows FGAC even for SSB pages.
-// Set this to false to instead use database connections that are established
-// for SSB users who do not have Oracle database accounts.  This setting applies
-// only to SSB pages.
-ssbOracleUsersProxied = true
 
 // Enable this if guest or proxy authentication is desired. This will cause the
 // SelfServiceAuthenticationProvider to attempt authentication for 'non-PIDM' users.
