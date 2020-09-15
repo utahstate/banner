@@ -94,7 +94,7 @@ if(banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvid
  // the afterLogoutUrl property to:
  //  'https://CAS_HOST:PORT/cas/logout?url=http://APPLICATION_NAVIGATOR_HOST:PORT/'
  // For other authentication providers use the setting noted below.
-grails.plugin.springsecurity.logout.afterLogoutUrl = 'http://APPLICATION_NAVIGATOR_HOST:PORT/applicationNavigator/logout/customLogout'
+grails.plugin.springsecurity.logout.afterLogoutUrl = (System.getenv('CAS_URL') ?: 'http://CAS_HOST:PORT/cas') + '/logout'
 
 
 
