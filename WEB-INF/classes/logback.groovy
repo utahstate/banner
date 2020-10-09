@@ -6,18 +6,17 @@
  *    This is the default logging configuration for the BannerExtensibility application.
  *
  *    Each Banner application will have its own logging file.  Example: BannerExtensibility.log
- *    Banner logging files are set up to roll on a daily basis with SizeAndTimeBasedRolling Policy. Example: BannerExtensibility-2020-01-01-0.log
+ *    Banner logging files are set up to roll on a daily basis with SizeAndTimeBasedRolling Policy. Example: BannerExtensibility-2019-03-05-0.log
  *
  *        Default settings for Banner logging:
  *           Root logger level: ERROR
- *           Logging for specific packages is set to DEBUG(see below) but is commented. This can be uncommented to enable DEBUG level logging for
- *           a specific package.
+ *           Logging is turned DEBUG for specific packages (see below) with commented. This should be uncomment based on requirement.
  *
- *        User can specify the location where log files are saved using the following system property:
+ *        User can specify the different logging directory using the following system property:
  *            -Dbanner.logging.dir=<full directory path>  (THIS MUST BE AN ABSOLUTE PATH WITH WRITE PERMISSION)
  *            Example: -Dbanner.logging.dir=/home/tomcat/logs
  *
- *        If logging directory is not configured then the log files by default will be generated in the build folder as provided default by Grails.
+ *        If different logging directory is not configured then the log files will be generated in the build folder as Provided default by Grails.
  *
  *        Use JMX to change logger levels for ROOT or specific packages/artifacts.
  *
@@ -121,7 +120,7 @@ println "Application log file location [${Environment.current}]: ${loggingDir}"
 
 // Set the root logger level.
 if (Environment.current == Environment.PRODUCTION) {
-    root(ERROR, ['STDOUT', 'APP_LOG'])
+    root(ERROR, ['STDOUT','APP_LOG'])
 } else {
     root(ERROR, ['STDOUT', 'APP_LOG'])
 }
@@ -171,8 +170,10 @@ if (Environment.current == Environment.PRODUCTION) {
 //logger("org.hibernate.type", DEBUG)
 //logger("org.hibernate.SQL", DEBUG)
 
+
 //******* Application packages *******
 //logger("net.hedtech.banner.ui.ss", DEBUG)
+
 
 // ******* Configure JMX access *******
 //  The names used to register Mbeans must be unique for all applications deployed into the JVM.

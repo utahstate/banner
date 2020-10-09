@@ -1,5 +1,5 @@
 FROM edurepo/banner9-selfservice:tomcat8.5.57-jre8-corretto
-LABEL version="9.7" \
+LABEL version="9.7.0.1" \
   maintainer="Eric Allen <eric.allen@usu.edu>"
 
 USER root

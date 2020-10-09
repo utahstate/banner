@@ -40,12 +40,12 @@ if (!pageBuilder.enabled) {
  *******************************************************************************/
 pbRoot = (System.getenv('PB_ROOT')?: '/opt/banner/extensibilty/pb')
 pageBuilder {
-	locations {
-	  bundle        = "${pbRoot}/i18n"
-	  page          = "${pbRoot}/page"
-	  css           = "${pbRoot}/css"
-	  virtualDomain = "${pbRoot}/virtdom"
-	}
+    locations {
+      bundle        = "${pbRoot}/i18n"
+      page          = "${pbRoot}/page"
+      css           = "${pbRoot}/css"
+      virtualDomain = "${pbRoot}/virtdom"
+    }
     // Uncomment debugRoles to reveal detailed SQL error messages for
     // Virtual domains to users with any of the comma separated roles
     // debugRoles = "ROLE_GPBADMN_BAN_DEFAULT_PAGEBUILDER_M"
@@ -60,13 +60,13 @@ environments {
      production {
          banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"   // required only if theme server is remote
          banner.theme.name="production"
-         banner.theme.template="BannerExtensibility-9_7"
+         banner.theme.template="BannerExtensibility-9_7_0_1"
          banner.theme.cacheTimeOut = 900                                    // in seconds, not required theme server is remote
      }
      development {
          banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"  // required only if theme server is remote
          banner.theme.name="development"
-         banner.theme.template="BannerExtensibility-9_7"
+         banner.theme.template="BannerExtensibility-9_7_0_1"
          banner.theme.cacheTimeOut = 120                                   // // in seconds, not required theme server is remote
          //This variable is used to get information about $$user authorities(Roles). This should be used only for Development, shouldn't be available in prod. by default it should be false.
          pageBuilder.development.authorities.enabled=false
@@ -82,8 +82,6 @@ environments {
 
 ssbEnabled = true
 ssbOracleUsersProxied = true
-ssbPassword.reset.enabled = false //true  - allow Pidm users to reset their password.
-                                 //false - throws functionality disabled error message
 
 
 /** *****************************************************************************
@@ -154,12 +152,6 @@ grails.plugin.springsecurity.logout.mepErrorLogoutUrl = '/logout/customLogout'
 
 //guestAuthenticationEnabled = true
 
-// This entry is required to ensure that 'Sign In' link takes you to corresponding login i.e. for CAS,
-// any other authentication system or Default (Banner).
-// Example navigates to home page after sign in
-loginEndpoint='http://BANNER9_HOST:PORT/APP_NAME/customPage/page/pbadm.ssoauth?url=/'
-
-
 /** *************************************************************************************
  *                                                                                      *
  *                        SAML CONFIGURATION                                            *
@@ -172,23 +164,23 @@ loginEndpoint='http://BANNER9_HOST:PORT/APP_NAME/customPage/page/pbadm.ssoauth?u
 // set active = true when authentication provider section configured for saml
 
 /*grails.plugin.springsecurity.saml.active = false
-grails.plugin.springsecurity.auth.loginFormUrl = ‘/saml/login’
-grails.plugin.springsecurity.saml.afterLogoutUrl =‘/logout/customLogout’
-banner.sso.authentication.saml.localLogout=‘false’                                                    // To disable single logout set this to true,default ‘false’.
-grails.plugin.springsecurity.saml.keyManager.storeFile = ‘classpath:security/<KEY_NAME>.jks’          // for unix File based Example:- ‘file:/home/u02/samlkeystore.jks’
-grails.plugin.springsecurity.saml.keyManager.storePass = ‘test1234’
-grails.plugin.springsecurity.saml.keyManager.passwords = [ ‘banner-<short-appName>-sp’: ‘test1234’ ]  // banner-<short-appName>-sp is the value set in EIS Service provider setup
-grails.plugin.springsecurity.saml.keyManager.defaultKey = ‘banner-<short-appName>-sp’                 // banner-<short-appName>-sp is the value set in EIS Service provider setup
-grails.plugin.springsecurity.saml.metadata.sp.file = ‘security/banner-<Application_Name>-sp.xml’     // for unix file based Example:-‘/home/u02/sp-local.xml’
-grails.plugin.springsecurity.saml.metadata.providers = [adfs: ‘security/banner-<Application_Name>-idp.xml’] // for unix file based Example: ‘/home/u02/idp-local.xml’
-grails.plugin.springsecurity.saml.metadata.defaultIdp = ‘adfs’
+grails.plugin.springsecurity.auth.loginFormUrl = '/saml/login'
+grails.plugin.springsecurity.saml.afterLogoutUrl ='/logout/customLogout'
+banner.sso.authentication.saml.localLogout='false'                                                    // To disable single logout set this to true,default 'false'.
+grails.plugin.springsecurity.saml.keyManager.storeFile = 'classpath:security/<KEY_NAME>.jks'          // for unix File based Example:- 'file:/home/u02/samlkeystore.jks'
+grails.plugin.springsecurity.saml.keyManager.storePass = 'test1234'
+grails.plugin.springsecurity.saml.keyManager.passwords = [ 'banner-<short-appName>-sp': 'test1234' ]  // banner-<short-appName>-sp is the value set in EIS Service provider setup
+grails.plugin.springsecurity.saml.keyManager.defaultKey = 'banner-<short-appName>-sp'                 // banner-<short-appName>-sp is the value set in EIS Service provider setup
+grails.plugin.springsecurity.saml.metadata.sp.file = 'security/banner-<Application_Name>-sp.xml'     // for unix file based Example:-'/home/u02/sp-local.xml'
+grails.plugin.springsecurity.saml.metadata.providers = [adfs: 'security/banner-<Application_Name>-idp.xml'] // for unix file based Example: '/home/u02/idp-local.xml'
+grails.plugin.springsecurity.saml.metadata.defaultIdp = 'adfs'
 grails.plugin.springsecurity.saml.metadata.sp.defaults = [
        local: true,
-       alias: ‘banner-<short-appName>-sp’,                                   // banner-<short-appName>-sp is the value set in EIS Service provider setup
-       securityProfile: ‘metaiop’,
-       signingKey: ‘banner-<short-appName>-sp’,                              // banner-<short-appName>-sp is the value set in EIS Service provider setup
-       encryptionKey: ‘banner-<short-appName>-sp’,                           // banner-<short-appName>-sp is the value set in EIS Service provider setup
-       tlsKey: ‘banner-<short-appName>-sp’,                                  // banner-<short-appName>-sp is the value set in EIS Service provider setup
+       alias: 'banner-<short-appName>-sp',                                   // banner-<short-appName>-sp is the value set in EIS Service provider setup
+       securityProfile: 'metaiop',
+       signingKey: 'banner-<short-appName>-sp',                              // banner-<short-appName>-sp is the value set in EIS Service provider setup
+       encryptionKey: 'banner-<short-appName>-sp',                           // banner-<short-appName>-sp is the value set in EIS Service provider setup
+       tlsKey: 'banner-<short-appName>-sp',                                  // banner-<short-appName>-sp is the value set in EIS Service provider setup
        requireArtifactResolveSigned: false,
        requireLogoutRequestSigned: false,
        requireLogoutResponseSigned: false
@@ -237,12 +229,10 @@ webAppExtensibility {
  * If not configured, the default value is -1                                      *
  *   																			   *
  ******************************************************************************** **/
- 
+
 configJob {
-    delay = 60000
-    interval = 60000
+    interval = 86400000 // 24 hours
     actualCount = -1
-    //actualCount will be the count how many times the configJob would run.
 }
 
 
@@ -251,22 +241,6 @@ configJob {
 ************************************************************/
 
 locale=false
-
-ssconfig.app.seeddata.keys = [['banner.analytics.allowEllucianTracker'], ['banner.analytics.trackerId'], ['banner.applicationName'],
- ['banner.theme.cacheTimeOut'], ['banner.theme.name'], ['banner.theme.template'], ['banner.theme.url'],
- ['loginEndpoint'], ['pageBuilder.enabled'], ['productName'], ['ssbEnabled'], ['ssbOracleUsersProxied'], ['locale']]
-
-
- /** ********************************************************************************
- *                                                                                 *
- * Google Analytics                                                                *
- * banner.analytics.trackerId=[institution's analytics tracker ID - default blank] *
- * banner.analytics.allowEllucianTracker=[true|false - default true]               *
- * Added as part of Platform Platform 9.20                                         *
- ******************************************************************************** **/
-banner.analytics.trackerId=""     // institution's analytics tracker ID - blank by default
-banner.analytics.allowEllucianTracker=false
-
 
 /** *************************************************************************************************************
  * Response Headers                                                                                				*
@@ -280,10 +254,6 @@ responseHeaders =[
     "X-XSS-Protection": "1; mode=block"
 ]
 
-productName="Banner General"
-banner.applicationName="BannerExtensibility"
-
-
 /*********************************************************************************
 *                     Application Server Configuration                          *
 * When deployed on Tomcat this configuration should be targetServer="tomcat"    *
@@ -291,21 +261,13 @@ banner.applicationName="BannerExtensibility"
 *********************************************************************************/
 targetServer="tomcat"
 
+/** *******************************************************************************
+ *                              enableNLS                                         *
+ * Setting it to true will set National Language support in the Oracle database   *
+ * to the user specific language, that is the error messages from Oracle database *
+ * will be in the user specific language, while setting it to false would disable *
+ * the Nation Language support for the error messages from Oracle database and    *
+ * improves the performance of the application.                                   *
+ ******************************************************************************* **/
+enableNLS=true
 
-/********************************************************************************
-*                                                                               *
-* AboutInfoAccessRoles will help to check whether user is allowed to view       *
-* the platform version                                                          *
-*                                                                               *
-*********************************************************************************/
-aboutInfoAccessRoles = ["ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"]
-
-
-/********************************************************************************
-*                                                                               *
-* Upload Limit will be override by app level settings if it is exists         *
-* otherwise it will override default settings.                                   *                        *
-* APP LEVEL WILL ALLOW UPTO 1MB. DEFAULT LIMIT IS UPTO 128KB                                                                              *
-*********************************************************************************/
-grails.controllers.upload.maxFileSize=1000000
-grails.controllers.upload.maxRequestSize=1000000
