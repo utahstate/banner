@@ -45,8 +45,8 @@
  *                                                                             *
  *******************************************************************************/
 ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
- ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.parseBoolean(System.getenv('SSBORACLEUSERSPROXIED')) : true)
- ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED')): true )//Set to true if enabling the Proxy Access
+ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.parseBoolean(System.getenv('SSBORACLEUSERSPROXIED')) : true)
+ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED')): true )//Set to true if enabling the Proxy Access
 
 
 /******************************************************************************
@@ -110,10 +110,10 @@ grails {
         springsecurity {
             cas {
                 active = true
-                serverUrlPrefix  = (System.getenv('CAS_URL') ?: 'http://CAS_HOST:PORT/cas')
-                serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + '/BannerGeneralSsb/login/cas'
-                serverName       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT')
-                proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + '/BannerGeneralSsb/secure/receptor'
+                    serverUrlPrefix  = (System.getenv('CAS_URL') ?: 'http://CAS_HOST:PORT/cas')
+                    serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http:/BANNER9_HOST:PORT') + '/BannerGeneralSsb/login/cas'
+                    serverName       = (System.getenv('BANNER9_URL') ?: 'http:/BANNER9_HOST:PORT')
+                    proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http:/BANNER9_HOST:PORT') + '/BannerGeneralSsb/secure/receptor'
                 loginUri         = '/login'
                 sendRenew        = false
                 proxyReceptorUrl = '/secure/receptor'
@@ -269,23 +269,29 @@ BANNER_AIP_EXCLUDE_LIST='aipActionItemPosting|aipAdmin|aip|aipPageBuilder|BCM|ab
    clamav.connectionTimeout = 5000 	  /* Connection timeout to connect to clamd process.Time in milliseconds. Default is 5000*/
 
 
-/*********************************************************************************
- *                                                                               *
- *                        Config Job Configurations                              *
- *                                                                               *
- *     The job scheduled to update the configuration properties                  *
- *     from DB runs at Application start and consecutive job runs at             *
- *     the interval configured (in milliseconds)                                 *
- *                                                                               *
- *     actualCount - Actual count the number of times the config job would run   *
- *     If the value is -1, the job will run indefinitely.                        *
- *     If the value is 0, the job will not run.                                  *
- *     If not configured, the default value is -1.                               *
- *                                                                               *
- *********************************************************************************/
-configJob.interval = 120000
-configJob.actualCount = -1
 
+/** ********************************************************************************
+ *                                                                                 *
+ *                   SS Config Dynamic Loading Job Properties                      *
+ *                                                                                 *
+ * Properties to set the interval and the number of times the config job would run *
+ * for ConfigJob.groovy i.e. the job scheduled to update the configuration 		   *
+ * properties from DB. We recommend configuring interval of the configJob in 	   *
+ * such a way that it does not run as often, to help improve performance.          *
+ *                                                                                 *
+ * interval - in milliseonds, this is to configure the interval at which the       *
+ * quartz scheduler should run. If it is not configured, the default value is 60000*
+ *                                                                                 *
+ * actualCount - the number of times the config job would run. If the value is -1, *
+ * the job will run indefinitely. If the value is 0, the job will not run.         *
+ * If not configured, the default value is -1                                      *
+ *   																			   *
+ ******************************************************************************** **/
+
+configJob {
+    interval = 86400000 // 24 hours
+    actualCount = -1
+}
 
 /*******************************************************************************
  *                                                                             *
@@ -296,12 +302,12 @@ aip {
     weblogicDeployment = false
 
     actionItemPostMonitor {
-        enabled = false
+        enabled = true
         monitorIntervalInSeconds = 10
     }
 
     actionItemPostWorkProcessingEngine {
-        enabled = false
+        enabled = true
         maxThreads = 1
         maxQueueSize = 5000
         continuousPolling = true
@@ -310,7 +316,7 @@ aip {
     }
 
     actionItemJobProcessingEngine {
-        enabled = false
+        enabled = true
         maxThreads = 2
         maxQueueSize = 5000
         continuousPolling = true
@@ -319,7 +325,7 @@ aip {
     }
 
     scheduler {
-        enabled = false
+        enabled = true
         idleWaitTime = 30000
     }
 }

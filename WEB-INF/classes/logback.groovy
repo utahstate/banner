@@ -47,7 +47,6 @@ conversionRule 'wex', WhitespaceThrowableProxyConverter
 // This should be commented in the external logback.groovy
 ExternalConfigurationUtils.setupExternalLogbackConfig()
 
-
 def encoderPattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5p %c %X - %m%n"
 def loggingAppName =  Metadata.current.getApplicationName()   // The application name for logging purposes.
 def loggingDir = System.properties["banner.logging.dir"] ?: '/usr/local/tomcat/logs'
@@ -152,42 +151,25 @@ if (Environment.current == Environment.PRODUCTION) {
 //logger("org.springframework.security", DEBUG)
 
 
-// ******** CAS & SAML classes **********
-//logger("org.jasig.cas.client.session.SingleSignOutFilter", DEBUG)
-//logger("org.jasig.cas.client.session.SingleSignOutHandler", DEBUG)
-//logger("org.jasig.cas", DEBUG)
-//logger("grails.plugin.springsecurity", DEBUG)
-//logger("net.hedtech.banner.security.BannerSamlSessionFilter", DEBUG)
-//logger("net.hedtech.banner.security.CasAuthenticationProvider", DEBUG)
-//logger("net.hedtech.banner.security.BannerSamlAuthenticationProvider", DEBUG)
-//logger("net.hedtech.jasig.cas.client", DEBUG)
-//logger("org.springframework.security.cas.web.CasAuthenticationFilter", DEBUG)
-//logger("org.springframework.security.web.FilterChainProxy", DEBUG)
-//logger("org.grails.plugin.springsecurity.saml", DEBUG)
+//******** CAS & SAML classes **********
+//logger ("org.jasig.cas.client.session.SingleSignOutFilter", DEBUG)
+//logger ("org.jasig.cas.client.session.SingleSignOutHandler", DEBUG)
+//logger ("org.jasig.cas", DEBUG)
+//logger ("grails.plugin.springsecurity", DEBUG)
+//logger ("net.hedtech.banner.security.BannerSamlSessionFilter", DEBUG)
+//logger ("net.hedtech.banner.security.CasAuthenticationProvider", DEBUG)
+//logger ("net.hedtech.banner.security.BannerSamlAuthenticationProvider", DEBUG)
+//logger ("net.hedtech.jasig.cas.client", DEBUG)
+//logger ("org.springframework.security.cas.web.CasAuthenticationFilter", DEBUG)
+//logger ("org.springframework.security.web.FilterChainProxy", DEBUG)
+//logger ("org.grails.plugin.springsecurity.saml", DEBUG)
 
-
-// ******* Hibernate ORM **********
+// ******* hibernate ORM **********
 //logger("org.hibernate.type", DEBUG)
 //logger("org.hibernate.SQL", DEBUG)
 
-
-// ******* Application packages and classes *******
-//logger("banner.general.ssb.app.BootStrap", DEBUG)
-//logger("net.hedtech.banner.service.ServiceBase", DEBUG)
+//******* Application packages *******
 //logger("net.hedtech.banner.ui.ss", DEBUG)
-//logger("net.sf.*", DEBUG)
-
-
-// ******* Action Item Processing (AIP) classes *******
-//logger("banner.aip.BannerAipGrailsPlugin", DEBUG)
-//logger("net.hedtech.banner.aip.ActionItemAsynchronousTaskProcessingEngineImpl", DEBUG)
-//logger("net.hedtech.banner.aip.post.job.ActionItemJobTaskManagerService", DEBUG)
-//logger("net.hedtech.banner.aip.post.job.ActionItemJobService", DEBUG)
-//logger("net.hedtech.banner.aip.post.job.ActionItemPostMonitor", DEBUG)
-//logger("net.hedtech.banner.aip.post.job.ActionItemPostCompositeService", DEBUG)
-//logger("net.hedtech.banner.aip.post.grouppost.ActionItemPost", DEBUG)
-//logger("org.quartz",DEBUG)
-
 
 // ******* Configure JMX access *******
 //  The names used to register Mbeans must be unique for all applications deployed into the JVM.
