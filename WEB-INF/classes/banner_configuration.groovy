@@ -45,7 +45,7 @@ onLineHelp.url = (System.getenv('ONLINEHELP_URL') ?: "http://HOST:PORT/banner9OH
  *              Transaction timeout Configuration (in seconds)                  *
  *                                                                              *
  ***************************************************************************** **/
-banner.transactionTimeout = (System.getenv('BANNER_TRANSACTIONTIMEOUT') ? Integer.parseInt(System.getenv('BANNER_TRANSACTIONTIMEOUT')) : 30 )
+banner.transactionTimeout = (System.getenv('BANNER_TRANSACTIONTIMEOUT') ? Integer.parseInt(System.getenv('BANNER_TRANSACTIONTIMEOUT')) : 60 )
 
 
 /** ****************************************************************************
@@ -117,3 +117,6 @@ mep.banner8.SS.url = [
     NORTH : 'http://<SSO MANAGER HOST>:<PORT>/ssomanager/c/SSB?pkg=http://<BANNER8 SSB HOST>:<PORT>/SMPL_NORTH/',
     SOUTH : 'http://<SSO MANAGER HOST>:<PORT>/ssomanager/c/SSB?pkg=http://<BANNER8 SSB HOST>:<PORT>/SMPL_SOUTH/'
 ]
+
+
+
