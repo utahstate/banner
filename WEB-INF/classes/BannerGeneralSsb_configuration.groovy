@@ -289,7 +289,7 @@ BANNER_AIP_EXCLUDE_LIST='aipActionItemPosting|aipAdmin|aip|aipPageBuilder|BCM|ab
  ******************************************************************************** **/
 
 configJob {
-    interval = 86400000 // 24 hours
+    interval = 120000
     actualCount = -1
 }
 
