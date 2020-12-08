@@ -52,7 +52,7 @@ def encoderPattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5p %c %X - %m%n"
 def loggingAppName =  Metadata.current.getApplicationName()   // The application name for logging purposes.
 
 // Set the logging output directory
-def loggingDir = System.properties["banner.logging.dir"] ?: BuildSettings.TARGET_DIR
+def loggingDir = System.properties["banner.logging.dir"] ?: '/usr/local/tomcat/logs'
 def fileLoggingFormat = "JSON"
 def timeStampPatternAsPerLoggingMaturation = "yyyy-MMM-dd @ hh:mm:ss.sssZ"
 

@@ -192,7 +192,7 @@ webAppExtensibility {
  *   																			   *
  ******************************************************************************** **/
 configJob {
-	interval = 86400000 // 24 hours
+	interval = 120000
 	actualCount = -1
 	}
 
