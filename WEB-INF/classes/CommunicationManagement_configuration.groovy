@@ -245,7 +245,7 @@ webAppExtensibility {
  *           Home Page link when error happens during authentication.           *
  *                                                                              *
  ***************************************************************************** **/
-grails.plugin.springsecurity.homePageUrl='http://URL:PORT/'
+grails.plugin.springsecurity.homePageUrl=(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL') ?: '<HOME_URL>' )
 
 
 /** ********************************************************************************
@@ -267,7 +267,7 @@ grails.plugin.springsecurity.homePageUrl='http://URL:PORT/'
  ******************************************************************************** **/
 
 configJob {
-    interval = 86400000 // 24 hours
+    interval = 120000
     actualCount = -1
 }
 
