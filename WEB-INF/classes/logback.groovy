@@ -1,59 +1,51 @@
 /******************************************************************************
- Copyright 2019 Ellucian Company L.P. and its affiliates.
+ Copyright 2019 - 2020 Ellucian Company L.P. and its affiliates.
  ******************************************************************************/
 
 /**
- *    Banner application logging is configured separately for each environment (DEVELOPMENT, TEST, and PRODUCTION).
+ *    This is the default logging configuration for the application.
  *
- *    Each Banner application will have its own logging file.     Example: FinanceSelfService.log
- *    Banner logging files are set up to roll on a daily basis.   Example: FinanceSelfService-2019-03-05.log
+ *    Each Banner application will have its own logging file.  Example: StudentRegistrationSsb.log
+ *    Banner logging files are set up to roll on a daily basis with SizeAndTimeBasedRolling Policy. Example: StudentRegistrationSsb-2019-03-05-0.log
  *
- *    In a PRODUCTION environment:
- *        This file will reside in the Banner application's classpath.
- *
- *        Default settings for Banner production logging:
- *           Logging is directed to a file (not the console).
- *           Log file directory: <user.home>/banner_logs
+ *        Default settings for Banner logging:
  *           Root logger level: ERROR
- *           Logging is turned off for specific packages (see below).
+ *           Logging is turned DEBUG for specific packages (see below) with commented. This should be uncomment based on requirement.
  *
- *        Optionally, you can specify the Banner logging directory using the following system property:
- *            -Dbanner.logging.dir=<full directory path>  (THIS MUST BE AN ABSOLUTE PATH)
+ *        User can specify the different logging directory using the following system property:
+ *            -Dbanner.logging.dir=<full directory path>  (THIS MUST BE AN ABSOLUTE PATH WITH WRITE PERMISSION)
+ *            Example: -Dbanner.logging.dir=/home/tomcat/logs
  *
- *            Example: -Dbanner.logging.dir=/home/tomcat/target/logs
+ *        If different logging directory is not configured then the log files will be generated in the build folder as Provided default by Grails.
  *
  *        Use JMX to change logger levels for ROOT or specific packages/artifacts.
  *
- *
- *    In a DEVELOPMENT or TEST environment:
- *        This file resides in the project's /grails-app/conf directory.
- *
- *        Default settings for Banner development and test logging:
- *            Logging is directed to a file and the console.
- *            Log file directory: <project home>/build
- *            Root logger level: ERROR
- *            Logging is turned off for specific packages (see below).
- *
  *        Optionally, you can modify this file to change the logger level for ROOT or specific packages/artifacts.
  *
- *
- *    Valid logger levels in order: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
+ *        Valid logger levels in order: ALL < TRACE < DEBUG < INFO < WARN < ERROR < OFF
  */
+
 
 import ch.qos.logback.core.util.FileSize
 import grails.util.BuildSettings
 import grails.util.Environment
 import grails.util.Metadata
+import groovy.json.JsonOutput
+import net.hedtech.banner.configuration.ExternalConfigurationUtils
+import net.logstash.logback.composite.GlobalCustomFieldsJsonProvider
+import net.logstash.logback.composite.loggingevent.*
+import net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder
 import org.springframework.boot.logging.logback.ColorConverter
 import org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter
 
 import java.nio.charset.Charset
-import net.hedtech.banner.configuration.ExternalConfigurationUtils
-
-ExternalConfigurationUtils.setupExternalLogbackConfig()
 
 conversionRule 'clr', ColorConverter
 conversionRule 'wex', WhitespaceThrowableProxyConverter
+
+// This line is only required in logback.groovy which is present in /grails-app/conf.
+// This should be commented in the external logback.groovy
+ExternalConfigurationUtils.setupExternalLogbackConfig()
 
 def encoderPattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5p %c %X - %m%n"
 
@@ -61,17 +53,9 @@ def loggingAppName =  Metadata.current.getApplicationName()   // The application
 
 
 // Set the logging output directory
-def loggingDir
-switch (Environment.current) {
-    case Environment.PRODUCTION:
-        loggingDir = '/usr/local/tomcat/logs'
-        break
-    default: // Development or test mode
-        loggingDir = BuildSettings.TARGET_DIR
-        break
-}
-loggingDir = loggingDir ?: "${System.properties["user.home"]}"
-
+def loggingDir = System.properties["banner.logging.dir"] ?: '/usr/local/tomcat/logs'
+def fileLoggingFormat = "JSON"
+def timeStampPatternAsPerLoggingMaturation = "yyyy-MMM-dd @ hh:mm:ss.sssZ"
 
 // Define console appender
 appender('STDOUT', ConsoleAppender) {
@@ -81,20 +65,57 @@ appender('STDOUT', ConsoleAppender) {
     }
 }
 
-// Define application log appender
-appender("APP_LOG", RollingFileAppender) {
-    file = "${loggingDir}/${loggingAppName}.log"
-    encoder(PatternLayoutEncoder) {
-        pattern = encoderPattern
+if ( fileLoggingFormat.toLowerCase() == "json" ) {
+    appender("APP_LOG", RollingFileAppender) {
+        file = "${loggingDir}/${loggingAppName}.json"
+        append = true
+        encoder (LoggingEventCompositeJsonEncoder) {
+            providers(LoggingEventJsonProviders) {
+                timestamp(LoggingEventFormattedTimestampJsonProvider) {
+                    fieldName = 'timestamp'
+                    timeZone = 'UTC'
+                    pattern = "${timeStampPatternAsPerLoggingMaturation}"
+                }
+                logLevel(LogLevelJsonProvider)
+                loggerName(LoggerNameJsonProvider) {
+                    fieldName = 'componentName'
+                    shortenedLoggerNameLength = 35
+                }
+                message(MessageJsonProvider) {
+                    fieldName = 'message'
+                }
+                uuid (UuidProvider) {
+                    fieldName = 'messageId'
+                }
+                mdc (MdcJsonProvider)
+            }
+        }
+        rollingPolicy(FixedWindowRollingPolicy) {
+            maxIndex = 30
+            fileNamePattern = "${loggingDir}/${loggingAppName}.json.%i"
+        }
+        triggeringPolicy(SizeBasedTriggeringPolicy) {
+            maxFileSize = "10MB"
+        }
+        logger("appLog", ERROR, ['APP_LOG'], true)
     }
-    rollingPolicy(TimeBasedRollingPolicy) {
-        fileNamePattern = "${loggingDir}/${loggingAppName}-%d.log"
-        maxHistory = 10
-        totalSizeCap = FileSize.valueOf("2GB")
+} else {
+    // Define RollingFileAppender log
+    appender("APP_LOG", RollingFileAppender) {
+        file = "${loggingDir}/${loggingAppName}.log"
+        encoder(PatternLayoutEncoder) {
+            pattern = encoderPattern
+        }
+        rollingPolicy(SizeAndTimeBasedRollingPolicy) {
+            fileNamePattern = "${loggingDir}/${loggingAppName}-%d{yyyy-MM-dd}-%i.log"
+            maxFileSize = FileSize.valueOf("10MB")   // Max size allowed for each log files
+            maxHistory = 30 //Deletes older log files older than 30 days.
+            totalSizeCap = FileSize.valueOf("100MB") // Total Max size allowed for the log files on disk
+        }
+        logger("appLog", ERROR, ['APP_LOG'], true)
     }
-    logger("appLog", ERROR, ['APP_LOG'], true)
 }
-println "${loggingAppName} logging folder location [${Environment.current}]: ${loggingDir}"
+println "Application log file location [${Environment.current}]: ${loggingDir}"
 
 
 // Set the root logger level.
