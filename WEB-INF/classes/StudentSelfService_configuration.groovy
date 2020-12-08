@@ -1,5 +1,5 @@
 /** ****************************************************************************
-         Copyright 2013-2019 Ellucian Company L.P. and its affiliates.
+         Copyright 2013-2020 Ellucian Company L.P. and its affiliates.
  *******************************************************************************/
 
 /******************************************************************************
@@ -20,6 +20,7 @@ This configuration file contains the following sections:
 // ******************************************************************************
 //                       +++ Self Service Support +++
 // ******************************************************************************
+
 
 ssbEnabled = (System.getenv('SSBENABLED') ? Boolean.parseBoolean(System.getenv('SSBENABLED')) : true )
 ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.parseBoolean(System.getenv('SSBORACLEUSERSPROXIED')) : true )
