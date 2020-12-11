@@ -1,7 +1,7 @@
 #Dockerfile for StudentAPI
-FROM edurepo/banner9-selfservice:tomcat8.5.56-jre8-corretto
+FROM edurepo/banner9-selfservice:tomcat8.5.57-jre8-corretto
 
-LABEL api_version=9.21
+LABEL api_version=9.22
 
 #Fix timezone
 USER root
