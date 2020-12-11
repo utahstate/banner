@@ -37,7 +37,8 @@ This configuration file contains the following sections:
  *                         On-Line Help Configuration                          *
  *                                                                             *
  *******************************************************************************/
-onLineHelp.url = "http://HOST:PORT/banner9OH"
+onLineHelp.url = (System.getenv('ONLINEHELP_URL') ?: "http://HOST:PORT/banner9OH" )
+
 
 
 /** ****************************************************************************
