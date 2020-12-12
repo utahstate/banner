@@ -25,7 +25,7 @@ additional information regarding the configuration items contained within this f
  *                         Self Service Support                                 *
  *                                                                              *
  ***************************************************************************** **/
-ssbEnabled = true
+/*ssbEnabled = true*/
 ssbOracleUsersProxied = true
 /** *****************************************************************************
  *                                                                              *
@@ -36,9 +36,9 @@ ssbOracleUsersProxied = true
  *                                                                              *
  ***************************************************************************** **/
 configJob {
-	interval = 86400000 // 24 hours
-	actualCount = -1
-	}
+    interval = 120000
+    actualCount = -1
+}
 
 
 
