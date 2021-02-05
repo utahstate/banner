@@ -24,6 +24,7 @@ This configuration file contains the following sections:
 
 ssbEnabled = (System.getenv('SSBENABLED') ? Boolean.parseBoolean(System.getenv('SSBENABLED')) : true )
 ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.parseBoolean(System.getenv('SSBORACLEUSERSPROXIED')) : true )
+guestAuthenticationEnabled = false //Set to true if enabling Proxy Access.
 
 
 /** *****************************************************************************
