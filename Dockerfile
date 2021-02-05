@@ -1,5 +1,5 @@
 FROM edurepo/banner9-admin:tomcat8.5.58-corretto8
-LABEL banner.common="9.3.23.0.4" \
+LABEL banner.common="9.3.23.1.1" \
       banner.accountreceivable="9.3.17.0.2" \
       banner.finance="9.3.18.0.3" \
       banner.financialaid="9.3.23.0.1" \
