@@ -1,3 +1,4 @@
 .DS_Store
 *.war
 brim
+WEB-INF/classes/brim_configuration.example.groovy
