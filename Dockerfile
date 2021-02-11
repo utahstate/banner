@@ -1,6 +1,6 @@
-FROM edurepo/banner9-selfservice:tomcat8.5-jre8-alpine
+FROM edurepo/banner9-selfservice:tomcat8.5.57-jre8-corretto
 
-LABEL version="2.4.1"
+LABEL version="2.8.0"
 
 # Fix timezone
 USER root
