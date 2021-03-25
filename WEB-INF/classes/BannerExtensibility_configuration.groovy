@@ -1,5 +1,5 @@
 /*******************************************************************************
- Copyright 2017-2020 Ellucian Company L.P. and its affiliates.
+ Copyright 2017-2021 Ellucian Company L.P. and its affiliates.
  *******************************************************************************/
 
 /******************************************************************************
@@ -60,13 +60,13 @@ environments {
      production {
          banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"   // required only if theme server is remote
          banner.theme.name="production"
-         banner.theme.template="BannerExtensibility-9_7_0_1"
+         banner.theme.template="BannerExtensibility-9_8"
          banner.theme.cacheTimeOut = 900                                    // in seconds, not required theme server is remote
      }
      development {
          banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"  // required only if theme server is remote
          banner.theme.name="development"
-         banner.theme.template="BannerExtensibility-9_7_0_1"
+         banner.theme.template="BannerExtensibility-9_8"
          banner.theme.cacheTimeOut = 120                                   // // in seconds, not required theme server is remote
          //This variable is used to get information about $$user authorities(Roles). This should be used only for Development, shouldn't be available in prod. by default it should be false.
          pageBuilder.development.authorities.enabled=false

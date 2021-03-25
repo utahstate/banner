@@ -1,6 +1,6 @@
 FROM edurepo/banner9-selfservice:tomcat8.5.57-jre8-corretto
-LABEL version="9.7.0.1" \
-  maintainer="Eric Allen <eric.allen@usu.edu>"
+LABEL version="9.8" \
+  maintainer="Ken Andersen <ken.andersen@usu.edu>"
 
 USER root
 RUN mkdir -p /opt/banner/extensibility/pb \
