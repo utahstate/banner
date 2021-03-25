@@ -1,12 +1,12 @@
 FROM edurepo/banner9-admin:tomcat8.5.58-corretto8
-LABEL banner.common="9.3.23.1.1" \
+LABEL banner.common="9.3.24.0.3" \
       banner.accountreceivable="9.3.17.0.2" \
-      banner.finance="9.3.18.0.3" \
+      banner.finance="9.3.19.0.2" \
       banner.financialaid="9.3.23.0.1" \
       banner.general="9.3.18.0.4" \
-      banner.humanresources="9.3.17.0.3" \
-      banner.positioncontrol="9.3.13.0.2" \
-      banner.student="9.3.22.0.4" \
+      banner.humanresources="9.3.18.0.2" \
+      banner.positioncontrol="9.3.14.0.1" \
+      banner.student="9.3.23.0.6" \
       cleanaddress="4.4.5"
 
 #Fix timezone
