@@ -154,6 +154,13 @@ grails.plugin.springsecurity.saml.metadata.sp.defaults = [
 grails.plugin.xframeoptions.urlPattern = '/login/auth'
 grails.plugin.xframeoptions.deny = true
 
+/*********************************************************************************
+*                     Application Server Configuration                           *
+* When deployed on Tomcat this configuration should be targetServer="tomcat"     *
+* When deployed on Weblogic this configuration should be targetServer="weblogic" *
+**********************************************************************************/
+targetServer="tomcat"
+
 // ******************************************************************************
 //
 // +++ Communication Management CONFIGURATION +++
@@ -162,7 +169,8 @@ grails.plugin.xframeoptions.deny = true
 // ******************************************************************************
 
 communication {
-    weblogicDeployment = false
+	weblogicDeployment = targetServer=="weblogic" ? true: false
+	println("weblogicDeployment is "+ weblogicDeployment);
 
     communicationGroupSendMonitor {
         enabled = true
@@ -248,6 +256,7 @@ webAppExtensibility {
 grails.plugin.springsecurity.homePageUrl=(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL') ?: '<HOME_URL>' )
 
 
+
 /** ********************************************************************************
  *                                                                                 *
  *                   SS Config Dynamic Loading Job Properties                      *
@@ -270,13 +279,6 @@ configJob {
     interval = 120000
     actualCount = -1
 }
-
-/*********************************************************************************
-*                     Application Server Configuration                           *
-* When deployed on Tomcat this configuration should be targetServer="tomcat"     *
-* When deployed on Weblogic this configuration should be targetServer="weblogic" *
-**********************************************************************************/
-targetServer="tomcat"
 
 // ******************************************************************************
 //
