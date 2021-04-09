@@ -14,6 +14,6 @@ scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/FacultySelfServ
 
 echo "Extracting war"
 cd FacultySelfService
-jar xvf ../FacultySelfService.war
+unzip ../FacultySelfService.war
 cd ..
 
