@@ -1,5 +1,5 @@
 /*********************************************************************************
- Copyright 2015-2020 Ellucian Company L.P. and its affiliates.
+ Copyright 2015-2021 Ellucian Company L.P. and its affiliates.
  *********************************************************************************/
 
 /******************************************************************************
@@ -46,7 +46,7 @@
  *******************************************************************************/
 ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
 ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.parseBoolean(System.getenv('SSBORACLEUSERSPROXIED')) : true)
-ssbPassword.reset.enabled = (System.getenv('SSBPASSWORD_RESET_ENABLED') ? Boolean.parseBoolean(System.getenv('SSBPASSWORD_RESET_ENABLED')): true )//Set to true if enabling the Proxy Access
+guestAuthenticationEnabled = (System.getenv('GUEST_AUTH_ENABLED') ? Boolean.parseBoolean(System.getenv('GUEST_AUTH_ENABLED')): true )//Set to true if enabling the Proxy Access
 
 
 /******************************************************************************
@@ -333,45 +333,77 @@ aip {
 
 /*******************************************************************************
  *                                                                             *
- *                  Action Item Processing Quartz Configurations               *
+ *                  Action Item processing and  Quartz Configurations          *
  *                                                                             *
  *******************************************************************************/
-quartz {
+general.aip.enabled = false
 
-     autoStartup = aip.scheduler.enabled ==true ? true: false
-     jdbcStore =  false
+if(general.aip.enabled){
+	aip {
+        actionItemPostMonitor {
+            enabled = true
+            monitorIntervalInSeconds = 10
+        }
 
-       scheduler.skipUpdateCheck = true
-       scheduler.instanceName = 'Action Item Quartz Scheduler'
-       scheduler.instanceId = 'AIP'
-       waitForJobsToCompleteOnShutdown=true
-       purgeQuartzTablesOnStartup=false
-       pluginEnabled=true
+        actionItemPostWorkProcessingEngine {
+            enabled = true
+            maxThreads = 1
+            maxQueueSize = 5000
+            continuousPolling = true
+            pollingInterval = 2000
+            deleteSuccessfullyCompleted = false
+        }
 
-       if (aip.scheduler.idleWaitTime) {
+        actionItemJobProcessingEngine {
+            enabled = true
+            maxThreads = 2
+            maxQueueSize = 5000
+            continuousPolling = true
+            pollingInterval = 2000
+            deleteSuccessfullyCompleted = false
+        }
+
+        scheduler {
+            enabled = true
+            idleWaitTime = 30000
+            clusterCheckinInterval = 15000
+        }
+
+	}
+	quartz {
+        autoStartup = true
+        jdbcStore =  false
+        scheduler.skipUpdateCheck = true
+        scheduler.instanceName = 'Action Item Quartz Scheduler'
+        scheduler.instanceId = 'AIP'
+        waitForJobsToCompleteOnShutdown=true
+        purgeQuartzTablesOnStartup=false
+        pluginEnabled=true
+
+        if (aip.scheduler.idleWaitTime) {
            scheduler.idleWaitTime =aip.scheduler.idleWaitTime
-       }
+        }
 
-       boolean isWebLogic = aip.weblogicDeployment == true
-       if (isWebLogic) {
+        boolean isWebLogic = targetServer == 'weblogic'?true:false
+        if (isWebLogic) {
            println( "Setting driverDelegateClass to org.quartz.impl.jdbcjobstore.oracle.weblogic.WebLogicOracleDelegate" )
            jobStore.driverDelegateClass = 'org.quartz.impl.jdbcjobstore.oracle.weblogic.WebLogicOracleDelegate'
-       } else {
+        } else {
            println( "Setting driverDelegateClass to org.quartz.impl.jdbcjobstore.oracle.OracleDelegate" )
            jobStore.driverDelegateClass = 'org.quartz.impl.jdbcjobstore.oracle.OracleDelegate'
-       }
-       jobStore.class = 'net.hedtech.banner.general.scheduler.quartz.BannerDataSourceJobStoreCMT'
+        }
+        jobStore.class = 'net.hedtech.banner.general.scheduler.quartz.BannerDataSourceJobStoreCMT'
 
-       jobStore.tablePrefix = 'GCRQRTZ_' // Share tables. AIP has own instance
-       jobStore.isClustered = true
-       if (aip.scheduler.clusterCheckinInterval) {
+        jobStore.tablePrefix = 'GCRQRTZ_' // Share tables. AIP has own instance
+        jobStore.isClustered = true
+        if (aip.scheduler.clusterCheckinInterval) {
            jobStore.clusterCheckinInterval = aip.scheduler.clusterCheckinInterval
-       }
-       jobStore.useProperties = false
+        }
+        jobStore.useProperties = false
 
-    println "Quartz Scheduler properties are initialized!"
+        println "Quartz Scheduler properties are initialized!"
+	}
 }
-
 /** *******************************************************************************
  *                      enableNLS (Platform 9.29.1)                               *
  * Setting it to true will set National Language support in the Oracle database   *
