@@ -16,7 +16,7 @@ scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/StudentRegistra
 
 echo "Extracting war"
 cd StudentRegistrationSsb
-jar xvf ../StudentRegistrationSsb.war 
+unzip ../StudentRegistrationSsb.war 
 cd ..
 
 echo "StudentRegistrationSsb is ready for configuration"
