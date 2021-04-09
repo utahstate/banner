@@ -120,7 +120,7 @@ println "Application log file location [${Environment.current}]: ${loggingDir}"
 
 // Set the root logger level.
 if (Environment.current == Environment.PRODUCTION) {
-    root(ERROR, ['APP_LOG'])
+    root(ERROR, ['STDOUT', 'APP_LOG'])
 } else {
     root(ERROR, ['STDOUT', 'APP_LOG'])
 }
