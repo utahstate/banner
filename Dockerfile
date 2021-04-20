@@ -1,8 +1,8 @@
 #Dockerfile for Banner Integration API
-FROM edurepo/banner9-selfservice:tomcat8.5.57-jre8-corretto
+FROM harbor.usu.edu/banner/base-bannerselfservice:8.5.65-jdk8-corretto
 MAINTAINER "Ken Andersen <ken.andersen@usu.edu>"
 
-LABEL api_version=9.22
+LABEL api_version=9.22.0.1
 
 #Fix timezone
 USER root
