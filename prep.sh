@@ -14,6 +14,6 @@ scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/IntegrationApi.
 
 echo "Extracting war"
 cd IntegrationApi
-jar xvf ../IntegrationApi.war
+unzip ../IntegrationApi.war
 cd ..
 
