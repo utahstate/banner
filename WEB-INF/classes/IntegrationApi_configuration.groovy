@@ -47,6 +47,18 @@ targetServer="tomcat"
 
 apiOracleUsersProxied=true
 
+//BAPI-21566: Added the below config to avoid platform job to be run for refreshing GUROCFG and formControllerMap
+quartz {
+    autoStartup = false
+}
+//The below config is to run the job(for refreshing GUROCFG and formControllerMap) for a specified time/count
+/*
+configJob {
+interval = 120000
+actualCount = 0
+}
+*/
+
 /*******************************************************************************
  *                                                                             *
  *                                                                             *
