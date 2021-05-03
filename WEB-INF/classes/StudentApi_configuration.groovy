@@ -32,20 +32,27 @@ useRestApiAuthenticationEntryPoint = true
 targetServer="tomcat"
 
 
-
-
 /*******************************************************************************
  *                                                                             *
  *                                                                             *
  *                        Database BANPROXY settings                           *
  *                                                                             *
  *******************************************************************************/
-// This setting sends all API database requests through the slower bannerDataSource.
-// It is highly recommended for API performance that this be disabled.
-// Disabling this setting does mean all audit user trails will be the username
-// configured for your bannerSsbDataSource.
+// The apiOracleUsersProxied setting should always be set to true for API application
 
-apiOracleUsersProxied=(System.getenv('APIORACLEUSERSPROXIED') ? Boolean.parseBoolean(System.getenv('APIORACLEUSERSPROXIED')) : false)
+apiOracleUsersProxied=(System.getenv('APIORACLEUSERSPROXIED') ? Boolean.parseBoolean(System.getenv('APIORACLEUSERSPROXIED')) : true)
+
+//BAPI-21566: Added the below config to avoid platform job to be run for refreshing GUROCFG and formControllerMap
+quartz {
+    autoStartup = false
+}
+//The below config is to run the job(for refreshing GUROCFG and formControllerMap) for a specified time/count
+/*
+configJob {
+interval = 120000
+actualCount = 0
+}
+*/
 
 /*******************************************************************************
  *                                                                             *
