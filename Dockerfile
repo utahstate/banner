@@ -1,7 +1,7 @@
-FROM edurepo/banner9-admin:tomcat8.5.58-corretto8
+FROM harbor.usu.edu/banner/base-banneradmin:8.5.65-jdk8-corretto
 LABEL banner.common="9.3.24.0.3" \
       banner.accountreceivable="9.3.18.0.7" \
-      banner.finance="9.3.19.0.2" \
+      banner.finance="9.3.20.0.3" \
       banner.financialaid="9.3.25.0.1" \
       banner.general="9.3.18.0.4" \
       banner.humanresources="9.3.19.0.5" \
