@@ -204,7 +204,7 @@ communication {
     //Set to true if communications generated from the CommunicationManagement system should also be
     //tracked in the Banner Mail system (GURMAIL)
 
-    bannerMailTrackingEnabled = false
+    bannerMailTrackingEnabled = true
 
     //Set to true if using the Banner Bank automated clearance system (BACS)
     //Default is false
