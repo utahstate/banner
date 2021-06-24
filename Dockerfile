@@ -1,7 +1,6 @@
 FROM harbor.usu.edu/banner/base-bannerselfservice:8.5.65-jdk8-corretto
-LABEL MAINTAINER="Ken Andersen <ken.andersen@usu.edu>"
 
-LABEL version="9.16"
+LABEL version="9.16.1"
 
 # Fix timezone
 USER root
