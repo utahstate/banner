@@ -1,7 +1,6 @@
 #!/bin/bash
 INSTANCE=zdevl
 
-
 echo "Removing old war and folder"
 rm -rf StudentApi.war
 rm -rf StudentApi
@@ -16,4 +15,3 @@ echo "Extracting war"
 cd StudentApi
 unzip ../StudentApi.war
 cd ..
-
