@@ -1,7 +1,6 @@
 #!/bin/bash
 INSTANCE=zdevl
 
-
 echo "Removing old war and folder"
 rm -rf IntegrationApi.war
 rm -rf IntegrationApi
@@ -16,4 +15,3 @@ echo "Extracting war"
 cd IntegrationApi
 unzip ../IntegrationApi.war
 cd ..
-
