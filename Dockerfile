@@ -1,5 +1,5 @@
 FROM harbor.usu.edu/banner/base-banneradmin:8.5.65-jdk8-corretto
-LABEL banner.common="9.3.25.0.6" \
+LABEL banner.common="9.3.25.0.7" \
       banner.accountreceivable="9.3.19.0.5" \
       banner.finance="9.3.21.0.3" \
       banner.financialaid="9.3.26.0.4" \
