@@ -89,6 +89,16 @@ if ( fileLoggingFormat.toLowerCase() == "json" ) {
                     fieldName = 'messageId'
                 }
                 mdc (MdcJsonProvider)
+                stackTrace(StackTraceJsonProvider) {
+                    throwableConverter(ShortenedThrowableConverter) {
+                        maxDepthPerThrowable = 200
+                        maxLength = 90000
+                        shortenedClassNameLength = 50
+                        exclude = /sun\..*/
+                        exclude = /com\.sun\..*/
+                        rootCauseFirst = true
+                    }
+                }
             }
         }
         rollingPolicy(FixedWindowRollingPolicy) {
@@ -127,6 +137,10 @@ if (Environment.current == Environment.PRODUCTION) {
 } else {
     root(ERROR, ['STDOUT', 'APP_LOG'])
 }
+
+/* To disable the 'SelfServiceBannerAuthenticationProvider invalid login' error from appearing in API log file as API application will go through BannerAuthenticationProvider.
+*/
+logger("net.hedtech.banner.security.SelfServiceBannerAuthenticationProvider", OFF)
 
 // Uncomment the package/artifact for specific logging.
 // You may enable any of these using JMX (recommended) or within this file (which will require a restart).
