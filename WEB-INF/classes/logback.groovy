@@ -89,16 +89,6 @@ if ( fileLoggingFormat.toLowerCase() == "json" ) {
                     fieldName = 'messageId'
                 }
                 mdc (MdcJsonProvider)
-                stackTrace(StackTraceJsonProvider) {
-                    throwableConverter(ShortenedThrowableConverter) {
-                        maxDepthPerThrowable = 200
-                        maxLength = 90000
-                        shortenedClassNameLength = 50
-                        exclude = /sun\..*/
-                        exclude = /com\.sun\..*/
-                        rootCauseFirst = true
-                    }
-                }
             }
         }
         rollingPolicy(FixedWindowRollingPolicy) {
