@@ -181,7 +181,7 @@ logger("net.hedtech.banner.security.BannerUser", DEBUG)*/
 logger("net.hedtech", OFF)
 logger("net.hedtech.banner.general.configuration.ConfigPropertiesService", OFF)
 */
-
+logger("net.hedtech.banner.student.schedule.ldm", DEBUG)
 
 // ******* Configure JMX access *******
 //  The names used to register Mbeans must be unique for all applications deployed into the JVM.
