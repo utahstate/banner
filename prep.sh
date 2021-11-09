@@ -1,7 +1,7 @@
 
 #!/bin/bash
 
-INSTANCE=zdevl
+INSTANCE=zpprd
 APP=BannerGeneralSsb
 
 #Remove old war and app folder
