@@ -10,4 +10,3 @@ RUN echo $TIMEZONE > /etc/timezone
 USER tomcat
 
 COPY --chown=tomcat:tomcat CommunicationManagement /usr/local/tomcat/webapps/CommunicationManagement
-COPY --chown=tomcat:tomcat WEB-INF/classes/* /usr/local/tomcat/webapps/CommunicationManagement/classes/
