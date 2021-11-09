@@ -46,8 +46,6 @@ COPY logging.properties /usr/local/tomcat/conf/logging.properties
 RUN ln -s /dev/stderr /usr/local/tomcat/logs/localhost.log
 RUN ln -s /dev/stderr /usr/local/tomcat/logs/stacktrace.log
 
-RUN mkdir -p /opt/banner/config && mkdir -p /opt/banner/images && chown -R tomcat:tomcat /opt/banner
-
 RUN chown -R tomcat:tomcat /usr/local/tomcat && chmod +x /usr/local/tomcat/bin/run.sh
 
 EXPOSE 8080
