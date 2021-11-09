@@ -1,6 +1,6 @@
-FROM harbor.usu.edu/banner/base-bcm:tomcat8.5.60-jre8-corretto
+FROM harbor.usu.edu/banner/base-bcm:tomcat8.5.72-jre8-corretto
 
-LABEL version="9.7.2"
+LABEL version="9.7.3"
 
 # Fix timezone
 USER root
@@ -10,3 +10,4 @@ RUN echo $TIMEZONE > /etc/timezone
 USER tomcat
 
 COPY --chown=tomcat:tomcat CommunicationManagement /usr/local/tomcat/webapps/CommunicationManagement
+COPY --chown=tomcat:tomcat WEB-INF/classes/* /usr/local/tomcat/webapps/CommunicationManagement/classes/

@@ -177,6 +177,11 @@ communication {
         monitorIntervalInSeconds = 10
     }
 
+    communicationItemMonitor {
+        enabled = false
+        monitorIntervalInSeconds = 30
+    }
+
     communicationGroupSendItemProcessingEngine {
         enabled = true
         maxThreads = 1
@@ -194,7 +199,14 @@ communication {
         pollingInterval = 2000
         deleteSuccessfullyCompleted = false
     }
-
+    communicationItemProcessingEngine {
+        enabled = false
+        maxThreads = 2
+        maxQueueSize = 5000
+        continuousPolling = true
+        pollingInterval = 2000
+        deleteSuccessfullyCompleted = false
+    }
     scheduler {
         enabled = true
         idleWaitTime = 30000
