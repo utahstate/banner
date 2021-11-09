@@ -1,5 +1,5 @@
 #!/bin/bash
-INSTANCE=zdevl
+INSTANCE=zpprd
 
 
 echo "Removing old war and folder"
