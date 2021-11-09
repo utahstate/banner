@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INSTANCE=zdevl
+INSTANCE=zpprd
 
 #Remove old war and app folder
 echo "remove old war and app folder"
@@ -16,7 +16,7 @@ scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/BannerExtensibi
 
 echo "Extracting war"
 cd BannerExtensibility
-jar xvf ../BannerExtensibility.war 
+unzip ../BannerExtensibility.war 
 cd ..
 
 echo "BannerExtensibility is ready for configuration"
