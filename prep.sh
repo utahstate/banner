@@ -13,8 +13,8 @@ echo "Making new folders"
 mkdir BannerAdmin BannerAdmin.ws bannerHelp
 
 echo "Downloading files from build.banner"
-scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/BannerPages/BannerAdmin.war .
-scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/BannerPages/BannerAdmin.ws.war .
+scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/BannerAdmin.war .
+scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/BannerAdmin.ws.war .
 #scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/BannerPages/bannerHelp.war .
 
 echo "Extracting BannerAdmin"
