@@ -1,5 +1,5 @@
 /******************************************************************************
- Copyright 2020 Ellucian Company L.P. and its affiliates.
+ Copyright 2020-2021 Ellucian Company L.P. and its affiliates.
  ******************************************************************************/
 
 /**
@@ -35,6 +35,7 @@ import net.hedtech.banner.configuration.ExternalConfigurationUtils
 import net.logstash.logback.composite.GlobalCustomFieldsJsonProvider
 import net.logstash.logback.composite.loggingevent.*
 import net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder
+import net.logstash.logback.stacktrace.ShortenedThrowableConverter
 import org.springframework.boot.logging.logback.ColorConverter
 import org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter
 
@@ -55,6 +56,7 @@ def loggingAppName =  Metadata.current.getApplicationName()   // The application
 
 // Set the logging output directory
 def loggingDir = System.properties["banner.logging.dir"] ?: '/usr/local/tomcat/logs'
+
 def fileLoggingFormat = "JSON"
 def timeStampPatternAsPerLoggingMaturation = "yyyy-MMM-dd @ hh:mm:ss.sssZ"
 
@@ -89,6 +91,16 @@ if ( fileLoggingFormat.toLowerCase() == "json" ) {
                     fieldName = 'messageId'
                 }
                 mdc (MdcJsonProvider)
+                stackTrace(StackTraceJsonProvider) {
+                    throwableConverter(ShortenedThrowableConverter) {
+                        maxDepthPerThrowable = 200
+                        maxLength = 90000
+                        shortenedClassNameLength = 50
+                        exclude = /sun\..*/
+                        exclude = /com\.sun\..*/
+                        rootCauseFirst = true
+                    }
+                }
             }
         }
         rollingPolicy(FixedWindowRollingPolicy) {
@@ -120,7 +132,6 @@ if ( fileLoggingFormat.toLowerCase() == "json" ) {
 println "Application log file location [${Environment.current}]: ${loggingDir}"
 
 
-
 // Set the root logger level.
 if (Environment.current == Environment.PRODUCTION) {
     root(ERROR, ['STDOUT', 'APP_LOG'])
@@ -150,7 +161,6 @@ logger("net.hedtech.banner.security.SelfServiceBannerAuthenticationProvider", OF
 /*logger("net.hedtech.banner.db", DEBUG)
 logger("net.hedtech.banner.security.BannerAccessDecisionVoter", DEBUG)
 logger("net.hedtech.banner.security.BannerAuthenticationProvider", DEBUG)
-logger("net.hedtech.banner.security.SelfServiceBannerAuthenticationProvider", DEBUG)
 logger("net.hedtech.banner.security.BannerUser", DEBUG)*/
 
 
@@ -185,7 +195,7 @@ logger("net.hedtech.banner.security.BannerUser", DEBUG)*/
 logger("net.hedtech", OFF)
 logger("net.hedtech.banner.general.configuration.ConfigPropertiesService", OFF)
 */
-logger("net.hedtech.banner.student.schedule.ldm", DEBUG)
+
 
 // ******* Configure JMX access *******
 //  The names used to register Mbeans must be unique for all applications deployed into the JVM.

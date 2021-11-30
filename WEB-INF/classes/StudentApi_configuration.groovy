@@ -10,7 +10,7 @@
 
 
 // SelfServiceBannerAuthenticationProvider
-ssbEnabled = true
+ssbEnabled = true // ssbEnabled should always be set to true
 ssbOracleUsersProxied = true
 
 // CAS configuration
