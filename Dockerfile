@@ -1,8 +1,8 @@
 FROM harbor.usu.edu/banner/base-banneradmin:8.5.72-jdk8-corretto
 LABEL banner.common="9.3.26.0.6" \
-      banner.accountreceivable="9.3.20.0.4" \
+      banner.accountreceivable="9.3.20.1.1" \
       banner.finance="9.3.22.0.1" \
-      banner.financialaid="9.3.27.0.4" \
+      banner.financialaid="9.3.28.0.2" \
       banner.general="9.3.21.0.6" \
       banner.humanresources="9.3.19.0.4" \
       banner.positioncontrol="9.3.14.0.1" \
