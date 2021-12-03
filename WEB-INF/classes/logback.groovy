@@ -75,10 +75,10 @@ appender('STDOUT', ConsoleAppender) {
 def loggingFileDir
 switch (Environment.current) {
     case Environment.PRODUCTION:
-        loggingFileDir = System.properties["banner.logging.dir"]
+        loggingFileDir = System.properties["bdm.logging.dir"] ?: '/usr/local/tomcat/logs'
         break
     default: // Development or test mode
-        loggingFileDir = BuildSettings.TARGET_DIR
+        loggingFileDir = '/usr/local/tomcat/logs'
         break
 }
 loggingFileDir = loggingFileDir ?: "${System.properties["user.home"]}/bdm_logs"
