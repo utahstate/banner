@@ -4,8 +4,8 @@ LABEL banner.common="9.3.26.0.6" \
       banner.finance="9.3.22.0.1" \
       banner.financialaid="9.3.28.0.2" \
       banner.general="9.3.21.0.6" \
-      banner.humanresources="9.3.19.0.4" \
-      banner.positioncontrol="9.3.14.0.1" \
+      banner.humanresources="9.3.20.0.4" \
+      banner.positioncontrol="9.3.14.1.1" \
       banner.student="9.3.25.0.5" \
       cleanaddress="4.4.5"
 
