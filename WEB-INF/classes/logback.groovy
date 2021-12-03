@@ -47,7 +47,7 @@ conversionRule 'wex', WhitespaceThrowableProxyConverter
 
 // This line is only required in logback.groovy which is present in /grails-app/conf.
 // This should be commented in the external logback.groovy
-ExternalConfigurationUtils.setupExternalLogbackConfig()
+//ExternalConfigurationUtils.setupExternalLogbackConfig()
 
 
 def encoderPattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5p %c %X - %m%n"

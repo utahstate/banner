@@ -13,5 +13,5 @@ scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/StudentApi.war 
 
 echo "Extracting war"
 cd StudentApi
-jar xvf ../StudentApi.war
+unzip ../StudentApi.war
 cd ..
