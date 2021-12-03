@@ -35,6 +35,7 @@ import net.hedtech.banner.configuration.ExternalConfigurationUtils
 import net.logstash.logback.composite.GlobalCustomFieldsJsonProvider
 import net.logstash.logback.composite.loggingevent.*
 import net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder
+import net.logstash.logback.stacktrace.ShortenedThrowableConverter
 import org.springframework.boot.logging.logback.ColorConverter
 import org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter
 
@@ -89,6 +90,16 @@ if ( fileLoggingFormat.toLowerCase() == "json" ) {
                     fieldName = 'messageId'
                 }
                 mdc (MdcJsonProvider)
+                stackTrace(StackTraceJsonProvider) {
+                                    throwableConverter(ShortenedThrowableConverter) {
+                                        maxDepthPerThrowable = 200
+                                        maxLength = 90000
+                                        shortenedClassNameLength = 50
+                                        exclude = /sun\..*/
+                                        exclude = /com\.sun\..*/
+                                        rootCauseFirst = true
+                                    }
+                                }
             }
         }
         rollingPolicy(FixedWindowRollingPolicy) {
