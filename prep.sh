@@ -18,7 +18,7 @@ scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/$APPNAME.war .
 echo "Extracting war"
 cd $APPNAME
 #unzip ../$APPNAME.war 
-unzip ../$APPNAME.war
+jar xvf ../$APPNAME.war
 cd ..
 
 echo "$APPNAME is ready for configuration"
