@@ -15,20 +15,6 @@ setProperty() {
   prop=$1
   val=$2
 
-  if [ -f "/usr/local/tomcat/webapps/*/WEB-INF/web.xml" ]; then
-    if [ "$prop" = "banner9.baseurl" ]; then
-      for settings_file in /usr/local/tomcat/webapps/*/WEB-INF/web.xml; do
-        xmlstarlet ed  --inplace -N x="http://java.sun.com/xml/ns/javaee" -u "/x:web-app/x:filter[x:filter-name[normalize-space(text())='CAS Validation Filter']]/x:init-param[x:param-name[normalize-space(text())='serverName']]/x:param-value" -v "$val" "$settings_file"
-      done
-    fi
-
-    if [ "$prop" = "cas.url" ]; then
-      for settings_file in /usr/local/tomcat/webapps/*/WEB-INF/web.xml; do
-        xmlstarlet ed  --inplace -N x="http://java.sun.com/xml/ns/javaee" -u "/x:web-app/x:filter[x:filter-name[normalize-space(text())='CAS Validation Filter']]/x:init-param[x:param-name[normalize-space(text())='casServerUrlPrefix']]/x:param-value" -v "$val" "$settings_file"
-      done
-    fi
-  fi
-
   if [ $(grep -c "$prop" "$PROPFILE") -eq 0 ]; then
     echo "${prop}=$val" >> "$PROPFILE"
   else
@@ -46,22 +32,6 @@ setPropsFromFile() {
   done
 }
 
-if [ -f "$CONFIG_FILE" ]; then
-    setPropsFromFile "$CONFIG_FILE"
-fi
-
-# Maintain backwards compatibility if BANPROXY_PASSWORD and BANSSUSER_PASSWORD
-# aren't set
-if [ -z "${BANPROXY_PASSWORD}" ] && [ -z "${BANSSUSER_PASSWORD}" ]; then
-  if [ -d /run/secrets ]; then
-    for file in /run/secrets/*; do
-      prop=$(basename "$file")
-      val=$(cat "$file")
-      setProperty "$prop" "$val"
-    done
-  fi
-fi
-
 setPropFromEnvPointingToFile() {
   prop=$1
   val=$2
@@ -76,8 +46,26 @@ setPropFromEnvPointingToFile() {
   fi
 }
 
+if [ -f "$CONFIG_FILE" ]; then
+    setPropsFromFile "$CONFIG_FILE"
+fi
+
 setPropFromEnvPointingToFile banproxy.password "$BANPROXY_PASSWORD"
 setPropFromEnvPointingToFile banssuser.password "$BANSSUSER_PASSWORD"
+setPropFromEnvPointingToFile events.password "$EVENTS_PASSWORD"
+setPropFromEnvPointingToFile cdcadmin.password "$CDCADMIN_PASSWORD"
+
+# If BANPROXY_PASSWORD is not set then use secrets to maintain backwards
+# compatibility
+if [ -z "$BANPROXY_PASSWORD" ]; then
+  if [ -d /run/secrets ]; then
+    for file in /run/secrets/*; do
+      prop=$(basename "$file")
+      val=$(cat "$file")
+      setProperty "$prop" "$val"
+    done
+  fi
+fi
 
 setPropFromEnv() {
   prop=$1
@@ -101,6 +89,16 @@ if [ -z "$CONFIG_FILE" ]; then
   setPropFromEnv banssuser.maxtotal "$BANSSUSER_MAXTOTAL"
   setPropFromEnv banssuser.maxidle "$BANSSUSER_MAXIDLE"
   setPropFromEnv banssuser.maxwait "$BANSSUSER_MAXWAIT"
+  setPropFromEnv events.username "$EVENTS_USERNAME"
+  setPropFromEnv events.initialsize "$EVENTS_INITALSIZE"
+  setPropFromEnv events.maxtotal "$EVENTS_MAXTOTAL"
+  setPropFromEnv events.maxidle "$EVENTS_MAXIDLE"
+  setPropFromEnv events.maxwait "$EVENTS_MAXWAIT"
+  setPropFromEnv cdcadmin.username "$CDCADMIN_USERNAME"
+  setPropFromEnv cdcadmin.initialsize "$CDCADMIN_INITALSIZE"
+  setPropFromEnv cdcadmin.maxtotal "$CDCADMIN_MAXTOTAL"
+  setPropFromEnv cdcadmin.maxidle "$CDCADMIN_MAXIDLE"
+  setPropFromEnv cdcadmin.maxwait "$CDCADMIN_MAXWAIT"
   setPropFromEnv cas.url "$CAS_URL"
   setPropFromEnv banner9.baseurl "$BANNER9_URL"
   setPropFromEnv remove.abandoned.on.maintenance "$REMOVE_ABANDONED_ON_MAINTENANCE"

@@ -13,6 +13,16 @@ ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod
   BANSSUSER_MAXTOTAL=400 \
   BANSSUSER_MAXIDLE=-1 \
   BANSSUSER_MAXWAIT=30000 \
+  CDCADMIN_USERNAME=cdcadmin \
+  CDCADMIN_INITALSIZE=25 \
+  CDCADMIN_MAXTOTAL=300 \
+  CDCADMIN_MAXIDLE=-1 \
+  CDCADMIN_MAXWAIT=30000 \
+  EVENTS_USERNAME=events \
+  EVENTS_INITALSIZE=25 \
+  EVENTS_MAXTOTAL=300 \
+  EVENTS_MAXIDLE=-1 \
+  EVENTS_MAXWAIT=30000 \
   REMOVE_ABANDONED_ON_MAINTENANCE=true \
   REMOVE_ABANDONED_ON_BORROW=true \
   REMOVE_ABANDONED_TIMEOUT=2100 \
@@ -31,10 +41,10 @@ RUN yum update -y \
 
 #switched to using local ojdbc8.jar and xdb8.jar. Unable to find a good download. 
 ADD ojdbc8.jar /usr/local/tomcat/lib/ojdbc8.jar
-ADD xdb6.jar /usr/local/tomcat/lib/xdb6.jar
+ADD xdb6.jar /usr/local/tomcat/lib/xdb.jar
 
 RUN cd /usr/local/tomcat/lib/ \
-  && chown tomcat:tomcat ojdbc8.jar xdb6.jar && chmod +r ojdbc8.jar xdb6.jar
+  && chown tomcat:tomcat ojdbc8.jar xdb.jar && chmod +r ojdbc8.jar xdb.jar
 
 
 COPY context.xml /usr/local/tomcat/conf/context.xml
