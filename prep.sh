@@ -16,7 +16,7 @@ scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/DocumentManagem
 
 echo "Extracting war"
 cd DocumentManagementApi
-unzip ../DocumentManagementApi.war 
+jar -xvf ../DocumentManagementApi.war 
 cd ..
 
 echo "DocumentManagementApi is ready for configuration"
