@@ -1,6 +1,6 @@
-FROM edurepo/banner9-selfservice:tomcat8.5.57-jre8-corretto
+FROM harbor.usu.edu/banner/base-bannerselfservice:8.5.72-jdk8-corretto
 
-LABEL version="2.8.0"
+LABEL version="3.1.0"
 
 # Fix timezone
 USER root

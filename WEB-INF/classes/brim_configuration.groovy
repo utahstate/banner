@@ -120,7 +120,7 @@ messageTypeConfig = [
 /* BANNER AUTHENTICATION PROVIDER CONFIGURATION */
 banner {
 	sso {
-		authenticationProvider = 'default' //  Valid values are: 'default', 'cas' (must regenerate WAR file when changed)
+		authenticationProvider = 'cas' //  Valid values are: 'default', 'cas' (must regenerate WAR file when changed)
 		authenticationAssertionAttribute = 'UDC_IDENTIFIER'
 	}
 }
@@ -129,14 +129,14 @@ grails {
     plugin {
         springsecurity {
             cas {
-                active = false
+                active = true
                 if (active){
                     grails.plugin.springsecurity.providerNames = ['casBannerAuthenticationProvider', 'selfServiceBannerAuthenticationProvider', 'bannerAuthenticationProvider']
                 }
                 serverUrlPrefix  = (System.getenv('CAS_URL') ?: 'http://CAS_HOST:PORT/cas')
-                serviceUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') +'/brim/login/cas'
-                serverName = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') 
-                proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + '/brim/secure/receptor'
+                serviceUrl = (System.getenv('BRIM_URL') ?: 'http://BANNER9_HOST:PORT') +'/brim/login/cas'
+                serverName = (System.getenv('BRIM_URL') ?: 'http://BANNER9_HOST:PORT') 
+                proxyCallbackUrl = (System.getenv('BRIM_URL') ?: 'http://BANNER9_HOST:PORT') + '/brim/secure/receptor'
                 loginUri = '/login'
                 sendRenew = false
                 proxyReceptorUrl = '/secure/receptor'
@@ -150,9 +150,9 @@ grails {
                     grails.plugin.springsecurity.useSessionFixationPrevention = false
                 }
             }
- //           logout {
-  //              afterLogoutUrl = 'http://CAS_HOST:CAS_PORT/brim/'
-   //         }
+            logout {
+                afterLogoutUrl = 'http://CAS_HOST:CAS_PORT/brim/'
+            }
         }
     }
 }
