@@ -1,0 +1,69 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "FTVEELI"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "FTVEELI.FTVEELI_COAS_CODE",
+    "value" : "${coasCode}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "FTVEELI.FTVEELI_EELC_CODE",
+    "value" : "${eelcCode}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "FTVEELI.FTVEELI_EELI_CODE",
+    "value" : "${eeliCode}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "FTVEELI.FTVEELI_EENT_CODE",
+    "value" : "${eentCode}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "FTVEELI.FTVEELI_EFF_DATE",
+    "value" : "${effDate}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "FTVEELI.FTVEELI_STATUS_IND",
+    "value" : "${statusInd}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "FTVEELI.FTVEELI_TITLE",
+    "value" : "${title}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "FTVEELI"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "29/09/2021'T'17:46:10.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "20/10/2021'T'18:11:40.000",
+    "sinceVersion":"9.3.22"
+  }
+}

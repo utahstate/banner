@@ -1,0 +1,63 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "STVADDA"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "STVADDA.STVADDA_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVADDA.STVADDA_BASE_TABLE",
+    "value" : "${baseTable}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "STVADDA.STVADDA_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "STVADDA.STVADDA_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVADDA.STVADDA_SYSTEM_REQ",
+    "value" : "${systemReq}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVADDA.STVADDA_VAL_TABLE",
+    "value" : "${valTable}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "STVADDA"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }    ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "20/10/2021'T'17:11:50.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "20/10/2021'T'17:11:50.000",
+    "sinceVersion":"9.3.25"
+  }
+}

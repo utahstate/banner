@@ -1,0 +1,105 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "STVHLDD"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "STVHLDD.STVHLDD_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVHLDD.STVHLDD_APPLICATION_HOLD_IND",
+    "value" : "${applicationHoldInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVHLDD.STVHLDD_AR_HOLD_IND",
+    "value" : "${arHoldInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVHLDD.STVHLDD_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "STVHLDD.STVHLDD_COMPLIANCE_HOLD_IND",
+    "value" : "${complianceHoldInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVHLDD.STVHLDD_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVHLDD.STVHLDD_DISP_WEB_IND",
+    "value" : "${dispWebInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVHLDD.STVHLDD_ENV_HOLD_IND",
+    "value" : "${envHoldInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVHLDD.STVHLDD_GRADE_HOLD_IND",
+    "value" : "${gradeHoldInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVHLDD.STVHLDD_GRAD_HOLD_IND",
+    "value" : "${gradHoldInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVHLDD.STVHLDD_REG_HOLD_IND",
+    "value" : "${regHoldInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVHLDD.STVHLDD_TRANS_HOLD_IND",
+    "value" : "${transHoldInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVHLDD.STVHLDD_VR_MSG_NO",
+    "value" : "${vrMsgNo}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "STVHLDD"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }    ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "10/08/2021'T'17:29:29.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "20/10/2021'T'19:02:35.000",
+    "sinceVersion":"9.3.26"
+  }
+}

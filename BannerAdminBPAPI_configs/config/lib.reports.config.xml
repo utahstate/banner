@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="reportsSupportLibSettings" class="morphis.foundations.core.reports.runtime.configuration.ReportsSupportLibSettings">
+		<property name="provider">
+			<bean class="morphis.foundations.core.reports.provider.jasperreports.runner.JRReportsProvider"/>
+		</property>
+		
+		<!-- PNG - 8/11/2010 New properties for I18N purposes -->
+		<property name="applyI18n" value="false"/>
+		
+		<property name="maxInMemObjects" value="250" />
+		<property name="defaultVirtualizer" value="none" />
+		
+		<property name="printerCodes">
+			<map>
+				<entry key="dflt">
+					<map>
+						<entry key="Bold" value="^[E"/>
+						<entry key="NotBold" value="^[F"/>
+						<entry key="Italic" value="^[4"/>
+						<entry key="NotItalic" value="^[5"/>
+						<entry key="BeforeReport" value="^[@"/>
+						<entry key="AfterReport" value=""/>
+						<entry key="AfterPage" value="^L"/>
+						<entry key="BetweenPages" value=""/>
+						<entry key="123" value="^O"/>
+						<entry key="321" value="^R"/>
+						<entry key="456" value="^[G"/>
+						<entry key="654" value="^[H"/>
+						<entry key="789" value="^[W1"/>
+						<entry key="987" value="^[W0"/>
+						<entry key="455" value="^O^[M"/>
+						<entry key="554" value="^R^[P"/>
+						<entry key="122" value="^[E"/>
+						<entry key="221" value="^[F"/>
+						<entry key="422" value="^[2"/>
+						<entry key="224" value="^[0"/>
+					</map>
+				</entry>
+			</map>
+		</property>
+		
+		<property name="defaultCharWidth" value="5"/>
+		<property name="defaultCharHeight" value="10"/>
+		<property name="defaultCharEncoding" value="iso-8859-1"/>
+		
+		<property name="templatesClasspath" value="morphis/foundations/core/reports/provider/jasperreports/templates/" />
+		<property name="defaultTemplate" value="Template" />
+	</bean>
+</beans>

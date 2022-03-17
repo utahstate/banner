@@ -1,0 +1,93 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "STVDSTS"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "STVDSTS.STVDSTS_ACREC_UDE_IND",
+    "value" : "${acrecUdeInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVDSTS.STVDSTS_ARCH_IND",
+    "value" : "${archInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVDSTS.STVDSTS_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "STVDSTS.STVDSTS_COURSE_UDE_IND",
+    "value" : "${courseUdeInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVDSTS.STVDSTS_DEF_PRIORITY",
+    "value" : "${defPriority}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "STVDSTS.STVDSTS_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVDSTS.STVDSTS_IMMUNIZATION_IND",
+    "value" : "${immunizationInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVDSTS.STVDSTS_MAIN_UDE_IND",
+    "value" : "${mainUdeInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVDSTS.STVDSTS_STUDENT_UDE_IND",
+    "value" : "${studentUdeInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVDSTS.STVDSTS_TA_IND",
+    "value" : "${taInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVDSTS.STVDSTS_TESTS_IND",
+    "value" : "${testsInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "STVDSTS"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }    ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "21/09/2021'T'16:57:26.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "20/10/2021'T'13:00:18.000",
+    "sinceVersion":"9.3.25"
+  }
+}

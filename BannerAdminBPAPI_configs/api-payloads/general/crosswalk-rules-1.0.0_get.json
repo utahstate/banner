@@ -1,0 +1,105 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "GTVSDAX"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "GTVSDAX.GTVSDAX_INTERNAL_CODE",
+    "value" : "${internalCode}",
+    "optional" : "true",
+	"case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "GTVSDAX.GTVSDAX_CONCEPT",
+    "value" : "${concept}",
+    "optional" : "true",
+	"case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVSDAX.GTVSDAX_INTERNAL_CODE_SEQNO",
+    "value" : "${internalCodeSeqno}",
+    "optional" : "true",
+	"case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVSDAX.GTVSDAX_TRANSLATION_CODE",
+    "value" : "${translationCode}",
+    "optional" : "true",
+	"case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "GTVSDAX.GTVSDAX_INTERNAL_CODE_GROUP",
+    "value" : "${internalCodeGroup}",
+    "optional" : "true",
+	"case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "GTVSDAX.GTVSDAX_REPORTING_DATE",
+    "value" : "${reportingDate}",
+    "optional" : "true",
+	"case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVSDAX.GTVSDAX_EXTERNAL_CODE",
+    "value" : "${externalCode}",
+    "optional" : "true",
+	"case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "GTVSDAX.GTVSDAX_SYSI_CODE",
+    "value" : "${sysiCode}",
+    "optional" : "true",
+	"case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "GTVSDAX.GTVSDAX_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+	"case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVSDAX.GTVSDAX_SYSREQ_IND",
+    "value" : "${sysreqInd}",
+    "optional" : "true",
+	"case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVSDAX.GTVSDAX_COMMENTS",
+    "value" : "${comments}",
+    "optional" : "true",
+	"case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVSDAX.GTVSDAX_USER_ID",
+    "value" : "${userId}",
+    "optional" : "true",
+	"case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVSDAX.GTVSDAX_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+	"case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "GTVSDAX"
+  } ],
+  "pagination" : {
+    "pageSize" : 500,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "06/10/2021'T'16:26:12.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "06/10/2021'T'16:26:12.000",
+    "sinceVersion":"9.3.21"
+  }
+}

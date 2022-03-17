@@ -1,0 +1,81 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "STVDEGC"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "STVDEGC.STVDEGC_ACAT_CODE",
+    "value" : "${acatCode}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "STVDEGC.STVDEGC_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVDEGC.STVDEGC_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "STVDEGC.STVDEGC_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVDEGC.STVDEGC_DISP_WEB_IND",
+    "value" : "${dispWebInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVDEGC.STVDEGC_DLEV_CODE",
+    "value" : "${dlevCode}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "STVDEGC.STVDEGC_FA_COUNT_IND",
+    "value" : "${faCountInd}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "STVDEGC.STVDEGC_SYSTEM_REQ_IND",
+    "value" : "${systemReqInd}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "STVDEGC.STVDEGC_VR_MSG_NO",
+    "value" : "${vrMsgNo}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "STVDEGC"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }    ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "10/08/2021'T'17:29:29.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "20/10/2021'T'19:02:35.000",
+    "sinceVersion":"9.3.26"
+  }
+}

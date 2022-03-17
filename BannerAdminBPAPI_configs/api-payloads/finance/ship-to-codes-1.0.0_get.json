@@ -1,0 +1,87 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "FTVSHIP"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "FTVSHIP_BLOCK.FTVSHIP_BUILDING",
+    "value" : "${ftvshipBuilding}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "FTVSHIP_BLOCK.FTVSHIP_CODE",
+    "value" : "${ftvshipCode}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "FTVSHIP_BLOCK.FTVSHIP_CONTACT",
+    "value" : "${ftvshipContact}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "FTVSHIP_BLOCK.FTVSHIP_CTRY_CODE_PHONE",
+    "value" : "${ftvshipCtryCodePhone}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "FTVSHIP_BLOCK.FTVSHIP_EFF_DATE",
+    "value" : "${ftvshipEffDate}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "FTVSHIP_BLOCK.FTVSHIP_FLOOR",
+    "value" : "${ftvshipFloor}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "FTVSHIP_BLOCK.FTVSHIP_PHONE_AREA",
+    "value" : "${ftvshipPhoneArea}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "FTVSHIP_BLOCK.FTVSHIP_PHONE_EXT",
+    "value" : "${ftvshipPhoneExt}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "FTVSHIP_BLOCK.FTVSHIP_PHONE_NUM",
+    "value" : "${ftvshipPhoneNum}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "FTVSHIP_BLOCK.FTVSHIP_TERM_DATE",
+    "value" : "${ftvshipTermDate}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "FTVSHIP_BLOCK"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "06/10/2021'T'16:04:49.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "20/10/2021'T'18:11:40.000",
+    "sinceVersion":"9.3.22"
+  }
+}

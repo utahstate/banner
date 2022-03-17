@@ -1,0 +1,51 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "RTVAATP"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "RTVAATP.RTVAATP_ACTIVE_IND",
+    "value" : "${activeInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVAATP.RTVAATP_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVAATP.RTVAATP_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVAATP.RTVAATP_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "RTVAATP"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "06/10/2021'T'17:29:56.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "06/10/2021'T'17:29:56.000",
+    "sinceVersion":"9.3.27.1"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "NTVACAT"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "NTVACAT.NTVACAT_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "NTVACAT.NTVACAT_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "NTVACAT.NTVACAT_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "NTVACAT.NTVACAT_WEB_DESC",
+    "value" : "${webDesc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "NTVACAT.NTVACAT_WEB_DISPLAY_SEQ_NO",
+    "value" : "${webDisplaySeqNo}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "NTVACAT"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "10/08/2021'T'16:23:03.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "20/10/2021'T'16:00:38.000",
+    "sinceVersion":"9.3.14"
+  }
+}

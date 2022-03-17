@@ -1,0 +1,54 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "RTVRJCT"
+  }, {
+    "type" : "bind",
+    "field" : "KEY_BLOCK.KEYBLCK_RJCT_TYPE",
+    "value" : "${keyblckRjctType}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "NEXT_BLOCK"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "RTVRJCT.RTVRJCT_TYPE",
+    "value" : "${type}",
+    "optional" : "true",
+	"case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "RTVRJCT.RTVRJCT_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+	"case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "RTVRJCT.RTVRJCT_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+	"case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "RTVRJCT"
+  } ],
+  "pagination" : {
+    "pageSize" : 500,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "29/09/2021'T'20:49:24.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "29/09/2021'T'20:49:24.000",
+    "sinceVersion":"9.3.27.1"
+  }
+}

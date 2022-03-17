@@ -1,0 +1,45 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "TTVRHLD"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "TTVRHLD.TTVRHLD_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "TTVRHLD.TTVRHLD_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "TTVRHLD.TTVRHLD_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "TTVRHLD"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }    ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "06/10/2021'T'20:58:31.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "21/10/2021'T'04:54:34.000",
+    "sinceVersion":"9.3.20"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "STVCSTA"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "STVCSTA.STVCSTA_ACTIVE_IND",
+    "value" : "${activeInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVCSTA.STVCSTA_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVCSTA.STVCSTA_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "STVCSTA.STVCSTA_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "STVCSTA"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }    ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "10/08/2021'T'17:42:34.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "20/10/2021'T'13:00:18.000",
+    "sinceVersion":"9.3.25"
+  }
+}

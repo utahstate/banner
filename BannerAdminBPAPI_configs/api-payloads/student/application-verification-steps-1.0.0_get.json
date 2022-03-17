@@ -1,0 +1,75 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "STVASTA"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "STVASTA.STVASTA_ACTIVE_IND",
+    "value" : "${activeInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVASTA.STVASTA_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVASTA.STVASTA_APPL_IND",
+    "value" : "${applInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVASTA.STVASTA_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "STVASTA.STVASTA_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVASTA.STVASTA_LOAD_IND",
+    "value" : "${loadInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVASTA.STVASTA_PERS_IND",
+    "value" : "${persInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVASTA.STVASTA_PRIORITY",
+    "value" : "${priority}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "STVASTA"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }    ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "21/09/2021'T'16:57:26.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "20/10/2021'T'13:00:18.000",
+    "sinceVersion":"9.3.25"
+  }
+}

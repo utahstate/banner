@@ -1,0 +1,45 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "GTVFTYP"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "GTVFTYP.GTVFTYP_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVFTYP.GTVFTYP_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "GTVFTYP.GTVFTYP_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "GTVFTYP"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "19/10/2021'T'17:41:13.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "19/10/2021'T'17:41:13.000",
+    "sinceVersion":"9.3.21"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "FTVFSYR"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "FTVFSYR.CURRENT_PERIOD",
+    "value" : "${currentPeriod}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "FTVFSYR.EARLIEST_OPEN_PERIOD",
+    "value" : "${earliestOpenPeriod}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "FTVFSYR.FTVFSYR_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "FTVFSYR.FTVFSYR_COAS_CODE",
+    "value" : "${coasCode}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "FTVFSYR.FTVFSYR_END_DATE",
+    "value" : "${endDate}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "FTVFSYR.FTVFSYR_EOY_ACCR_STATUS_IND",
+    "value" : "${eoyAccrStatusInd}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "FTVFSYR.FTVFSYR_FSYR_CODE",
+    "value" : "${fsyrCode}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "FTVFSYR.FTVFSYR_START_DATE",
+    "value" : "${startDate}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "FTVFSYR"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "06/10/2021'T'16:04:49.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "20/10/2021'T'18:11:40.000",
+    "sinceVersion":"9.3.22"
+  }
+}

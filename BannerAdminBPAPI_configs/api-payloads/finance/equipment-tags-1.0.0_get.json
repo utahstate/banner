@@ -1,0 +1,63 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "FTVEQPT"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "FTVEQPT.FTVEQPT_COAS_CODE",
+    "value" : "${coasCode}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "FTVEQPT.FTVEQPT_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "FTVEQPT.FTVEQPT_EFF_DATE",
+    "value" : "${effDate}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "FTVEQPT.FTVEQPT_LONG_DESC",
+    "value" : "${longDesc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "FTVEQPT.FTVEQPT_ORGN_CODE",
+    "value" : "${orgnCode}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "FTVEQPT.FTVEQPT_TERM_DATE",
+    "value" : "${termDate}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "FTVEQPT"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "29/09/2021'T'17:46:10.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "20/10/2021'T'18:11:40.000",
+    "sinceVersion":"9.3.22"
+  }
+}

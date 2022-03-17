@@ -1,0 +1,45 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "NTVPFOC"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "NTVPFOC.NTVPFOC_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "NTVPFOC.NTVPFOC_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "NTVPFOC.NTVPFOC_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "NTVPFOC"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "29/09/2021'T'17:38:46.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "20/10/2021'T'16:00:38.000",
+    "sinceVersion":"9.3.14"
+  }
+}

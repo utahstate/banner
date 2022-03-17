@@ -1,0 +1,63 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "STVCLAS"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "STVCLAS.STVCLAS_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVCLAS.STVCLAS_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "STVCLAS.STVCLAS_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVCLAS.STVCLAS_EDI_EQUIV",
+    "value" : "${ediEquiv}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "STVCLAS.STVCLAS_LMS_EQUIV",
+    "value" : "${lmsEquiv}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "STVCLAS.STVCLAS_NSC_CLASS_CDE",
+    "value" : "${nscClassCde}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "STVCLAS"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }    ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "10/08/2021'T'17:42:34.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "20/10/2021'T'13:00:18.000",
+    "sinceVersion":"9.3.25"
+  }
+}

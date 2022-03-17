@@ -1,0 +1,63 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "GTVPDFT"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "GTVPDFT.GTVPDFT_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVPDFT.GTVPDFT_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "GTVPDFT.GTVPDFT_DATA_ORIGIN",
+    "value" : "${dataOrigin}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVPDFT.GTVPDFT_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVPDFT.GTVPDFT_SYSTEM_REQUIRED_IND",
+    "value" : "${systemRequiredInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVPDFT.GTVPDFT_USER_ID",
+    "value" : "${userId}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "GTVPDFT"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "21/09/2021'T'10:53:38.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "19/10/2021'T'17:12:29.000",
+    "sinceVersion":"9.3.21"
+  }
+}

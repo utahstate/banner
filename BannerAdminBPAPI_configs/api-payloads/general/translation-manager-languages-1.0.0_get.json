@@ -1,0 +1,75 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "GTVLANG"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "GTVLANG.GTVLANG_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVLANG.GTVLANG_CODE",
+    "value" : "${langCode}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVLANG.GTVLANG_DESC",
+    "value" : "${langDesc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVLANG.GTVLANG_LENGTH_SEMANTICS",
+    "value" : "${lengthSemantics}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVLANG.GTVLANG_ORA_NLS_CHST",
+    "value" : "${oraNlsChst}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "GTVLANG.GTVLANG_ORA_NLS_LANG",
+    "value" : "${oraNlsLang}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "GTVLANG.GTVLANG_ORA_NLS_TERR",
+    "value" : "${oraNlsTerr}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "GTVLANG.GTVLANG_USER_ID",
+    "value" : "${userId}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "GTVLANG"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "21/09/2021'T'10:53:38.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "19/10/2021'T'17:12:29.000",
+    "sinceVersion":"9.3.21"
+  }
+}

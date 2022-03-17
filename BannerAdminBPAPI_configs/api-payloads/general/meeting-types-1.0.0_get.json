@@ -1,0 +1,63 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "GTVMTYP"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "GTVMTYP.GTVMTYP_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVMTYP.GTVMTYP_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "GTVMTYP.GTVMTYP_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVMTYP.GTVMTYP_SYS_REQ_IND",
+    "value" : "${sysReqInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVMTYP.GTVMTYP_USER_ID",
+    "value" : "${userId}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVMTYP.GTVMTYP_VR_MSG_NO",
+    "value" : "${vrMsgNo}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "GTVMTYP"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "19/10/2021'T'17:12:29.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "19/10/2021'T'17:12:29.000",
+    "sinceVersion":"9.3.21"
+  }
+}

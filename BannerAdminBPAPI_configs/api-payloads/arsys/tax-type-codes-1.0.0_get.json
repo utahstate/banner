@@ -1,0 +1,51 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "TTVTAXT"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "TTVTAXT.TTVTAXT_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "TTVTAXT.TTVTAXT_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "TTVTAXT.TTVTAXT_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "TTVTAXT.TTVTAXT_TAX_IND",
+    "value" : "${taxInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "TTVTAXT"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }    ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "22/09/2021'T'08:56:43.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "21/10/2021'T'04:54:34.000",
+    "sinceVersion":"9.3.20"
+  }
+}

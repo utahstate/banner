@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="appSupportLibConfigurationSettings" class="morphis.foundations.core.appsupportlib.configuration.AppSupportLibConfigurationSettings" init-method="initialize">
+		<property name="defaultModelClass" 		value="morphis.foundations.core.appsupportlib.model.FormModel"/>	
+		<property name="defaultTaskClass" 		value="morphis.foundations.core.appsupportlib.runtime.Task"/>
+		<property name="defaultTaskPartClass" 	value="morphis.foundations.core.appsupportlib.runtime.TaskPart"/>
+		<property name="minimumElapseTimer"     value="1000"/>
+		<property name="defaultBaseTaskConfiguration">
+			<value>/common/BASE_FORM</value>
+		</property>
+		<property name="taskConfigurationPostProcessor">
+	        <bean class="morphis.foundations.core.appsupportlib.configuration.ChainedTaskConfigurationPostProcessors">
+	            <property name="postProcessors">
+	                <list>
+	     <!-- Banner post processor -->
+<!-- 	                    <bean class="net.hedtech.general.common.runtime.BannerTaskConfigurationPostProcessor"> -->
+<!-- 	                    </bean> -->
+	     <!-- Preload views -->
+<!-- 	                    <bean class="morphis.foundations.core.appsupportlib.configuration.ViewsPreloader"> -->
+	                        
+	                        <!-- Change to the correct views URL -->
+<!-- 	                        <property name="viewsURL" value="${webapp.views.url}"/> -->
+	                        
+	                        <!-- Uncomment to set number of threads used (default: 1/3 of total processors available) -->
+	                        <!--
+	                        <property name="threads" value="1"/>
+	                        -->
+	                        
+	                        <!-- Uncomment to set thread priority ([1..10], default: 1) -->
+	                        <!--
+	                        <property name="threadPriority" value="1"/>
+	                        -->
+	                        
+	                        <!-- Uncomment to set languages cached (default: environment locale) -->
+	                        <!--
+	                        <property name="languages">
+	                            <set>
+	                                <value>en_US</value>
+	                                <value>pt_PT</value>
+	                            </set>
+	                        </property>
+	                        -->
+<!-- 	                    </bean> -->
+	                </list>
+	            </property>
+	        </bean>
+    	</property>
+		<!--Allowed  values for rowConcurrency Single or Bulk-->
+		<property name="rowConcurrencyCheckMode" value= "Bulk"/>
+		<!--Allowed  values for saveMode Single or Bulk-->
+		<property name="saveProcessingMode" value= "Single"/>
+	</bean>
+
+	<bean id="appSupportLibSettings"
+		class="morphis.foundations.core.appsupportlib.configuration.AppSupportLibSettings"
+		init-method="initialize">
+		<property name="onErrorEnabled" value="true" />
+		<property name="itemTypesProvider">
+			<bean class="morphis.foundations.flavors.forms.appsupportlib.runtime.controlsModel.ItemTypesProvider" >
+			</bean>
+		</property>
+		
+<!-- 		<property name="exportDataProvider"> -->
+<!-- 			<bean class="net.hedtech.general.common.data.export.ExportDataBlockProvider" >				 -->
+<!-- 			</bean> -->
+<!-- 		</property> -->
+		
+<!-- 		<property name="exportSettings"> -->
+<!-- 			<bean class="morphis.foundations.core.appsupportlib.configuration.ExportSettings"> -->
+<!-- 				<property name="recordsToExport" value="20000" /> -->
+<!-- 				<property name="useUserFormat" value="true" /> -->
+<!-- 			</bean> -->
+<!-- 		</property>  -->
+		
+		<property name="envVars">
+			<map>
+<!-- 				<entry key="helpUrl"> -->
+<!-- 					<value>/help/index.html</value> -->
+<!-- 				</entry> -->
+				<entry key="imagesRootPath">
+					<value>/img</value>
+				</entry>
+				
+				<entry key="BAN_GUAIMGE_ID_RANGE">
+					<value>${env.guaimge.id_range}</value>
+				</entry>
+				<entry key="BAN_GUAIMGE_EXTENSION">
+					<value>${env.guaimge.extension}</value>
+				</entry>
+				<entry key="BAN_GUAIMGE_PATH">
+					<value>${env.guaimge.path}</value>
+				</entry>
+				
+				<entry key="BAN_IMAGE_URL">
+					<value>${env.image.url}</value>
+				</entry>							
+				<entry key="BAN_IMAGE_PARAMETERS">
+					<value>${env.image.parameters}</value>
+				</entry>					
+				
+				<entry key="jobSubUser" value="${env.connection.jobsub.user}" />
+				<entry key="jobSubPwd" value="${env.connection.jobsub.passwd}" />
+				<entry key="reportsUrl" value="${env.report.service.url}" />
+				<entry key="org" value="${env.report.service.default.org}" />
+				<entry key="format" value="${env.report.service.default.format}" />
+				<entry key="thirdPartyServiceUrl" value="${env.report.thirdparty.service.url}" />
+				<!-- PNG - 23/6/2010 New ReportsLogger output folder environment variable -->
+				<entry key="REPORTS_TRACE_DIR" value="C:/Temp"></entry>
+				
+				<entry key="defaultAccessibilityMode" value ="N" />
+
+				<!-- select the mode of open a new window in BDM:
+						this propertie is added allows the BDM to reuse the same tab if one is already opened  -->
+				<entry key="BAN_BDM_WINDOW_MODE">
+					<value>${env.bdmWindowMode}</value>
+				</entry>
+
+				<!-- wrap exported headers in quotes -->
+				<entry key="BAN_EXPORT_QUOTES"><value>${env.export.quotes}</value></entry>
+
+				<!-- Default value that defines that from this number of rows a warning message must appear in the export functionality. -->
+				<entry key="DEFAULT_NUM_RECORDS_WARNING_EXPORT">
+					<value>${env.defaultNumRecordsWarningExport}</value>
+				</entry>
+				
+				<!-- Default value that defines if the export functionality will show the warning message  -->
+				<entry key="SHOW_WARNING_EXPORT">
+					<value>${env.showWarningExport}</value>
+				</entry>
+				
+				<!-- The record counter is updated after this seconds -->
+				<entry key="TIMER_TO_REFRESH_COUNTER_EXPORT">
+					<value>${env.timerToRefreshCounterExport}</value>
+				</entry>
+				
+				<!-- Once this number of records is reached, the counter is updated -->
+				<entry key="REFRESH_COUNTER_RECORDS_EXPORT">
+					<value>${env.refreshCounterRecordsExport}</value>
+				</entry>
+				
+				<entry key="resolverServicesProvider" value="${env.resolverServicesProvider}"/>
+				<entry key="apiPath" value="${env.apiPath}"/>
+				
+				<!-- Modules to export with descriptions -->
+<!-- 				<entry key="DESCRIPTIONS_FOR_MODULES"> -->
+<!-- 					<value>${env.descriptionsForModules}</value> -->
+<!-- 				</entry> -->
+			</map>
+		</property>
+		<property name="taskFactory">
+      		<bean name="bannerTaskFactory" class="net.hedtech.general.common.runtime.BannerTaskFactory">
+				<property name="exceptFlavorNamespaces" 
+					value ="">
+				</property>
+				<property name="excludeFlavorNamespaces" 
+					value ="">
+				</property>
+				<property name="upaLoadProvider">
+         			<bean id="upaLoadProvider" class="net.hedtech.general.common.upa.UpaLoadProvider" >
+         			        <property name="upaEnabled" value="true" />
+         			</bean> 
+      			</property>
+			</bean>
+		</property>
+		<property name="messageBinderFactory">
+			<bean class="net.hedtech.general.common.runtime.MessageBinderFactory" />
+		</property>
+		<property name="defaultTaskConfiguration">
+			<value>BANNER_MAIN</value>
+		</property>
+		<property name="menuServices">
+			<bean id="menuServices"
+				class="morphis.foundations.core.appsupportlib.runtime.menus.MenuServices">
+				<property name="provider">
+					<bean
+						class="morphis.foundations.core.appsupportlib.runtime.menus.XmlMenuServicesProvider"
+						init-method="initialize">
+						<property name="context" value="net.hedtech.general.common.menus" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+		 
+		<property name="taskMapProvider">
+			<bean class="net.hedtech.general.common.runtime.XmlTaskMapperProvider" init-method="initialize" >
+				<property name="mapPath" value="net.hedtech.general.common.runtime.taskMap" ></property>
+			</bean>
+		</property>
+		
+	</bean>
+
+	<bean
+		class="morphis.foundations.core.util.configuration.StaticInitializerBeanFactoryPostProcessor">
+		<property name="classes">
+			<map>
+				<entry key="morphis.foundations.core.util.logging.LoggerFactory">
+					<map>
+						<entry key="loggerServices">
+							<bean class="morphis.foundations.core.util.logging.LoggerServices">
+								<property name="provider">
+									<bean
+										class="morphis.foundations.core.util.logging.XmlLoggerServicesProvider"
+										init-method="initialize">
+										<property name="context" value="" />
+										<!-- Levels order: NONE, FATAL, ERROR, WARN, INFO, DEBUG, TRACE -->
+										<property name="showStackTraceLevel" value="ERROR" />
+										<property name="ctxInfoProviders">
+											<list>
+												<value>morphis.foundations.core.appsupportlib.runtime.Task</value>
+												<value>morphis.foundations.core.appsupportlib.runtime.web.message.MessageRequestHelper</value>
+											</list>
+										</property>
+									</bean>
+								</property>
+							</bean>
+						</entry>
+					</map>
+				</entry>
+				
+				<entry key="morphis.foundations.core.appsupportlib.runtime.web.message.InteractionManager">
+					<map>
+						<entry key="interactionStateProvider">
+							<bean class="net.hedtech.general.common.runtime.BannerInteractionStateProvider"/>
+						</entry>
+					</map>
+				</entry>
+
+				<entry key="morphis.foundations.core.util.globals.GlobalsProvider">
+					<map>
+						<entry key="repository">
+<!-- 							<bean class="morphis.foundations.core.appsupportlib.globals.TaskStateGlobalsRepository"/> -->
+							<bean class="net.hedtech.general.common.util.BannerGlobalsRepository"/>
+						</entry>
+					</map>
+				</entry>
+
+<!-- 				<entry key="morphis.common.help.HelpServices"> -->
+<!-- 					<map> -->
+<!-- 						<entry key="provider"> -->
+<!-- 							<bean  -->
+<!-- 								class="morphis.common.help.DefaultHelpServicesProvider" /> -->
+<!-- 						</entry> -->
+<!-- 					</map> -->
+<!-- 				</entry> -->
+
+
+<!-- 				<entry key="morphis.foundations.core.util.monitor.MonitorServices"> -->
+<!-- 					<map> -->
+<!-- 						<entry key="provider"> -->
+<!-- 							<bean  -->
+<!-- 								class="morphis.foundations.core.appsupportlib.runtime.monitor.RequestMonitorProvider" /> -->
+<!-- 						</entry> -->
+<!-- 					</map> -->
+<!-- 				</entry> -->
+
+				<entry key="morphis.foundations.core.util.profile.UserProfileServices">
+					<map>
+						<entry key="provider">
+							<bean class="net.hedtech.general.common.services.UserProfileServicesProvider" init-method="initialize">
+								<property name="defaultLocale">
+									<bean class="java.util.Locale">
+										<constructor-arg index="0" value="en"/>	<!-- language -->
+										<constructor-arg index="1" value="US"/>	<!-- country -->
+									</bean>
+								</property>
+							</bean>
+						</entry>
+					</map>
+				</entry>
+
+				<entry key="morphis.foundations.core.appsupportlib.runtime.localization.LocalizationServices">
+					<map>
+						<entry key="provider">
+							<ref bean="${localizationProvider}" />
+						</entry>
+					</map>
+				</entry>
+
+				<entry key="morphis.foundations.core.util.event.EventBehaviorsBuilder">
+					<map>
+						<entry key="behaviorsLoaderProvider">
+							<bean
+								class="morphis.foundations.core.appsupportlib.runtime.action.ModelEventBehaviorsLoaderProvider">
+							</bean>
+						</entry>
+					</map>
+				</entry>
+
+				<entry key="morphis.workspace.forms.main.services.LoginServices">
+					<map>
+						<entry key="provider">
+							<!-- 
+							<bean class="net.hedtech.general.common.security.SamlLoginProvider">
+								<property name="authenticationAssertionAttribute" value="${security.authentication_assertion_attribute}"/>
+							</bean>
+							-->
+
+							<!--
+							<bean class="net.hedtech.general.common.security.CasLoginProvider">
+								<property name="authenticationAssertionAttribute" value="${security.authentication_assertion_attribute}"/>
+							</bean>
+							-->
+
+							<bean class="net.hedtech.general.common.security.EnvironmentLoginProvider"/>
+							
+							<!--
+							<bean class="net.hedtech.general.common.security.DefaultLoginProvider"/>
+							-->
+						</entry>
+					</map>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="dbLocalizationServicesProvider" class="net.hedtech.general.common.services.localization.BannerLocalizationServicesProvider" init-method="initialize">
+		<property name="bannerDBLocalePropertyReader">
+			<bean class="net.hedtech.general.common.services.localization.BannerDBLocalePropertyReader">											
+				<property name="dbLocalePropertiesRefreshInterval" value="${locale.properties.db.refresh.interval:1}" /> 
+			</bean>
+		</property>
+	</bean>
+	<bean id="defaultLocalizationServicesProvider" class="morphis.foundations.core.appsupportlib.runtime.localization.DefaultLocalizationServicesProvider" init-method="initialize">		
+	</bean> 
+
+	<bean id="applicationContexts" class="morphis.foundations.core.util.configuration.ApplicationContexts">
+		<property name="contexts">
+			<list>
+				<value>morphis</value>
+				<value>net.hedtech</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="taskConfigurationSettings"
+		class="morphis.foundations.core.appsupportlib.runtime.configuration.TaskConfigurationSettings"
+		init-method="registerConfigurations">
+		<property name="contexts" ref="applicationContexts"/>
+	</bean>
+
+	<bean id="libraryConfigurationSettings"
+		class="morphis.foundations.core.appsupportlib.runtime.configuration.LibraryConfigurationSettings"
+		init-method="registerConfigurations">
+		<property name="contexts" ref="applicationContexts"/>
+	</bean>
+	
+	<bean id="auditConfigurationSettings"
+		class="morphis.foundations.core.appsupportlib.runtime.configuration.AuditConfigurationSettings"
+		init-method="registerConfigurations">
+		<property name="contexts" ref="applicationContexts"/>
+	</bean>
+	<bean id="bannerConfigProperties" class="net.hedtech.general.common.ConfigProperties">
+		<property name="properties">
+	   		<bean class="org.springframework.beans.factory.config.PropertiesFactoryBean" >
+	   			<property name="singleton" value="true" />
+			  	<property name="location" value="classpath:/config.properties"/>
+			</bean>
+	  	</property>
+	</bean>
+</beans>

@@ -1,0 +1,105 @@
+{
+  "steps" : [ {
+      "type" : "openTask",
+      "name" : "STVSITE"
+    }, {
+      "type" : "action",
+      "value" : "SEARCH"
+    }, {
+      "type" : "bind",
+      "field" : "STVSITE.STVSITE_CITY",
+      "value" : "${city}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVSITE.STVSITE_CODE",
+      "value" : "${code}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVSITE.STVSITE_DESC",
+      "value" : "${desc}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVSITE.STVSITE_FOREIGN_COUNTRY",
+      "value" : "${foreignCountry}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVSITE.STVSITE_HOUSE_NUMBER",
+      "value" : "${houseNumber}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVSITE.STVSITE_NATN_CODE",
+      "value" : "${natnCode}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVSITE.STVSITE_STATE",
+      "value" : "${state}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVSITE.STVSITE_STREET_ADDR1",
+      "value" : "${streetAddr1}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVSITE.STVSITE_STREET_ADDR2",
+      "value" : "${streetAddr2}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVSITE.STVSITE_STREET_ADDR3",
+      "value" : "${streetAddr3}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVSITE.STVSITE_STREET_ADDR4",
+      "value" : "${streetAddr4}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVSITE.STVSITE_ZIPC",
+      "value" : "${zipc}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVSITE.STVSITE_ACTIVITY_DATE",
+      "value" : "${activityDate}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "action",
+      "value" : "EXECUTE_QUERY"
+    } ],
+  "result" : [ {
+      "type" : "block",
+      "name" : "STVSITE"
+    } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }    ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "10/08/2021'T'17:29:29.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "15/10/2021'T'20:20:15.000",
+    "sinceVersion":"9.3.26"
+  }
+}

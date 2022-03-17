@@ -1,0 +1,105 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "STVGCHG"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "STVGCHG.STVGCHG_ACADHIST_IND",
+    "value" : "${acadhistInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVGCHG.STVGCHG_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVGCHG.STVGCHG_CALCULATED_IND",
+    "value" : "${calculatedInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVGCHG.STVGCHG_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "STVGCHG.STVGCHG_DEFINITIVE_IND",
+    "value" : "${definitiveInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVGCHG.STVGCHG_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVGCHG.STVGCHG_EGB_IND",
+    "value" : "${egbInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVGCHG.STVGCHG_EXEMPT_IND",
+    "value" : "${exemptInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVGCHG.STVGCHG_GCAT_CODE",
+    "value" : "${gcatCode}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "STVGCHG.STVGCHG_PERMIT_DUP_IND",
+    "value" : "${permitDupInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVGCHG.STVGCHG_REAS_GRDE_IND",
+    "value" : "${reasGrdeInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVGCHG.STVGCHG_RESIT_IND",
+    "value" : "${resitInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVGCHG.STVGCHG_SYSTEM_REQ_IND",
+    "value" : "${systemReqInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "STVGCHG"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }    ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "21/09/2021'T'16:57:26.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "20/10/2021'T'13:00:18.000",
+    "sinceVersion":"9.3.25"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "GTVRRAC"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "GTVRRAC.GTVRRAC_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVRRAC.GTVRRAC_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "GTVRRAC.GTVRRAC_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVRRAC.GTVRRAC_SYS_REQ_IND",
+    "value" : "${sysReqInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVRRAC.GTVRRAC_USER_ID",
+    "value" : "${userId}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "GTVRRAC"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "21/09/2021'T'10:53:38.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "18/10/2021'T'15:31:15.000",
+    "sinceVersion":"9.3.21"
+  }
+}

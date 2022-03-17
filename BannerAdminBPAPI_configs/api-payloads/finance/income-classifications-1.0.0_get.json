@@ -1,0 +1,45 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "FTVINCL"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "FTVINCL.FTVINCL_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "FTVINCL.FTVINCL_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "FTVINCL.FTVINCL_INC_CLASS_DESC",
+    "value" : "${incClassDesc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "FTVINCL"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "29/09/2021'T'17:46:10.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "20/10/2021'T'18:11:40.000",
+    "sinceVersion":"9.3.22"
+  }
+}

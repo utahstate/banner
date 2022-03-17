@@ -1,0 +1,45 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "PTVHSPC"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "PTVHSPC.PTVHSPC_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "PTVHSPC.PTVHSPC_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "PTVHSPC.PTVHSPC_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "PTVHSPC"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "06/10/2021'T'17:05:36.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "20/10/2021'T'16:36:40.000",
+    "sinceVersion":"9.3.19"
+  }
+}

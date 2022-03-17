@@ -1,0 +1,51 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "GTVEMAL"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "GTVEMAL.GTVEMAL_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "GTVEMAL.GTVEMAL_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVEMAL.GTVEMAL_DISP_WEB_IND",
+    "value" : "${dispWebInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVEMAL.GTVEMAL_URL_IND",
+    "value" : "${urlInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "GTVEMAL"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "10/08/2021'T'15:35:52.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "19/10/2021'T'17:12:29.000",
+    "sinceVersion":"9.3.21"
+  }
+}

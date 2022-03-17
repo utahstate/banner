@@ -1,0 +1,69 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "GTVZIPC"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "GTVZIPC_BLOCK.GTVZIPC_CITY",
+    "value" : "${gtvzipcCity}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVZIPC_BLOCK.GTVZIPC_CNTY_CODE",
+    "value" : "${gtvzipcCntyCode}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVZIPC_BLOCK.GTVZIPC_CODE",
+    "value" : "${gtvzipcCode}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVZIPC_BLOCK.GTVZIPC_NATN_CODE",
+    "value" : "${gtvzipcNatnCode}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVZIPC_BLOCK.GTVZIPC_NEIGHBORHOOD",
+    "value" : "${gtvzipcNeighborhood}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVZIPC_BLOCK.GTVZIPC_STAT_CODE",
+    "value" : "${gtvzipcStatCode}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVZIPC_BLOCK.GTVZIPC_STREET",
+    "value" : "${gtvzipcStreet}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "GTVZIPC_BLOCK"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "10/08/2021'T'15:35:52.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "19/10/2021'T'17:12:29.000",
+    "sinceVersion":"9.3.21"
+  }
+}

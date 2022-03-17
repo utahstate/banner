@@ -1,0 +1,51 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "GTVFEES"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "GTVFEES.GTVFEES_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVFEES.GTVFEES_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "GTVFEES.GTVFEES_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "GTVFEES.GTVFEES_PAID_IND",
+    "value" : "${paidInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "GTVFEES"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "21/09/2021'T'10:53:38.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "18/10/2021'T'15:31:15.000",
+    "sinceVersion":"9.3.21"
+  }
+}

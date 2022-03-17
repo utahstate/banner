@@ -1,0 +1,75 @@
+{
+  "steps" : [ {
+      "type" : "openTask",
+      "name" : "STVCIPC"
+    }, {
+      "type" : "action",
+      "value" : "SEARCH"
+    }, {
+      "type" : "bind",
+      "field" : "STVCIPC.STVCIPC_CIPC_A_IND",
+      "value" : "${cipcAInd}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVCIPC.STVCIPC_CIPC_B_IND",
+      "value" : "${cipcBInd}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVCIPC.STVCIPC_CIPC_C_IND",
+      "value" : "${cipcCInd}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVCIPC.STVCIPC_CODE",
+      "value" : "${code}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVCIPC.STVCIPC_DESC",
+      "value" : "${desc}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVCIPC.STVCIPC_PUB_YEAR",
+      "value" : "${pubYear}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVCIPC.STVCIPC_SP04_PROGRAM_CDE",
+      "value" : "${sp04ProgramCde}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVCIPC.STVCIPC_ACTIVITY_DATE",
+      "value" : "${activityDate}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "action",
+      "value" : "EXECUTE_QUERY"
+    } ],
+  "result" : [ {
+      "type" : "block",
+      "name" : "STVCIPC"
+    } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }    ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "10/08/2021'T'17:29:29.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "15/10/2021'T'20:20:15.000",
+    "sinceVersion":"9.3.26"
+  }
+}

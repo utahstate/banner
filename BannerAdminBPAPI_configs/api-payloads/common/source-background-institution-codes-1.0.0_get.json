@@ -1,0 +1,81 @@
+{
+  "steps" : [ {
+      "type" : "openTask",
+      "name" : "STVSBGI"
+    }, {
+      "type" : "action",
+      "value" : "SEARCH"
+    }, {
+      "type" : "bind",
+      "field" : "STVSBGI.STVSBGI_ADMR_CODE",
+      "value" : "${admrCode}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVSBGI.STVSBGI_CODE",
+      "value" : "${code}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVSBGI.STVSBGI_DESC",
+      "value" : "${desc}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVSBGI.STVSBGI_EDI_CAPABLE",
+      "value" : "${ediCapable}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVSBGI.STVSBGI_FICE",
+      "value" : "${fice}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVSBGI.STVSBGI_SRCE_IND",
+      "value" : "${srceInd}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVSBGI.STVSBGI_TYPE_IND",
+      "value" : "${typeInd}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVSBGI.STVSBGI_VR_MSG_NO",
+      "value" : "${vrMsgNo}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVSBGI.STVSBGI_ACTIVITY_DATE",
+      "value" : "${activityDate}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "action",
+      "value" : "EXECUTE_QUERY"
+    } ],
+  "result" : [ {
+      "type" : "block",
+      "name" : "STVSBGI"
+    } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }    ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "10/08/2021'T'17:29:29.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "15/10/2021'T'20:20:15.000",
+    "sinceVersion":"9.3.26"
+  }
+}

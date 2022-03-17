@@ -1,0 +1,123 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "STVEMPL"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "STVEMPL.STVEMPL_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVEMPL.STVEMPL_CITY",
+    "value" : "${city}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVEMPL.STVEMPL_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVEMPL.STVEMPL_CTRY_CODE_PHONE",
+    "value" : "${ctryCodePhone}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVEMPL.STVEMPL_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVEMPL.STVEMPL_HOUSE_NUMBER",
+    "value" : "${houseNumber}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVEMPL.STVEMPL_NATN_CODE",
+    "value" : "${natnCode}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVEMPL.STVEMPL_PHONE_AREA",
+    "value" : "${phoneArea}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVEMPL.STVEMPL_PHONE_EXT",
+    "value" : "${phoneExt}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVEMPL.STVEMPL_PHONE_NUMBER",
+    "value" : "${phoneNumber}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVEMPL.STVEMPL_STAT_CODE",
+    "value" : "${statCode}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVEMPL.STVEMPL_STREET_LINE1",
+    "value" : "${streetLine1}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVEMPL.STVEMPL_STREET_LINE2",
+    "value" : "${streetLine2}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVEMPL.STVEMPL_STREET_LINE3",
+    "value" : "${streetLine3}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVEMPL.STVEMPL_STREET_LINE4",
+    "value" : "${streetLine4}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVEMPL.STVEMPL_ZIP",
+    "value" : "${zip}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "STVEMPL"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }    ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "21/09/2021'T'16:57:26.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "21/09/2021'T'16:57:26.000",
+    "sinceVersion":"9.3.25"
+  }
+}

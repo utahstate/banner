@@ -1,0 +1,51 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "RTVMESG"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "RTVMESG.RTVMESG_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "RTVMESG.RTVMESG_INFO_ACCESS_IND",
+    "value" : "${infoAccessInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVMESG.RTVMESG_MESG_DESC",
+    "value" : "${mesgDesc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVMESG.RTVMESG_STOP_AWRD_PROCESS",
+    "value" : "${stopAwrdProcess}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "RTVMESG"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "29/09/2021'T'20:49:24.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "20/10/2021'T'17:15:44.000",
+    "sinceVersion":"9.3.27.1"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "steps" : [ {
+      "type" : "openTask",
+      "name" : "STVNATN"
+    }, {
+      "type" : "action",
+      "value" : "SEARCH"
+    }, {
+      "type" : "bind",
+      "field" : "STVNATN.STVNATN_CODE",
+      "value" : "${code}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVNATN.STVNATN_EDI_EQUIV",
+      "value" : "${ediEquiv}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVNATN.STVNATN_LMS_EQUIV",
+      "value" : "${lmsEquiv}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVNATN.STVNATN_NATION",
+      "value" : "${nation}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVNATN.STVNATN_SCOD_CODE_ISO",
+      "value" : "${scodCodeIso}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVNATN.STVNATN_SEVIS_EQUIV",
+      "value" : "${sevisEquiv}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVNATN.STVNATN_SSA_REPORTING_EQUIV",
+      "value" : "${ssaReportingEquiv}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVNATN.STVNATN_STATSCAN_CDE",
+      "value" : "${statscanCde}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVNATN.STVNATN_ACTIVITY_DATE",
+      "value" : "${activityDate}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "action",
+      "value" : "EXECUTE_QUERY"
+    } ],
+  "result" : [ {
+      "type" : "block",
+      "name" : "STVNATN"
+    } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }    ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "10/08/2021'T'17:29:29.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "15/10/2021'T'20:20:15.000",
+    "sinceVersion":"9.3.26"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "steps" : [ {
+      "type" : "openTask",
+      "name" : "STVMRTL"
+    }, {
+      "type" : "action",
+      "value" : "SEARCH"
+    }, {
+      "type" : "bind",
+      "field" : "STVMRTL.STVMRTL_CODE",
+      "value" : "${code}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVMRTL.STVMRTL_DESC",
+      "value" : "${desc}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVMRTL.STVMRTL_EDI_EQUIV",
+      "value" : "${ediEquiv}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVMRTL.STVMRTL_FA_CONV_CODE",
+      "value" : "${faConvCode}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "bind",
+      "field" : "STVMRTL.STVMRTL_ACTIVITY_DATE",
+      "value" : "${activityDate}",
+      "optional" : "true",
+      "case" : "none"
+    }, {
+      "type" : "action",
+      "value" : "EXECUTE_QUERY"
+    } ],
+  "result" : [ {
+      "type" : "block",
+      "name" : "STVMRTL"
+    } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }    ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "10/08/2021'T'17:29:29.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "15/10/2021'T'20:20:15.000",
+    "sinceVersion":"9.3.26"
+  }
+}

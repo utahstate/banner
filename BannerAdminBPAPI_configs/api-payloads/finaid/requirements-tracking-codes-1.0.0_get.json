@@ -1,0 +1,140 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "RTVTREQ"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "RTVTREQ.RTVTREQ_ACCESS_IND",
+    "value" : "${accessInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVTREQ.RTVTREQ_ACTIVE_IND",
+    "value" : "${activeInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVTREQ.RTVTREQ_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVTREQ.RTVTREQ_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "RTVTREQ.RTVTREQ_DISB_IND",
+    "value" : "${disbInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVTREQ.RTVTREQ_INFO_ACCESS_IND",
+    "value" : "${infoAccessInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVTREQ.RTVTREQ_INSTRUCTIONS",
+    "value" : "${instructions}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVTREQ.RTVTREQ_LONG_DESC",
+    "value" : "${longDesc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVTREQ.RTVTREQ_LTR_EXCLUDE_IND",
+    "value" : "${ltrExcludeInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVTREQ.RTVTREQ_MEMO_IND",
+    "value" : "${memoInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVTREQ.RTVTREQ_ONCE_IND",
+    "value" : "${onceInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVTREQ.RTVTREQ_PCKG_IND",
+    "value" : "${pckgInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVTREQ.RTVTREQ_PERK_MPN_FLAG",
+    "value" : "${perkMpnFlag}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVTREQ.RTVTREQ_SATISFY_ALL_IND",
+    "value" : "${satisfyAllInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVTREQ.RTVTREQ_SHORT_DESC",
+    "value" : "${shortDesc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVTREQ.RTVTREQ_TERM_ELIGIBLE_IND",
+    "value" : "${termEligibleInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVTREQ.RTVTREQ_UPDATE_PRIOR_YEAR_IND",
+    "value" : "${updatePriorYearInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVTREQ.RTVTREQ_URL",
+    "value" : "${url}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVTREQ.RTVTREQ_USE_FED_FUND_ID_IND",
+    "value" : "${useFedFundIdInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVTREQ.RTVTREQ_VR_MSG_NO",
+    "value" : "${vrMsgNo}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "RTVTREQ"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }
+}

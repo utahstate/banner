@@ -1,0 +1,81 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "RTVAWST"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "RTVAWST.RTVAWST_ACCEPT_IND",
+    "value" : "${acceptInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVAWST.RTVAWST_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVAWST.RTVAWST_AWD_LTR_IND",
+    "value" : "${awdLtrInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVAWST.RTVAWST_CANCEL_IND",
+    "value" : "${cancelInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVAWST.RTVAWST_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "RTVAWST.RTVAWST_DECLINE_IND",
+    "value" : "${declineInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVAWST.RTVAWST_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVAWST.RTVAWST_INFO_ACCESS_IND",
+    "value" : "${infoAccessInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVAWST.RTVAWST_OFFER_IND",
+    "value" : "${offerInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "RTVAWST"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "06/10/2021'T'17:29:56.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "20/10/2021'T'17:15:44.000",
+    "sinceVersion":"9.3.27.1"
+  }
+}

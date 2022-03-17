@@ -1,0 +1,69 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "STVINFC"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "STVINFC.STVINFC_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVINFC.STVINFC_CMSC_CODE",
+    "value" : "${cmscCode}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVINFC.STVINFC_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVINFC.STVINFC_CTYP_CODE",
+    "value" : "${ctypCode}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVINFC.STVINFC_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVINFC.STVINFC_SBGI_CODE",
+    "value" : "${sbgiCode}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "STVINFC.STVINFC_TSRC_CODE",
+    "value" : "${tsrcCode}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "STVINFC"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }    ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "06/10/2021'T'21:03:36.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "06/10/2021'T'21:03:36.000",
+    "sinceVersion":"9.3.25"
+  }
+}

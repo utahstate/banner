@@ -1,0 +1,69 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "RTVLNST"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "RTVLNST.RTVLNST_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVLNST.RTVLNST_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "RTVLNST.RTVLNST_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVLNST.RTVLNST_HOLD_IND",
+    "value" : "${holdInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVLNST.RTVLNST_INACTIVE_IND",
+    "value" : "${inactiveInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVLNST.RTVLNST_INFO_ACCESS_IND",
+    "value" : "${infoAccessInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVLNST.RTVLNST_VR_MSG_NO",
+    "value" : "${vrMsgNo}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "RTVLNST"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "06/10/2021'T'17:29:56.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "20/10/2021'T'17:15:44.000",
+    "sinceVersion":"9.3.27.1"
+  }
+}

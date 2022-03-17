@@ -1,0 +1,60 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "RTVICMT"
+  }, {
+    "type" : "bind",
+    "field" : "KEY_BLOCK.KEYBLCK_AIDY_CODE",
+    "value" : "${keyblckAidyCode}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "action",
+    "value" : "NEXT_BLOCK"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "RTVICMT.RTVICMT_TYPE",
+    "value" : "${type}",
+    "optional" : "true",
+	"case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "RTVICMT.RTVICMT_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+	"case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "RTVICMT.RTVICMT_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+	"case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "RTVICMT.RTVICMT_ISIR_PRINT_IND",
+    "value" : "${isirPrintInd}",
+    "optional" : "true",
+	"case" : "none"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "RTVICMT"
+  } ],
+  "pagination" : {
+    "pageSize" : 500,
+    "upperLimit" : 1000
+  }      ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "29/09/2021'T'20:49:24.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "29/09/2021'T'20:49:24.000",
+    "sinceVersion":"9.3.27.1"
+  }
+}

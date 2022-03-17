@@ -1,0 +1,57 @@
+{
+  "steps" : [ {
+    "type" : "openTask",
+    "name" : "TTVDCAT"
+  }, {
+    "type" : "action",
+    "value" : "SEARCH"
+  }, {
+    "type" : "bind",
+    "field" : "TTVDCAT.TTVDCAT_ACTIVITY_DATE",
+    "value" : "${activityDate}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "TTVDCAT.TTVDCAT_CODE",
+    "value" : "${code}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "bind",
+    "field" : "TTVDCAT.TTVDCAT_DESC",
+    "value" : "${desc}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "TTVDCAT.TTVDCAT_SYSREQ_IND",
+    "value" : "${sysreqInd}",
+    "optional" : "true",
+    "case" : "none"
+  }, {
+    "type" : "bind",
+    "field" : "TTVDCAT.TTVDCAT_VR_MSG_NO",
+    "value" : "${vrMsgNo}",
+    "optional" : "true",
+    "case" : "upper"
+  }, {
+    "type" : "action",
+    "value" : "EXECUTE_QUERY"
+  } ],
+  "result" : [ {
+    "type" : "block",
+    "name" : "TTVDCAT"
+  } ],
+  "pagination" : {
+    "pageSize" : 100,
+    "upperLimit" : 1000
+  }    ,
+  "metadata": {
+    "createdBy": "Ellucian",
+    "createdOn": "10/08/2021'T'15:52:24.000",
+    "modifiedBy": "Ellucian",
+    "modifiedOn": "21/10/2021'T'04:54:34.000",
+    "sinceVersion":"9.3.20"
+  }
+}
