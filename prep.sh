@@ -16,7 +16,7 @@ scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/BannerExtensibi
 
 echo "Extracting war"
 cd BannerExtensibility
-unzip ../BannerExtensibility.war 
+jar xvf ../BannerExtensibility.war 
 cd ..
 
 echo "BannerExtensibility is ready for configuration"
