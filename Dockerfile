@@ -1,7 +1,7 @@
 FROM harbor.usu.edu/banner/base-bcm:tomcat8.5.72-jre8-corretto
 
 
-LABEL version=9.9
+LABEL version=9.10
 
 # Fix timezone
 USER root
