@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INSTANCE=zpprd
+INSTANCE=zdevl
 APPNAME=BannerEventPublisher
 
 #Remove old build
