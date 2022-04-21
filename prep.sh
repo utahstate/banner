@@ -1,10 +1,12 @@
 #!/bin/bash
 
 INSTANCE=zdevl
+CLEANADDRESS=true
 APP=BannerGeneralSsb
 VERSION=9.10
 ZIP_PASSWORD=transcript
 WARFILE=$(pwd)/BannerGeneralSsb.war
+CURRENT_FOLDER=$(pwd)
 
 #Remove old war and app folder
 echo "remove old war and app folder"
@@ -19,6 +21,7 @@ mkdir $APP
 echo "Downloading war from build.banner"
 scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/$APP.war .
 
+if $CLEANADDRESS; then
 echo "Downloading clean address plugin for general self service"
 curl -o clnbannerssb_$VERSION.zip https://files.runneredq.com/integrations/RunnerEDQ-Banner9SSB/clnbannerssb_$VERSION.zip
 rm -rf clnbannerssb_$VERSION
@@ -64,9 +67,10 @@ jar -uvf $WARFILE assets/
 jar -uvf $WARFILE WEB-INF/
 echo
 echo "Done!"
+fi
 
 echo "Extracting war"
-cd ../../$APP
+cd $CURRENT_FOLDER/$APP
 jar xvf ../$APP.war
 cd ..
 
