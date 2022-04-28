@@ -3,3 +3,5 @@ BannerAdminBPAPI-working
 *.war
 *.zip
 *.env
+.DS_Store
+BannerAdminBPAPI_configs/*

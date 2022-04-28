@@ -10,6 +10,7 @@ RUN chown -R tomcat:tomcat /usr/local/tomcat && chmod +x /usr/local/tomcat/bin/r
 USER tomcat
 
 COPY --chown=tomcat:tomcat BannerAdminBPAPI /usr/local/tomcat/webapps/BannerAdminBPAPI
-COPY --chown=tomcat:tomcat BannerAdminBPAPI_configs /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/classes/
+COPY --chown=tomcat:tomcat BannerAdminBPAPI_configs /usr/local/tomcat/webapps/BannerAdminBPAPI
+COPY --chown=tomcat:tomcat BannerAdminBPAPI_configs/config /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/classes/config
 COPY --chown=tomcat:tomcat BannerAdminBPAPI_configs/config/* /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/classes/
 COPY --chown=tomcat:tomcat applicationContext.xml /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/
