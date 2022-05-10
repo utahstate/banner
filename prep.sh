@@ -16,7 +16,7 @@ scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/StudentSelfServ
 
 echo "Extracting war"
 cd StudentSelfService
-unzip ../StudentSelfService.war 
+jar xvf ../StudentSelfService.war 
 cd ..
 
 echo "StudentSelfService is ready for configuration"
