@@ -37,10 +37,23 @@ guestAuthenticationEnabled = false //Set to true if enabling Proxy Access.
 // If using cas or saml, Either the CAS CONFIGURATION or the SAML CONFIGURATION
 // will also need configured/uncommented as well as set to active.
 //
-banner {
-    sso {
-        authenticationProvider           = 'saml' //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
-        authenticationAssertionAttribute = 'UDC_IDENTIFIER'
+if(System.getenv('AUTH_METHOD') == 'saml')
+{
+    banner {
+        sso {
+            authenticationProvider           = 'saml' //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
+            authenticationAssertionAttribute = 'UDC_IDENTIFIER'
+        }
+    }
+}
+
+if(System.getenv('AUTH_METHOD') == 'cas')
+{
+    banner {
+        sso {
+            authenticationProvider           = 'cas' //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
+            authenticationAssertionAttribute = 'UDC_IDENTIFIER'
+        }
     }
 }
 
@@ -59,7 +72,8 @@ grails {
     plugin {
         springsecurity {
             cas {
-                active = false
+                if(System.getenv('AUTH_METHOD') == 'cas') { active = true }
+                if(System.getenv('AUTH_METHOD') == 'saml') { active = false }
                 serverUrlPrefix  = (System.getenv('CAS_URL') ?: 'http://CAS_HOST:PORT/cas')
                 serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + '/StudentSelfService/login/cas'
                 serverName       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT')
@@ -136,7 +150,8 @@ webAppExtensibility {
  ***************************************************************************** **/
 
 // set active = true when authentication provider section configured for saml
-grails.plugin.springsecurity.saml.active = true
+if(System.getenv('AUTH_METHOD') == 'cas') { grails.plugin.springsecurity.saml.active = false }
+if(System.getenv('AUTH_METHOD') == 'saml') { grails.plugin.springsecurity.saml.active = true }
 grails.plugin.springsecurity.auth.loginFormUrl = '/saml/login'
 grails.plugin.springsecurity.saml.afterLogoutUrl ='/logout/customLogout'
 

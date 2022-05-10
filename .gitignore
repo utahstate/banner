@@ -3,3 +3,4 @@
 /StudentSelfService
 /saml
 .env
+*.zip
