@@ -1,7 +1,7 @@
-FROM edurepo/banner9-selfservice:tomcat8.5.57-jre8-corretto
+FROM harbor.usu.edu/banner/base-bannerselfservice:8.5.72-jdk8-corretto
 
 
-LABEL financeselfservice=9.4
+LABEL financeselfservice=9.4.4
 
 # Fix timezone
 USER root
@@ -11,3 +11,4 @@ RUN echo $TIMEZONE > /etc/timezone
 USER tomcat
 
 COPY --chown=tomcat:tomcat FinanceSelfService /usr/local/tomcat/webapps/FinanceSelfService
+COPY --chown=tomcat:tomcat saml /usr/local/tomcat/webapps/FinanceSelfService/saml

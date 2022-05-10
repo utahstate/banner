@@ -1,3 +1,5 @@
 FinanceSelfService
 .DS_Store
 .vscode
+/saml
+*.war
