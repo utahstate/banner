@@ -1,6 +1,6 @@
 FROM harbor.usu.edu/banner/base-bcm:tomcat8.5.72-jre8-corretto
 
-LABEL version="9.23"
+LABEL version="9.24"
 
 # Fix timezone
 USER root
@@ -15,3 +15,4 @@ RUN mkdir -p /opt/banner/extensions/ss_ext/extensions/ \
     && chown -R tomcat:tomcat /opt/banner/extensions
 
 COPY --chown=tomcat:tomcat  StudentRegistrationSsb /usr/local/tomcat/webapps/StudentRegistrationSsb
+COPY --chown=tomcat:tomcat saml /usr/local/tomcat/webapps/StudentRegistrationSsb/saml
