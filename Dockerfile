@@ -1,4 +1,4 @@
-FROM tomcat:8.5.47-jdk8-openjdk-slim
+FROM tomcat:8.5.72-jdk8-corretto
 
 ENV TIMEZONE="America/Denver" \
     STUDENTAPI_URL="https://localhost/StudentApi/api" \
@@ -11,13 +11,21 @@ ENV TIMEZONE="America/Denver" \
     ETHOS_INTEGRATION_KEY="key" \
     EMA_CONFIG="secret"
 
-RUN rm -Rf /usr/local/tomcat/webapps/* \
-    && apt-get install tzdata -y \
-    && apt-get clean \
-    && cp /usr/share/zoneinfo/$TIMEZONE /etc/localtime
+RUN yum update -y \
+    && amazon-linux-extras install epel \
+    && yum install -y xmlstarlet shadow-utils \
+    && rm -Rf /usr/local/tomcat/webapps/* \
+    && cp /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
+    && groupadd -r tomcat && useradd -r -g tomcat tomcat
 
-COPY EllucianMessagingAdapter /usr/local/tomcat/webapps/EllucianMessagingAdapter
+RUN echo $TIMEZONE > /etc/timezone
 
 COPY run.sh /usr/local/tomcat/bin
-RUN chmod +x /usr/local/tomcat/bin/run.sh
+
+RUN chown -R tomcat:tomcat /usr/local/tomcat && chmod +x /usr/local/tomcat/bin/run.sh
+
+USER tomcat
+
+COPY --chown=tomcat:tomcat EllucianMessagingAdapter /usr/local/tomcat/webapps/EllucianMessagingAdapter
+
 CMD ["bin/run.sh"]
