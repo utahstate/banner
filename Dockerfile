@@ -11,3 +11,4 @@ RUN echo $TIMEZONE > /etc/timezone
 USER tomcat
 
 COPY --chown=tomcat:tomcat  BannerGeneralSsb /usr/local/tomcat/webapps/BannerGeneralSsb
+COPY --chown=tomcat:tomcat saml /usr/local/tomcat/webapps/BannerGeneralSsb/saml

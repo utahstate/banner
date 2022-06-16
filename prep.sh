@@ -1,7 +1,7 @@
 #!/bin/bash
 
-INSTANCE=zdevl
-CLEANADDRESS=true
+INSTANCE=zpprd
+CLEANADDRESS=false
 APP=BannerGeneralSsb
 VERSION=9.10
 ZIP_PASSWORD=transcript
@@ -13,13 +13,18 @@ echo "remove old war and app folder"
 rm -rf $APP.war
 rm -rf *.war*
 rm -rf $APP
+rm -rf saml.zip
+rm -rf saml
 
 #Make new App Directory
 echo "Create new app directory"
 mkdir $APP
+mkdir saml
 
 echo "Downloading war from build.banner"
 scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/$APP.war .
+ssh root@build.banner.usu.edu "cd /u01/saml && rm saml.zip && zip -r saml.zip ./*"
+scp root@build.banner.usu.edu:/u01/saml/saml.zip .
 
 if $CLEANADDRESS; then
 echo "Downloading clean address plugin for general self service"
@@ -72,6 +77,9 @@ fi
 echo "Extracting war"
 cd $CURRENT_FOLDER/$APP
 jar xvf ../$APP.war
+cd ..
+cd saml
+unzip ../saml.zip
 cd ..
 
 echo "$APP is ready for configuration"
