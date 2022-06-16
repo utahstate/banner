@@ -9,3 +9,4 @@ RUN echo $TIMEZONE > /etc/timezone
 USER tomcat
 
 COPY --chown=tomcat:tomcat FacultySelfService /usr/local/tomcat/webapps/FacultySelfService
+COPY --chown=tomcat:tomcat saml /usr/local/tomcat/webapps/FacultySelfService/saml
