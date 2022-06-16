@@ -22,3 +22,4 @@ USER tomcat
 
 
 COPY --chown=tomcat:tomcat BannerExtensibility /usr/local/tomcat/webapps/BannerExtensibility
+COPY --chown=tomcat:tomcat saml /usr/local/tomcat/webapps/BannerExtensibility/saml
