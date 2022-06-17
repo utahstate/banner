@@ -73,11 +73,22 @@ ssbOracleUsersProxied = false
  *                                                                              *
  ********************************************************************************/
 //
-banner {
-    sso
-    {
-    authenticationProvider = 'cas'
-    authenticationAssertionAttribute = 'UDC_IDENTIFIER'
+if(System.getenv('AUTH_METHOD') == 'saml')
+{
+    banner {
+        sso {
+            authenticationProvider           = 'saml' //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
+            authenticationAssertionAttribute = 'UDC_IDENTIFIER'
+        }
+    }
+}
+if(System.getenv('AUTH_METHOD') == 'cas')
+{
+    banner {
+        sso {
+            authenticationProvider           = 'cas' //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
+            authenticationAssertionAttribute = 'UDC_IDENTIFIER'
+        }
     }
 }
 if(banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' )
@@ -117,7 +128,8 @@ grails {
     plugin {
         springsecurity {
             cas {
-                active           = true
+                if(System.getenv('AUTH_METHOD') == 'cas') { active = true }
+                if(System.getenv('AUTH_METHOD') == 'saml') { active = false }
                 serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/applicationNavigator/login/cas"
                 serverName       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT')
                 proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + "/applicationNavigator/secure/receptor"
@@ -148,28 +160,32 @@ grails.plugin.springsecurity.cas.serverUrlPrefix = (System.getenv('CAS_URL') ?: 
  *                                                                              *
  ********************************************************************************/
 //Set active = true when Application Navigator is configured for SAML2 SSO
-/*grails.plugin.springsecurity.saml.active = false
-grails.plugin.springsecurity.auth.loginFormUrl = ‘/saml/login’
-grails.plugin.springsecurity.saml.afterLogoutUrl ='/logout/customLogout'
-banner.sso.authentication.saml.localLogout='false'	 // Setting localLogout to false, allows the application to send a single or global logout request to the Identity Service Provider
-grails.plugin.springsecurity.saml.keyManager.storeFile = 'classpath:security/samlkeystore.jks'     // for unix based 'file:/home/u02/samlkeystore.jks'
-grails.plugin.springsecurity.saml.keyManager.storePass = 'changeit'
-grails.plugin.springsecurity.saml.keyManager.passwords = [ 'banner-appnav-sp': 'changeit' ]        // banner-appnav-sp is the value set in EIS Service provider setup
-grails.plugin.springsecurity.saml.keyManager.defaultKey = 'banner-appnav-sp'                       // banner-appnav-sp is the value set in EIS Service provider setup
-grails.plugin.springsecurity.saml.metadata.sp.file = 'security/banner-appnav-sp.xml'               // for unix based '/home/u02/banner-appnav-sp.xml'
-grails.plugin.springsecurity.saml.metadata.providers = [adfs: 'security//banner-appnav-idp.xml']   // for unix based '/home/u02/banner-appnav-idp.xml'
-grails.plugin.springsecurity.saml.metadata.defaultIdp = 'adfs'
-grails.plugin.springsecurity.saml.metadata.sp.defaults = [
-    local: true,
-    alias: 'banner-appnav-sp',                                                                 // banner-appnav-sp is the value set in EIS Service provider setup
-    securityProfile: 'metaiop',
-    signingKey: 'banner-appnav-sp',                                                            // banner-appnav-sp is the value set in EIS Service provider setup
-    encryptionKey: 'banner-appnav-sp',                                                         // banner-appnav-sp is the value set in EIS Service provider setup
-    tlsKey: 'banner-appnav-sp',                                                                // banner-appnav-sp is the value set in EIS Service provider setup
-    requireArtifactResolveSigned: false,
-    requireLogoutRequestSigned: false,
-    requireLogoutResponseSigned: false
-]*/
+if(System.getenv('AUTH_METHOD') == 'saml')
+{
+    if(System.getenv('AUTH_METHOD') == 'cas') { grails.plugin.springsecurity.saml.active = false }
+    if(System.getenv('AUTH_METHOD') == 'saml') { grails.plugin.springsecurity.saml.active = true }
+    grails.plugin.springsecurity.auth.loginFormUrl = '/saml/login'
+    grails.plugin.springsecurity.saml.afterLogoutUrl ='/logout/customLogout'
+    banner.sso.authentication.saml.localLogout='true' // To disable single logout set this to true,default 'false'.
+    grails.plugin.springsecurity.saml.keyManager.storeFile = 'file:/usr/local/tomcat/webapps/' + (System.getenv('APP_LONG_NAME') ?: 'StudentSelfService') + '/saml/' + (System.getenv('BANNERDB') ?: 'host') + '/' + (System.getenv('BANNERDB') ?: 'host') + '_keystore.jks'  // for unix File based Example:- 'file:/home/u02/samlkeystore.jks'
+    grails.plugin.springsecurity.saml.keyManager.storePass = (System.getenv('KEYSTORE_PASSWORD') ?: 'CHANGE_ME')
+    grails.plugin.springsecurity.saml.keyManager.passwords = [ ((System.getenv('BANNERDB')) + '-' + (System.getenv('APP_SHORT_NAME')) + '-sp'): ((System.getenv('KEYSTORE_PASSWORD'))) ]  // banner-<short-appName>-sp is the value set in Ellucian Ethos Identity Service provider setup
+    grails.plugin.springsecurity.saml.keyManager.defaultKey = (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp'                 // banner-<short-appName>-sp is the value set in Ellucian Ethos Identity Service provider setup
+    grails.plugin.springsecurity.saml.metadata.sp.file = '/usr/local/tomcat/webapps/' + (System.getenv('APP_LONG_NAME') ?: 'StudentSelfService') + '/saml/' + (System.getenv('BANNERDB') ?: 'host') + '/' + (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp.xml'     // for unix file based Example:-'/home/u02/sp-local.xml'
+    grails.plugin.springsecurity.saml.metadata.providers = [adfs: '/usr/local/tomcat/webapps/' + (System.getenv('APP_LONG_NAME') ?: 'StudentSelfService') + '/saml/' + (System.getenv('BANNERDB') ?: 'host') + '/' + (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-idp.xml'] // for unix file based Example: '/home/u02/idp-local.xml'
+    grails.plugin.springsecurity.saml.metadata.defaultIdp = 'adfs'
+    grails.plugin.springsecurity.saml.metadata.sp.defaults = [
+            local: true,
+            alias: (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp',                                   // banner-<short-appName>-sp is the value set in EIS Service provider setup
+            securityProfile: 'metaiop',
+            signingKey: (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp',                              // banner-<short-appName>-sp is the value set in EIS Service provider setup
+            encryptionKey: (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp',                           // banner-<short-appName>-sp is the value set in EIS Service provider setup
+            tlsKey: (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp',                                  // banner-<short-appName>-sp is the value set in EIS Service provider setup
+            requireArtifactResolveSigned: false,
+            requireLogoutRequestSigned: false,
+            requireLogoutResponseSigned: false
+    ]
+}
 /********************************************************************************
  *                                                                              *
  *              Application Navigator Seamless plugin Configuration             *

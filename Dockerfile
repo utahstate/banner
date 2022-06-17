@@ -10,3 +10,4 @@ RUN echo $TIMEZONE > /etc/timezone
 USER tomcat
 
 COPY --chown=tomcat:tomcat applicationNavigator /usr/local/tomcat/webapps/applicationNavigator
+COPY --chown=tomcat:tomcat saml /usr/local/tomcat/webapps/applicationNavigator/saml
