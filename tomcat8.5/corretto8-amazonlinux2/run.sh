@@ -108,6 +108,7 @@ if [ -z "$CONFIG_FILE" ]; then
   setPropFromEnv remove.abandoned.timeout "$REMOVE_ABANDONED_TIMEOUT"
   setPropFromEnv log.abandoned "$LOG_ABANDONED"
   setPropFromEnv bannerdb.rowPrefetch "$DEFAULT_ROW_PREFETCH"
+  setPropFromEnv saml.keystore.password "$KEYSTORE_PASSWORD"  
 fi
 
 if [ -n "$JMX_PORT" ]; then
