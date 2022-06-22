@@ -6,6 +6,8 @@ USER root
 ENV TIMEZONE=America/Denver
 RUN cp -f /usr/share/zoneinfo/$TIMEZONE /etc/localtime
 RUN echo $TIMEZONE > /etc/timezone
+RUN mkdir /u01
+COPY saml /u01/saml
 USER tomcat
 
 COPY --chown=tomcat:tomcat BannerAccessMgmt /usr/local/tomcat/webapps/BannerAccessMgmt
