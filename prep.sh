@@ -1,6 +1,6 @@
 #!/bin/bash
-INSTANCE=zdevl
-CLEANADDRESS=true
+INSTANCE=zpprd
+CLEANADDRESS=false
 echo "Removing old wars and folders"
 rm -rf BannerAdmin
 rm -rf BannerAdmin.ws
@@ -8,14 +8,18 @@ rm -rf BannerAdmin.ws
 rm -rf BannerAdmin.war
 rm -rf BannerAdmin.ws.war
 #rm -rf bannerHelp.war
+rm -rf saml.zip
+rm -rf saml
 
 echo "Making new folders"
-mkdir BannerAdmin BannerAdmin.ws bannerHelp
+mkdir BannerAdmin BannerAdmin.ws bannerHelp saml
 
 echo "Downloading files from build.banner"
 scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/BannerAdmin.war .
 scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/BannerAdmin.ws.war .
 #scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/BannerPages/bannerHelp.war .
+ssh root@build.banner.usu.edu "cd /u01/saml && rm saml.zip && zip -r saml.zip ./*"
+scp root@build.banner.usu.edu:/u01/saml/saml.zip .
 
 echo "Extracting BannerAdmin"
 cd BannerAdmin
@@ -31,6 +35,9 @@ cd ..
 #cd bannerHelp
 #unzip ../bannerHelp.war
 #cd ..
+cd saml
+unzip ../saml.zip
+cd ..
 
 if $CLEANADDRESS; then
 echo "Updating BannerAdmin.ws config for CleanAddress"
