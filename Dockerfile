@@ -1,4 +1,4 @@
-FROM harbor.usu.edu/banner/base-banneradmin:8.5.72-jdk8-corretto
+FROM harbor.usu.edu/banner/base-banneradmin:8.5.81-jdk8-corretto
 LABEL banner.common="9.3.27.0.3" \
       banner.accountreceivable="9.3.21.1.1" \
       banner.finance="9.3.23.0.6" \
