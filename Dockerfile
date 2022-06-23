@@ -5,3 +5,4 @@ LABEL version="9.18"
 ENV TIMEZONE=America/Denver
 
 COPY --chown=tomcat:tomcat EmployeeSelfService /usr/local/tomcat/webapps/EmployeeSelfService
+COPY --chown=tomcat:tomcat saml /usr/local/tomcat/webapps/EmployeeSelfService/saml
