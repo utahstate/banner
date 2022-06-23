@@ -22,10 +22,10 @@ scp root@build.banner.usu.edu:/u01/saml/saml.zip .
 
 echo "Extracting war"
 cd $APP
-unzip ../$APP.war
+jar xvf ../$APP.war
 cd ..
 cd saml
-unzip ../saml.zip
+jar xvf ../saml.zip
 cd ..
 
 echo "$APP is ready for configuration"
