@@ -10,3 +10,4 @@ RUN echo $TIMEZONE > /etc/timezone
 USER tomcat
 
 COPY --chown=tomcat:tomcat CommunicationManagement /usr/local/tomcat/webapps/CommunicationManagement
+COPY --chown=tomcat:tomcat saml /usr/local/tomcat/webapps/CommunicationManagement/saml
