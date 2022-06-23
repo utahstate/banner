@@ -32,6 +32,30 @@ setProperty() {
     sed -i "s|<param name=\"APPNAV_HELP_URL\".*|<param name=\"APPNAV_HELP_URL\" value=\"$val\/bannerHelp\/Main?page=\" \/>|g" /usr/local/tomcat/webapps/BannerAccessMgmt/config.xml
   fi
 
+  if [ "$prop" = "saml.keystore.env" ]; then
+    sed -i "s|^saml\.keystore = .*|saml\.keystore = file://$val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+  fi
+  
+  if [ "$prop" = "saml.keystore.password.env" ]; then
+    sed -i "s|^saml\.keystore\.password.*|saml\.keystore\.password = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+  fi
+  
+  if [ "$prop" = "saml.sign.key.alias.env" ]; then
+    sed -i "s|^saml\.sign\.key\.alias.*|saml\.sign\.key\.alias = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+  fi
+  
+  if [ "$prop" = "saml.sign.key.password.env" ]; then
+    sed -i "s|^saml\.sign\.key\.password.*|saml\.sign\.key\.password = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+  fi
+  
+  if [ "$prop" = "saml.sp.metadata.filename.env" ]; then
+    sed -i "s|^saml\.sp\.metadata\.filename.*|saml\.sp\.metadata\.filename = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+  fi
+  
+  if [ "$prop" = "saml.idp.metadata.filename.env" ]; then
+    sed -i "s|^saml\.idp\.metadata\.filename.*|saml\.idp\.metadata\.filename = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+  fi
+
 
   if [ $(grep -c "$prop" "$PROPFILE") -eq 0 ]; then
     echo "${prop}=$val" >> "$PROPFILE"
@@ -108,6 +132,12 @@ if [ -z "$CONFIG_FILE" ]; then
   setPropFromEnv remove.abandoned.timeout "$REMOVE_ABANDONED_TIMEOUT"
   setPropFromEnv log.abandoned "$LOG_ABANDONED"
   setPropFromEnv bannerdb.rowPrefetch "$DEFAULT_ROW_PREFETCH"
+  setPropFromEnv saml.keystore.password.env "$KEYSTORE_PASSWORD"
+  setPropFromEnv saml.keystore.env "$KEYSTORE_LOCATION"
+  setPropFromEnv saml.sign.key.alias.env "$KEYSTORE_ALIAS"
+  setPropFromEnv saml.sign.key.password.env "$KEYSTORE_PASSWORD"
+  setPropFromEnv saml.sp.metadata.filename.env "$SP_METADATA"
+  setPropFromEnv saml.idp.metadata.filename.env "$IDP_METADATA"
 fi
 
 if [ -n "$JMX_PORT" ]; then
