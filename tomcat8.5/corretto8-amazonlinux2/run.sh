@@ -108,14 +108,14 @@ if [ -z "$CONFIG_FILE" ]; then
   setPropFromEnv remove.abandoned.timeout "$REMOVE_ABANDONED_TIMEOUT"
   setPropFromEnv log.abandoned "$LOG_ABANDONED"
   setPropFromEnv bannerdb.rowPrefetch "$DEFAULT_ROW_PREFETCH"
-  setPropFromEnv saml.keystore.password "$KEYSTORE_PASSWORD"
-  setPropFromEnv saml.keystore "$KEYSTORE_LOCATION
-  setPropFromEnv saml.sign.key.alias "$KEYSTORE_ALIAS"
-  setPropFromEnv saml.sign.key.password "$KEYSTORE_PASSWORD"
-  setPropFromEnv saml.sp.metadata.filename "$SP_METADATA"
-  setPropFromEnv saml.idp.metadata.filename "$IDP_METADATA"
-  setPropFromEnv webapp.location "$WEBAPP_LOCATION"
-  setPropFromEnv webapp.wrksp.location "WEBAPP_WRKSP_LOCATION"
+  setPropFromEnv saml.keystore.password.env "$KEYSTORE_PASSWORD"
+  setPropFromEnv saml.keystore.env "$KEYSTORE_LOCATION
+  setPropFromEnv saml.sign.key.alias.env "$KEYSTORE_ALIAS"
+  setPropFromEnv saml.sign.key.password.env "$KEYSTORE_PASSWORD"
+  setPropFromEnv saml.sp.metadata.filename.env "$SP_METADATA"
+  setPropFromEnv saml.idp.metadata.filename.env "$IDP_METADATA"
+  setPropFromEnv webapp.location.env "$WEBAPP_LOCATION"
+  setPropFromEnv webapp.wrksp.location.env "WEBAPP_WRKSP_LOCATION"
 fi
 
 if [ -n "$JMX_PORT" ]; then
