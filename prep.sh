@@ -39,6 +39,8 @@ cd saml
 unzip ../saml.zip
 cd ..
 
+sed -i -e "s|\<\!-- Insert Environment.*|<CookieProcessor sameSiteCookies=\"none\" />|g" BannerAdmin.ws/META-INF/context.xml
+
 if $CLEANADDRESS; then
 echo "Updating BannerAdmin.ws config for CleanAddress"
 CONFIGPROPFILEPATH="BannerAdmin.ws/WEB-INF/classes"
