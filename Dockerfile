@@ -1,4 +1,4 @@
-FROM tomcat:8.5.72-jdk8-corretto
+FROM tomcat:8.5.81-jdk8-corretto
 
 ENV TIMEZONE="America/New_York"
 ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod \
@@ -29,6 +29,7 @@ RUN cd /usr/local/tomcat/lib/ \
 
 COPY context.xml /usr/local/tomcat/conf/context.xml
 COPY server.xml /usr/local/tomcat/conf/server.xml
+COPY web.xml /usr/local/tomcat/conf/web.xml
 COPY run.sh /usr/local/tomcat/bin
 
 # Configure logging to forward tomcat logs to docker log collector
