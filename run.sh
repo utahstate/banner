@@ -33,29 +33,29 @@ setProperty() {
     sed -i "s|<param name=\"APPNAV_API_URL\".*|<param name=\"APPNAV_API_URL\" value=\"$val/applicationNavigator/static/dist/m.js\" />|g" /usr/local/tomcat/webapps/BannerAdmin/config.xml
   fi
   
-  #if [ "$prop" = "saml.keystore.env" ]; then
-    #sed -i "s|^saml\.keystore = .*|saml\.keystore = file://$val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
-  #fi
+  if [ "$prop" = "saml.keystore.env" ]; then
+    sed -i "s|^saml\.keystore = .*|saml\.keystore = file://$val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+  fi
   
-  #if [ "$prop" = "saml.keystore.password.env" ]; then
-    #sed -i "s|^saml\.keystore\.password.*|saml\.keystore\.password = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
-  #fi
+  if [ "$prop" = "saml.keystore.password.env" ]; then
+    sed -i "s|^saml\.keystore\.password.*|saml\.keystore\.password = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+  fi
   
-  #if [ "$prop" = "saml.sign.key.alias.env" ]; then
-    #sed -i "s|^saml\.sign\.key\.alias.*|saml\.sign\.key\.alias = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
-  #fi
+  if [ "$prop" = "saml.sign.key.alias.env" ]; then
+    sed -i "s|^saml\.sign\.key\.alias.*|saml\.sign\.key\.alias = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+  fi
   
-  #if [ "$prop" = "saml.sign.key.password.env" ]; then
-    #sed -i "s|^saml\.sign\.key\.password.*|saml\.sign\.key\.password = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
-  #fi
+  if [ "$prop" = "saml.sign.key.password.env" ]; then
+    sed -i "s|^saml\.sign\.key\.password.*|saml\.sign\.key\.password = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+  fi
   
-  #if [ "$prop" = "saml.sp.metadata.filename.env" ]; then
-    #sed -i "s|^saml\.sp\.metadata\.filename.*|saml\.sp\.metadata\.filename = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
-  #fi
+  if [ "$prop" = "saml.sp.metadata.filename.env" ]; then
+    sed -i "s|^saml\.sp\.metadata\.filename.*|saml\.sp\.metadata\.filename = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+  fi
   
-  #if [ "$prop" = "saml.idp.metadata.filename.env" ]; then
-    #sed -i "s|^saml\.idp\.metadata\.filename.*|saml\.idp\.metadata\.filename = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
-  #fi
+  if [ "$prop" = "saml.idp.metadata.filename.env" ]; then
+    sed -i "s|^saml\.idp\.metadata\.filename.*|saml\.idp\.metadata\.filename = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+  fi
 
   if [ $(grep -c "$prop" "$PROPFILE") -eq 0 ]; then
     echo "${prop}=$val" >> "$PROPFILE"
