@@ -45,3 +45,6 @@ cd saml
 unzip ../saml.zip
 cd ..
 
+cp saml/zpprd/zpprd-bam* BannerAccessMgmt.ws/WEB-INF/classes/
+cp saml/zdevl/zdevl-bam* BannerAccessMgmt.ws/WEB-INF/classes/
+cp saml/zprod/zprod-bam* BannerAccessMgmt.ws/WEB-INF/classes/
