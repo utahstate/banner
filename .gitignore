@@ -1,0 +1,6 @@
+*.war
+BannerAccessMgmt.ws/
+BannerAccessMgmt/
+BannerAdmin.ws/
+saml/
+saml.zip
