@@ -1,5 +1,5 @@
 #!/bin/bash
-INSTANCE=zdevl
+INSTANCE=zpprd
 
 echo "Removing old war and folder"
 rm -rf IntegrationApi.war
@@ -13,5 +13,5 @@ scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/IntegrationApi.
 
 echo "Extracting war"
 cd IntegrationApi
-unzip ../IntegrationApi.war
+jar xvf ../IntegrationApi.war
 cd ..
