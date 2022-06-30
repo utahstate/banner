@@ -194,6 +194,12 @@ grails.plugin.springsecurity.homePageUrl =  (System.getenv('GRAILS_PLUGIN_SPRING
 configJob {
 	interval = 86400000 // 24 hours
 	actualCount = -1
+     cronExpression = "0 0 */1 * * ?"
+}
+applicationPageRoleJob {
+    // Recommended default is once at 00:00:00am every day - "0 0 0 * * ?"
+    // Cron expression lesser than 30 mins will fall back to 30 mins.
+    cronExpression = "0 0 0 * * ?"
 	}
 
 /*********************************************************************************

@@ -1,7 +1,7 @@
-FROM harbor.usu.edu/banner/base-bannerselfservice:8.5.72-jdk8-corretto
+FROM harbor.usu.edu/banner/base-bannerselfservice:8.5.81-jdk8-corretto
 
 
-LABEL financeselfservice=9.4.4
+LABEL financeselfservice=9.4.5
 
 # Fix timezone
 USER root
