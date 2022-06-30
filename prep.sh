@@ -1,7 +1,6 @@
 #!/bin/bash
 INSTANCE=zpprd
 
-
 echo "Removing old war and folder"
 rm -rf FacultySelfService.war
 rm -rf FacultySelfService

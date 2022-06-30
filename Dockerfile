@@ -1,5 +1,5 @@
-FROM harbor.usu.edu/banner/base-bannerselfservice:8.5.72-jdk8-corretto
-LABEL version="9.16"
+FROM harbor.usu.edu/banner/base-bannerselfservice:8.5.81-jdk8-corretto
+LABEL version="9.18"
 
 # Fix timezone
 USER root
