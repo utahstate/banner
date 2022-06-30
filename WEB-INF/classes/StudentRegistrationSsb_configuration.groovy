@@ -200,6 +200,46 @@ grails.plugin.xframeoptions.deny = true
 configJob.delay = 60000
 configJob.interval = 120000
 configJob.actualCount = -1
+/* Set feature.enableConfigJob to true for configJob to run as configured and
+set feature.enableConfigJob to false for configJob to NOT run as configured */
+
+feature.enableConfigJob = true
+
+/* Set feature.enableApplicationPageRoleJob to true for applicationPageRoleJob to run as configured and
+set feature.enableApplicationPageRoleJob to false for applicationPageRoleJob to NOT run as configured */
+
+feature.enableApplicationPageRoleJob = true
+
+/** ********************************************************************************
+ *                                                                                 *
+ *                   SS Config Dynamic Loading Job Properties                      *
+ *                                                                                 *
+ *                   Cron Expressions:                                             *
+ *                                                                                 *
+ *                   ┌───────────── second (0-59)                                  *
+ *                   │ ┌───────────── minute (0 - 59)                            *
+ *                   │ │ ┌───────────── hour (0 - 23)                              *
+ *                   │ │ │ ┌───────────── day of the month (1 - 31)                  *
+ *                   │ │ │ │ ┌───────────── month (1 - 12) (or JAN-DEC)            *
+ *                   │ │ │ │ │ ┌───────────── day of the week (0 - 7)            *
+ *                   │ │ │ │ │ │          (or MON-SUN -- 0 or 7 is Sunday)         *
+ *                   │ │ │ │ │ │                                                   *
+ *                   * * * * * *                                                   *
+ *                                                                                 *
+ ******************************************************************************** **/
+/*ConfigJob - the job scheduled to update the configuration properties from DB
+ApplicationPageRoleJob - the job scheduled to update the interceptedUrlMap from DB. */
+
+configJob {
+    // Recommended default is every 1 hour starting at 00am, of every day - "0 0 */1 * * ?"
+    // Cron expression lesser than 30 mins will fall back to 30 mins.
+    cronExpression = "0 0 */1 * * ?"
+}
+applicationPageRoleJob {
+    // Recommended default is once at 00:00:00am every day - "0 0 0 * * ?"
+    // Cron expression lesser than 30 mins will fall back to 30 mins.
+    cronExpression = "0 0 0 * * ?"
+}
 
 /************************************************************
  Extensibility extensions & i18n file location
