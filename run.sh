@@ -78,6 +78,7 @@ setPropFromEnvPointingToFile() {
 
 setPropFromEnvPointingToFile banproxy.password "$BANPROXY_PASSWORD"
 setPropFromEnvPointingToFile banssuser.password "$BANSSUSER_PASSWORD"
+setPropFromEnvPointingToFile commmgr.password "$COMMMGR_PASSWORD"
 
 setPropFromEnv() {
   prop=$1
@@ -94,13 +95,21 @@ if [ -z "$CONFIG_FILE" ]; then
   setPropFromEnv banproxy.username "$BANPROXY_USERNAME"
   setPropFromEnv banproxy.initialsize "$BANPROXY_INITALSIZE"
   setPropFromEnv banproxy.maxtotal "$BANPROXY_MAXTOTAL"
+  setPropFromEnv banproxy.maxactive "$BANPROXY_MAXACTIVE"
   setPropFromEnv banproxy.maxidle "$BANPROXY_MAXIDLE"
   setPropFromEnv banproxy.maxwait "$BANPROXY_MAXWAIT"
   setPropFromEnv banssuser.username "$BANSSUSER_USERNAME"
   setPropFromEnv banssuser.initialsize "$BANSSUSER_INITALSIZE"
   setPropFromEnv banssuser.maxtotal "$BANSSUSER_MAXTOTAL"
+  setPropFromEnv banssuser.maxactive "$BANSSUSER_MAXACTIVE"
   setPropFromEnv banssuser.maxidle "$BANSSUSER_MAXIDLE"
   setPropFromEnv banssuser.maxwait "$BANSSUSER_MAXWAIT"
+  setPropFromEnv commmgr.username "$COMMMGR_USERNAME"
+  setPropFromEnv commmgr.initialsize "$COMMMGR_INITALSIZE"
+  setPropFromEnv commmgr.maxtotal "$COMMMGR_MAXTOTAL"
+  setPropFromEnv commmgr.maxactive "$COMMMGR_MAXACTIVE"
+  setPropFromEnv commmgr.maxidle "$COMMMGR_MAXIDLE"
+  setPropFromEnv commmgr.maxwait "$COMMMGR_MAXWAIT"
   setPropFromEnv cas.url "$CAS_URL"
   setPropFromEnv banner9.baseurl "$BANNER9_URL"
   setPropFromEnv remove.abandoned.on.maintenance "$REMOVE_ABANDONED_ON_MAINTENANCE"

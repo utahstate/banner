@@ -32,6 +32,9 @@
     <ResourceLink global="jdbc/bannerSsbDataSource"
                   name="jdbc/bannerSsbDataSource"
                   type="javax.sql.DataSource"/>
+    <ResourceLink global="jdbc/bannerCommmgrDataSource"
+                  name="jdbc/bannerCommmgrDataSource"
+                  type="javax.sql.DataSource"/>
 
     <Resources cachingAllowed="true" cacheMaxSize="100000" />
 

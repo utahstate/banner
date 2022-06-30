@@ -1,4 +1,4 @@
-FROM tomcat:8.5.72-jdk8-corretto
+FROM tomcat:8.5.81-jdk8-corretto
 
 ENV TIMEZONE="America/New_York"
 ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod \
@@ -18,6 +18,14 @@ ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod
   REMOVE_ABANDONED_TIMEOUT=2100 \
   LOG_ABANDONED=true \
   DEFAULT_ROW_PREFETCH=150 \
+  COMMMGR_USERNAME=commmgr \
+  COMMMGR_INITALSIZE=25 \
+  COMMMGR_MAXTOTAL=400 \
+  COMMMGR_MAXIDLE=-1 \
+  COMMMGR_MAXWAIT=30000 \
+  REMOVE_ABANDONED_ON_MAINTENANCE=true \
+  REMOVE_ABANDONED_ON_BORROW=true \
+  REMOVE_ABANDONED_TIMEOUT=2100 \
   LOGGING_DIR=/usr/local/tomcat/logs
 
 ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -XX:MaxMetaspaceSize=\$MAXMETASPACE -Duser.timezone=\$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false -Dbanner.logging.dir=\$LOGGING_DIR"
@@ -49,6 +57,5 @@ RUN ln -s /dev/stderr /usr/local/tomcat/logs/stacktrace.log
 RUN chown -R tomcat:tomcat /usr/local/tomcat && chmod +x /usr/local/tomcat/bin/run.sh
 
 EXPOSE 8080
-EXPOSE 9010
 USER tomcat
 CMD ["bin/run.sh"]

@@ -78,6 +78,24 @@
               logAbandoned="${log.abandoned}"
               testOnBorrow="true"
               connectionProperties="defaultRowPrefetch=${bannerdb.rowPrefetch}"/>
+    <Resource name="jdbc/bannerCommmgrDataSource" auth="Container"
+              type="javax.sql.DataSource"
+              driverClassName="oracle.jdbc.OracleDriver"
+              url="${bannerdb.jdbc}"
+              username="${commmgr.username}"
+              password="${commmgr.password}"
+              initialSize="${commmgr.initialsize}"
+              maxTotal="${commmgr.maxtotal}"
+              maxIdle="${commmgr.maxidle}"
+              maxWaitMillis="${commmgr.maxwait}"
+              validationQuery="select 1 from dual"
+              accessToUnderlyingConnectionAllowed="true"
+              removeAbandonedOnMaintenance="${remove.abandoned.on.maintenance}"
+              removeAbandonedOnBorrow="${remove.abandoned.on.borrow}"
+              removeAbandonedTimeout="${remove.abandoned.timeout}"
+              logAbandoned="${log.abandoned}"
+              testOnBorrow="true"
+              connectionProperties="defaultRowPrefetch=${bannerdb.rowPrefetch}"/>
   </GlobalNamingResources>
 
   <!-- A "Service" is a collection of one or more "Connectors" that share
@@ -151,12 +169,8 @@
     -->
 
     <!-- Define an AJP 1.3 Connector on port 8009 -->
-    <!--
-    <Connector protocol="AJP/1.3"
-               address="::1"
-               port="8009"
-               redirectPort="8443" />
-    -->
+    <!--<Connector port="8009" protocol="AJP/1.3" redirectPort="8443" />-->
+
 
     <!-- An Engine represents the entry point (within Catalina) that processes
          every request.  The Engine implementation for Tomcat stand alone
