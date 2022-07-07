@@ -27,4 +27,6 @@ cd saml
 unzip ../saml.zip
 cd ..
 
+cp WEB-INF/classes/* StudentSelfService/WEB-INF/classes/
+
 echo "StudentSelfService is ready for configuration"
