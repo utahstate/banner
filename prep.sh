@@ -2,7 +2,7 @@
 INSTANCE=zpprd
 echo "Removing old wars and folders"
 rm -rf BannerAccessMgmt
-rm -rf BannerAcessMgmt.ws
+rm -rf BannerAccessMgmt.ws
 rm -rf BannerAdmin.ws
 #rm -rf bannerHelp
 rm -rf BannerAccessMgmt.war
