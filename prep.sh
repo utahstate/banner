@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INSTANCE=zpprd
+INSTANCE=zdevl
 APP=applicationNavigator
 
 #Remove old war and app folder
@@ -27,5 +27,7 @@ cd ..
 cd saml
 unzip ../saml.zip
 cd ..
+
+cp WEB-INF/classes/* $APP/WEB-INF/classes/
 
 echo "$APP is ready for configuration"
