@@ -13,4 +13,5 @@ USER tomcat
 COPY --chown=tomcat:tomcat BannerAccessMgmt /usr/local/tomcat/webapps/BannerAccessMgmt
 COPY --chown=tomcat:tomcat BannerAccessMgmt.ws /usr/local/tomcat/webapps/BannerAccessMgmt.ws
 COPY --chown=tomcat:tomcat run.sh /usr/local/tomcat/bin
+COPY --chown=tomcat:tomcat applicationContext.xml.saml /usr/local/tomcat/webapps/BannerAccessMgmt.ws/WEB-INF/
 RUN chmod +x /usr/local/tomcat/bin/run.sh
