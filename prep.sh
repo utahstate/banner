@@ -1,5 +1,5 @@
 #!/bin/bash
-INSTANCE=zpprd
+INSTANCE=zdevl
 
 echo "Removing old war and folder"
 rm -rf FacultySelfService.war
@@ -20,7 +20,9 @@ echo "Extracting war"
 cd FacultySelfService
 jar xvf ../FacultySelfService.war
 cd ..
+
 cd saml
 unzip ../saml.zip
 cd ..
 
+cp WEB-INF/classes/* FacultySelfService/WEB-INF/classes/
