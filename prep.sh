@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INSTANCE=zpprd
+INSTANCE=zdevl
 
 #Remove old war and app folder
 echo "remove old war and app folder"
@@ -26,5 +26,7 @@ cd ..
 cd saml
 unzip ../saml.zip
 cd ..
+
+cp WEB-INF/classes/* BannerExtensibility/WEB-INF/classes/
 
 echo "BannerExtensibility is ready for configuration"
