@@ -1,9 +1,9 @@
 #!/bin/bash
 
-INSTANCE=zpprd
-CLEANADDRESS=false
+INSTANCE=zdevl
+CLEANADDRESS=true
 APP=BannerGeneralSsb
-VERSION=9.11
+VERSION=9.10
 ZIP_PASSWORD=transcript
 WARFILE=$(pwd)/BannerGeneralSsb.war
 CURRENT_FOLDER=$(pwd)
@@ -81,6 +81,8 @@ cd ..
 cd saml
 unzip ../saml.zip
 cd ..
+
+cp WEB-INF/classes/* $APP/WEB-INF/classes/
 
 echo "$APP is ready for configuration"
 
