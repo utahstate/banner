@@ -35,6 +35,7 @@ setProperty() {
   
   if [ "$prop" = "saml.keystore.env" ]; then
     sed -i "s|^saml\.keystore = .*|saml\.keystore = file://$val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+    cp /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/applicationContext.xml.saml /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/applicationContext.xml
   fi
   
   if [ "$prop" = "saml.keystore.password.env" ]; then
