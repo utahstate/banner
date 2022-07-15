@@ -2,4 +2,5 @@ FinanceSelfService
 .DS_Store
 .vscode
 /saml
+saml.zip
 *.war
