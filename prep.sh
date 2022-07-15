@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INSTANCE=zpprd
+INSTANCE=zdevl
 APP=CommunicationManagement
 
 #Remove old war and app folder
@@ -27,5 +27,7 @@ cd ..
 cd saml
 jar xvf ../saml.zip
 cd ..
+
+cp WEB-INF/classes/* CommunicationManagement/WEB-INF/classes/
 
 echo "$APP is ready for configuration"
