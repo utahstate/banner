@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INSTANCE=zpprd
+INSTANCE=zdevl
 APPNAME=EmployeeSelfService
 #Remove old war and app folder
 echo "Remove old war and app folder"
@@ -27,5 +27,7 @@ cd ..
 cd saml
 unzip ../saml.zip
 cd ..
+
+cp WEB-INF/classes/* $APPNAME/WEB-INF/classes/
 
 echo "$APPNAME is ready for configuration"
