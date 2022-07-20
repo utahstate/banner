@@ -1,5 +1,5 @@
 /** ****************************************************************************
-         Copyright 2020 Ellucian Company L.P. and its affiliates.
+         Copyright 2020-2021 Ellucian Company L.P. and its affiliates.
  *******************************************************************************/
 
 /******************************************************************************
@@ -105,7 +105,7 @@ messageTypeConfig = [
         'RECRUITER_APPLICATION_STATUS'                       : [enabled:true,path:'/BannerUpdateApplicationStatus',supports:['INSERT','UPDATE','DELETE']],
         'RECRUITER_ADMIT_DATE_APPLACCEPT'                    : [enabled:true,path:'/BannerUpdateApplication',supports:['INSERT']],
         'RECRUITER_ADMIT_DATE_INSTACCEPT'                    : [enabled:true,path:'/BannerUpdateApplication',supports:['INSERT']],
-        'RECRUITER_ENROLLED_DATE_REGISTERED'                 : [enabled:true,path:'/BannerUpdateApplication',supports:['INSERT']],
+        'RECRUITER_ENROLLED_DATE_REGISTERED'                 : [enabled:true,path:'/BannerUpdateApplication',supports:['INSERT','UPDATE']],
         'RECRUITER_CONFIRMED_DATE_REGISTERED'                : [enabled:true,path:'/BannerUpdateApplication',supports:['INSERT']],
         'RECRUITER_ENROLLED_DATE_APPLACCEPT'                 : [enabled:true,path:'/BannerUpdateApplication',supports:['INSERT']],
         'RECRUITER_ENROLLED_DATE_DECISIONCODE'               : [enabled:true,path:'/BannerUpdateApplication',supports:['INSERT']],
@@ -119,17 +119,17 @@ messageTypeConfig = [
 
 /* BANNER AUTHENTICATION PROVIDER CONFIGURATION */
 banner {
-	sso {
-		authenticationProvider = 'cas' //  Valid values are: 'default', 'cas' (must regenerate WAR file when changed)
-		authenticationAssertionAttribute = 'UDC_IDENTIFIER'
-	}
+        sso {
+                authenticationProvider = 'default' //  Valid values are: 'default', 'cas' (must regenerate WAR file when changed)
+                authenticationAssertionAttribute = 'UDC_IDENTIFIER'
+        }
 }
 
 grails {
     plugin {
         springsecurity {
             cas {
-                active = true
+                active = false
                 if (active){
                     grails.plugin.springsecurity.providerNames = ['casBannerAuthenticationProvider', 'selfServiceBannerAuthenticationProvider', 'bannerAuthenticationProvider']
                 }
@@ -157,17 +157,20 @@ grails {
     }
 }
 
-/**************** END of application start specific configuration properties ***************/
+/** **********************************************************************************
+ *                                                                                   *
+ *                      ConfigJob (Platform 9.23)                                    *
+ *     Support for configurations to reside in the database.                         *
+ * Properties to set the interval and the number of times the config job would run   *
+ * for ConfigJob.groovy i.e. the job scheduled to update the configuration                   *
+ * properties from DB. We recommend configuring interval of the configJob in         *
+ * such a way that it does not run as often, to help improve performance.            *
+ *                                                                                   *
+ ********************************************************************************** **/
 
-/** *****************************************************************************
- *                                                                              *
- *                      ConfigJob (Platform 9.23)                               *
- *     Support for configurations to reside in the database.                    *
- *                                                                              *
- ***************************************************************************** **/
 configJob {
-	interval = 86400000 // 24 hours
-	actualCount = -1
+        interval = 86400000 // 24 hours
+        actualCount = -1
 
 }
 banner.applicationName="brim"
