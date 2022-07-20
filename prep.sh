@@ -21,4 +21,6 @@ cd $APPNAME
 jar xvf ../$APPNAME.war
 cd ..
 
+cp WEB-INF/classes/* $APPNAME/WEB-INF/classes/
+
 echo "$APPNAME is ready for configuration"
