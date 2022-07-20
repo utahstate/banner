@@ -19,4 +19,6 @@ cd brim
 jar xvf ../brim.war 
 cd ..
 
+cp WEB-INF/classes/* brim/WEB-INF/classes/
+
 echo "Brim is ready for configuration"
