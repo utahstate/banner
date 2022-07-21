@@ -19,4 +19,6 @@ cd DocumentManagementApi
 jar -xvf ../DocumentManagementApi.war 
 cd ..
 
+cp WEB-INF/classes/* DocumentManagementApi/WEB-INF/classes/
+
 echo "DocumentManagementApi is ready for configuration"
