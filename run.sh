@@ -139,6 +139,7 @@ if [ -z "$CONFIG_FILE" ]; then
   setPropFromEnv saml.sign.key.password.env "$KEYSTORE_PASSWORD"
   setPropFromEnv saml.sp.metadata.filename.env "$SP_METADATA"
   setPropFromEnv saml.idp.metadata.filename.env "$IDP_METADATA"
+  setPropFromEnv saml.idp.max.auth.age "$MAX_AUTH_AGE"
 fi
 
 if [ -n "$JMX_PORT" ]; then
