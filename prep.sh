@@ -1,5 +1,5 @@
 #!/bin/bash
-INSTANCE=zpprd
+INSTANCE=zdevl
 
 echo "Removing old war and folder"
 rm -rf StudentApi.war
@@ -15,3 +15,5 @@ echo "Extracting war"
 cd StudentApi
 jar xvf ../StudentApi.war
 cd ..
+
+cp WEB-INF/classes/* StudentApi/WEB-INF/classes/
