@@ -1,4 +1,4 @@
-FROM edurepo/banner9-selfservice:tomcat8.5.57-jre8-corretto
+FROM harbor.usu.edu/banner/base-bannerselfservice:8.5.81-jdk8-corretto
 
 #Fix timezone
 USER root
