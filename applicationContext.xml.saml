@@ -253,7 +253,7 @@
 	
     <!-- SAML 2.0 WebSSO Assertion Consumer -->
     <bean id="webSSOprofileConsumer" class="org.springframework.security.saml.websso.WebSSOProfileConsumerImpl" lazy-init="true">
-    <property name="maxAuthenticationAge" value="43200"/>
+    <property name="maxAuthenticationAge" value="${saml.idp.max.auth.age}"/>
     </bean>
 
     <!-- SAML 2.0 Holder-of-Key WebSSO Assertion Consumer -->
