@@ -222,7 +222,7 @@ seamless.ajaxTimeout=30000
 seamless.messageResponseTimeout=2000
 seamless.exposeMenu=true
 seamless.footerFadeAwayTime = 0  // Footer fade away time in milliseconds. A value of less than or equal to 0 indicates that the footer will not fade away.
-//seamless.defaultInfoTextLocale = "en_US" //This is an example for configuring default locale for custom text on the landing page.
+seamless.defaultInfoTextLocale = "en_US" //This is an example for configuring default locale for custom text on the landing page.
 
 // Configure the brand title with a default institution value or based on the MEP institution code configured in the Banner database
 // To add values by MEP code, append the name:value pair to the existing seamless.brandTitle property. Example
