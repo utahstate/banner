@@ -60,13 +60,13 @@ environments {
      production {
          banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"   // required only if theme server is remote
          banner.theme.name="production"
-         banner.theme.template="BannerExtensibility-9_10"
+         banner.theme.template="BannerExtensibility-9_11"
          banner.theme.cacheTimeOut = 900                                    // in seconds, not required theme server is remote
      }
      development {
          banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"  // required only if theme server is remote
          banner.theme.name="development"
-         banner.theme.template="BannerExtensibility-9_10"
+         banner.theme.template="BannerExtensibility-9_11"
          banner.theme.cacheTimeOut = 120                                   // // in seconds, not required theme server is remote
          //This variable is used to get information about $$user authorities(Roles). This should be used only for Development, shouldn't be available in prod. by default it should be false.
          pageBuilder.development.authorities.enabled=false
@@ -189,7 +189,7 @@ if(System.getenv('AUTH_METHOD') == 'saml')
     grails.plugin.springsecurity.saml.keyManager.defaultKey = (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp'                 // banner-<short-appName>-sp is the value set in Ellucian Ethos Identity Service provider setup
     grails.plugin.springsecurity.saml.metadata.sp.file = '/usr/local/tomcat/webapps/' + (System.getenv('APP_LONG_NAME') ?: 'StudentSelfService') + '/saml/' + (System.getenv('BANNERDB') ?: 'host') + '/' + (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp.xml'     // for unix file based Example:-'/home/u02/sp-local.xml'
     grails.plugin.springsecurity.saml.metadata.providers = [adfs: '/usr/local/tomcat/webapps/' + (System.getenv('APP_LONG_NAME') ?: 'StudentSelfService') + '/saml/' + (System.getenv('BANNERDB') ?: 'host') + '/' + (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-idp.xml'] // for unix file based Example: '/home/u02/idp-local.xml'
-    grails.plugin.springsecurity.saml.metadata.defaultIdp = 'adfs'
+    grails.plugin.springsecurity.saml.metadata.defaultIdp = (System.getenv('IDP_URL') ?: 'https://sts.windows.net/ac352f9b-eb63-4ca2-9cf9-f4c40047ceff/')
     grails.plugin.springsecurity.saml.maxAuthenticationAge = (System.getenv('MAX_AUTH_AGE') ?: 43200)
     grails.plugin.springsecurity.saml.metadata.sp.defaults = [
             local: true,
@@ -230,27 +230,45 @@ webAppExtensibility {
     adminRoles = "ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"
 }
 
+/* Set feature.enableConfigJob to true for configJob to run as configured and
+set feature.enableConfigJob to false for configJob to NOT run as configured */
+
+feature.enableConfigJob = true
+
+/* Set feature.enableApplicationPageRoleJob to true for applicationPageRoleJob to run as configured and
+set feature.enableApplicationPageRoleJob to false for applicationPageRoleJob to NOT run as configured */
+
+feature.enableApplicationPageRoleJob = false
+
 /** ********************************************************************************
  *                                                                                 *
  *                   SS Config Dynamic Loading Job Properties                      *
  *                                                                                 *
- * Properties to set the interval and the number of times the config job would run *
- * for ConfigJob.groovy i.e. the job scheduled to update the configuration 		   *
- * properties from DB. We recommend configuring interval of the configJob in 	   *
- * such a way that it does not run as often, to help improve performance.          *
+*                   Cron Expressions:                                             *
  *                                                                                 *
- * interval - in milliseonds, this is to configure the interval at which the       *
- * quartz scheduler should run. If it is not configured, the default value is 60000*
+ *                   ┌───────────── second (0-59)                                  *
+ *                   │ ┌───────────── minute (0 - 59)                              *
+ *                   │ │ ┌───────────── hour (0 - 23)                              *
+ *                   │ │ │ ┌───────────── day of the month (1 - 31)                *
+ *                   │ │ │ │ ┌───────────── month (1 - 12) (or JAN-DEC)            *
+ *                   │ │ │ │ │ ┌───────────── day of the week (0 - 7)              *
+ *                   │ │ │ │ │ │          (or MON-SUN -- 0 or 7 is Sunday)         *
+ *                   │ │ │ │ │ │                                                   *
+ *                   * * * * * *                                                   *
  *                                                                                 *
- * actualCount - the number of times the config job would run. If the value is -1, *
- * the job will run indefinitely. If the value is 0, the job will not run.         *
- * If not configured, the default value is -1                                      *
- *   																			   *
  ******************************************************************************** **/
+/*ConfigJob - the job scheduled to update the configuration properties from DB
+ApplicationPageRoleJob - the job scheduled to update the interceptedUrlMap from DB. */
 
 configJob {
-    interval = 86400000 // 24 hours
-    actualCount = -1
+    // Recommended default is every 1 hour starting at 00am, of every day - "0 0 */1 * * ?"
+    // Cron expression lesser than 30 mins will fall back to 30 mins.
+    cronExpression = "0 0 */1 * * ?"
+}
+applicationPageRoleJob {
+    // Recommended default is once at 00:00:00am every day - "0 0 0 * * ?"
+    // Cron expression lesser than 30 mins will fall back to 30 mins.
+    cronExpression = "0 0 0 * * ?"
 }
 
 
@@ -289,3 +307,18 @@ targetServer="tomcat"
  ******************************************************************************* **/
 enableNLS=true
 
+/**************************************************************************************
+* List of allowed domains configuration for Ellucian Experience                       *
+* Do not change this configuration unless instructed.                                 *
+* Do not move this configuration to Banner Applications Configurations (GUACONF) page.*
+************************************************************************************* **/
+
+allowedExperienceDomains=[
+"https://experience-test.elluciancloud.com",
+"https://experience.elluciancloud.com",
+"https://experience-test.elluciancloud.ca",
+"https://experience.elluciancloud.ca",
+"https://experience-test.elluciancloud.ie",
+"https://experience.elluciancloud.ie",
+"https://experience-test.elluciancloud.com.au",
+"https://experience.elluciancloud.com.au"]

@@ -1,5 +1,5 @@
 FROM harbor.usu.edu/banner/base-bannerselfservice:8.5.81-jdk8-corretto
-LABEL version="9.9" 
+LABEL version="9.11" 
 
 USER root
 RUN mkdir -p /opt/banner/extensibility/pb \
