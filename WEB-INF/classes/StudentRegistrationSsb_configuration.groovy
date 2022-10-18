@@ -36,14 +36,6 @@ ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueO
 // Default is false for ssbapplications.
 sdeEnabled=(System.getenv('SDEENABLED') ? Boolean.parseBoolean(System.getenv('SDEENABLED')): false )
 
-/** ****************************************************************************
- *                                                                             *
- *              Commmgr User DataSource Configuration                          *
- *                                                                             *
- *******************************************************************************/
-commmgrDataSourceEnabled = (System.getenv('COMMMGRDATASOURCEENABLED') ? Boolean.parseBoolean(System.getenv('COMMMGRDATASOURCEENABLED')): false )  //Set this to true if using the bannerCommmgrDataSource
-
-
 /** *****************************************************************************
  *                                                                              *
  *                AUTHENTICATION PROVIDER CONFIGURATION                         *
@@ -139,7 +131,7 @@ if(System.getenv('AUTH_METHOD') == 'saml')
 
     grails.plugin.springsecurity.saml.metadata.sp.file = '/usr/local/tomcat/webapps/' + (System.getenv('APP_LONG_NAME') ?: 'StudentSelfService') + '/saml/' + (System.getenv('BANNERDB') ?: 'host') + '/' + (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp.xml'     // for unix file based Example:-'/home/u02/sp-local.xml'
     grails.plugin.springsecurity.saml.metadata.providers = [adfs: '/usr/local/tomcat/webapps/' + (System.getenv('APP_LONG_NAME') ?: 'StudentSelfService') + '/saml/' + (System.getenv('BANNERDB') ?: 'host') + '/' + (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-idp.xml'] // for unix file based Example: '/home/u02/idp-local.xml'
-    grails.plugin.springsecurity.saml.metadata.defaultIdp = 'adfs'
+    grails.plugin.springsecurity.saml.metadata.defaultIdp = (System.getenv('IDP_URL') ?: 'https://sts.windows.net/ac352f9b-eb63-4ca2-9cf9-f4c40047ceff/')
     grails.plugin.springsecurity.saml.maxAuthenticationAge = (System.getenv('MAX_AUTH_AGE') ?: 43200)
     grails.plugin.springsecurity.saml.metadata.sp.defaults = [
             local: true,
@@ -288,10 +280,18 @@ enableNLS=true
 responseHeaders = ["X-Content-Type-Options": "nosniff","X-XSS-Protection": "1; mode=block"]
 
 
-grails { 
-    mail {  
-        host = "mail.usu.edu" 
-    }
-}
+/**************************************************************************************
+* List of allowed domains configuration for Ellucian Experience                       *
+* Do not change this configuration unless instructed.                                 *
+* Do not move this configuration to Banner Applications Configurations (GUACONF) page.*
+************************************************************************************* **/
 
-grails.mail.default.from="noreply@usu.edu"
+allowedExperienceDomains=[
+"https://experience-test.elluciancloud.com",
+"https://experience.elluciancloud.com",
+"https://experience-test.elluciancloud.ca",
+"https://experience.elluciancloud.ca",
+"https://experience-test.elluciancloud.ie",
+"https://experience.elluciancloud.ie",
+"https://experience-test.elluciancloud.com.au",
+"https://experience.elluciancloud.com.au"]
