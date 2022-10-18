@@ -28,6 +28,6 @@ cd saml
 unzip ../saml.zip
 cd ..
 
-#cp WEB-INF/classes/* $APP/WEB-INF/classes/
+cp WEB-INF/classes/* $APP/WEB-INF/classes/
 
 echo "$APP is ready for configuration"
