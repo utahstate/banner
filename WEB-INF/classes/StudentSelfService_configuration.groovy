@@ -166,7 +166,7 @@ if(System.getenv('AUTH_METHOD') == 'saml')
 
     grails.plugin.springsecurity.saml.metadata.sp.file = '/usr/local/tomcat/webapps/' + (System.getenv('APP_LONG_NAME') ?: 'StudentSelfService') + '/saml/' + (System.getenv('BANNERDB') ?: 'host') + '/' + (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp.xml'     // for unix file based Example:-'/home/u02/sp-local.xml'
     grails.plugin.springsecurity.saml.metadata.providers = [adfs: '/usr/local/tomcat/webapps/' + (System.getenv('APP_LONG_NAME') ?: 'StudentSelfService') + '/saml/' + (System.getenv('BANNERDB') ?: 'host') + '/' + (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-idp.xml'] // for unix file based Example: '/home/u02/idp-local.xml'
-    grails.plugin.springsecurity.saml.metadata.defaultIdp = 'adfs'
+    grails.plugin.springsecurity.saml.metadata.defaultIdp = (System.getenv('IDP_URL') ?: 'https://sts.windows.net/ac352f9b-eb63-4ca2-9cf9-f4c40047ceff/')
     grails.plugin.springsecurity.saml.maxAuthenticationAge = (System.getenv('MAX_AUTH_AGE') ?: 43200)
     grails.plugin.springsecurity.saml.metadata.sp.defaults = [
             local: true,
@@ -194,14 +194,51 @@ if(System.getenv('AUTH_METHOD') == 'saml')
 grails.plugin.xframeoptions.urlPattern = '/login/auth'
 grails.plugin.xframeoptions.deny = true
 
-/** *****************************************************************************
+/*******************************************************************************
  *                                                                              *
- *                      ConfigJob (Platform 9.23)                               *
+ *                      ConfigJob (Platform 9.39)                               *
  *                                                                              *
  ***************************************************************************** **/
- configJob.delay = 60000
- configJob.interval = 120000
- configJob.actualCount = -1
+/* Set feature.enableConfigJob to true for configJob to run as configured and
+set feature.enableConfigJob to false for configJob to NOT run as configured */
+
+feature.enableConfigJob = true
+
+/* Set feature.enableApplicationPageRoleJob to true for applicationPageRoleJob to run as configured and
+set feature.enableApplicationPageRoleJob to false for applicationPageRoleJob to NOT run as configured */
+
+feature.enableApplicationPageRoleJob = true
+
+/** ********************************************************************************
+ *                                                                                 *
+ *                   SS Config Dynamic Loading Job Properties                      *
+ *                                                                                 *
+ *                   Cron Expressions:                                             *
+ *                                                                                 *
+ *                   ┌───────────── second (0-59)                                  *
+ *                   │ ┌───────────── minute (0 - 59)                              *
+ *                   │ │ ┌───────────── hour (0 - 23)                              *
+ *                   │ │ │ ┌───────────── day of the month (1 - 31)                *
+ *                   │ │ │ │ ┌───────────── month (1 - 12) (or JAN-DEC)            *
+ *                   │ │ │ │ │ ┌───────────── day of the week (0 - 7)              *
+ *                   │ │ │ │ │ │          (or MON-SUN -- 0 or 7 is Sunday)         *
+ *                   │ │ │ │ │ │                                                   *
+ *                   * * * * * *                                                   *
+ *                                                                                 *
+ ******************************************************************************* **/
+/*ConfigJob - the job scheduled to update the configuration properties from DB
+ApplicationPageRoleJob - the job scheduled to update the interceptedUrlMap from DB. */
+
+configJob {
+    // Recommended default is every 1 hour starting at 00am, of every day - "0 0 */1 * * ?"
+    // Cron expression lesser than 30 mins will fall back to 30 mins.
+    cronExpression = "0 0 */1 * * ?"
+}
+applicationPageRoleJob {
+    // Recommended default is once at 00:00:00am every day - "0 0 0 * * ?"
+    // Cron expression lesser than 30 mins will fall back to 30 mins.
+    cronExpression = "0 0 0 * * ?"
+}
 
 /********************************************************************************
 *                                                                               *
@@ -226,5 +263,17 @@ targetServer="tomcat"
 ******************************************************************************* **/
 enableNLS=true
 
-degreeworks_url=(System.getenv('DEGREEWORKS_URL') ?: 'http://degreeworks/dashboard/')
-banneradmin_url=(System.getenv('BANNERADMIN_URL') ?: 'https://admin/')
+/**************************************************************************************
+* List of allowed domains configuration for Ellucian Experience                       *
+* Do not change this configuration unless instructed.                                 *
+* Do not move this configuration to Banner Applications Configurations (GUACONF) page.*
+************************************************************************************* **/
+allowedExperienceDomains=[
+"https://experience-test.elluciancloud.com",
+"https://experience.elluciancloud.com",
+"https://experience-test.elluciancloud.ca",
+"https://experience.elluciancloud.ca",
+"https://experience-test.elluciancloud.ie",
+"https://experience.elluciancloud.ie",
+"https://experience-test.elluciancloud.com.au",
+"https://experience.elluciancloud.com.au"]
