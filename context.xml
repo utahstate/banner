@@ -1,0 +1,4 @@
+<Context>
+    <Manager pathname="" />
+    <CookieProcessor sameSiteCookies="none" />
+</Context>
