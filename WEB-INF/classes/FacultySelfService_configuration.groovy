@@ -150,7 +150,7 @@ if(System.getenv('AUTH_METHOD') == 'saml')
     grails.plugin.springsecurity.saml.keyManager.defaultKey = (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp'                 // banner-<short-appName>-sp is the value set in Ellucian Ethos Identity Service provider setup
     grails.plugin.springsecurity.saml.metadata.sp.file = '/usr/local/tomcat/webapps/' + (System.getenv('APP_LONG_NAME') ?: 'StudentSelfService') + '/saml/' + (System.getenv('BANNERDB') ?: 'host') + '/' + (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp.xml'     // for unix file based Example:-'/home/u02/sp-local.xml'
     grails.plugin.springsecurity.saml.metadata.providers = [adfs: '/usr/local/tomcat/webapps/' + (System.getenv('APP_LONG_NAME') ?: 'StudentSelfService') + '/saml/' + (System.getenv('BANNERDB') ?: 'host') + '/' + (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-idp.xml'] // for unix file based Example: '/home/u02/idp-local.xml'
-    grails.plugin.springsecurity.saml.metadata.defaultIdp = 'adfs'
+    grails.plugin.springsecurity.saml.metadata.defaultIdp = '(System.getenv('IDP_URL') ?: 'https://sts.windows.net/ac352f9b-eb63-4ca2-9cf9-f4c40047ceff/')'
     grails.plugin.springsecurity.saml.maxAuthenticationAge = (System.getenv('MAX_AUTH_AGE') ?: 43200)
     grails.plugin.springsecurity.saml.metadata.sp.defaults = [
             local: true,
@@ -218,8 +218,6 @@ ApplicationPageRoleJob - the job scheduled to update the interceptedUrlMap from 
 configJob {
     // Recommended default is every 1 hour starting at 00am, of every day - "0 0 */1 * * ?"
     // Cron expression lesser than 30 mins will fall back to 30 mins.
-    interval = 120000
-    actualCount = -1
     cronExpression = "0 0 */1 * * ?"
 }
 applicationPageRoleJob {
@@ -251,3 +249,18 @@ targetServer="tomcat"
 ******************************************************************************* **/
 enableNLS=true
 banner.applicationName="Faculty Self Service"
+/**************************************************************************************
+* List of allowed domains configuration for Ellucian Experience                       *
+* Do not change this configuration unless instructed.                                 *
+* Do not move this configuration to Banner Applications Configurations (GUACONF) page.*
+************************************************************************************* **/
+
+allowedExperienceDomains=[
+"https://experience-test.elluciancloud.com",
+"https://experience.elluciancloud.com",
+"https://experience-test.elluciancloud.ca",
+"https://experience.elluciancloud.ca",
+"https://experience-test.elluciancloud.ie",
+"https://experience.elluciancloud.ie",
+"https://experience-test.elluciancloud.com.au",
+"https://experience.elluciancloud.com.au"]
