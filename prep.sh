@@ -3,7 +3,7 @@
 INSTANCE=zpprd
 CLEANADDRESS=false
 APP=BannerGeneralSsb
-VERSION=9.11
+VERSION=9.12
 ZIP_PASSWORD=transcript
 WARFILE=$(pwd)/BannerGeneralSsb.war
 CURRENT_FOLDER=$(pwd)
@@ -32,15 +32,15 @@ curl -o clnbannerssb_$VERSION.zip https://files.runneredq.com/integrations/Runne
 rm -rf clnbannerssb_$VERSION
 unzip -P $ZIP_PASSWORD clnbannerssb_$VERSION.zip -d ./clnbannerssb_$VERSION
 cd clnbannerssb_$VERSION/clnaddr_banner_ssb
-cp assets/modules/personalInformationApp-mf.js assets/modules/personalInformationApp-mf-9.10.js
-cp assets/modules/pi-application-mf.js assets/modules/pi-application-mf-9.10.js
-cp assets/personalInformationApp/piEmergencyContact/piEditEmergencyContact-controller.js assets/personalInformationApp/piEmergencyContact/piEditEmergencyContact-controller-9.10.js
-cp assets/personalInformationApp/piEmergencyContact/cleanAddressEmergency-controller.js assets/personalInformationApp/piEmergencyContact/cleanAddressEmergency-controller-9.10.js
-cp assets/personalInformationApp/piEmergencyContact/piEditEmergencyContact.html assets/personalInformationApp/piEmergencyContact/piEditEmergencyContact-9.10.html
-cp assets/personalInformationApp/common/services/cleanAddress-service.js assets/personalInformationApp/common/services/cleanAddress-service-9.10.js
-cp assets/personalInformationApp/piAddress/piEditAddress-controller.js assets/personalInformationApp/piAddress/piEditAddress-controller-9.10.js
-cp assets/personalInformationApp/piAddress/cleanAddressMain-controller.js assets/personalInformationApp/piAddress/cleanAddressMain-controller-9.10.js
-cp assets/personalInformationApp/piAddress/piEditAddress.html assets/personalInformationApp/piAddress/piEditAddress-9.10.html
+cp assets/modules/personalInformationApp-mf.js assets/modules/personalInformationApp-mf-$VERSION.js
+cp assets/modules/pi-application-mf.js assets/modules/pi-application-mf-$VERSION.js
+cp assets/personalInformationApp/piEmergencyContact/piEditEmergencyContact-controller.js assets/personalInformationApp/piEmergencyContact/piEditEmergencyContact-controller-$VERSION.js
+cp assets/personalInformationApp/piEmergencyContact/cleanAddressEmergency-controller.js assets/personalInformationApp/piEmergencyContact/cleanAddressEmergency-controller-$VERSION.js
+cp assets/personalInformationApp/piEmergencyContact/piEditEmergencyContact.html assets/personalInformationApp/piEmergencyContact/piEditEmergencyContact-$VERSION.html
+cp assets/personalInformationApp/common/services/cleanAddress-service.js assets/personalInformationApp/common/services/cleanAddress-service-$VERSION.js
+cp assets/personalInformationApp/piAddress/piEditAddress-controller.js assets/personalInformationApp/piAddress/piEditAddress-controller-$VERSION.js
+cp assets/personalInformationApp/piAddress/cleanAddressMain-controller.js assets/personalInformationApp/piAddress/cleanAddressMain-controller-$VERSION.js
+cp assets/personalInformationApp/piAddress/piEditAddress.html assets/personalInformationApp/piAddress/piEditAddress-$VERSION.html
 
 modifyManifest(){
 
