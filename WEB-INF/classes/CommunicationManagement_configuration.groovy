@@ -145,7 +145,7 @@ if(System.getenv('AUTH_METHOD') == 'saml')
     grails.plugin.springsecurity.saml.keyManager.defaultKey = (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp'                 // banner-<short-appName>-sp is the value set in Ellucian Ethos Identity Service provider setup
     grails.plugin.springsecurity.saml.metadata.sp.file = '/usr/local/tomcat/webapps/' + (System.getenv('APP_LONG_NAME') ?: 'StudentSelfService') + '/saml/' + (System.getenv('BANNERDB') ?: 'host') + '/' + (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp.xml'     // for unix file based Example:-'/home/u02/sp-local.xml'
     grails.plugin.springsecurity.saml.metadata.providers = [adfs: '/usr/local/tomcat/webapps/' + (System.getenv('APP_LONG_NAME') ?: 'StudentSelfService') + '/saml/' + (System.getenv('BANNERDB') ?: 'host') + '/' + (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-idp.xml'] // for unix file based Example: '/home/u02/idp-local.xml'
-    grails.plugin.springsecurity.saml.metadata.defaultIdp = 'adfs'
+    grails.plugin.springsecurity.saml.metadata.defaultIdp = (System.getenv('IDP_URL') ?: 'https://sts.windows.net/ac352f9b-eb63-4ca2-9cf9-f4c40047ceff/')
     grails.plugin.springsecurity.saml.maxAuthenticationAge = (System.getenv('MAX_AUTH_AGE') ?: 43200)
     grails.plugin.springsecurity.saml.metadata.sp.defaults = [
             local: true,
@@ -182,6 +182,7 @@ targetServer="tomcat"
 // Note: Times such as pollingInterval and idleWaitTime are in milliseconds.
 // ******************************************************************************
 
+boolean autoStartQuartz = true
 communication {
 	weblogicDeployment = targetServer=="weblogic" ? true: false
 	println("weblogicDeployment is "+ weblogicDeployment);
@@ -222,7 +223,7 @@ communication {
         deleteSuccessfullyCompleted = false
     }
     scheduler {
-        enabled = true
+        enabled = autoStartQuartz
         idleWaitTime = 30000
         clusterCheckinInterval = 15000
     }
@@ -292,27 +293,29 @@ feature.enableApplicationPageRoleJob = true
 
 
 
-/** ********************************************************************************
+/**********************************************************************************
  *                                                                                 *
  *                   SS Config Dynamic Loading Job Properties                      *
  *                                                                                 *
- * Properties to set the interval and the number of times the config job would run *
- * for ConfigJob.groovy i.e. the job scheduled to update the configuration 		   *
- * properties from DB. We recommend configuring interval of the configJob in 	   *
- * such a way that it does not run as often, to help improve performance.          *
+ *                   Cron Expressions:                                             *
  *                                                                                 *
- * interval - in milliseonds, this is to configure the interval at which the       *
- * quartz scheduler should run. If it is not configured, the default value is 60000*
+ *                   ┌───────────── second (0-59)                                  *
+ *                   │ ┌───────────── minute (0 - 59)                              *
+ *                   │ │ ┌───────────── hour (0 - 23)                              *
+ *                   │ │ │ ┌───────────── day of the month (1 - 31)                *
+ *                   │ │ │ │ ┌───────────── month (1 - 12) (or JAN-DEC)            *
+ *                   │ │ │ │ │ ┌───────────── day of the week (0 - 7)              *
+ *                   │ │ │ │ │ │          (or MON-SUN -- 0 or 7 is Sunday)         *
+ *                   │ │ │ │ │ │                                                   *
+ *                   * * * * * *                                                   *
  *                                                                                 *
- * actualCount - the number of times the config job would run. If the value is -1, *
- * the job will run indefinitely. If the value is 0, the job will not run.         *
- * If not configured, the default value is -1                                      *
- *   																			   *
- ******************************************************************************** **/
+ **********************************************************************************/
+/*ConfigJob - the job scheduled to update the configuration properties from DB
+ApplicationPageRoleJob - the job scheduled to update the interceptedUrlMap from DB. */
 
 configJob {
-    interval = 120000
-    actualCount = -1
+    // Recommended default is every 1 hour starting at 00am, of every day - "0 0 */1 * * ?"
+    // Cron expression lesser than 30 mins will fall back to 30 mins.
     cronExpression = "0 0 */1 * * ?"
 }
 applicationPageRoleJob {
@@ -330,7 +333,7 @@ quartz {
 
      println "Reading Quartz Scheduler properties from external configuration!"
      
-     autoStartup = communication.scheduler.enabled ==true ? true: false
+     autoStartup = autoStartQuartz
 	 jdbcStore =  false
 	 waitForJobsToCompleteOnShutdown=true
 	 purgeQuartzTablesOnStartup=false
@@ -344,10 +347,10 @@ quartz {
            scheduler.idleWaitTime =communication.scheduler.idleWaitTime
        }
 
-       boolean isWebLogic = communication.weblogicDeployment == true
+       boolean isWebLogic = targetServer.equalsIgnoreCase("weblogic") ? true: false
        if (isWebLogic) {
-           println( "Setting driverDelegateClass to org.quartz.impl.jdbcjobstore.oracle.weblogic.WebLogicOracleDelegate" )
-           jobStore.driverDelegateClass = 'org.quartz.impl.jdbcjobstore.oracle.weblogic.WebLogicOracleDelegate'
+           println( "Setting driverDelegateClass to org.quartz.impl.jdbcjobstore.WebLogicDelegate" )
+           jobStore.driverDelegateClass = 'org.quartz.impl.jdbcjobstore.WebLogicDelegate'
        } else {
            println( "Setting driverDelegateClass to org.quartz.impl.jdbcjobstore.oracle.OracleDelegate" )
            jobStore.driverDelegateClass = 'org.quartz.impl.jdbcjobstore.oracle.OracleDelegate'
@@ -363,4 +366,18 @@ quartz {
 
     println "Completed reading Quartz Scheduler properties from external configuration!"
 }
+/**************************************************************************************
+* List of allowed domains configuration for Ellucian Experience                       *
+* Do not change this configuration unless instructed.                                 *
+* Do not move this configuration to Banner Applications Configurations (GUACONF) page.*
+************************************************************************************* **/
 
+allowedExperienceDomains=[
+"https://experience-test.elluciancloud.com",
+"https://experience.elluciancloud.com",
+"https://experience-test.elluciancloud.ca",
+"https://experience.elluciancloud.ca",
+"https://experience-test.elluciancloud.ie",
+"https://experience.elluciancloud.ie",
+"https://experience-test.elluciancloud.com.au",
+"https://experience.elluciancloud.com.au"]

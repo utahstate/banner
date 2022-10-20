@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INSTANCE=zdevl
+INSTANCE=zpprd
 APP=CommunicationManagement
 
 #Remove old war and app folder
