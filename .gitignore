@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 applicationnavigator/applicationNavigator
 applicationNavigator.war
 saml/
@@ -21,3 +20,4 @@ businessprocessapi/BannerAdminBPAPI-working
 **/*.env
 businessprocessapi/BannerAdminBPAPI_configs/*
 communicationmanagement/CommunicationManagement/
+documentmanagementapi/DocumentManagementApi/
