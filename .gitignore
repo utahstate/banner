@@ -1,7 +1,7 @@
 applicationnavigator/applicationNavigator
 applicationNavigator.war
-saml/
-saml.zip
+**/saml/
+**/saml.zip
 **/*.jar
 **/.DS_Store
 **/*.war
@@ -24,3 +24,4 @@ documentmanagementapi/DocumentManagementApi/
 ellucianmessagingadapter/EllucianMessagingAdapter
 employeeselfservice/EmployeeSelfService
 etranscriptapi/eTranscriptAPI
+financeselfservice/FacultySelfService/
