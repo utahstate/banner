@@ -28,4 +28,4 @@ financeselfservice/FinanceSelfService
 **/.vscode
 generalselfservice/BannerGeneralSsb/
 **/clnbanner*
-integrationapi//IntegrationApi
+integrationapi/IntegrationApi
