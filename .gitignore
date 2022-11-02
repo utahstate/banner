@@ -1,4 +1,5 @@
-applicationNavigator
+applicationnavigator/applicationNavigator
 applicationNavigator.war
 saml/
 saml.zip
+.DS_Store
