@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <!--
   Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
@@ -16,7 +16,7 @@
   limitations under the License.
 -->
 <!-- The contents of this file will be loaded for each web application -->
-<Context mapperDirectoryRedirectEnabled="true">
+<Context>
 
     <!-- Default set of monitored resources. If one of these changes, the    -->
     <!-- web application will be reloaded.                                   -->
@@ -26,15 +26,20 @@
     <!-- Uncomment this to disable session persistence across Tomcat restarts -->
     <Manager pathname="" />
 
-    <ResourceLink global="jdbc/bannerDataSource"
-                  name="jdbc/bannerDataSource"
-                  type="javax.sql.DataSource"/>
-    <ResourceLink global="jdbc/bannerSsbDataSource"
-                  name="jdbc/bannerSsbDataSource"
-                  type="javax.sql.DataSource"/>
+    <ResourceLink global="jdbc/bannerDataSource" 
+        name="jdbc/bannerDataSource" type="javax.sql.DataSource"/>
+    <ResourceLink global="jdbc/bannerSsbDataSource" 
+        name="jdbc/bannerSsbDataSource" type="javax.sql.DataSource"/>
+    <ResourceLink global="jdbc/events" 
+        name="jdbc/events" type="javax.sql.DataSource"/>
+    <ResourceLink global="jdbc/cdcadmin" 
+        name="jdbc/cdcadmin" type="javax.sql.DataSource"/>
 
     <Resources cachingAllowed="true" cacheMaxSize="100000" />
 
-    <CookieProcessor sameSiteCookies="none" />
-
+    <!-- Uncomment this to enable Comet connection tacking (provides events
+         on session expiration as well as webapp lifecycle) -->
+    <!--
+    <Valve className="org.apache.catalina.valves.CometConnectionManagerValve" />
+    -->
 </Context>
