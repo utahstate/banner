@@ -27,3 +27,5 @@ etranscriptapi/eTranscriptAPI
 facultyselfservice/FacultySelfService/
 financeselfservice/FinanceSelfService
 **/.vscode
+generalselfservice/BannerGeneralSsb/
+**/clnbanner*
