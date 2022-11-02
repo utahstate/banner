@@ -1,10 +1,8 @@
-<<<<<<< HEAD
 applicationnavigator/applicationNavigator
 applicationNavigator.war
 saml/
 saml.zip
 **/*.jar
-.DS_Store
 **/.DS_Store
 **/*.war
 banneraccessmanagement/BannerAccessMgmt.ws/
@@ -16,3 +14,8 @@ banneradmin/bannerHelp/
 bannereventpublisher/BannerEventPublisher/
 bannerextensibility/BannerExtensibility
 brim/brim
+businessprocessapi/BannerAdminBPAPI
+businessprocessapi/BannerAdminBPAPI-working
+**/*.zip
+**/*.env
+businessprocessapi/BannerAdminBPAPI_configs/*
