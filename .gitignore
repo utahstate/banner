@@ -8,5 +8,6 @@ saml.zip
 banneraccessmanagement/BannerAccessMgmt.ws/
 banneraccessmanagement/BannerAccessMgmt/
 banneraccessmanagement/BannerAdmin.ws/
-saml/
-saml.zip
+banneradmin/BannerAdmin/
+banneradmin/BannerAdmin.ws/
+banneradmin/bannerHelp/
