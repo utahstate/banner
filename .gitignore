@@ -4,3 +4,9 @@ saml/
 saml.zip
 *.jar
 .DS_Store
+*.war
+banneraccessmanagement/BannerAccessMgmt.ws/
+banneraccessmanagement/BannerAccessMgmt/
+banneraccessmanagement/BannerAdmin.ws/
+saml/
+saml.zip
