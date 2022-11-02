@@ -2,4 +2,5 @@ applicationnavigator/applicationNavigator
 applicationNavigator.war
 saml/
 saml.zip
+*.jar
 .DS_Store
