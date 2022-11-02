@@ -1,5 +1,4 @@
 applicationnavigator/applicationNavigator
-applicationNavigator.war
 **/saml/
 **/saml.zip
 **/*.jar
@@ -29,3 +28,4 @@ financeselfservice/FinanceSelfService
 **/.vscode
 generalselfservice/BannerGeneralSsb/
 **/clnbanner*
+integrationapi//IntegrationApi
