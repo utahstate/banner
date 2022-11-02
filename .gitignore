@@ -24,4 +24,6 @@ documentmanagementapi/DocumentManagementApi/
 ellucianmessagingadapter/EllucianMessagingAdapter
 employeeselfservice/EmployeeSelfService
 etranscriptapi/eTranscriptAPI
-financeselfservice/FacultySelfService/
+facultyselfservice/FacultySelfService/
+financeselfservice/FinanceSelfService
+**/.vscode
