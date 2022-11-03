@@ -1,5 +1,5 @@
-FROM harbor.usu.edu/banner/base-banneradmin:8.5.81-jdk8-corretto
-LABEL banner.access.management=9.3.18.1.2
+FROM usuit/banner:base-banneradmin-8.5.81-jdk8-corretto 
+LABEL banner.access.management=9.3.21.1.1
 
 #Fix timezone
 USER root

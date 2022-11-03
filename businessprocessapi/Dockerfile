@@ -1,4 +1,4 @@
-FROM harbor.usu.edu/banner/base-banneradmin:8.5.81-jdk8-corretto
+FROM usuit/banner:base-banneradmin-8.5.81-jdk8-corretto
 
 #Fix timezone
 USER root
