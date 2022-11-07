@@ -1,4 +1,4 @@
-FROM harbor.usu.edu/banner/base-bcm:tomcat8.5.81-jre8-corretto
+FROM usuit/banner:base-bcm-tomcat8.5.81-jre8-corretto
 
 
 LABEL version=9.12

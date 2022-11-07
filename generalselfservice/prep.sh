@@ -82,6 +82,8 @@ cd saml
 unzip ../saml.zip
 cd ..
 
+cp assets/* $APP/assets/
+
 cp WEB-INF/classes/* $APP/WEB-INF/classes/
 
 echo "$APP is ready for configuration"
