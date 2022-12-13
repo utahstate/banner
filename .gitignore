@@ -3,7 +3,7 @@ applicationnavigator/applicationNavigator
 **/saml.zip
 **/*.jar
 **/.DS_Store
-**/*.war
+**/*.war*
 banneraccessmanagement/BannerAccessMgmt.ws/
 banneraccessmanagement/BannerAccessMgmt/
 banneraccessmanagement/BannerAdmin.ws/
