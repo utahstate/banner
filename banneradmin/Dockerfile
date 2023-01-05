@@ -1,12 +1,12 @@
 FROM usuit/banner:base-banneradmin-8.5.81-jdk8-corretto
-LABEL banner.common="9.3.29.1.1" \
+LABEL banner.common="9.3.29.2.2" \
       banner.accountreceivable="9.3.22.2.2" \
-      banner.finance="9.3.25.0.6" \
-      banner.financialaid="9.3.31.0.2" \
-      banner.general="9.3.24.0.4" \
-      banner.humanresources="9.3.23.0.6" \
-      banner.positioncontrol="9.3.17.0.4" \
-      banner.student="9.3.28.1.2" \
+      banner.finance="9.3.25.1.2" \
+      banner.financialaid="9.3.32.1.2" \
+      banner.general="9.3.24.1.3" \
+      banner.humanresources="9.3.24.1.2" \
+      banner.positioncontrol="9.3.18.0.2" \
+      banner.student="9.3.28.2.4" \
       cleanaddress="4.4.5"
 
 #Fix timezone

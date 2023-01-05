@@ -1,9 +1,9 @@
 #!/bin/bash
 
-INSTANCE=zpprd
-CLEANADDRESS=false
+INSTANCE=zdevl
+CLEANADDRESS=true
 APP=BannerGeneralSsb
-VERSION=9.12
+VERSION=9.12.1.1
 ZIP_PASSWORD=transcript
 WARFILE=$(pwd)/BannerGeneralSsb.war
 CURRENT_FOLDER=$(pwd)
