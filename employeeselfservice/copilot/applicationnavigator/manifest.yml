@@ -3,7 +3,7 @@
 #  https://aws.github.io/copilot-cli/docs/manifest/lb-web-service/
 
 # Your service name will be used in naming your resources like log groups, ECS services, etc.
-name: employeeselfservice
+name: applicationnavigator
 type: Load Balanced Web Service
 
 # Distribute traffic to your service.
@@ -14,7 +14,7 @@ http:
   # You can specify a custom health check path. The default is "/".
   healthcheck:
     success_codes: '200'
-    path: '/EmployeeSelfService/actuator/health'
+    path: '/applicationNavigator/actuator/health'
     grace_period: 300s
     timeout: 10s
     interval: 60s
@@ -24,7 +24,7 @@ http:
 
 # Configuration for your containers and service.
 image:
-  location: usuit/banner:employeeselfservice-9.21.0.1-20221220
+  location: usuit/banner:applicationnavigator-3.9-20221213
   # Port exposed through your container to route traffic to it.
   port: 8080
   credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns
@@ -46,17 +46,23 @@ network:
 #
 variables:                    # Pass environment variables as key value pairs.
 #  LOG_LEVEL: info
-  GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL: http://development.banner.usu.edu
+  GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL: https://admin-zdevl.banner.usu.edu/applicationNavigator
   GRAILS_PLUGIN_SPRINGSECURITY_LOGOUT_AFTERLOGOUTURL: https://logindev.usu.edu/cas/logout?url=http://development.banner.usu.edu
-  SSBORACLEUSERSPROXIED: true
+  SSBORACLEUSERSPROXIED: false
   BANNERDB: zdevl
-  APP_SHORT_NAME: employeess
-  APP_LONG_NAME: EmployeeSelfService
+  APP_SHORT_NAME: appnav
+  APP_LONG_NAME: applicationNavigator
   AUTH_METHOD: saml
   MAX_AUTH_AGE: 2592000
   IDP_URL:  https://sts.windows.net/ac352f9b-eb63-4ca2-9cf9-f4c40047ceff/
   BANNER8_SS_URL: https://ss-zdevl.banner.usu.edu/ssomanager/saml/login?relayState=/c/auth/SSB?pkg=
-  BANNER9_URL: https://ss-zdevl.banner.usu.edu
+  BANNER9_URL: https://admin-zdevl.banner.usu.edu
+  BANNER9_SS_URL: https://ss-zdevl.banner.usu.edu
+  BANNER_SS_BASE_URL: https://ss-zdevl.banner.usu.edu
+  GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT: false
+  SEAMLESS_SESSIONTIMEOUT: 60
+  SSBENABLED: true
+  CAS_URL: https://logintest.usu.edu/cas
   BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.147:1521/zdevl
   BANNER_PICTURESPATH: /opt/banner/images
 

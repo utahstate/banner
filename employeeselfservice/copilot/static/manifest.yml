@@ -3,7 +3,7 @@
 #  https://aws.github.io/copilot-cli/docs/manifest/lb-web-service/
 
 # Your service name will be used in naming your resources like log groups, ECS services, etc.
-name: employeeselfservice
+name: static
 type: Load Balanced Web Service
 
 # Distribute traffic to your service.
@@ -14,23 +14,23 @@ http:
   # You can specify a custom health check path. The default is "/".
   healthcheck:
     success_codes: '200'
-    path: '/EmployeeSelfService/actuator/health'
+    path: '/'
     grace_period: 300s
     timeout: 10s
     interval: 60s
     unhealthy_threshold: 2
     healthy_threshold: 3
-    port: 8080
+    port: 80
 
 # Configuration for your containers and service.
 image:
-  location: usuit/banner:employeeselfservice-9.21.0.1-20221220
+  location: usuit/banner:static-20230131
   # Port exposed through your container to route traffic to it.
-  port: 8080
+  port: 80
   credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns
 
-cpu: 1024       # Number of CPU units for the task.
-memory: 8192    # Amount of memory in MiB used by the task.
+cpu: 512       # Number of CPU units for the task.
+memory: 2048    # Amount of memory in MiB used by the task.
 count: 1       # Number of tasks that should be running in your service.
 exec: true     # Enable running commands in your container.
 network:
@@ -44,31 +44,14 @@ network:
  
 # Optional fields for more advanced use-cases.
 #
-variables:                    # Pass environment variables as key value pairs.
+# variables:                    # Pass environment variables as key value pairs.
 #  LOG_LEVEL: info
-  GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL: http://development.banner.usu.edu
-  GRAILS_PLUGIN_SPRINGSECURITY_LOGOUT_AFTERLOGOUTURL: https://logindev.usu.edu/cas/logout?url=http://development.banner.usu.edu
-  SSBORACLEUSERSPROXIED: true
-  BANNERDB: zdevl
-  APP_SHORT_NAME: employeess
-  APP_LONG_NAME: EmployeeSelfService
-  AUTH_METHOD: saml
-  MAX_AUTH_AGE: 2592000
-  IDP_URL:  https://sts.windows.net/ac352f9b-eb63-4ca2-9cf9-f4c40047ceff/
-  BANNER8_SS_URL: https://ss-zdevl.banner.usu.edu/ssomanager/saml/login?relayState=/c/auth/SSB?pkg=
-  BANNER9_URL: https://ss-zdevl.banner.usu.edu
-  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.147:1521/zdevl
-  BANNER_PICTURESPATH: /opt/banner/images
 
 #secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
 #  GITHUB_TOKEN: GITHUB_TOKEN  # The key is the name of the environment variable, the value is the name of the SSM parameter.
-secrets:
-  BANPROXY_PASSWORD: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BANPROXY_PASSWORD
-  BANSSUSER_PASSWORD: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BANSSUSER_PASSWORD
-  KEYSTORE_PASSWORD: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/KEYSTORE_PASSWORD
 
 # You can override any of the values defined above by environment.
-#environments:
+# environments:
 #  test:
 #    count: 2               # Number of tasks to run for the "test" environment.
 #    deployment:            # The deployment strategy for the "test" environment.
