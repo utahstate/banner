@@ -10,7 +10,7 @@ type: Load Balanced Web Service
 http:
   # Requests to this path will be forwarded to your service.
   # To match all requests you can use the "/" path.
-  path: '/'
+  path: 'BannerAdmin'
   # You can specify a custom health check path. The default is "/".
   healthcheck:
     success_codes: '200'
@@ -21,10 +21,11 @@ http:
     unhealthy_threshold: 2
     healthy_threshold: 3
     port: 8080
+  alias: admin-aws.banner.usu.edu
 
 # Configuration for your containers and service.
 image:
-  location: usuit/banner:banneradmin-9.3.29.2.2-cleanaddress-20221216-zdevl
+  location: usuit/banner:banneradmin-9.3.29.2.2-cleanaddress-20230222-aws
   # Port exposed through your container to route traffic to it.
   port: 8080
   credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns
@@ -47,8 +48,8 @@ network:
 variables:                    # Pass environment variables as key value pairs.
 #  LOG_LEVEL: info
   MAX_AUTH_AGE: 2592000
-  BANNER8_SS_URL: https://ss-zdevl.banner.usu.edu/ssomanager/saml/login?relayState=/c/auth/SSB?pkg=
-  BANNER9_URL: https://admin-zdevl.banner.usu.edu
+  BANNER8_SS_URL: https://ss-aws.banner.usu.edu/ssomanager/saml/login?relayState=/c/auth/SSB?pkg=
+  BANNER9_URL: https://admin-aws.banner.usu.edu
   BANPROXY_MAXWAIT: 30000
   CATALINA_OPTS: -server -XX:+UseG1GC -Xms$XMS -Xmx$XMX -XX:MaxPermSize=1024m -Dlog4j.configuration=config.properties -Djava.io.tmpdir=$BANNER_TEMPDIR -Duser.timezone=$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false
   REMOVE_ABANDONED_TIMEOUT: 3000
@@ -56,10 +57,11 @@ variables:                    # Pass environment variables as key value pairs.
   XMS: 8g
   XMX: 8g
   CAS_URL: https://logintest.usu.edu/cas
-  KEYSTORE_ALIAS: zdevl-adminpages-sp
-  SP_METADATA: zdevl-adminpages-sp.xml
-  IDP_METADATA: zdevl-adminpages-idp.xml
-  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.147:1521/zdevl
+  KEYSTORE_ALIAS: zprod-adminpages-sp
+  KEYSTORE_LOCATION: /u01/saml/zprod/zprod_keystore.jks
+  SP_METADATA: zprod-adminpages-sp.xml
+  IDP_METADATA: zprod-adminpages-idp.xml
+  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.147:1521/zprod
   BANNER_PICTURESPATH: /opt/banner/images
 
 #secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.

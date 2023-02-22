@@ -10,7 +10,7 @@ type: Load Balanced Web Service
 http:
   # Requests to this path will be forwarded to your service.
   # To match all requests you can use the "/" path.
-  path: '/'
+  path: 'applicationNavigator'
   # You can specify a custom health check path. The default is "/".
   healthcheck:
     success_codes: '200'
@@ -21,10 +21,11 @@ http:
     unhealthy_threshold: 2
     healthy_threshold: 3
     port: 8080
+  alias: admin-aws.banner.usu.edu
 
 # Configuration for your containers and service.
 image:
-  location: usuit/banner:applicationnavigator-3.9-20221213
+  location: usuit/banner:applicationnavigator-3.9-20230222-aws
   # Port exposed through your container to route traffic to it.
   port: 8080
   credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns
