@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INSTANCE=zpprd
+INSTANCE=zdevl
 
 #Remove old war and app folder
 echo "remove old war and app folder"
