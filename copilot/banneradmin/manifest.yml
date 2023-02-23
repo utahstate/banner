@@ -53,10 +53,10 @@ variables:                    # Pass environment variables as key value pairs.
   BANPROXY_MAXWAIT: 30000
   CATALINA_OPTS: -server -XX:+UseG1GC -Xms$XMS -Xmx$XMX -XX:MaxPermSize=1024m -Dlog4j.configuration=config.properties -Djava.io.tmpdir=$BANNER_TEMPDIR -Duser.timezone=$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false
   REMOVE_ABANDONED_TIMEOUT: 3000
-  THEME_URL: https://theme.elluciancloud.com/001G000000iHmuWIAS/theme/getTheme?name=zdevl&amp;template=admin-9_3_18
+  THEME_URL: https://theme.elluciancloud.com/001G000000iHmuXIAS/theme/getTheme?name=zprod&amp;template=admin-9_3_21
   XMS: 8g
   XMX: 8g
-  CAS_URL: https://logintest.usu.edu/cas
+  CAS_URL: https://login.usu.edu/cas
   KEYSTORE_ALIAS: zprod-adminpages-sp
   KEYSTORE_LOCATION: /u01/saml/zprod/zprod_keystore.jks
   SP_METADATA: zprod-adminpages-sp.xml

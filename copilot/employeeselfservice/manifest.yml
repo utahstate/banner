@@ -47,18 +47,18 @@ network:
 #
 variables:                    # Pass environment variables as key value pairs.
 #  LOG_LEVEL: info
-  GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL: http://development.banner.usu.edu
-  GRAILS_PLUGIN_SPRINGSECURITY_LOGOUT_AFTERLOGOUTURL: https://logindev.usu.edu/cas/logout?url=http://development.banner.usu.edu
+  GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL: http://banner.usu.edu
+  GRAILS_PLUGIN_SPRINGSECURITY_LOGOUT_AFTERLOGOUTURL: https://login.usu.edu/cas/logout?url=http://banner.usu.edu
   SSBORACLEUSERSPROXIED: true
-  BANNERDB: zdevl
+  BANNERDB: zprod
   APP_SHORT_NAME: employeess
   APP_LONG_NAME: EmployeeSelfService
   AUTH_METHOD: saml
   MAX_AUTH_AGE: 2592000
   IDP_URL:  https://sts.windows.net/ac352f9b-eb63-4ca2-9cf9-f4c40047ceff/
-  BANNER8_SS_URL: https://ss-zdevl.banner.usu.edu/ssomanager/saml/login?relayState=/c/auth/SSB?pkg=
-  BANNER9_URL: https://ss-zdevl.banner.usu.edu
-  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.147:1521/zdevl
+  BANNER8_SS_URL: https://ss-aws.banner.usu.edu/ssomanager/saml/login?relayState=/c/auth/SSB?pkg=
+  BANNER9_URL: https://ss-aws.banner.usu.edu
+  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.147:1521/zprod
   BANNER_PICTURESPATH: /opt/banner/images
 
 #secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
