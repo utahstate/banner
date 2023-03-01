@@ -1,9 +1,9 @@
-FROM usuit/banner:base-bcm-tomcat8.5.81-jre8-corretto
+FROM usuit/banner:base-bcm-9.0.71-jdk8-corretto
 
 
-LABEL version="9.12.1.1"
+LABEL version="9.12.2.1"
 
-# Fix timezone
+# Fix timezone:
 USER root
 ENV TIMEZONE=America/Denver
 RUN cp -f /usr/share/zoneinfo/$TIMEZONE /etc/localtime

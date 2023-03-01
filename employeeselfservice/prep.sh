@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INSTANCE=zdevl
+INSTANCE=zpprd
 APPNAME=EmployeeSelfService
 #Remove old war and app folder
 echo "Remove old war and app folder"

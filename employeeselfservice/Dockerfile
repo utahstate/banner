@@ -1,6 +1,6 @@
 FROM usuit/banner:base-bannerselfservice-9.0.71-jdk8-corretto
 
-LABEL version="9.21.0.1"
+LABEL version="9.21.0.3"
 
 ENV TIMEZONE=America/Denver
 

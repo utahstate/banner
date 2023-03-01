@@ -1,7 +1,7 @@
 #Dockerfile for StudentAPI
-FROM harbor.usu.edu/banner/base-bannerselfservice:8.5.81-jdk8-corretto
+FROM usuit/banner:base-bannerselfservice-9.0.71-jdk8-corretto
 
-LABEL api_version=9.28.2
+LABEL api_version=9.28.2.2
 
 #Fix timezone
 USER root
