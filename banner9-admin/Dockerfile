@@ -1,4 +1,4 @@
-FROM tomcat:8.5.81-jdk8-corretto
+FROM tomcat:9.0.71-jdk8-corretto 
 
 ENV TIMEZONE="America/New_York"
 ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod \
