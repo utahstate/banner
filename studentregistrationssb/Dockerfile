@@ -1,6 +1,6 @@
 FROM usuit/banner:base-bcm-9.0.71-jdk8-corretto
 
-LABEL version="9.26.1.2"
+LABEL version="9.27"
 
 # Fix timezone
 USER root
