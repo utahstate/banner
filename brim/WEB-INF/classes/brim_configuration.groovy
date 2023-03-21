@@ -118,18 +118,25 @@ messageTypeConfig = [
 ]
 
 /* BANNER AUTHENTICATION PROVIDER CONFIGURATION */
+boolean ssoEnabled = false
 banner {
-        sso {
-                authenticationProvider = 'default' //  Valid values are: 'default', 'cas' (must regenerate WAR file when changed)
-                authenticationAssertionAttribute = 'UDC_IDENTIFIER'
-        }
+	 sso{
+       authenticationProvider = 'cas'
+       authenticationAssertionAttribute = 'UDC_IDENTIFIER'
+       if(authenticationProvider == 'cas' || authenticationProvider == 'saml'){
+       ssoEnabled = true
+	   }
+    }
 }
-
+if(ssoEnabled)
+{
+   grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
+}
 grails {
     plugin {
         springsecurity {
             cas {
-                active = false
+                active = true
                 if (active){
                     grails.plugin.springsecurity.providerNames = ['casBannerAuthenticationProvider', 'selfServiceBannerAuthenticationProvider', 'bannerAuthenticationProvider']
                 }
@@ -157,20 +164,64 @@ grails {
     }
 }
 
-/** **********************************************************************************
- *                                                                                   *
- *                      ConfigJob (Platform 9.23)                                    *
- *     Support for configurations to reside in the database.                         *
- * Properties to set the interval and the number of times the config job would run   *
- * for ConfigJob.groovy i.e. the job scheduled to update the configuration                   *
- * properties from DB. We recommend configuring interval of the configJob in         *
- * such a way that it does not run as often, to help improve performance.            *
- *                                                                                   *
- ********************************************************************************** **/
+/* Set feature.enableConfigJob to true for configJob to run as configured and
+set feature.enableConfigJob to false for configJob to NOT run as configured */
+
+feature.enableConfigJob = true
+
+/* Set feature.enableApplicationPageRoleJob to true for applicationPageRoleJob to run as configured and
+set feature.enableApplicationPageRoleJob to false for applicationPageRoleJob to NOT run as configured */
+
+feature.enableApplicationPageRoleJob = false
+
+/** ********************************************************************************
+ *                                                                                 *
+ *                   SS Config Dynamic Loading Job Properties                      *
+ *                                                                                 *
+ *                   Cron Expressions:                                             *
+ *                                                                                 *
+ *                   ┌───────────── second (0-59)                                  *
+ *                   │ ┌───────────── minute (0 - 59)                            *
+ *                   │ │ ┌───────────── hour (0 - 23)                              *
+ *                   │ │ │ ┌───────────── day of the month (1 - 31)                  *
+ *                   │ │ │ │ ┌───────────── month (1 - 12) (or JAN-DEC)            *
+ *                   │ │ │ │ │ ┌───────────── day of the week (0 - 7)            *
+ *                   │ │ │ │ │ │          (or MON-SUN -- 0 or 7 is Sunday)         *
+ *                   │ │ │ │ │ │                                                   *
+ *                   * * * * * *                                                   *
+ *                                                                                 *
+ ******************************************************************************** **/
+/*ConfigJob - the job scheduled to update the configuration properties from DB
+ApplicationPageRoleJob - the job scheduled to update the interceptedUrlMap from DB. */
 
 configJob {
-        interval = 86400000 // 24 hours
-        actualCount = -1
-
+    // Recommended default is every 1 hour starting at 00am, of every day - "0 0 */1 * * ?"
+    // Cron expression lesser than 30 mins will fall back to 30 mins.
+    cronExpression = "0 0 */1 * * ?"
 }
+applicationPageRoleJob {
+    // Recommended default is once at 00:00:00am every day - "0 0 0 * * ?"
+    // Cron expression lesser than 30 mins will fall back to 30 mins.
+    cronExpression = "0 0 0 * * ?"
+}
+
 banner.applicationName="brim"
+
+//DB CPU utilization improvement
+authorityCachingEnabled = false
+
+/**************************************************************************************
+* List of allowed domains configuration for Ellucian Experience                       *
+* Do not change this configuration unless instructed.                                 *
+* Do not move this configuration to Banner Applications Configurations (GUACONF) page.*
+************************************************************************************* **/
+
+allowedExperienceDomains=[
+"https://experience-test.elluciancloud.com",
+"https://experience.elluciancloud.com",
+"https://experience-test.elluciancloud.ca",
+"https://experience.elluciancloud.ca",
+"https://experience-test.elluciancloud.ie",
+"https://experience.elluciancloud.ie",
+"https://experience-test.elluciancloud.com.au",
+"https://experience.elluciancloud.com.au"]
