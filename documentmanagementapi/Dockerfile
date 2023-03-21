@@ -1,4 +1,4 @@
-FROM harbor.usu.edu/banner/base-bannerselfservice:8.5.72-jdk8-corretto
+FROM usuit/banner:base-bannerselfservice-9.0.71-jdk8-corretto
 
 ENV TIMEZONE=America\Denver
 
