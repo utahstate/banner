@@ -1,7 +1,7 @@
 #Dockerfile for Banner Integration API
 FROM usuit/banner:base-bannerselfservice-9.0.71-jdk8-corretto
 
-LABEL api_version=9.28.1
+LABEL api_version=9.29
 
 #Fix timezone
 USER root
