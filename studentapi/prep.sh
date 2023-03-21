@@ -1,5 +1,5 @@
 #!/bin/bash
-INSTANCE=zpprd
+INSTANCE=zdevl
 
 echo "Removing old war and folder"
 rm -rf StudentApi.war
