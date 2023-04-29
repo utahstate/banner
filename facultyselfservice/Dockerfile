@@ -10,3 +10,4 @@ USER tomcat
 
 COPY --chown=tomcat:tomcat FacultySelfService /usr/local/tomcat/webapps/FacultySelfService
 COPY --chown=tomcat:tomcat saml /usr/local/tomcat/webapps/FacultySelfService/saml
+COPY --chown=tomcat:tomcat gradeEntry.json /usr/local/tomcat/webapps/FacultySelfService/gradeEntry.json

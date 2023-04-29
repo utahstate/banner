@@ -1,0 +1,18 @@
+{ 
+"sections": [ 
+{ 
+"name": "tabSection", 
+"exclude": false, 
+"fields": [ 
+{ 
+"name": "midtermCourseDetailGrid", 
+"exclude": false 
+}, 
+{ 
+"name": "gradebookCourseDetailGrid", 
+"exclude": true 
+} 
+] 
+} 
+] 
+}

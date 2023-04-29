@@ -124,7 +124,8 @@ grails {
  *********************************************************************************** **/
  webAppExtensibility {
     locations {
-       extensions = "/home/oracle/config_extn/ssb/extensions"
+       //extensions = "/home/oracle/config_extn/ssb/extensions"
+       extensions = "/usr/local/tomcat/webapps/"
        resources  = "/home/oracle/config_extn/ssb/i18n"
     }
     adminRoles = "ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"
