@@ -1,6 +1,6 @@
 #!/bin/bash
-INSTANCE=zpprd
-CLEANADDRESS=false
+INSTANCE=zdevl
+CLEANADDRESS=true
 echo "Removing old wars and folders"
 rm -rf BannerAdmin
 rm -rf BannerAdmin.ws
