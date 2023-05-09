@@ -1,7 +1,5 @@
 #!/bin/bash
 INSTANCE=zpprd
-OLD_PATTERN='<context:property-placeholder location="file:///u01/deploy/zdevl/BannerAdminBPAPI/config/config.properties" />'
-NEW_PATTERN='<context:property-placeholder location="file:///usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/classes/config.properties/" />'
 echo "Removing old wars and folders"
 rm -rf BannerAdminBPAPI
 rm -rf BannerAdminBPAPI.war
