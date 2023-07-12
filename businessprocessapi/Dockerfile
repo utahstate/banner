@@ -3,6 +3,7 @@ FROM usuit/banner:base-banneradmin-9.0.71-jdk8-corretto
 #Fix timezone
 USER root
 ENV TIMEZONE=America/Denver
+ENV JAVA_OPTS="-DBANNER_APP_CONFIG=/usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/classes/banner_configuration.groovy"
 RUN cp -f /usr/share/zoneinfo/$TIMEZONE /etc/localtime
 RUN echo $TIMEZONE > /etc/timezone
 COPY run.sh /usr/local/tomcat/bin

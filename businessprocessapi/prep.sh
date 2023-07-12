@@ -1,5 +1,5 @@
 #!/bin/bash
-INSTANCE=zpprd
+INSTANCE=zdevl
 echo "Removing old wars and folders"
 rm -rf BannerAdminBPAPI
 rm -rf BannerAdminBPAPI.war
