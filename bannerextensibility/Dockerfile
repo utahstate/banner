@@ -1,5 +1,5 @@
 FROM usuit/banner:base-bannerselfservice-9.0.71-jdk8-corretto
-LABEL version="9.12" 
+LABEL version="9.13" 
 
 USER root
 RUN mkdir -p /opt/banner/extensibility/pb \
@@ -16,6 +16,7 @@ USER tomcat
 # Fix timezone
 USER root
 ENV TIMEZONE=America/Denver
+ENV JAVA_OPTS="-DBANNER_APP_CONFIG=/usr/local/tomcat/webapps/BannerExtensibility/WEB-INF/classes/banner_configuration.groovy"
 RUN cp -f /usr/share/zoneinfo/$TIMEZONE /etc/localtime
 RUN echo $TIMEZONE > /etc/timezone
 USER tomcat
