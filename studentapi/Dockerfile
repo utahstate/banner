@@ -6,7 +6,7 @@ LABEL api_version=9.30
 #Fix timezone
 USER root
 ENV TIMEZONE=America/Denver
-ENV JAVA_OPTS="-DBANNER_APP_CONFIG=/usr/local/tomcat/webapps/StudentAPI/WEB-INF/classes/banner_configuration.groovy"
+ENV JAVA_OPTS="-DBANNER_APP_CONFIG=/usr/local/tomcat/webapps/StudentApi/WEB-INF/classes/banner_configuration.groovy"
 RUN cp -f /usr/share/zoneinfo/$TIMEZONE /etc/localtime
 RUN echo $TIMEZONE > /etc/timezone
 USER tomcat
