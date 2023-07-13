@@ -4,6 +4,7 @@ LABEL version="9.20.1"
 # Fix timezone
 USER root
 ENV TIMEZONE=America/Denver
+ENV JAVA_OPTS="-DBANNER_APP_CONFIG=/usr/local/tomcat/webapps/FacultySelfService/WEB-INF/classes/banner_configuration.groovy"
 RUN cp -f /usr/share/zoneinfo/$TIMEZONE /etc/localtime
 RUN echo $TIMEZONE > /etc/timezone
 USER tomcat
