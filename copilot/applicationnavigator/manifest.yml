@@ -21,11 +21,11 @@ http:
     unhealthy_threshold: 2
     healthy_threshold: 3
     port: 8080
-  alias: admin-aws.banner.usu.edu
+  alias: admin-zpprd.banner.usu.edu
 
 # Configuration for your containers and service.
 image:
-  location: usuit/banner:applicationnavigator-3.9-20230222-aws
+  location: usuit/banner:applicationnavigator-3.10-20230321
   # Port exposed through your container to route traffic to it.
   port: 8080
   credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns
@@ -47,24 +47,24 @@ network:
 #
 variables:                    # Pass environment variables as key value pairs.
 #  LOG_LEVEL: info
-  GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL: https://admin-aws.banner.usu.edu/applicationNavigator
+  GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL: https://admin-zpprd.banner.usu.edu/applicationNavigator
   GRAILS_PLUGIN_SPRINGSECURITY_LOGOUT_AFTERLOGOUTURL: https://login.usu.edu/cas/logout?url=http://banner.usu.edu
   SSBORACLEUSERSPROXIED: false
-  BANNERDB: zprod
+  BANNERDB: zpprd
   APP_SHORT_NAME: appnav
   APP_LONG_NAME: applicationNavigator
   AUTH_METHOD: saml
   MAX_AUTH_AGE: 2592000
   IDP_URL:  https://sts.windows.net/ac352f9b-eb63-4ca2-9cf9-f4c40047ceff/
-  BANNER8_SS_URL: https://ss-aws.banner.usu.edu/ssomanager/saml/login?relayState=/c/auth/SSB?pkg=
-  BANNER9_URL: https://admin-aws.banner.usu.edu
-  BANNER9_SS_URL: https://ss-aws.banner.usu.edu
-  BANNER_SS_BASE_URL: https://ss-aws.banner.usu.edu
+  BANNER8_SS_URL: https://ss-zpprd.banner.usu.edu/ssomanager/saml/login?relayState=/c/auth/SSB?pkg=
+  BANNER9_URL: https://admin-zpprd.banner.usu.edu
+  BANNER9_SS_URL: https://ss-zpprd.banner.usu.edu
+  BANNER_SS_BASE_URL: https://ss-zpprd.banner.usu.edu
   GRAILS_PLUGIN_SPRINGSECURITY_CAS_USESINGLESIGNOUT: false
   SEAMLESS_SESSIONTIMEOUT: 60
   SSBENABLED: true
   CAS_URL: https://login.usu.edu/cas
-  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.147:1521/zprod
+  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.224:1521/zpprd
   BANNER_PICTURESPATH: /opt/banner/images
 
 #secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
