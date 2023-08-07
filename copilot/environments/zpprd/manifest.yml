@@ -1,9 +1,9 @@
-# The manifest for the "recovery" environment.
+# The manifest for the "zpprd" environment.
 # Read the full specification for the "Environment" type at:
 #  https://aws.github.io/copilot-cli/docs/manifest/environment/
 
 # Your environment name will be used in naming your resources like VPC, cluster, etc.
-name: recovery
+name: zpprd
 type: Environment
 
 # Import your own VPC and subnets or configure how they should be created.
@@ -15,16 +15,14 @@ network:
         - id: subnet-09f6b50a17739ef72
         - id: subnet-0daa4e259d191a83e
       private:
-        - id: subnet-003245c9fd29658a8
         - id: subnet-06966a19a24235bcb
+        - id: subnet-003245c9fd29658a8
 
 # Configure the load balancers in your environment, once created.
 http:
   public:
-    certificates: [arn:aws:acm:us-west-2:561188655518:certificate/f400054c-57ba-4248-9ff7-fdb175eb548e,arn:aws:acm:us-west-2:561188655518:certificate/09413fe3-e800-4313-b034-4a510946efd]
-    # this cert is for xe-aws.banner.usu.edu (including admin-aws and ss-aws)
-#   private:
+    certificates: [arn:aws:acm:us-west-2:561188655518:certificate/f6f4d6f3-a184-4789-8134-210873d4973b]
 
 # Configure observability for your environment resources.
 observability:
-  container_insights: true
+  container_insights: false
