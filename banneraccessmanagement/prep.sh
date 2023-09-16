@@ -48,3 +48,5 @@ cd ..
 cp saml/zpprd/zpprd-bam* BannerAccessMgmt.ws/WEB-INF/classes/
 cp saml/zdevl/zdevl-bam* BannerAccessMgmt.ws/WEB-INF/classes/
 cp saml/zprod/zprod-bam* BannerAccessMgmt.ws/WEB-INF/classes/
+rm BannerAccessMgmt.ws/WEB-INF/lib/reload4j-1.2.22.jar
+rm BannerAdmin.ws/WEB-INF/lib/reload4j-1.2.22.jar
