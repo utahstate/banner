@@ -1,6 +1,6 @@
-FROM usuit/banner:base-bannerselfservice-9.0.71-jdk8-corretto
+FROM usuit/banner:base-bannerselfservice-9.0.80-jdk8-corretto
 
-LABEL version="3.11"
+LABEL version="3.12"
 
 # Fix timezone
 USER root

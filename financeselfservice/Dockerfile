@@ -1,7 +1,7 @@
-FROM usuit/banner:base-bannerselfservice-9.0.71-jdk8-corretto
+FROM usuit/banner:base-bannerselfservice-9.0.80-jdk8-corretto
 
 
-LABEL financeselfservice=9.5
+LABEL financeselfservice=9.6
 
 # Fix timezone
 USER root

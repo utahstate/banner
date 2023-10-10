@@ -1,4 +1,4 @@
-FROM usuit/banner:base-bannerselfservice-9.0.71-jdk8-corretto
+FROM usuit/banner:base-bannerselfservice-9.0.80-jdk8-corretto
 
 ENV TIMEZONE=America\Denver
 ENV JAVA_OPTS="-DBANNER_APP_CONFIG=/usr/local/tomcat/DocumentManagementApi/WEB-INF/classes/banner_configuration.groovy"

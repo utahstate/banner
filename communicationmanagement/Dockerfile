@@ -1,6 +1,6 @@
-FROM usuit/banner:base-bcm-9.0.71-jdk8-corretto
+FROM usuit/banner:base-bcm-9.0.80-jdk8-corretto
 
-LABEL version="9.11"
+LABEL version="9.12"
 
 # Fix timezone
 USER root
