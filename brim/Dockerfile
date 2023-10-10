@@ -1,10 +1,11 @@
 FROM usuit/banner:base-bannerselfservice-9.0.80-jdk8-corretto
 
-LABEL version="4.4.44"
+LABEL version="4.4"
 
 # Fix timezone
 USER root
 ENV TIMEZONE=America/Denver
+ENV JAVA_OPTS="-DBANNER_APP_CONFIG=/usr/local/tomcat/webapps/brim/WEB-INF/classes/banner_configuration.groovy"
 RUN cp -f /usr/share/zoneinfo/$TIMEZONE /etc/localtime
 RUN echo $TIMEZONE > /etc/timezone
 USER tomcat
