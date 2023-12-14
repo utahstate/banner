@@ -1,4 +1,4 @@
-FROM usuit/banner:base-banneradmin-9.0.80-jdk8-corretto
+FROM usuit/banner:base-banneradmin-9.0.84-jdk8-corretto-cacerts
 LABEL banner.access.management=9.3.24.0.2
 
 #Fix timezone

@@ -1,4 +1,4 @@
-FROM tomcat:9.0.80-jdk8-corretto
+FROM tomcat:9.0.84-jdk8-corretto
 
 ENV TIMEZONE="America/New_York"
 ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod \
@@ -48,6 +48,15 @@ RUN cd /usr/local/tomcat/lib/ \
 COPY context.xml /usr/local/tomcat/conf/context.xml
 COPY server.xml /usr/local/tomcat/conf/server.xml
 COPY run.sh /usr/local/tomcat/bin
+
+RUN mkdir -p /etc/certs
+
+COPY USERTrust_RSA_Certification_Authority.cer /etc/certs/USERTrust_RSA_Certification_Authority.cer
+COPY InCommon_RSA_Server_CA_2.cer /etc/certs/InCommon_RSA_Server_CA_2.cer 
+
+RUN keytool -import -alias usertrust -file /etc/certs/USERTrust_RSA_Certification_Authority.cer -keystore /usr/lib/jvm/java-1.8.0-amazon-corretto/jre/lib/security/cacerts -storepass changeit -noprompt
+RUN keytool -import -alias incommon -file /etc/certs/InCommon_RSA_Server_CA_2.cer -keystore /usr/lib/jvm/java-1.8.0-amazon-corretto/jre/lib/security/cacerts -storepass changeit -noprompt
+
 
 # Configure logging to forward tomcat logs to docker log collector
 COPY logging.properties /usr/local/tomcat/conf/logging.properties

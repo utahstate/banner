@@ -1,4 +1,4 @@
-FROM usuit/banner:base-banneradmin-9.0.80-jdk8-corretto
+FROM usuit/banner:base-banneradmin-9.0.84-jdk8-corretto-cacerts
 LABEL banner.common="9.3.32.0.4" \
       banner.accountreceivable="9.3.25.2.1" \
       banner.finance="9.3.29.0.5" \

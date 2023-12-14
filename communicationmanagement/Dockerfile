@@ -1,4 +1,4 @@
-FROM usuit/banner:base-bcm-9.0.80-jdk8-corretto
+FROM usuit/banner:base-bcm-9.0.84-jdk8-corretto-cacerts
 
 LABEL version="9.12"
 

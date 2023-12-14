@@ -1,0 +1,12 @@
+#FROM harbor.usu.edu/banner/static:zdevl-03142018
+FROM harbor.usu.edu/banner/static:zpprd
+
+COPY *.svg /usr/share/nginx/html/img/
+COPY *.jpg /usr/share/nginx/html/img/
+COPY campus-landscape-zpprd.jpg /usr/share/nginx/html/img/campus-landscape.jpg
+COPY campus-portrait-zpprd.jpg /usr/share/nginx/html/img/campus-portrait.jpg
+COPY campus-sml-zpprd.jpg /usr/share/nginx/html/img/campus-sml.jpg
+COPY index-zpprd.html /usr/share/nginx/html/index.html
+
+RUN chmod 755 /usr/share/nginx/html/img/*.svg
+RUN chmod 755 /usr/share/nginx/html/img/*.jpg

@@ -1,5 +1,5 @@
 #Dockerfile for StudentAPI
-FROM usuit/banner:base-bannerselfservice-9.0.80-jdk8-corretto
+FROM usuit/banner:base-bannerselfservice-9.0.84-jdk8-corretto-cacerts
 
 LABEL api_version=9.31
 
