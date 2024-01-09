@@ -1,5 +1,5 @@
 FROM usuit/banner:base-bannerselfservice-9.0.84-jdk8-corretto-cacerts
-LABEL version="9.14" 
+LABEL version="9.15" 
 
 USER root
 RUN mkdir -p /opt/banner/extensibility/pb \

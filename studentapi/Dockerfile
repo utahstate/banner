@@ -1,7 +1,7 @@
 #Dockerfile for StudentAPI
 FROM usuit/banner:base-bannerselfservice-9.0.84-jdk8-corretto-cacerts
 
-LABEL api_version=9.31
+LABEL api_version=9.32
 
 #Fix timezone
 USER root

@@ -1,7 +1,7 @@
 FROM usuit/banner:base-bcm-9.0.84-jdk8-corretto-cacerts
 
 
-LABEL version="9.15"
+LABEL version="9.16.1"
 
 # Fix timezone:
 USER root

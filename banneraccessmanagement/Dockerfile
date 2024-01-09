@@ -1,5 +1,5 @@
 FROM usuit/banner:base-banneradmin-9.0.84-jdk8-corretto-cacerts
-LABEL banner.access.management=9.3.24.0.2
+LABEL banner.access.management=9.3.25.0.4
 
 #Fix timezone
 USER root
