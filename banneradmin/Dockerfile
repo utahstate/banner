@@ -21,4 +21,8 @@ USER tomcat
 COPY --chown=tomcat:tomcat BannerAdmin /usr/local/tomcat/webapps/BannerAdmin
 COPY --chown=tomcat:tomcat BannerAdmin.ws /usr/local/tomcat/webapps/BannerAdmin.ws
 COPY --chown=tomcat:tomcat applicationContext.xml.saml /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/applicationContext.xml.saml
+COPY --chown=tomcat:tomcat saml/aws/aws-adminpages* /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/
+COPY --chown=tomcat:tomcat saml/zpprd/zpprd-adminpages* /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/
+COPY --chown=tomcat:tomcat saml/zdevl/zdevl-adminpages* /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/
+COPY --chown=tomcat:tomcat saml/zprod/zprod-adminpages* /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/
 #COPY --chown=tomcat:tomcat bannerHelp /usr/local/tomcat/webapps/bannerHelp

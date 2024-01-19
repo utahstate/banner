@@ -14,4 +14,8 @@ COPY --chown=tomcat:tomcat BannerAccessMgmt /usr/local/tomcat/webapps/BannerAcce
 COPY --chown=tomcat:tomcat BannerAccessMgmt.ws /usr/local/tomcat/webapps/BannerAccessMgmt.ws
 COPY --chown=tomcat:tomcat run.sh /usr/local/tomcat/bin
 COPY --chown=tomcat:tomcat applicationContext.xml.saml /usr/local/tomcat/webapps/BannerAccessMgmt.ws/WEB-INF/
+COPY --chown=tomcat:tomcat saml/aws/aws-adminpages* /usr/local/tomcat/webapps/BannerAccessMgmt.ws/WEB-INF/classes/
+COPY --chown=tomcat:tomcat saml/zpprd/zpprd-adminpages* /usr/local/tomcat/webapps/BannerAccessMgmt.ws/WEB-INF/classes/
+COPY --chown=tomcat:tomcat saml/zdevl/zdevl-adminpages* /usr/local/tomcat/webapps/BannerAccessMgmt.ws/WEB-INF/classes/
+COPY --chown=tomcat:tomcat saml/zprod/zprod-adminpages* /usr/local/tomcat/webapps/BannerAccessMgmt.ws/WEB-INF/classes/
 RUN chmod +x /usr/local/tomcat/bin/run.sh

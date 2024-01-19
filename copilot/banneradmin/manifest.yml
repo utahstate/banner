@@ -21,11 +21,11 @@ http:
     unhealthy_threshold: 2
     healthy_threshold: 3
     port: 8080
-  alias: admin-zpprd.banner.usu.edu
+  alias: admin-aws.banner.usu.edu
 
 # Configuration for your containers and service.
 image:
-  location: usuit/banner:banneradmin-9.3.30.0.8-20230801-zpprd
+  location: usuit/banner:banneradmin-9.3.32.0.4-cleanaddress-20240118-zprod
   # Port exposed through your container to route traffic to it.
   port: 8080
   credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns
@@ -48,20 +48,20 @@ network:
 variables:                    # Pass environment variables as key value pairs.
 #  LOG_LEVEL: info
   MAX_AUTH_AGE: 2592000
-  BANNER8_SS_URL: https://ss-zpprd.banner.usu.edu/ssomanager/saml/login?relayState=/c/auth/SSB?pkg=
-  BANNER9_URL: https://admin-zpprd.banner.usu.edu
+  BANNER8_SS_URL: https://ss-aws.banner.usu.edu/ssomanager/saml/login?relayState=/c/auth/SSB?pkg=
+  BANNER9_URL: https://admin-aws.banner.usu.edu
   BANPROXY_MAXWAIT: 30000
   CATALINA_OPTS: -server -XX:+UseG1GC -Xms$XMS -Xmx$XMX -XX:MaxPermSize=1024m -Dlog4j.configuration=config.properties -Djava.io.tmpdir=$BANNER_TEMPDIR -Duser.timezone=$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false
   REMOVE_ABANDONED_TIMEOUT: 3000
-  THEME_URL: https://theme.elluciancloud.com/001G000000iHmuXIAS/theme/getTheme?name=zpprd&amp;template=admin-9_3_21
+  THEME_URL: https://theme.elluciancloud.com/001G000000iHmuXIAS/theme/getTheme?name=zprod&amp;template=admin-9_3_21
   XMS: 8g
   XMX: 8g
   CAS_URL: https://login.usu.edu/cas
-  KEYSTORE_ALIAS: zpprd-adminpages-sp
-  KEYSTORE_LOCATION: /u01/saml/zpprd/zpprd_keystore.jks
-  SP_METADATA: zpprd-adminpages-sp.xml
-  IDP_METADATA: zpprd-adminpages-idp.xml
-  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.224:1521/zpprd
+  KEYSTORE_ALIAS: aws-adminpages-sp
+  KEYSTORE_LOCATION: /u01/saml/aws/zpprd_keystore.jks
+  SP_METADATA: aws-adminpages-sp.xml
+  IDP_METADATA: aws-adminpages-idp.xml
+  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.65:1521/zprod
   BANNER_PICTURESPATH: /opt/banner/images
 
 #secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
