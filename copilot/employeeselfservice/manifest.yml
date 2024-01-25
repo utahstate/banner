@@ -49,6 +49,7 @@ storage:
       read_only: true
       efs:
         id: fs-07e9d58f380a486b1
+        root_dir: /images
  
 # Optional fields for more advanced use-cases.
 #
