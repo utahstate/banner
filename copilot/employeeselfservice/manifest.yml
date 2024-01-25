@@ -42,6 +42,13 @@ network:
 
 # storage:
   # readonly_fs: true       # Limit to read-only access to mounted root filesystems.
+storage:
+  volumes:
+    banner-images:
+      path: /opt/banner/images
+      read_only: true
+      efs:
+        id: fs-07e9d58f380a486b1
  
 # Optional fields for more advanced use-cases.
 #

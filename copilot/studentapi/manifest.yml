@@ -21,16 +21,16 @@ http:
     unhealthy_threshold: 2
     healthy_threshold: 3
     port: 8080
-  alias: api-zpprd.banner.usu.edu
+  alias: api-aws.banner.usu.edu
 # Configuration for your containers and service.
 image:
-  location: usuit/banner:studentapi-9.29.1-20230424
+  location: usuit/banner:studentapi-9.31.2-20231121
   # Port exposed through your container to route traffic to it.
   port: 8080
   credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns
 
-cpu: 2048       # Number of CPU units for the task.
-memory: 16384    # Amount of memory in MiB used by the task.
+cpu: 1024       # Number of CPU units for the task.
+memory: 8192    # Amount of memory in MiB used by the task.
 count: 1       # Number of tasks that should be running in your service.
 exec: true     # Enable running commands in your container.
 network:
@@ -47,7 +47,7 @@ variables:                    # Pass environment variables as key value pairs.
 #  LOG_LEVEL: info
   BANNER_TRANSACTIONTIMEOUT: 300
   TIMEZONE: Amercia/Denver
-  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.224:1521/zpprd
+  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.65:1521/zprod
   APIORACLEUERSPROXIED: true
 
 secrets:                      # Pass secretsecrets:
