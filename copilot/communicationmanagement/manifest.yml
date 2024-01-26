@@ -1,0 +1,76 @@
+# The manifest for the "communicationmanagement" service.
+# Read the full specification for the "Load Balanced Web Service" type at:
+#  https://aws.github.io/copilot-cli/docs/manifest/lb-web-service/
+
+# Your service name will be used in naming your resources like log groups, ECS services, etc.
+name: communicationmanagement
+type: Load Balanced Web Service
+
+# Distribute traffic to your service.
+http:
+  # Requests to this path will be forwarded to your service.
+  # To match all requests you can use the "/" path.
+  path: 'CommunicationManagement'
+  # You can specify a custom health check path. The default is "/".
+  healthcheck:
+    success_codes: '200'
+    path: '/CommunicationManagement/actuator/health'
+    grace_period: 300s
+    timeout: 10s
+    interval: 60s
+    unhealthy_threshold: 2
+    healthy_threshold: 3
+    port: 8080
+  alias: ss-aws.banner.usu.edu
+
+# Configuration for your containers and service.
+image:
+  location: usuit/banner:communicationmanagement-9.12-20240126-aws
+  # Port exposed through your container to route traffic to it.
+  port: 8080
+  credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns
+
+cpu: 1024       # Number of CPU units for the task.
+memory: 8192    # Amount of memory in MiB used by the task.
+count: 1       # Number of tasks that should be running in your service.
+exec: true     # Enable running commands in your container.
+network:
+  connect: false # Enable Service: Connect for intra-environment traffic between services.
+  vpc:
+    placement: private
+      # subnets: ["subnet-09f6b50a17739ef72"]
+
+# storage:
+  # readonly_fs: true       # Limit to read-only access to mounted root filesystems.
+
+# Optional fields for more advanced use-cases.
+#
+variables:                    # Pass environment variables as key value pairs.
+#  LOG_LEVEL: info
+  GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL: http://banner.usu.edu
+  GRAILS_PLUGIN_SPRINGSECURITY_LOGOUT_AFTERLOGOUTURL: https://login.usu.edu/cas/logout?url=http://banner.usu.edu
+  SSBORACLEUSERSPROXIED: true
+  BANNERDB: aws
+  APP_SHORT_NAME: commmgmt
+  APP_LONG_NAME: CommunicationManagement
+  AUTH_METHOD: saml
+  MAX_AUTH_AGE: 2592000
+  IDP_URL:  https://sts.windows.net/ac352f9b-eb63-4ca2-9cf9-f4c40047ceff/
+  BANNER8_SS_URL: https://ss-aws.banner.usu.edu/ssomanager/saml/login?relayState=/c/auth/SSB?pkg=
+  BANNER9_URL: https://ss-aws.banner.usu.edu
+  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.65:1521/zprod
+  BANNER_PICTURESPATH: /opt/banner/images
+
+#secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
+#  GITHUB_TOKEN: GITHUB_TOKEN  # The key is the name of the environment variable, the value is the name of the SSM parameter.
+secrets:
+  BANPROXY_PASSWORD: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BANPROXY_PASSWORD
+  BANSSUSER_PASSWORD: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BANSSUSER_PASSWORD
+  KEYSTORE_PASSWORD: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/KEYSTORE_PASSWORD
+  COMMMGR_PASSWORD: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/COMMMGR_PASSWORD
+# You can override any of the values defined above by environment.
+#environments:
+#  test:
+#    count: 2               # Number of tasks to run for the "test" environment.
+#    deployment:            # The deployment strategy for the "test" environment.
+#       rolling: 'recreate' # Stops existing tasks before new ones are started for faster deployments.
