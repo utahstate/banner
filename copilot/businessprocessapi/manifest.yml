@@ -21,10 +21,10 @@ http:
     unhealthy_threshold: 2
     healthy_threshold: 3
     port: 8080
-  alias: api-zpprd.banner.usu.edu 
+  alias: api-aws.banner.usu.edu 
 # Configuration for your containers and service.
 image:
-  location: usuit/banner:businessprocessapi-9.3.31.0.4-20230802
+  location: usuit/banner:businessprocessapi-9.3.33.1.4-20231121
   # Port exposed through your container to route traffic to it.
   port: 8080
   credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns
@@ -45,15 +45,15 @@ network:
 #
 variables:                    # Pass environment variables as key value pairs.
 #  LOG_LEVEL: info
-  BANNER9_URL: https://admin-zpprd.banner.usu.edu
+  BANNER9_URL: https://admin-aws.banner.usu.edu
   BANPROXY_MAXWAIT: 30000
   CATALINA_OPTS: -server -XX:+UseG1GC -Xms$XMS -Xmx$XMX -XX:MaxPermSize=1024m -Dlog4j.configuration=config.properties -Djava.io.tmpdir=$BANNER_TEMPDIR -Duser.timezone=$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false
   REMOVE_ABANDONED_TIMEOUT: 3000
-  THEME_URL: https://theme.elluciancloud.com/001G000000iHmuXIAS/theme/getTheme?name=zpprd&amp;template=admin-9_3_21
+  THEME_URL: https://theme.elluciancloud.com/001G000000iHmuXIAS/theme/getTheme?name=zprod&amp;template=admin-9_3_21
   XMS: 8g
   XMX: 8g
   CAS_URL: https://login.usu.edu/cas
-  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.224:1521/zpprd
+  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.65:1521/zprod
 #secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
 #  GITHUB_TOKEN: GITHUB_TOKEN  # The key is the name of the environment variable, the value is the name of the SSM parameter.
 secrets:

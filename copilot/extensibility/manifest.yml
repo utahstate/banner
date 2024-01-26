@@ -3,29 +3,29 @@
 #  https://aws.github.io/copilot-cli/docs/manifest/lb-web-service/
 
 # Your service name will be used in naming your resources like log groups, ECS services, etc.
-name: banneradmin
+name: extensibility
 type: Load Balanced Web Service
 
 # Distribute traffic to your service.
 http:
   # Requests to this path will be forwarded to your service.
   # To match all requests you can use the "/" path.
-  path: 'BannerAdmin'
+  path: 'BannerExtensibility'
   # You can specify a custom health check path. The default is "/".
   healthcheck:
     success_codes: '200'
-    path: '/BannerAdmin/'
+    path: '/BannerExtensibility/actuator/health'
     grace_period: 300s
     timeout: 10s
     interval: 60s
     unhealthy_threshold: 2
     healthy_threshold: 3
     port: 8080
-  alias: admin-aws.banner.usu.edu
+  alias: ss-aws.banner.usu.edu
 
 # Configuration for your containers and service.
 image:
-  location: usuit/banner:banneradmin-9.3.32.0.4-cleanaddress-20240118-zprod
+  location: usuit/banner:bannerextensibility-9.14-20240126-aws
   # Port exposed through your container to route traffic to it.
   port: 8080
   credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns
@@ -42,27 +42,32 @@ network:
 
 # storage:
   # readonly_fs: true       # Limit to read-only access to mounted root filesystems.
+storage:
+  volumes:
+    extensibility:
+      path: /opt/banner/extensibility
+      read_only: true
+      efs:
+        id: fs-07e9d58f380a486b1
+        root_dir: /extensibility
  
 # Optional fields for more advanced use-cases.
 #
 variables:                    # Pass environment variables as key value pairs.
 #  LOG_LEVEL: info
+  BANNERDB: aws
+  APPNAV_HOST_URL: https://admin-aws.banner.usu.edu/
+  GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL: https://ss-aws.banner.usu.edu/BannerExtensibility/
+  APP_SHORT_NAME: extensibility
+  APP_LONG_NAME: BannerExtensibility
+  AUTH_METHOD: saml
   MAX_AUTH_AGE: 2592000
+  IDP_URL:  https://sts.windows.net/ac352f9b-eb63-4ca2-9cf9-f4c40047ceff/
   BANNER8_SS_URL: https://ss-aws.banner.usu.edu/ssomanager/saml/login?relayState=/c/auth/SSB?pkg=
-  BANNER9_URL: https://admin-aws.banner.usu.edu
-  BANPROXY_MAXWAIT: 30000
-  CATALINA_OPTS: -server -XX:+UseG1GC -Xms$XMS -Xmx$XMX -XX:MaxPermSize=1024m -Dlog4j.configuration=config.properties -Djava.io.tmpdir=$BANNER_TEMPDIR -Duser.timezone=$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false
-  REMOVE_ABANDONED_TIMEOUT: 3000
-  THEME_URL: https://theme.elluciancloud.com/001G000000iHmuXIAS/theme/getTheme?name=zprod&amp;template=admin-9_3_21
-  XMS: 8g
-  XMX: 8g
-  CAS_URL: https://login.usu.edu/cas
-  KEYSTORE_ALIAS: aws-adminpages-sp
-  KEYSTORE_LOCATION: /u01/saml/aws/aws_keystore.jks
-  SP_METADATA: aws-adminpages-sp.xml
-  IDP_METADATA: aws-adminpages-idp.xml
+  BANNER9_URL: https://ss-aws.banner.usu.edu
   BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.65:1521/zprod
-  BANNER_PICTURESPATH: /opt/banner/images
+  PB_ROOT: /opt/banner/extensibility/pb
+  LOGINENDPOINT: https://ss-aws.banner.usu.edu/BannerExtensibility/customPage/page/pbadm.ssoauth?url=/
 
 #secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
 #  GITHUB_TOKEN: GITHUB_TOKEN  # The key is the name of the environment variable, the value is the name of the SSM parameter.

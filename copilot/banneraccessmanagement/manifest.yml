@@ -3,18 +3,18 @@
 #  https://aws.github.io/copilot-cli/docs/manifest/lb-web-service/
 
 # Your service name will be used in naming your resources like log groups, ECS services, etc.
-name: banneradmin
+name: banneraccessmanagement
 type: Load Balanced Web Service
 
 # Distribute traffic to your service.
 http:
   # Requests to this path will be forwarded to your service.
   # To match all requests you can use the "/" path.
-  path: 'BannerAdmin'
+  path: 'BannerAccessMgmt'
   # You can specify a custom health check path. The default is "/".
   healthcheck:
     success_codes: '200'
-    path: '/BannerAdmin/'
+    path: '/BannerAccessMgmt/'
     grace_period: 300s
     timeout: 10s
     interval: 60s
@@ -25,7 +25,7 @@ http:
 
 # Configuration for your containers and service.
 image:
-  location: usuit/banner:banneradmin-9.3.32.0.4-cleanaddress-20240118-zprod
+  location: usuit/banner:banneraccessmgmt-9.3.24.0.2-20240126-aws
   # Port exposed through your container to route traffic to it.
   port: 8080
   credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns
@@ -57,10 +57,10 @@ variables:                    # Pass environment variables as key value pairs.
   XMS: 8g
   XMX: 8g
   CAS_URL: https://login.usu.edu/cas
-  KEYSTORE_ALIAS: aws-adminpages-sp
+  KEYSTORE_ALIAS: aws-bam-sp
   KEYSTORE_LOCATION: /u01/saml/aws/aws_keystore.jks
-  SP_METADATA: aws-adminpages-sp.xml
-  IDP_METADATA: aws-adminpages-idp.xml
+  SP_METADATA: aws-bam-sp.xml
+  IDP_METADATA: aws-bam-idp.xml
   BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.65:1521/zprod
   BANNER_PICTURESPATH: /opt/banner/images
 
