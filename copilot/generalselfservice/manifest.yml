@@ -49,6 +49,13 @@ storage:
       read_only: true
       efs:
         id: fs-07e9d58f380a486b1
+        root_dir: /images
+    extensibility:
+      path: /opt/banner/extensibility
+      read_only: true
+      efs:
+        id: fs-07e9d58f380a486b1
+        root_dir: /extensibility
  
 # Optional fields for more advanced use-cases.
 #
@@ -74,6 +81,7 @@ secrets:
   BANPROXY_PASSWORD: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BANPROXY_PASSWORD
   BANSSUSER_PASSWORD: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BANSSUSER_PASSWORD
   KEYSTORE_PASSWORD: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/KEYSTORE_PASSWORD
+  COMMMGR_PASSWORD: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/COMMMGR_PASSWORD
 
 # You can override any of the values defined above by environment.
 #environments:

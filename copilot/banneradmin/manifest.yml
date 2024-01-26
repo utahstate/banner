@@ -25,7 +25,7 @@ http:
 
 # Configuration for your containers and service.
 image:
-  location: usuit/banner:banneradmin-9.3.32.0.4-cleanaddress-20240118-zprod
+  location: usuit/banner:banneradmin-9.3.32.0.4-cleanaddress-20240126-aws
   # Port exposed through your container to route traffic to it.
   port: 8080
   credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns
