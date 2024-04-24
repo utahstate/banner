@@ -26,5 +26,6 @@ COPY --chown=tomcat:tomcat saml/zpprd/zpprd-adminpages* /usr/local/tomcat/webapp
 COPY --chown=tomcat:tomcat saml/zdevl/zdevl-adminpages* /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/
 COPY --chown=tomcat:tomcat saml/zprod/zprod-adminpages* /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/
 COPY --chown=tomcat:tomcat saml/wpprd/wpprd-adminpages* /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/
-#COPY --chown=tomcat:tomcat saml/wprod/wprod-adminpages* /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/
+COPY run.sh /usr/local/tomcat/bin
+COPY --chown=tomcat:tomcat saml/wprod/wprod-adminpages* /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/
 #COPY --chown=tomcat:tomcat bannerHelp /usr/local/tomcat/webapps/bannerHelp

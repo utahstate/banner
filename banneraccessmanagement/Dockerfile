@@ -1,5 +1,5 @@
-FROM usuit/banner:base-banneradmin-9.0.84-jdk8-corretto-cacerts
-LABEL banner.access.management=9.3.25.0.4
+FROM usuit/banner:base-banneradmin-9.0.87-jdk8-corretto-cacerts
+LABEL banner.access.management=9.3.26.1.2
 
 #Fix timezone
 USER root
@@ -14,8 +14,11 @@ COPY --chown=tomcat:tomcat BannerAccessMgmt /usr/local/tomcat/webapps/BannerAcce
 COPY --chown=tomcat:tomcat BannerAccessMgmt.ws /usr/local/tomcat/webapps/BannerAccessMgmt.ws
 COPY --chown=tomcat:tomcat run.sh /usr/local/tomcat/bin
 COPY --chown=tomcat:tomcat applicationContext.xml.saml /usr/local/tomcat/webapps/BannerAccessMgmt.ws/WEB-INF/
+#COPY --chown=tomcat:tomcat config.properties /usr/local/tomcat/webapps/BannerAccessMgmt.ws/WEB-INF/classes/
 COPY --chown=tomcat:tomcat saml/aws/aws-bam* /usr/local/tomcat/webapps/BannerAccessMgmt.ws/WEB-INF/classes/
 COPY --chown=tomcat:tomcat saml/zpprd/zpprd-bam* /usr/local/tomcat/webapps/BannerAccessMgmt.ws/WEB-INF/classes/
 COPY --chown=tomcat:tomcat saml/zdevl/zdevl-bam* /usr/local/tomcat/webapps/BannerAccessMgmt.ws/WEB-INF/classes/
 COPY --chown=tomcat:tomcat saml/zprod/zprod-bam* /usr/local/tomcat/webapps/BannerAccessMgmt.ws/WEB-INF/classes/
+COPY --chown=tomcat:tomcat saml/wpprd/wpprd-bam* /usr/local/tomcat/webapps/BannerAccessMgmt.ws/WEB-INF/classes/
+COPY --chown=tomcat:tomcat saml/wprod/wprod-bam* /usr/local/tomcat/webapps/BannerAccessMgmt.ws/WEB-INF/classes/
 RUN chmod +x /usr/local/tomcat/bin/run.sh

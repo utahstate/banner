@@ -1,5 +1,5 @@
 #!/bin/bash
-INSTANCE=zpprd
+INSTANCE=zdevl
 echo "Removing old wars and folders"
 rm -rf BannerAccessMgmt
 rm -rf BannerAccessMgmt.ws
@@ -20,7 +20,7 @@ echo "Downloading files from build.banner"
 scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/BannerAccessMgmt.war .
 scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/BannerAccessMgmt.ws.war .
 scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/BannerAdmin.ws.war .
-#scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/BannerPages/bannerHelp.war .
+#scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/bannerHelp.war .
 ssh root@build.banner.usu.edu "cd /u01/saml && rm saml.zip && zip -r saml.zip ./*"
 scp root@build.banner.usu.edu:/u01/saml/saml.zip .
 
@@ -48,5 +48,7 @@ cd ..
 cp saml/zpprd/zpprd-bam* BannerAccessMgmt.ws/WEB-INF/classes/
 cp saml/zdevl/zdevl-bam* BannerAccessMgmt.ws/WEB-INF/classes/
 cp saml/zprod/zprod-bam* BannerAccessMgmt.ws/WEB-INF/classes/
+cp saml/wpprd/wpprd-bam* BannerAccessMgmt.ws/WEB-INF/classes/
+cp saml/wprod/wprod-bam* BannerAccessMgmt.ws/WEB-INF/classes/
 rm BannerAccessMgmt.ws/WEB-INF/lib/reload4j-1.2.22.jar
 rm BannerAdmin.ws/WEB-INF/lib/reload4j-1.2.22.jar

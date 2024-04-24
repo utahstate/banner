@@ -1,4 +1,4 @@
-FROM usuit/banner:base-banneradmin-9.0.84-jdk8-corretto-cacerts
+FROM usuit/banner:base-banneradmin-9.0.87-jdk8-corretto-cacerts
 
 #Fix timezone
 USER root
