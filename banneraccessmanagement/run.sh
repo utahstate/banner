@@ -17,6 +17,8 @@ setProperty() {
 
   #Enable Theme for BannerAdmin
   if [ "$prop" = "theme.url" ]; then
+    sed -i "\|<param name=\"APP_CSS_URL\.*|d" /usr/local/tomcat/webapps/BannerAccessMgmt/config.xml
+    sed -i "\|<param name=\"APP_CSS_APPEND\.*|d" /usr/local/tomcat/webapps/BannerAccessMgmt/config.xml
     sed -i "2i <param name=\"APP_CSS_URL\" value=\"$val\" />\\n<param name=\"APP_CSS_APPEND\" value=\"true\" />" /usr/local/tomcat/webapps/BannerAccessMgmt/config.xml
   fi
 
@@ -33,7 +35,7 @@ setProperty() {
   fi
 
   if [ "$prop" = "saml.keystore.env" ]; then
-    sed -i "s|^saml\.keystore = .*|saml\.keystore = file://$val|g" /usr/local/tomcat/webapps/BannerAccessMgmt.ws/WEB-INF/classes/config.properties
+    sed -i "s|^saml\.keystore.*Software.*|saml\.keystore = file://$val|g" /usr/local/tomcat/webapps/BannerAccessMgmt.ws/WEB-INF/classes/config.properties
     cp /usr/local/tomcat/webapps/BannerAccessMgmt.ws/WEB-INF/applicationContext.xml.saml /usr/local/tomcat/webapps/BannerAccessMgmt.ws/WEB-INF/applicationContext.xml
   fi
   
