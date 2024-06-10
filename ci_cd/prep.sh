@@ -119,6 +119,7 @@ if [[ "$APP_NAME" == "BannerAdmin" ]] || [[ "$APP_NAME" == "BannerAccessMgmt" ]]
 	echo "Running sameSiteCookies and applicationContext.xml.saml..."
 	sed -i -e "s|\<\!-- Insert Environment.*|<CookieProcessor sameSiteCookies=\"none\" />|g" $APP_NAME.ws/META-INF/context.xml
 	cp /home/rancher/github/banner/$APP_NAME_LOWER/applicationContext.xml.saml $CURRENT_FOLDER/applicationContext.xml.saml
+	cp /home/rancher/github/banner/$APP_NAME_LOWER/run.sh $CURRENT_FOLDER/run.sh
 fi
 
 if [[ $APP_NAME == applicationNavigator ]]; then
@@ -180,7 +181,6 @@ if [[ $APP_NAME == BannerAdminBPAPI ]] || [[ $APP_NAME == BannerAccessMgmt ]]; t
         echo 'RUN chown -R tomcat:tomcat /usr/local/tomcat && chmod +x /usr/local/tomcat/bin/run.sh' >> Dockerfile
 fi
 echo 'USER tomcat' >> Dockerfile
-
 echo 'COPY --chown=tomcat:tomcat '$APP_NAME' /usr/local/tomcat/webapps/'$APP_NAME >> Dockerfile
 if [[ $APP_NAME == BannerAdmin ]] || [[ $APP_NAME == BannerAccessMgmt ]]; then
 	echo 'COPY --chown=tomcat:tomcat '$APP_NAME'.ws /usr/local/tomcat/webapps/'$APP_NAME'.ws' >> Dockerfile
@@ -213,6 +213,11 @@ if [[ $APP_NAME == BannerAdminBPAPI ]]; then
 fi
 docker build --platform linux/amd64 -t usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE .
 docker push usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE
+
+rm run.sh
+rm context.xml
+rm applicationContext.xml.saml
+rm -rm *.war
 
 cd /home/rancher/k8s-config/bannerdev
 source .envrc
