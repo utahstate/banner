@@ -24,7 +24,7 @@ http:
   alias: ss-aws.banner.usu.edu
 # Configuration for your containers and service.
 image:
-  location: usuit/banner:static-20230410-zprod
+  location: usuit/banner:static-20230410-zprod 
   # Port exposed through your container to route traffic to it.
   port: 80
   credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns

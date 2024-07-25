@@ -14,7 +14,7 @@ http:
   # You can specify a custom health check path. The default is "/".
   healthcheck:
     success_codes: '200'
-    path: '/BannerGeneralSsb/actuator/health'
+    path: '/BannerGeneralSsb/'
     grace_period: 300s
     timeout: 10s
     interval: 60s
@@ -25,7 +25,7 @@ http:
 
 # Configuration for your containers and service.
 image:
-  location: usuit/banner:generalselfservice-9.15-aws-20240125
+  location: usuit/banner:generalselfservice-9.17.1-cleanaddress-20240520 
   # Port exposed through your container to route traffic to it.
   port: 8080
   credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns
@@ -72,7 +72,7 @@ variables:                    # Pass environment variables as key value pairs.
   IDP_URL:  https://sts.windows.net/ac352f9b-eb63-4ca2-9cf9-f4c40047ceff/
   BANNER8_SS_URL: https://ss-aws.banner.usu.edu/ssomanager/saml/login?relayState=/c/auth/SSB?pkg=
   BANNER9_URL: https://ss-aws.banner.usu.edu
-  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.65:1521/zprod
+  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.210:1521/zprod
   BANNER_PICTURESPATH: /opt/banner/images
 
 #secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
