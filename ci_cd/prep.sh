@@ -149,19 +149,19 @@ echo "$APP_NAME $VERSION is ready for configuration"
 rm Dockerfile
 
 if [[ $APP_NAME == *SelfService ]] || [[ $APP_NAME == brim ]] || [[ $APP_NAME == applicationNavigator ]] || [[ $APP_NAME == DocumentManagementApi ]] || [[ $APP_NAME == eTranscriptAPI ]] || [[ $APP_NAME == StudentApi ]] || [[ $APP_NAME == IntegrationApi ]] || [[ $APP_NAME == StudentRegistrationSsb ]] || [[ $APP_NAME == BannerExtensibility ]]; then
-        echo "FROM usuit/banner:base-bannerselfservice-9.0.87-jdk8-corretto-cacerts" > Dockerfile
+        echo "FROM usuit/banner:base-bannerselfservice-9.0.93-jdk8-corretto-cacerts" > Dockerfile
 fi
 
 if [[ $APP_NAME == BannerEventPublisher ]]; then
-	echo "FROM usuit/banner:base-bep-9.0.87-jdk8-corretto-cacerts" >> Dockerfile
+	echo "FROM usuit/banner:base-bep-9.0.93-jdk8-corretto-cacerts" >> Dockerfile
 fi
 
 if [[ $APP_NAME == BannerGeneralSsb ]] || [[ $APP_NAME == CommunicationManagement ]]; then
-        echo "FROM usuit/banner:base-bcm-9.0.87-jdk8-corretto-cacerts" > Dockerfile
+        echo "FROM usuit/banner:base-bcm-9.0.93-jdk8-corretto-cacerts" > Dockerfile
 fi
 
 if [[ $APP_NAME == BannerAdmin ]] || [[ $APP_NAME == BannerAdminBPAPI ]] || [[ $APP_NAME == BannerAccessMgmt ]]; then
-        echo "FROM usuit/banner:base-banneradmin-9.0.87-jdk8-corretto-cacerts" > Dockerfile
+        echo "FROM usuit/banner:base-banneradmin-9.0.93-jdk8-corretto-cacerts" > Dockerfile
 fi
 
 echo "LABEL version=$VERSION" >> Dockerfile
@@ -219,8 +219,16 @@ rm context.xml
 rm applicationContext.xml.saml
 rm -rm *.war
 
-cd /home/rancher/k8s-config/bannerdev
-source .envrc
-kubectl set image deployment/$APP_NAME_LOWER $APP_NAME_LOWER=usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE -n $INSTANCE
-kubectl scale deployment $APP_NAME_LOWER --replicas=1 -n $INSTANCE
+if [[ $INSTANCE == zprod ]]; then
+	cd /home/rancher/k8s-config/banner
+	source .envrc
+	kubectl set image deployment/$APP_NAME_LOWER $APP_NAME_LOWER=usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE -n $INSTANCE
+	/home/rancher/k8s-config/banner/zprod_scale_$APP_NAME_LOWER.sh
+fi
 
+if [[ $INSTANCE == zdevl ]] || [[ $INSTANCE == zpprd ]] || [[ $INSTANCE == wpprd ]] || [[ $INSTANCE == wprod ]]; then
+	cd /home/rancher/k8s-config/bannerdev
+        source .envrc
+        kubectl set image deployment/$APP_NAME_LOWER $APP_NAME_LOWER=usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE -n $INSTANCE
+        kubectl scale deployment $APP_NAME_LOWER --replicas=1 -n $INSTANCE
+fi
