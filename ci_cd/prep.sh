@@ -9,7 +9,11 @@ WARFILE=$(pwd)/$APP_NAME.war
 CURRENT_FOLDER=$(pwd)
 APP_NAME_LOWER=$(echo "$APP_NAME" | tr '[:upper:]' '[:lower:]')
 
-echo "INSTANCE is $INSTANCE"
+echo "Script arguments are: $1 $2 $3"
+echo "Prep.sh APP_NAME is $APP_NAME"
+echo "Prep.sh VERSION is $VERSION"
+echo "Prep.sh INSTANCE is $INSTANCE"
+
 CLEANADDRESS=false
 if [[ "$INSTANCE" == "zdevl" ]] || [[ "$INSTANCE" == "zprod" ]]; then
         if [[ "$APP_NAME" == "BannerGeneralSsb" ]] || [[ "$APP_NAME" == "BannerAdmin" ]]; then
@@ -41,11 +45,13 @@ if [[ "$APP_NAME" == "BannerAdmin" ]] || [[ "$APP_NAME" == "BannerAccessMgmt" ]]
 	scp -i /home/rancher/.ssh/id_ed25519 root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/$APP_NAME.ws.war .
 fi
 if [[ "$APP_NAME" == "BannerAdminBPAPI" ]]; then
-	ssh root@build.banner.usu.edu "cd /u01/deploy/$INSTANCE/BannerAdminBPAPI/ && rm BannerAdminBPAPI_configs.zip && zip -r BannerAdminBPAPI_configs.zip ./*"
-        scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/BannerAdminBPAPI/BannerAdminBPAPI_configs.zip .
+	ssh -i /home/rancher/.ssh/id_ed25519 root@build.banner.usu.edu "cd /u01/deploy/$INSTANCE/BannerAdminBPAPI/ && rm BannerAdminBPAPI_configs.zip && zip -r BannerAdminBPAPI_configs.zip ./*"
+        scp -i /home/rancher/.ssh/id_ed25519 root@build.banner.usu.edu:/u01/deploy/$INSTANCE/BannerAdminBPAPI/BannerAdminBPAPI_configs.zip .
 	mkdir BannerAdminBPAPI_configs
         cd BannerAdminBPAPI_configs
         unzip ../BannerAdminBPAPI_configs.zip
+	cp /home/rancher/github/banner/businessprocessapi/applicationContext.xml $CURRENT_FOLDER/applicationContext.xml
+	cp /home/rancher/github/banner/businessprocessapi/run.sh $CURRENT_FOLDER/run.sh
         sed -i -e "s|u01/deploy/$INSTANCE|usr/local/tomcat/webapps|g" config/config.xml
         sed -i -e "s|u01/deploy/$INSTANCE|usr/local/tomcat/webapps|g" config/config.properties
         cd ..
@@ -113,6 +119,11 @@ if [[ "$APP_NAME" == "BannerAdmin" ]] || [[ "$APP_NAME" == "BannerAccessMgmt" ]]
 	echo "Running sameSiteCookies and applicationContext.xml.saml..."
 	sed -i -e "s|\<\!-- Insert Environment.*|<CookieProcessor sameSiteCookies=\"none\" />|g" $APP_NAME.ws/META-INF/context.xml
 	cp /home/rancher/github/banner/$APP_NAME_LOWER/applicationContext.xml.saml $CURRENT_FOLDER/applicationContext.xml.saml
+	cp /home/rancher/github/banner/$APP_NAME_LOWER/run.sh $CURRENT_FOLDER/run.sh
+fi
+
+if [[ $APP_NAME == applicationNavigator ]]; then
+	cp /home/rancher/github/banner/$APP_NAME_LOWER/context.xml $CURRENT_FOLDER/context.xml
 fi
 
 if [[ "$APP_NAME" == "BannerAdmin" ]] && $CLEANADDRESS; then
@@ -137,16 +148,20 @@ echo "$APP_NAME $VERSION is ready for configuration"
 
 rm Dockerfile
 
-if [[ $APP_NAME == *SelfService ]] || [[ $APP_NAME == brim ]] || [[ $APP_NAME == applicationNavigator ]]; then
-echo "FROM usuit/banner:base-bannerselfservice-9.0.87-jdk8-corretto-cacerts" > Dockerfile
+if [[ $APP_NAME == *SelfService ]] || [[ $APP_NAME == brim ]] || [[ $APP_NAME == applicationNavigator ]] || [[ $APP_NAME == DocumentManagementApi ]] || [[ $APP_NAME == eTranscriptAPI ]] || [[ $APP_NAME == StudentApi ]] || [[ $APP_NAME == IntegrationApi ]] || [[ $APP_NAME == StudentRegistrationSsb ]] || [[ $APP_NAME == BannerExtensibility ]]; then
+        echo "FROM usuit/banner:base-bannerselfservice-9.0.93-jdk8-corretto-cacerts" > Dockerfile
 fi
 
-if [[ $APP_NAME == BannerGeneralSsb ]]; then
-echo "FROM usuit/banner:base-bcm-9.0.87-jdk8-corretto-cacerts" > Dockerfile
+if [[ $APP_NAME == BannerEventPublisher ]]; then
+	echo "FROM usuit/banner:base-bep-9.0.93-jdk8-corretto-cacerts" >> Dockerfile
+fi
+
+if [[ $APP_NAME == BannerGeneralSsb ]] || [[ $APP_NAME == CommunicationManagement ]]; then
+        echo "FROM usuit/banner:base-bcm-9.0.93-jdk8-corretto-cacerts" > Dockerfile
 fi
 
 if [[ $APP_NAME == BannerAdmin ]] || [[ $APP_NAME == BannerAdminBPAPI ]] || [[ $APP_NAME == BannerAccessMgmt ]]; then
-echo "FROM usuit/banner:base-banneradmin-9.0.87-jdk8-corretto-cacerts" > Dockerfile
+        echo "FROM usuit/banner:base-banneradmin-9.0.93-jdk8-corretto-cacerts" > Dockerfile
 fi
 
 echo "LABEL version=$VERSION" >> Dockerfile
@@ -157,11 +172,17 @@ echo 'ENV JAVA_OPTS="-DBANNER_APP_CONFIG=/usr/local/tomcat/webapps/'$APP_NAME'/W
 echo 'RUN cp -f /usr/share/zoneinfo/America/Denver /etc/localtime' >> Dockerfile
 echo 'RUN echo America/Denver> /etc/timezone' >> Dockerfile 
 echo 'RUN mkdir /u01' >> Dockerfile
+if [[ $APP_NAME == DocumentManagementApi ]] || [[ $APP_NAME == FinanceSelfService ]]; then
+        echo 'RUN mkdir -p /opt/banner/xtender && chown tomcat:tomcat /opt/banner/xtender' >> Dockerfile
+fi
 echo 'COPY saml /u01/saml' >> Dockerfile
+if [[ $APP_NAME == BannerAdminBPAPI ]] || [[ $APP_NAME == BannerAccessMgmt ]]; then
+        echo 'COPY run.sh /usr/local/tomcat/bin' >> Dockerfile
+        echo 'RUN chown -R tomcat:tomcat /usr/local/tomcat && chmod +x /usr/local/tomcat/bin/run.sh' >> Dockerfile
+fi
 echo 'USER tomcat' >> Dockerfile
-
 echo 'COPY --chown=tomcat:tomcat '$APP_NAME' /usr/local/tomcat/webapps/'$APP_NAME >> Dockerfile
-if [[ $APP_NAME == BannerAdmin ]] || [[ $APP_NAME == BannerAdminBPAPI ]] || [[ $APP_NAME == BannerAccessMgmt ]]; then
+if [[ $APP_NAME == BannerAdmin ]] || [[ $APP_NAME == BannerAccessMgmt ]]; then
 	echo 'COPY --chown=tomcat:tomcat '$APP_NAME'.ws /usr/local/tomcat/webapps/'$APP_NAME'.ws' >> Dockerfile
         echo 'COPY --chown=tomcat:tomcat applicationContext.xml.saml /usr/local/tomcat/webapps/'$APP_NAME'.ws/WEB-INF/applicationContext.xml.saml' >> Dockerfile
         echo 'COPY --chown=tomcat:tomcat saml/aws/aws-adminpages* /usr/local/tomcat/webapps/'$APP_NAME'.ws/WEB-INF/classes/' >> Dockerfile
@@ -171,16 +192,43 @@ if [[ $APP_NAME == BannerAdmin ]] || [[ $APP_NAME == BannerAdminBPAPI ]] || [[ $
         echo 'COPY --chown=tomcat:tomcat saml/wpprd/wpprd-adminpages* /usr/local/tomcat/webapps/'$APP_NAME'.ws/WEB-INF/classes/' >> Dockerfile
         echo 'COPY --chown=tomcat:tomcat saml/wprod/wprod-adminpages* /usr/local/tomcat/webapps/'$APP_NAME'.ws/WEB-INF/classes/' >> Dockerfile
 fi
+if [[ $APP_NAME == brim ]]; then
+	cp /home/rancher/github/banner/$APP_NAME_LOWER/javax.jms_1.1.1.jar $CURRENT_FOLDER/javax.jms_1.1.1.jar
+	echo 'COPY --chown=tomcat:tomcat javax.jms_1.1.1.jar /usr/local/tomcat/lib/javax.jms_1.1.1.jar' >> Dockerfile
+fi
+if [[ $APP_NAME == applicationNavigator ]]; then
+	echo 'COPY --chown=tomcat:tomcat context.xml /usr/local/tomcat/webapps/applicationNavigator/META-INF/context.xml' >> Dockerfile
+fi
 echo 'COPY --chown=tomcat:tomcat saml /usr/local/tomcat/webapps/'$APP_NAME'/saml' >> Dockerfile
 if [[ "$APP_NAME" == "FacultySelfService" ]]
 then
-    echo 'COPY --chown=tomcat:tomcat gradeEntry.json /usr/local/tomcat/webapps/'$APP_NAME'/gradeEntry.json' >> Dockerfile
+	cp /home/rancher/github/banner/$APP_NAME_LOWER/gradeEntry.json $CURRENT_FOLDER/gradeEntry.json
+        echo 'COPY --chown=tomcat:tomcat gradeEntry.json /usr/local/tomcat/webapps/'$APP_NAME'/gradeEntry.json' >> Dockerfile
+fi
+if [[ $APP_NAME == BannerAdminBPAPI ]]; then
+	echo 'COPY --chown=tomcat:tomcat BannerAdminBPAPI_configs /usr/local/tomcat/webapps/BannerAdminBPAPI' >> Dockerfile
+        echo 'COPY --chown=tomcat:tomcat BannerAdminBPAPI_configs/config /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/classes/config' >> Dockerfile
+        echo 'COPY --chown=tomcat:tomcat BannerAdminBPAPI_configs/config/* /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/classes/' >> Dockerfile
+        echo 'COPY --chown=tomcat:tomcat applicationContext.xml /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/' >> Dockerfile
 fi
 docker build --platform linux/amd64 -t usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE .
 docker push usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE
 
-cd /home/rancher/k8s-config/bannerdev
-source .envrc
-kubectl set image deployment/$APP_NAME_LOWER $APP_NAME_LOWER=usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE -n $INSTANCE
-kubectl scale deployment $APP_NAME_LOWER --replicas=1 -n $INSTANCE
+rm run.sh
+rm context.xml
+rm applicationContext.xml.saml
+rm -rm *.war
 
+if [[ $INSTANCE == zprod ]]; then
+	cd /home/rancher/k8s-config/banner
+	source .envrc
+	kubectl set image deployment/$APP_NAME_LOWER $APP_NAME_LOWER=usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE -n $INSTANCE
+	/home/rancher/k8s-config/banner/zprod_scale_$APP_NAME_LOWER.sh
+fi
+
+if [[ $INSTANCE == zdevl ]] || [[ $INSTANCE == zpprd ]] || [[ $INSTANCE == wpprd ]] || [[ $INSTANCE == wprod ]]; then
+	cd /home/rancher/k8s-config/bannerdev
+        source .envrc
+        kubectl set image deployment/$APP_NAME_LOWER $APP_NAME_LOWER=usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE -n $INSTANCE
+        kubectl scale deployment $APP_NAME_LOWER --replicas=1 -n $INSTANCE
+fi

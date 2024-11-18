@@ -2,7 +2,13 @@
 
 INSTANCE=zpprd
 CLEANADDRESS=false
-APP=BannerGeneralSsb
+if ["$INSTANCE"== "zdevl"] || ["$INSTANCE"== "zprod"]
+then
+	if ["$APP_NAME" == "BannerGeneralSsb"] || ["$APP_NAME" == "BannerAdmin"]
+        then
+		CLEANADDRESS=true
+	fi
+fi
 VERSION=9.12.2.1
 ZIP_PASSWORD=transcript
 WARFILE=$(pwd)/BannerGeneralSsb.war

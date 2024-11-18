@@ -25,7 +25,7 @@ http:
 
 # Configuration for your containers and service.
 image:
-  location: usuit/banner:banneraccessmgmt-9.3.24.0.2-20240126-aws
+  location: usuit/banner:banneraccessmgmt-9.3.26.1.2-20240425 
   # Port exposed through your container to route traffic to it.
   port: 8080
   credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns
@@ -61,7 +61,7 @@ variables:                    # Pass environment variables as key value pairs.
   KEYSTORE_LOCATION: /u01/saml/aws/aws_keystore.jks
   SP_METADATA: aws-bam-sp.xml
   IDP_METADATA: aws-bam-idp.xml
-  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.65:1521/zprod
+  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.210:1521/zprod
   BANNER_PICTURESPATH: /opt/banner/images
 
 #secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
