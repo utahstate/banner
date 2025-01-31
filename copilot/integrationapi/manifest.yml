@@ -24,7 +24,7 @@ http:
   alias: api-aws.banner.usu.edu
 # Configuration for your containers and service.
 image:
-  location: usuit/banner:integrationapi-9.33.2-20240520 
+  location: usuit/banner:integrationapi-9.35.1-zprod-20250122-37 
   # Port exposed through your container to route traffic to it.
   port: 8080
   credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns
@@ -47,7 +47,7 @@ variables:                    # Pass environment variables as key value pairs.
 #  LOG_LEVEL: info
   BANNER_TRANSACTIONTIMEOUT: 300
   TIMEZONE: Amercia/Denver
-  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.210:1521/zprod
+  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.219:1521/zprod
   APIORACLEUERSPROXIED: true
   BANPROXY_MAXWAIT: 60000
   BANSSUSER_MAXWAIT: 60000

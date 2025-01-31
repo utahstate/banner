@@ -24,7 +24,7 @@ http:
   alias: api-aws.banner.usu.edu 
 # Configuration for your containers and service.
 image:
-  location: usuit/banner:businessprocessapi-9.3.35.1.2-20240424 
+  location: usuit/banner:banneradminbpapi-javaforms-93-zprod-20250104-54 
   # Port exposed through your container to route traffic to it.
   port: 8080
   credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns
@@ -53,7 +53,7 @@ variables:                    # Pass environment variables as key value pairs.
   XMS: 8g
   XMX: 8g
   CAS_URL: https://login.usu.edu/cas
-  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.210:1521/zprod
+  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.219:1521/zprod
 #secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
 #  GITHUB_TOKEN: GITHUB_TOKEN  # The key is the name of the environment variable, the value is the name of the SSM parameter.
 secrets:

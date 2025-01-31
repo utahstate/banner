@@ -25,7 +25,7 @@ http:
 
 # Configuration for your containers and service.
 image:
-  location: usuit/banner:employeeselfservice-9.26.1-20240424
+  location: usuit/banner:employeeselfservice-9.28.0.1-zprod-20250104-00
   # Port exposed through your container to route traffic to it.
   port: 8080
   credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns
@@ -66,7 +66,7 @@ variables:                    # Pass environment variables as key value pairs.
   IDP_URL:  https://sts.windows.net/ac352f9b-eb63-4ca2-9cf9-f4c40047ceff/
   BANNER8_SS_URL: https://ss-aws.banner.usu.edu/ssomanager/saml/login?relayState=/c/auth/SSB?pkg=
   BANNER9_URL: https://ss-aws.banner.usu.edu
-  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.210:1521/zprod
+  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.219:1521/zprod
   BANNER_PICTURESPATH: /opt/banner/images
 
 #secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
