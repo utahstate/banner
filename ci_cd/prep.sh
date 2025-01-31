@@ -60,6 +60,11 @@ ssh -i /home/rancher/.ssh/id_ed25519 root@build.banner.usu.edu "cd /u01/saml && 
 scp -i /home/rancher/.ssh/id_ed25519 root@build.banner.usu.edu:/u01/saml/saml.zip .
 
 if $CLEANADDRESS && [[ "$APP_NAME" == "BannerGeneralSsb" ]]; then
+#Uncomment these lines after 20241212
+#cd /home/rancher/github/banner/base-bcm
+#docker build --pull --platform linux/amd64 -t usuit/banner:base-bcm-9-jdk17-corretto-cacerts .
+#docker push usuit/banner:base-bcm-9-jdk17-corretto-cacerts
+#cd $CURRENT_FOLDER
 echo "Downloading clean address plugin for general self service"
 curl -o clnbannerssb_$VERSION.zip https://files.runneredq.com/integrations/RunnerEDQ-Banner9SSB/clnbannerssb_$VERSION.zip
 rm -rf clnbannerssb_$VERSION
@@ -149,19 +154,51 @@ echo "$APP_NAME $VERSION is ready for configuration"
 rm Dockerfile
 
 if [[ $APP_NAME == *SelfService ]] || [[ $APP_NAME == brim ]] || [[ $APP_NAME == applicationNavigator ]] || [[ $APP_NAME == DocumentManagementApi ]] || [[ $APP_NAME == eTranscriptAPI ]] || [[ $APP_NAME == StudentApi ]] || [[ $APP_NAME == IntegrationApi ]] || [[ $APP_NAME == StudentRegistrationSsb ]] || [[ $APP_NAME == BannerExtensibility ]]; then
-        echo "FROM usuit/banner:base-bannerselfservice-9.0.93-jdk8-corretto-cacerts" > Dockerfile
+        if [[ $INSTANCE == zprod ]] || [[ $INSTANCE == wprod ]]; then
+		echo "FROM usuit/banner:base-bannerselfservice-9.0.93-jdk8-corretto-cacerts" > Dockerfile
+	else
+        	cd /home/rancher/github/banner/banner9-selfservice
+        	docker build --pull --platform linux/amd64 -t usuit/banner:base-bannerselfservice-9-jdk17-corretto .
+        	docker push usuit/banner:base-bannerselfservice-9-jdk17-corretto
+        	cd $CURRENT_FOLDER
+		echo "FROM usuit/banner:base-bannerselfservice-9-jdk17-corretto" > Dockerfile
+	fi
 fi
 
 if [[ $APP_NAME == BannerEventPublisher ]]; then
-	echo "FROM usuit/banner:base-bep-9.0.93-jdk8-corretto-cacerts" >> Dockerfile
+	if [[ $INSTANCE == zprod ]] || [[ $INSTANCE == wprod ]]; then
+		echo "FROM usuit/banner:base-bep-9.0.93-jdk8-corretto-cacerts" > Dockerfile
+	else
+		cd /home/rancher/github/banner/base-bep
+		docker build --pull --platform linux/amd64 -t usuit/banner:base-bep-9-jdk17-corretto .
+		docker push usuit/banner:base-bep-9-jdk17-corretto
+		cd $CURRENT_FOLDER
+		echo "FROM usuit/banner:base-bep-9-jdk17-corretto" > Dockerfile
+	fi
 fi
 
 if [[ $APP_NAME == BannerGeneralSsb ]] || [[ $APP_NAME == CommunicationManagement ]]; then
-        echo "FROM usuit/banner:base-bcm-9.0.93-jdk8-corretto-cacerts" > Dockerfile
+	if [[ $INSTANCE == zprod ]] || [[ $INSTANCE == wprod ]]; then
+		echo "FROM usuit/banner:base-bcm-9.0.93-jdk8-corretto-cacerts" > Dockerfile
+	else
+		cd /home/rancher/github/banner/base-bcm
+		docker build --pull --platform linux/amd64 -t usuit/banner:base-bcm-9-jdk17-corretto .
+		docker push usuit/banner:base-bcm-9-jdk17-corretto
+		cd $CURRENT_FOLDER
+		echo "FROM usuit/banner:base-bcm-9-jdk17-corretto" > Dockerfile
+	fi
 fi
 
 if [[ $APP_NAME == BannerAdmin ]] || [[ $APP_NAME == BannerAdminBPAPI ]] || [[ $APP_NAME == BannerAccessMgmt ]]; then
-        echo "FROM usuit/banner:base-banneradmin-9.0.93-jdk8-corretto-cacerts" > Dockerfile
+        if [[ $INSTANCE == zprod ]] || [[ $INSTANCE == wprod ]]; then
+		echo "FROM usuit/banner:base-banneradmin-9.0.93-jdk8-corretto-cacerts" > Dockerfile
+	else
+        	cd /home/rancher/github/banner/banner9-admin
+        	docker build --pull --platform linux/amd64 -t usuit/banner:base-banneradmin-10-jdk17 .
+        	docker push usuit/banner:base-banneradmin-10-jdk17
+        	cd $CURRENT_FOLDER
+		echo "FROM usuit/banner:base-banneradmin-10-jdk17" > Dockerfile
+	fi
 fi
 
 echo "LABEL version=$VERSION" >> Dockerfile
@@ -180,6 +217,10 @@ if [[ $APP_NAME == BannerAdminBPAPI ]] || [[ $APP_NAME == BannerAccessMgmt ]]; t
         echo 'COPY run.sh /usr/local/tomcat/bin' >> Dockerfile
         echo 'RUN chown -R tomcat:tomcat /usr/local/tomcat && chmod +x /usr/local/tomcat/bin/run.sh' >> Dockerfile
 fi
+if [[ $APP_NAME == StudentSelfService ]]; then
+	echo 'COPY server.xml.sss /usr/local/tomcat/conf/server.xml' >> Dockerfile
+	echo 'RUN chown -R tomcat:tomcat /usr/local/tomcat' >> Dockerfile
+fi
 echo 'USER tomcat' >> Dockerfile
 echo 'COPY --chown=tomcat:tomcat '$APP_NAME' /usr/local/tomcat/webapps/'$APP_NAME >> Dockerfile
 if [[ $APP_NAME == BannerAdmin ]] || [[ $APP_NAME == BannerAccessMgmt ]]; then
@@ -197,6 +238,11 @@ if [[ $APP_NAME == brim ]]; then
 	echo 'COPY --chown=tomcat:tomcat javax.jms_1.1.1.jar /usr/local/tomcat/lib/javax.jms_1.1.1.jar' >> Dockerfile
 fi
 if [[ $APP_NAME == applicationNavigator ]]; then
+	#Uncomment these lines after 20241212
+        #cd /home/rancher/github/banner/banner9-selfservice
+        #docker build --pull --platform linux/amd64 -t usuit/banner:base-bannerselfservice-9-jdk17-corretto .
+        #docker push usuit/banner:base-bannerselfservice-9-jdk17-corretto
+        #cd $CURRENT_FOLDER
 	echo 'COPY --chown=tomcat:tomcat context.xml /usr/local/tomcat/webapps/applicationNavigator/META-INF/context.xml' >> Dockerfile
 fi
 echo 'COPY --chown=tomcat:tomcat saml /usr/local/tomcat/webapps/'$APP_NAME'/saml' >> Dockerfile
@@ -217,18 +263,20 @@ docker push usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE
 rm run.sh
 rm context.xml
 rm applicationContext.xml.saml
-rm -rm *.war
+rm -rf *.war
 
-if [[ $INSTANCE == zprod ]]; then
+if [[ $INSTANCE == zprod ]] || [[ $INSTANCE == zldtst ]] || [[ $INSTANCE == wprod ]]; then
 	cd /home/rancher/k8s-config/banner
+fi
+if [[ $INSTANCE == zdevl ]] || [[ $INSTANCE == zpprd ]] || [[ $INSTANCE == wpprd ]]; then
+        cd /home/rancher/k8s-config/bannerdev
+fi
 	source .envrc
 	kubectl set image deployment/$APP_NAME_LOWER $APP_NAME_LOWER=usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE -n $INSTANCE
+if [[ $INSTANCE == zprod ]]; then
 	/home/rancher/k8s-config/banner/zprod_scale_$APP_NAME_LOWER.sh
+else
+	kubectl scale deployment $APP_NAME_LOWER --replicas=1 -n $INSTANCE
 fi
 
-if [[ $INSTANCE == zdevl ]] || [[ $INSTANCE == zpprd ]] || [[ $INSTANCE == wpprd ]] || [[ $INSTANCE == wprod ]]; then
-	cd /home/rancher/k8s-config/bannerdev
-        source .envrc
-        kubectl set image deployment/$APP_NAME_LOWER $APP_NAME_LOWER=usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE -n $INSTANCE
-        kubectl scale deployment $APP_NAME_LOWER --replicas=1 -n $INSTANCE
-fi
+docker system prune -af
