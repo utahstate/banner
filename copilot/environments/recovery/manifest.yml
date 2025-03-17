@@ -21,8 +21,8 @@ network:
 # Configure the load balancers in your environment, once created.
 http:
   public:
-    certificates: [arn:aws:acm:us-west-2:561188655518:certificate/428e4805-33cb-46c1-84fd-e853eb064c8f,arn:aws:acm:us-west-2:561188655518:certificate/1d03c29c-1081-4f7b-a810-0f72b27ea9f2]
-    # this cert is for xe-aws.banner.usu.edu (including admin-aws and ss-aws)
+    certificates: [arn:aws:acm:us-west-2:561188655518:certificate/9e23f91e-bae5-470a-b2b0-9685d61bb9da]
+    # this cert is for *.banner.usu.edu (including admin-aws and ss-aws)
 #   private:
 
 # Configure observability for your environment resources.
