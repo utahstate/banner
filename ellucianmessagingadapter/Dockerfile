@@ -1,4 +1,4 @@
-FROM tomcat:9.0.84-jdk8-corretto
+FROM tomcat:9-jdk17-corretto
 
 ENV TIMEZONE="America/Denver" \
     STUDENTAPI_URL="https://localhost/StudentApi/api" \
