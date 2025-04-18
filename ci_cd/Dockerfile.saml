@@ -1,0 +1,12 @@
+FROM bitnami/kubectl as kubectl
+
+FROM usuit/intune:surplus-20250328
+
+RUN apt update
+RUN apt install -y openjdk-21-jdk-headless
+
+COPY --from=kubectl /opt/bitnami/kubectl/bin/kubectl /usr/local/bin/
+
+COPY renew-banner-saml-certs.ps1 /opt/app/
+
+CMD ["pwsh", "/opt/app/renew-banner-saml-certs.ps1"]
