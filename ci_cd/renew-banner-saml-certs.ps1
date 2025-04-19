@@ -17,7 +17,7 @@ $Connection = Invoke-RestMethod -Uri https://login.microsoftonline.com/$MSGRAPH_
 $Token = $Connection.access_token
 Connect-MgGraph -AccessToken ($Token |ConvertTo-SecureString -AsPlainText -Force)
 
-cd /opt/saml
+cd /opt/mount
 
 foreach ($Id in $APP_IDS) {
     $SP = Get-MgServicePrincipal -Filter "Id eq '$Id'"
