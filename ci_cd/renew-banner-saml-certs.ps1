@@ -2,7 +2,7 @@ $MSGRAPH_CLIENT_ID = $env:MSGRAPH_CLIENT_ID
 $MSGRAPH_CLIENT_SECRET = $env:MSGRAPH_CLIENT_SECRET
 $MSGRAPH_TENANT = $env:MSGRAPH_TENANT
 #$ZPPRD_IDS=@('5e0d8695-0b27-4143-bc79-5d854fed4762','6bfafcce-8b9e-482a-9905-6eb7aa062679','29dfa462-1774-4b02-8691-f936b2442ca1','681d8f38-ef8e-4a8a-94b7-7710c64e6b38','84e95550-9654-41a7-869b-6fdf40aa8eba','97576e66-010e-4bee-9ee0-319062459b55','b654c093-280b-4104-be41-e452dcf44079','dcc88ba2-e50a-4c59-a0cb-7fb7e6e6a6c3','e8ff9797-9dc1-4977-aaf6-41c0172630e5')
-$OBJECT_IDS = $env:OBJECT_IDS
+$OBJECT_IDS = $env:OBJECT_IDS.Split(',')
 $DB=$env:DB
 $KEYSTORE_PASSWORD=$env:KEYSTORE_PASSWORD
 $KEYSTORE_FILE=$DB + '_keystore.jks'
@@ -37,10 +37,18 @@ foreach ($Id in $OBJECT_IDS) {
         preferredTokenSigningKeyThumbprint = $NewCert.Thumbprint
     }
     Update-MgServicePrincipal -ServicePrincipalId $Id -BodyParameter $params
-    Start-Sleep -Seconds 10
-    $url = 'https://login.microsoftonline.com/ac352f9b-eb63-4ca2-9cf9-f4c40047ceff/federationmetadata/2007-06/federationmetadata.xml?appid=' + $SP.AppId
-    $metadata_file_path = $DB + '-' + $string_array[2].ToLower() + '-idp.xml'
-    Invoke-WebRequest -Uri $url -OutFile $metadata_file_path
+    Write-Host ("Waitng for new certificate to be found in metadata...")
+    #Write-Host ("Metadata certificate matches... downloading new metadata...")
+    #$preferredCertMatch = $true
+    $newCertInXml = $false
+        while ($newCertInXml -eq $false) {
+            Start-Sleep -Seconds 10
+            $url = 'https://login.microsoftonline.com/ac352f9b-eb63-4ca2-9cf9-f4c40047ceff/federationmetadata/2007-06/federationmetadata.xml?appid=' + $SP.AppId
+            $metadata_file_path = $DB + '-' + $string_array[2].ToLower() + '-idp.xml'
+            Invoke-WebRequest -Uri $url -OutFile $metadata_file_path
+            $xml = Get-Content($metadata_file_path)
+            $newCertInXml = $xml.Contains($certbase64)
+        }
     Remove-Item $certfile
     Write-Host ("Please restart the application container for", $SP.DisplayName)
 }
