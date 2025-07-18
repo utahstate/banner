@@ -257,9 +257,9 @@ if [[ $APP_NAME == BannerAdminBPAPI ]]; then
         echo 'COPY --chown=tomcat:tomcat BannerAdminBPAPI_configs/config/* /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/classes/' >> Dockerfile
         echo 'COPY --chown=tomcat:tomcat applicationContext.xml /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/' >> Dockerfile
 fi
-if [[ $APP_NAME == CommunicationManagement ]] || [[ $APP_NAME == brim ]]; then
-	echo 'RUN rm /usr/local/tomcat/webapps/'$APP_NAME'/WEB-INF/lib/slf4j-reload4j-1.7.36.jar' >> Dockerfile
-fi
+#if [[ $APP_NAME == CommunicationManagement ]] || [[ $APP_NAME == brim ]]; then
+#	echo 'RUN rm /usr/local/tomcat/webapps/'$APP_NAME'/WEB-INF/lib/slf4j-reload4j-1.7.36.jar' >> Dockerfile
+#fi
 docker build --platform linux/amd64 -t usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE .
 docker push usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE
 

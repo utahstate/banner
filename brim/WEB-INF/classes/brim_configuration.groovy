@@ -1,5 +1,5 @@
 /** ****************************************************************************
-         Copyright 2020-2021 Ellucian Company L.P. and its affiliates.
+         Copyright 2020-2022 Ellucian Company L.P. and its affiliates.
  *******************************************************************************/
 
 /******************************************************************************
@@ -43,6 +43,7 @@ shutdown.jms.listener.for.redelivery.threshold = 5
 
 recruiter.http.connect.timeout=10000
 recruiter.http.read.timeout=60000
+defaultWebSessionTimeout = 10000
 
 // allow multiple configurations
 brim.allowMultipleConfigurations=false
@@ -51,7 +52,6 @@ brim.allowMultipleConfigurations=false
 *                                                                              *
 *                Application Server Configuration                              *
 * When deployed to Tomcat, targetServer="tomcat"                               *
-* When deployed to WebLogic, targetServer="weblogic"                           *
 *                                                                              *
 *******************************************************************************/
 targetServer="tomcat"
@@ -63,7 +63,17 @@ targetServer="tomcat"
 * When connect to JMS message broker, deployment.jms=true                      *
 *                                                                              *
 *******************************************************************************/
-deployment.jms=false
+//deployment.jms=false
+
+/** *****************************************************************************
+ *                                                                              *
+ *                        OAuth2 configuration                               *
+ *                                                                              *
+ ***************************************************************************** **/
+banner.oauth2.issuerJwksURi= "https://oauth.prod.10005.elluciancloud.com/jwks"
+banner.oauth2.issuer = "https://oauth.prod.10005.elluciancloud.com"
+banner.oauth2.audiance="https://elluciancloud.com"
+
 
 /** ******************************************************************************* *
 *                                                                                   *
@@ -73,7 +83,7 @@ deployment.jms=false
 *************************************************************************************/
 
 rabbitmq {
-    connectionfactory {
+   connectionfactory {
         username                                        = (System.getenv('RABBITMQ_USERNAME') ?: "rabbitmqAdm")
         password                                        = (System.getenv('RABBITMQ_PASSWORD') ?: "#UPDATEME#")
         hostname                                        = (System.getenv('RABBITMQ_HOST') ?: "rabbitmqHost")
@@ -89,14 +99,14 @@ rabbitmq {
         //Put an actual path to a file starting with "file:" otherwise leave the value as NO_FILE
         trustStoreFileName = "NO_FILE"
         trustStorePassPhrase = ""
-        sslAlgorithm                                    = 'TLSv1.2'
+        sslAlgorithm                                     = 'TLSv1.2'
     }
-       concurrentConsumers                              =  1
-       maxConcurrentConsumers                           =  1
-       channelTransacted                                =  true
-       defaultRequeueRejected                           =  true
-       autoStartup                                      =  false
-       acknowledgeMode                                  =  org.springframework.amqp.core.AcknowledgeMode.MANUAL
+        concurrentConsumers                              =  1
+        maxConcurrentConsumers                           =  1
+        channelTransacted                                =  true
+        defaultRequeueRejected                           =  true
+        autoStartup                                      =  false
+        acknowledgeMode                                  =  org.springframework.amqp.core.AcknowledgeMode.MANUAL
 }
 
 /**************** Below  messageTypeConfig is use for enabling and consuming the events message as a consumer ******/
@@ -119,24 +129,37 @@ messageTypeConfig = [
 
 /* BANNER AUTHENTICATION PROVIDER CONFIGURATION */
 boolean ssoEnabled = false
-banner {
-	 sso{
-       authenticationProvider = 'cas'
-       authenticationAssertionAttribute = 'UDC_IDENTIFIER'
-       if(authenticationProvider == 'cas' || authenticationProvider == 'saml'){
-       ssoEnabled = true
-	   }
+if(System.getenv('AUTH_METHOD') == 'saml')
+{
+    banner {
+        sso {
+            authenticationProvider           = 'saml' //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
+            authenticationAssertionAttribute = 'UDC_IDENTIFIER'
+        }
     }
 }
-if(ssoEnabled)
+
+if(System.getenv('AUTH_METHOD') == 'cas')
 {
-   grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
+    banner {
+        sso {
+            authenticationProvider           = 'cas' //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
+            authenticationAssertionAttribute = 'UDC_IDENTIFIER'
+        }
+    }
 }
+
+if(banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' )
+{
+    grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
+}
+
 grails {
     plugin {
         springsecurity {
             cas {
-                active = true
+                if(System.getenv('AUTH_METHOD') == 'cas') { active = true }
+                if(System.getenv('AUTH_METHOD') == 'saml') { active = false }
                 if (active){
                     grails.plugin.springsecurity.providerNames = ['casBannerAuthenticationProvider', 'selfServiceBannerAuthenticationProvider', 'bannerAuthenticationProvider']
                 }
@@ -157,12 +180,49 @@ grails {
                     grails.plugin.springsecurity.useSessionFixationPrevention = false
                 }
             }
-            logout {
+           logout {
                 afterLogoutUrl = 'http://CAS_HOST:CAS_PORT/brim/'
             }
         }
     }
 }
+/********************************************************************************
+ *                                                                              *
+ *                         SAML2 SSO Configuration                              *
+ *                                                                              *
+ ********************************************************************************/
+//Set active = true when Banner Recruit integration Manager is configured for SAML2 SSO
+if(System.getenv('AUTH_METHOD') == 'saml')
+{
+    if(System.getenv('AUTH_METHOD') == 'cas') { grails.plugin.springsecurity.saml.active = false }
+    if(System.getenv('AUTH_METHOD') == 'saml') { grails.plugin.springsecurity.saml.active = true }
+    grails.plugin.springsecurity.auth.loginFormUrl = '/saml/login'
+    grails.plugin.springsecurity.saml.afterLogoutUrl ='/logout/customLogout'
+
+    banner.sso.authentication.saml.localLogout='true' // To disable single logout set this to true,default 'false'.
+
+    grails.plugin.springsecurity.saml.keyManager.storeFile = 'file:/usr/local/tomcat/webapps/' + (System.getenv('APP_LONG_NAME') ?: 'brim') + '/saml/' + (System.getenv('BANNERDB') ?: 'host') + '/' + (System.getenv('BANNERDB') ?: 'host') + '_keystore.jks'  // for unix File based Example:- 'file:/home/u02/samlkeystore.jks'
+    grails.plugin.springsecurity.saml.keyManager.storePass = (System.getenv('KEYSTORE_PASSWORD') ?: 'CHANGE_ME')
+    grails.plugin.springsecurity.saml.keyManager.passwords = [ ((System.getenv('BANNERDB')) + '-' + (System.getenv('APP_SHORT_NAME')) + '-sp'): ((System.getenv('KEYSTORE_PASSWORD'))) ]  // banner-<short-appName>-sp is the value set in Ellucian Ethos Identity Service provider setup
+    grails.plugin.springsecurity.saml.keyManager.defaultKey = (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp'                 // banner-<short-appName>-sp is the value set in Ellucian Ethos Identity Service provider setup
+
+    grails.plugin.springsecurity.saml.metadata.sp.file = '/usr/local/tomcat/webapps/' + (System.getenv('APP_LONG_NAME') ?: 'brim') + '/saml/' + (System.getenv('BANNERDB') ?: 'host') + '/' + (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp.xml'     // for unix file based Example:-'/home/u02/sp-local.xml'
+    grails.plugin.springsecurity.saml.metadata.providers = [adfs: '/usr/local/tomcat/webapps/' + (System.getenv('APP_LONG_NAME') ?: 'brim') + '/saml/' + (System.getenv('BANNERDB') ?: 'host') + '/' + (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-idp.xml'] // for unix file based Example: '/home/u02/idp-local.xml'
+    grails.plugin.springsecurity.saml.metadata.defaultIdp = (System.getenv('IDP_URL') ?: 'https://sts.windows.net/ac352f9b-eb63-4ca2-9cf9-f4c40047ceff/')
+    grails.plugin.springsecurity.saml.maxAuthenticationAge = (System.getenv('MAX_AUTH_AGE') ?: 43200)
+    grails.plugin.springsecurity.saml.metadata.sp.defaults = [
+            local: true,
+            alias: (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp',                                   // banner-<short-appName>-sp is the value set in EIS Service provider setup
+            securityProfile: 'metaiop',
+            signingKey: (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp',                              // banner-<short-appName>-sp is the value set in EIS Service provider setup
+            encryptionKey: (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp',                           // banner-<short-appName>-sp is the value set in EIS Service provider setup
+            tlsKey: (System.getenv('BANNERDB') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp',                                  // banner-<short-appName>-sp is the value set in EIS Service provider setup
+            requireArtifactResolveSigned: false,
+            requireLogoutRequestSigned: false,
+            requireLogoutResponseSigned: false
+    ]
+}
+
 
 /* Set feature.enableConfigJob to true for configJob to run as configured and
 set feature.enableConfigJob to false for configJob to NOT run as configured */
@@ -225,3 +285,33 @@ allowedExperienceDomains=[
 "https://experience.elluciancloud.ie",
 "https://experience-test.elluciancloud.com.au",
 "https://experience.elluciancloud.com.au"]
+
+/** *****************************************************************************
+ *                                                                              *
+ *                 Text Manager Configuration                                   *
+ *                                                                              *
+ ***************************************************************************** **/
+/*
+Below configurations are required for an application in order to enable Text Manager Translations
+
+    *  enableTextManagerTranslations
+        To Enable Text Manager translations, set to false if its not required for an application.
+        setting it to false completely disables the translations from Text Manager in both MEP and Non-MEP environment
+
+    *  enableTextManagerTranslationsInMEP
+        To Enable Text Manager translations in MEP environment for an application.
+        set to true if the TextManager tables are MEPed and Translations are required as per institution.
+*/
+
+enableTextManagerTranslations = true
+
+enableTextManagerTranslationsInMEP = false
+guestAuthenticationEnabled = true
+
+/** *****************************************************************************
+ *                                                                              *
+ *           Home Page URL configuration for CAS / SAML Single-Sign On          *
+ *                                                                              *
+ ***************************************************************************** **/
+grails.plugin.springsecurity.homePageUrl='http://<host:port>/brim/'
+

@@ -1,4 +1,4 @@
-FROM tomcat:9.0.93-jdk8-corretto 
+FROM tomcat:10.1-jdk17
 
 ENV TIMEZONE="America/New_York"
 ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod \
@@ -14,18 +14,20 @@ ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod
   LOG_ABANDONED=true \
   DEFAULT_ROW_PREFETCH=150 
 
-RUN yum update -y \
-    && yum install shadow-utils -y \
+RUN apt-get update -y \
+    #&& apt-get install shadow-utils -y \
     && groupadd -r tomcat && useradd -r -g tomcat tomcat
 
-ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -XX:MaxPermSize=1024m -Dlog4j.configuration=config.properties -Duser.timezone=\$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false"
+ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -XX:MaxMetaspaceSize=1024m -Dlog4j.configuration=config.properties -Duser.timezone=\$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false"
 
 #switched to using local ojdbc8.jar and xdb8.jar. Unable to find a good download. 
-ADD ojdbc8.jar /usr/local/tomcat/lib/ojdbc8.jar
-ADD xdb6.jar /usr/local/tomcat/lib/xdb6.jar
+#ADD ojdbc8.jar /usr/local/tomcat/lib/ojdbc8.jar
+ADD ojdbc11.jar /usr/local/tomcat/lib/ojdbc11.jar
+ADD xdb.jar /usr/local/tomcat/lib/xdb.jar
+ADD ucp11.jar /usr/local/tomcat/lib/ucp11.jar
 
 RUN cd /usr/local/tomcat/lib/ \
-  && chown tomcat:tomcat ojdbc8.jar xdb6.jar && chmod +r ojdbc8.jar xdb6.jar
+  && chown tomcat:tomcat ojdbc11.jar xdb.jar ucp11.jar && chmod +r ojdbc11.jar xdb.jar ucp11.jar
 
 COPY context.xml /usr/local/tomcat/conf/context.xml
 COPY server.xml /usr/local/tomcat/conf/server.xml
@@ -37,8 +39,8 @@ RUN mkdir -p /etc/certs
 COPY USERTrust_RSA_Certification_Authority.cer /etc/certs/USERTrust_RSA_Certification_Authority.cer
 COPY InCommon_RSA_Server_CA_2.cer /etc/certs/InCommon_RSA_Server_CA_2.cer 
 
-RUN keytool -import -alias usertrust -file /etc/certs/USERTrust_RSA_Certification_Authority.cer -keystore /usr/lib/jvm/java-1.8.0-amazon-corretto/jre/lib/security/cacerts -storepass changeit -noprompt
-RUN keytool -import -alias incommon -file /etc/certs/InCommon_RSA_Server_CA_2.cer -keystore /usr/lib/jvm/java-1.8.0-amazon-corretto/jre/lib/security/cacerts -storepass changeit -noprompt
+RUN keytool -import -alias usertrust -file /etc/certs/USERTrust_RSA_Certification_Authority.cer -keystore /opt/java/openjdk/lib/security/cacerts -storepass changeit -noprompt
+RUN keytool -import -alias incommon -file /etc/certs/InCommon_RSA_Server_CA_2.cer -keystore /opt/java/openjdk/lib/security/cacerts -storepass changeit -noprompt
 
 
 # Configure logging to forward tomcat logs to docker log collector
