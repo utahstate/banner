@@ -40,7 +40,7 @@ network:
   # readonly_fs: true       # Limit to read-only access to mounted root filesystems.
 storage:
   volumes:
-    banner-images:
+    saml:
       path: /usr/local/tomcat/webapps/applicationNavigator/saml/aws
       read_only: true
       efs:

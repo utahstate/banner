@@ -5,7 +5,6 @@
 # Your service name will be used in naming your resources like log groups, ECS services, etc.
 name: businessprocessapi
 type: Load Balanced Web Service
-
 # Distribute traffic to your service.
 http:
   # Requests to this path will be forwarded to your service.
@@ -21,49 +20,44 @@ http:
     unhealthy_threshold: 2
     healthy_threshold: 3
     port: 8080
-  alias: api-aws.banner.usu.edu 
+  alias: api-aws.banner.usu.edu
 # Configuration for your containers and service.
 image:
-  location: usuit/banner:banneradminbpapi-javaforms-93-zprod-20250104-54 
+  location: usuit/banner:banneradminbpapi-javaforms-93-zprod-20250607-40
   # Port exposed through your container to route traffic to it.
   port: 8080
   credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns
-
-cpu: 1024       # Number of CPU units for the task.
-memory: 8192    # Amount of memory in MiB used by the task.
-count: 1       # Number of tasks that should be running in your service.
-exec: true     # Enable running commands in your container.
+cpu: 1024 # Number of CPU units for the task.
+memory: 8192 # Amount of memory in MiB used by the task.
+count: 1 # Number of tasks that should be running in your service.
+exec: true # Enable running commands in your container.
 network:
   connect: false # Enable Service Connect for intra-environment traffic between services.
   vpc:
-     placement: private
-      # subnets: ["subnet-09f6b50a17739ef72"]
-# storage:
+    placement: private
+    # subnets: ["subnet-09f6b50a17739ef72"]
+  # storage:
   # readonly_fs: true       # Limit to read-only access to mounted root filesystems.
- 
 # Optional fields for more advanced use-cases.
 #
-variables:                    # Pass environment variables as key value pairs.
-#  LOG_LEVEL: info
+variables: # Pass environment variables as key value pairs.
+  #  LOG_LEVEL: info
   BANNER9_URL: https://admin-aws.banner.usu.edu
   BANPROXY_MAXWAIT: 30000
-  CATALINA_OPTS: -server -XX:+UseG1GC -Xms$XMS -Xmx$XMX -XX:MaxPermSize=1024m -Dlog4j.configuration=config.properties -Djava.io.tmpdir=$BANNER_TEMPDIR -Duser.timezone=$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false
+  CATALINA_OPTS: -server -XX:+UseG1GC -Xms$XMS -Xmx$XMX -XX:MaxMetaspaceSize=1024m -Dlog4j.configuration=config.properties -Djava.io.tmpdir=$BANNER_TEMPDIR -Duser.timezone=$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false
   REMOVE_ABANDONED_TIMEOUT: 3000
   THEME_URL: https://theme.elluciancloud.com/001G000000iHmuXIAS/theme/getTheme?name=zprod&amp;template=admin-9_3_21
   XMS: 8g
   XMX: 8g
   CAS_URL: https://login.usu.edu/cas
-  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.219:1521/zprod
+  BANNERDB_JDBC: jdbc:oracle:thin:@//10.99.2.21:1521/zprod
 #secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
 #  GITHUB_TOKEN: GITHUB_TOKEN  # The key is the name of the environment variable, the value is the name of the SSM parameter.
 secrets:
   BANPROXY_PASSWORD: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BANPROXY_PASSWORD
-
 # You can override any of the values defined above by environment.
 #environments:
 #  test:
 #    count: 2               # Number of tasks to run for the "test" environment.
 #    deployment:            # The deployment strategy for the "test" environment.
 #       rolling: 'recreate' # Stops existing tasks before new ones are started for faster deployments.
-
-
