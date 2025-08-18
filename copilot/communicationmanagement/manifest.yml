@@ -46,7 +46,7 @@ network:
 storage:
   volumes:
     banner-images:
-      path: /usr/local/tomcat/webapps/CommunicationMangement/saml/aws
+      path: /usr/local/tomcat/webapps/CommunicationManagement/saml/aws
       read_only: true
       efs:
         id: fs-07e9d58f380a486b1
