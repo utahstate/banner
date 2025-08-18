@@ -23,7 +23,7 @@ http:
   alias: admin-aws.banner.usu.edu
 # Configuration for your containers and service.
 image:
-  location: usuit/banner:banneraccessmgmt-javaforms-93-zprod-20250607-14
+  location: usuit/banner:banneraccessmgmt-javaforms-93-zprod-20250818
   # Port exposed through your container to route traffic to it.
   port: 8080
   credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns
