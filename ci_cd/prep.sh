@@ -8,18 +8,39 @@ ZIP_PASSWORD=transcript
 WARFILE=$(pwd)/$APP_NAME.war
 CURRENT_FOLDER=$(pwd)
 APP_NAME_LOWER=$(echo "$APP_NAME" | tr '[:upper:]' '[:lower:]')
+LOCK_FILE=$(pwd)/prep.lck
 
 echo "Script arguments are: $1 $2 $3"
 echo "Prep.sh APP_NAME is $APP_NAME"
 echo "Prep.sh VERSION is $VERSION"
 echo "Prep.sh INSTANCE is $INSTANCE"
 
+# Open lock file as dynamic file descriptor in shell (this will be closed automatically when the shell exits).
+exec {lock}>$LOCK_FILE
+echo "Acquiring lock..."
+# Lock the file descriptor. Lock will be released when fd is closed (see man 1 flock and man 2 flock). This blocks until the lock can be acquired.
+flock $lock
+echo "Lock acquired, proceeding."
+# write our name to the lockfile so we can tell what build process is locking builds out
+echo "$INSTANCE-$APP_NAME" >&${lock}
+
+function cleanup {
+	rm run.sh
+	rm context.xml
+	rm applicationContext.xml.saml
+	rm -rf *.war
+}
+
+trap cleanup EXIT
+
 CLEANADDRESS=false
 if [[ "$INSTANCE" == "zdevl" ]] || [[ "$INSTANCE" == "zprod" ]]; then
-        if [[ "$APP_NAME" == "BannerGeneralSsb" ]] || [[ "$APP_NAME" == "BannerAdmin" ]]; then
-                CLEANADDRESS=true
-        fi
+	if [[ "$APP_NAME" == "BannerGeneralSsb" ]] || [[ "$APP_NAME" == "BannerAdmin" ]]; then
+		CLEANADDRESS=true
+	fi
 fi
+
+
 
 #Remove old war and app folder
 echo "remove old war and app folder"
@@ -30,6 +51,7 @@ rm -rf $APP_NAME.ws
 rm -rf BannerAdminBPAPI_configs
 rm -rf saml
 rm -rf saml.zip
+
 
 #Make new App Directory
 echo "Create new app directory"
@@ -46,15 +68,15 @@ if [[ "$APP_NAME" == "BannerAdmin" ]] || [[ "$APP_NAME" == "BannerAccessMgmt" ]]
 fi
 if [[ "$APP_NAME" == "BannerAdminBPAPI" ]]; then
 	ssh -i /home/rancher/.ssh/id_ed25519 root@build.banner.usu.edu "cd /u01/deploy/$INSTANCE/BannerAdminBPAPI/ && rm BannerAdminBPAPI_configs.zip && zip -r BannerAdminBPAPI_configs.zip ./*"
-        scp -i /home/rancher/.ssh/id_ed25519 root@build.banner.usu.edu:/u01/deploy/$INSTANCE/BannerAdminBPAPI/BannerAdminBPAPI_configs.zip .
+	scp -i /home/rancher/.ssh/id_ed25519 root@build.banner.usu.edu:/u01/deploy/$INSTANCE/BannerAdminBPAPI/BannerAdminBPAPI_configs.zip .
 	mkdir BannerAdminBPAPI_configs
-        cd BannerAdminBPAPI_configs
-        unzip ../BannerAdminBPAPI_configs.zip
+	cd BannerAdminBPAPI_configs
+	unzip ../BannerAdminBPAPI_configs.zip
 	cp /home/rancher/github/banner/businessprocessapi/applicationContext.xml $CURRENT_FOLDER/applicationContext.xml
 	cp /home/rancher/github/banner/businessprocessapi/run.sh $CURRENT_FOLDER/run.sh
-        sed -i -e "s|u01/deploy/$INSTANCE|usr/local/tomcat/webapps|g" config/config.xml
-        sed -i -e "s|u01/deploy/$INSTANCE|usr/local/tomcat/webapps|g" config/config.properties
-        cd ..
+	sed -i -e "s|u01/deploy/$INSTANCE|usr/local/tomcat/webapps|g" config/config.xml
+	sed -i -e "s|u01/deploy/$INSTANCE|usr/local/tomcat/webapps|g" config/config.properties
+	cd ..
 fi
 ssh -i /home/rancher/.ssh/id_ed25519 root@build.banner.usu.edu "cd /u01/saml && rm saml.zip && zip -r saml.zip ./*"
 scp -i /home/rancher/.ssh/id_ed25519 root@build.banner.usu.edu:/u01/saml/saml.zip .
@@ -154,14 +176,14 @@ echo "$APP_NAME $VERSION is ready for configuration"
 rm Dockerfile
 
 if [[ $APP_NAME == *SelfService ]] || [[ $APP_NAME == brim ]] || [[ $APP_NAME == applicationNavigator ]] || [[ $APP_NAME == DocumentManagementApi ]] || [[ $APP_NAME == eTranscriptAPI ]] || [[ $APP_NAME == StudentApi ]] || [[ $APP_NAME == IntegrationApi ]] || [[ $APP_NAME == StudentRegistrationSsb ]] || [[ $APP_NAME == BannerExtensibility ]]; then
-        #if [[ $INSTANCE == zprod ]] || [[ $INSTANCE == wprod ]]; then
+	#if [[ $INSTANCE == zprod ]] || [[ $INSTANCE == wprod ]]; then
 	#	echo "FROM usuit/banner:base-bannerselfservice-9.0.93-jdk8-corretto-cacerts" > Dockerfile
 	#else
-        	cd /home/rancher/github/banner/banner9-selfservice
-        	docker build --pull --platform linux/amd64 -t usuit/banner:base-bannerselfservice-9-jdk17-corretto .
-        	docker push usuit/banner:base-bannerselfservice-9-jdk17-corretto
-        	cd $CURRENT_FOLDER
-		echo "FROM usuit/banner:base-bannerselfservice-9-jdk17-corretto" > Dockerfile
+	cd /home/rancher/github/banner/banner9-selfservice
+	docker build --pull --platform linux/amd64 -t usuit/banner:base-bannerselfservice-9-jdk17-corretto .
+	docker push usuit/banner:base-bannerselfservice-9-jdk17-corretto
+	cd $CURRENT_FOLDER
+	echo "FROM usuit/banner:base-bannerselfservice-9-jdk17-corretto" > Dockerfile
 	#fi
 fi
 
@@ -260,13 +282,12 @@ fi
 #if [[ $APP_NAME == CommunicationManagement ]] || [[ $APP_NAME == brim ]]; then
 #	echo 'RUN rm /usr/local/tomcat/webapps/'$APP_NAME'/WEB-INF/lib/slf4j-reload4j-1.7.36.jar' >> Dockerfile
 #fi
-docker build --platform linux/amd64 -t usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE .
-docker push usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE
 
-rm run.sh
-rm context.xml
-rm applicationContext.xml.saml
-rm -rf *.war
+# Fail the script if the build or push commands fail 20251006
+docker build --platform linux/amd64 -t usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE . || exit 1
+docker push usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE || exit 2
+
+# rm commands moved to cleanup function run via trap EXIT, see near beginning of script 20251006
 
 if [[ $INSTANCE == zprod ]] || [[ $INSTANCE == zldtst ]] || [[ $INSTANCE == wprod ]]; then
 	cd /home/rancher/k8s-config/banner
@@ -277,9 +298,13 @@ fi
 	source .envrc
 	kubectl set image deployment/$APP_NAME_LOWER $APP_NAME_LOWER=usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE -n $INSTANCE
 if [[ $INSTANCE == zprod ]]; then
-	/home/rancher/k8s-config/banner/zprod_scale_$APP_NAME_LOWER.sh
+	/home/rancher/k8s-config/banner/zprod_scale_$APP_NAME_LOWER.sh || echo "WARNING: Scale up failed! App will need to be scaled back up manually! It is NOT running!" >&2
 else
-	kubectl scale deployment $APP_NAME_LOWER --replicas=1 -n $INSTANCE
+	kubectl scale deployment $APP_NAME_LOWER --replicas=1 -n $INSTANCE || echo "WARNING: Scale up failed! App will need to be scaled back up manually! It is NOT running!" >&2
 fi
 
-docker system prune -af
+#Removing prune and changing to cronjob 20251003
+#docker system prune -af
+
+# If we make it to this line, ignore any errors so we don't kill the deployment.
+exit 0
