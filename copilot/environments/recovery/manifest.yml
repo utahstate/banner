@@ -21,7 +21,7 @@ network:
 # Configure the load balancers in your environment, once created.
 http:
   public:
-    certificates: [arn:aws:acm:us-west-2:561188655518:certificate/9e23f91e-bae5-470a-b2b0-9685d61bb9da]
+    certificates: [arn:aws:acm:us-west-2:561188655518:certificate/1195dbc6-08ac-4c50-bba7-94e0dad456d6]
     # this cert is for *.banner.usu.edu (including admin-aws and ss-aws)
 #   private:
 
