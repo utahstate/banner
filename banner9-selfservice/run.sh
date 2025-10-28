@@ -106,6 +106,7 @@ if [ -z "$CONFIG_FILE" ]; then
   setPropFromEnv remove.abandoned.on.maintenance "$REMOVE_ABANDONED_ON_MAINTENANCE"
   setPropFromEnv remove.abandoned.on.borrow "$REMOVE_ABANDONED_ON_BORROW"
   setPropFromEnv remove.abandoned.timeout "$REMOVE_ABANDONED_TIMEOUT"
+  setPropFromEnv remove.ss.abandoned.timeout "$REMOVE_SS_ABANDONED_TIMEOUT"
   setPropFromEnv log.abandoned "$LOG_ABANDONED"
   setPropFromEnv bannerdb.rowPrefetch "$DEFAULT_ROW_PREFETCH"
 fi

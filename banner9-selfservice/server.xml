@@ -74,7 +74,7 @@
               accessToUnderlyingConnectionAllowed="true"
               removeAbandonedOnMaintenance="${remove.abandoned.on.maintenance}"
               removeAbandonedOnBorrow="${remove.abandoned.on.borrow}"
-              removeAbandonedTimeout="${remove.abandoned.timeout}"
+              removeAbandonedTimeout="${remove.ss.abandoned.timeout}"
               logAbandoned="${log.abandoned}"
               testOnBorrow="true"
               connectionProperties="defaultRowPrefetch=${bannerdb.rowPrefetch}"/>
