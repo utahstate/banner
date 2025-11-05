@@ -1,11 +1,11 @@
 FROM usuit/banner-base:build-jdk17-latest AS build
-# Base image for build stages that has SSH, Git, and similar utilities already installed. Runs as root.
+# Base image for build stages that has SSH, Git, and similar utilities already installed. Runs as root in the container.
 ARG version instance
 
 RUN --mount=type=ssh <<EOF bash
 		set -e
 		echo "Downloading applicationNavigator WAR for ${instance} from build.banner"
-		scp root@build.banner.usu.edu:/u01/deploy/${instance}/self-service/applicationNavigator.war .
+		scp "build.banner:/u01/deploy/${instance}/self-service/applicationNavigator.war" .
 		mkdir -p applicationNavigator
 		cd applicationNavigator
 		jar xvf ../applicationNavigator.war
