@@ -34,12 +34,13 @@ setProperty() {
     echo "${prop}=$val" >> "$PROPFILE"
   else
     val=$(echo "$val" |sed 's#/#\\/#g')
-    sed -i "s/$prop=.*/$prop=$val/" "$PROPFILE"
+    sed -i "s/$prop=.*/### Overridden at startup\n$prop=$val/" "$PROPFILE"
   fi
 }
 
 setPropsFromFile() {
   file=$1
+	echo "### Section transcluded from ${file}" >> "$PROPFILE"
   for l in $(grep '=' "$file" | grep -v '^ *#'); do
     prop=$(echo "$l" |cut -d= -f1)
     val=$(echo "$l" |cut -d= -f2)
@@ -99,12 +100,18 @@ setPropFromEnv() {
 
 # Merge in all property files (files in $PROPDIR that end in .properties)
 for propFile in ${PROPDIR}/*.properties; do
+	if [[ "${propFile}" == "${PROPDIR}/*.properties" ]]; then
+		echo "WARN: No dropin config files found, did you forget to mount the config volume?" >&2
+		break;
+	fi
 	setPropsFromFile $propFile
 done
 
+echo "### BEGIN SECTION: Imported from BANNER_ environment" >> "${PROPFILE}"
+
 # Dynamically scan the environment for BANNER_* environment variables and set their associated properties.
 # Any environment variable of the form BANNER_PATH_TO_PROP will be used to set a property of the form "path.to.prop".
-for var in $(env | awk 'match($0, /^(BANNER_[A-Z0-9_]+)=.*$/, ary) { print ary[1] }'); do
+for var in $(env | gawk 'match($0, /^(BANNER_[A-Z0-9_]+)=.*$/, ary) { print ary[1] }'); do
 	# remove banner prefix, lowercase the string, and replace underscores with dots
 	propname=${var/BANNER_/}
 	propname=${propname,,}
@@ -114,10 +121,17 @@ for var in $(env | awk 'match($0, /^(BANNER_[A-Z0-9_]+)=.*$/, ary) { print ary[1
 	setProperty "${propname}" "${!var}"
 done
 
+echo "### BEGIN SECTION: Imported from command line arguments" >> "${PROPFILE}"
+
 # Finally, set properties that are configured on the command line
 while [ $1 != '' ]; do
+	if [ $1 == '--' ]; then
+		# end of proplist, might be followed by a command.
+		shift
+		break;
+	fi
 	propName=$(echo $1 | cut -d= -f1)
-	propVal=$(echo $1 | cut -d= -f2)
+	propVal=$(echo $1 | cut -d= -f2-)
 	setProperty "${propName}" "${propVal}"
 	shift
 done
@@ -127,4 +141,15 @@ if [ -n "$JMX_PORT" ]; then
   export CATALINA_OPTS="$CATALINA_OPTS -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=$JMX_PORT -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
 fi
 
-exec catalina.sh run
+if ! [ -v "${APP_NAME+x}" ] && [ -v "${JAVA_OPTS+x}" ]; then
+	export JAVA_OPTS="-DBANNER_APP_CONFIG=/usr/local/tomcat/webapps/${APP_NAME}/WEB-INF/classes/banner_configuration.groovy"
+fi
+
+# We do this so we can easily debug after all property and environment setup has been done.
+if [ $# -eq 0 ]; then
+	# If we parsed all arguments above (no '--' in arg list), run as normal
+	exec catalina.sh run
+else
+	# Otherwise, we're running in development, the remaining arg list is a command that we should run instead of starting the server.
+	exec "$@"
+fi

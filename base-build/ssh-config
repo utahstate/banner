@@ -1,0 +1,3 @@
+Host build.banner
+	User root
+	Hostname build.banner.usu.edu	

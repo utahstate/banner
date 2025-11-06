@@ -1,4 +1,5 @@
-FROM tomcat:9-jdk17-corretto
+ARG tomcat_version=9 jdk=17
+FROM tomcat:${tomcat_version}-jdk${jdk}-corretto
 
 LABEL edu.usu.banner.versionMajor="9"
 
@@ -52,6 +53,9 @@ COPY logging.properties /usr/local/tomcat/conf/logging.properties
 RUN    ln -s /dev/stderr /usr/local/tomcat/logs/localhost.log \
     && ln -s /dev/stderr /usr/local/tomcat/logs/stacktrace.log
 
+# Copy run.sh
+COPY --chmod=755 run.sh /usr/local/tomcat/bin/run.sh
+
 # Most services run on port 8080
 EXPOSE 8080
 
@@ -61,5 +65,15 @@ EXPOSE 8080
 # symlinked and still function in containers). This replaces the environment-based configuration from the old
 # images.
 VOLUME /usr/local/tomcat/conf/catalina.properties.d
+
+# Optional SAML volume at /saml for apps that use it. Declared here for DRY reasons.
+# "${APP_NAME}/saml" is symlinked to /saml by the download-wars script for each unpacked webapp, so there's a
+# common SAML mount point across all containers.
+VOLUME /saml
+
+ONBUILD ARG version instance
+ONBUILD LABEL edu.usu.banner.version=${version} \
+		edu.usu.banner.instance=${instance}
+
 
 ENTRYPOINT ["bin/run.sh"]
