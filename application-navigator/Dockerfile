@@ -1,15 +1,7 @@
 FROM usuit/banner-base:build-jdk17-latest AS build
 # Base image for build stages that has SSH, Git, and similar utilities already installed. Runs as root in the container.
 
-RUN --mount=type=ssh <<EOF bash
-		set -e
-		echo "Downloading applicationNavigator WAR for ${instance} from build.banner"
-		cat ~/.ssh/config
-		scp "build.banner:/u01/deploy/${instance}/self-service/applicationNavigator.war" .
-		mkdir -p applicationNavigator
-		cd applicationNavigator
-		jar xvf ../applicationNavigator.war
-EOF
+RUN --mount=type=ssh download-wars "${instance}" applicationNavigator
 
 FROM usuit/banner-base:9-jdk17-tomcat9-latest AS final
 
