@@ -16,10 +16,8 @@ FROM usuit/banner-base:9-jdk17-tomcat9-latest AS final
 ENV APP_NAME="applicationNavigator"
 LABEL edu.usu.banner.appName="${APP_NAME}"
 
-ENV JAVA_OPTS="-DBANNER_APP_CONFIG=/usr/local/tomcat/webapps/applicationNavigator/WEB-INF/classes/banner_configuration.groovy"
-
-COPY --chown=tomcat:tomcat --from=build /opt/build/applicationNavigator /usr/local/tomcat/webapps/applicationNavigator
-COPY --chown=tomcat:tomcat context.xml /usr/local/tomcat/webapps/applicationNavigator/META-INF/context.xml
+COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME} /usr/local/tomcat/webapps/${APP_NAME}
+COPY --chown=tomcat:tomcat context.xml /usr/local/tomcat/webapps/${APP_NAME}/META-INF/context.xml
 
 # Apply patches
 COPY --chown=tomcat:tomcat WEB-INF/classes/* /usr/local/tomcat/webapps/${APP_NAME}/WEB-INF/classes/

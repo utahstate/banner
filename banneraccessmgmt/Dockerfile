@@ -19,7 +19,7 @@ LABEL	edu.usu.banner.appName="${APP_NAME}"
 
 ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -XXMaxMetaspaceSize=1024m -Dlog4j.configuration=config.properties -Duser.timezone=\$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false"
 
-COPY --chown=tomcat:tomcat --from=build /opt/build/BannerAccessMgmt /usr/local/tomcat/webapps/BannerAccessMgmt
-COPY --chown=tomcat:tomcat --from=build /opt/build/BannerAccessMgmt.ws /usr/local/tomcat/webapps/BannerAccessMgmt.ws
+COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME} /usr/local/tomcat/webapps/${APP_NAME}
+COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME}.ws /usr/local/tomcat/webapps/${APP_NAME}.ws
 # Load in config files
 COPY --chown=tomcat:tomcat context.xml server.xml web.xml /usr/local/tomcat/conf/

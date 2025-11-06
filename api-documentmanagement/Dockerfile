@@ -8,4 +8,4 @@ ENV APP_NAME="DocumentManagementApi"
 LABEL edu.usu.banner.appName="${APP_NAME}" edu.usu.banner.appType="API" edu.usu.banner.api="DocumentManagement"
 
 RUN mkdir -p /opt/banner/xtender
-COPY --chown=tomcat:tomcat --from=build /opt/build/DocumentManagementApi /usr/local/tomcat/webapps/DocumentManagementApi
+COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME} /usr/local/tomcat/webapps/${APP_NAME}

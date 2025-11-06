@@ -7,5 +7,5 @@ FROM usuit/banner-base:9-jdk17-tomcat10-latest AS final
 ENV APP_NAME="BannerAdminBPAPI"
 LABEL edu.usu.banner.appName="${APP_NAME}" edu.usu.banner.appType="API" edu.usu.banner.api="BusinessProcess"
 
-COPY --chown=tomcat:tomcat --from=build /opt/build/BannerAdminBPAPI
-COPY applicationContext.xml /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/
+COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME}
+COPY applicationContext.xml /usr/local/tomcat/webapps/${APP_NAME}/WEB-INF/
