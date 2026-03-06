@@ -241,6 +241,10 @@ if [[ $APP_NAME == StudentSelfService ]]; then
 fi
 echo 'USER tomcat' >>Dockerfile
 echo 'COPY --chown=tomcat:tomcat '$APP_NAME' /usr/local/tomcat/webapps/'$APP_NAME >>Dockerfile
+#if [[ $APP_NAME == IntegrationApi ]]; then
+#        echo 'COPY logback.xml.intapi /usr/local/tomcat/webapps/'$APP_NAME'/WEB-INF/classes/logback.xml' >> Dockerfile
+#	echo 'ENV JAVA_OPTS="-DBANNER_APP_CONFIG=/usr/local/tomcat/webapps/'$APP_NAME'/WEB-INF/classes/banner_configuration.groovy -DBANNER_INTEGRATION_API_CONFIG=/usr/local/tomcat/webapps/'$APP_NAME'/WEB-INF/classes/IntegrationApi_configuration.groovy"' >> Dockerfile
+#fi
 if [[ $APP_NAME == BannerAdmin ]] || [[ $APP_NAME == BannerAccessMgmt ]]; then
 	echo 'COPY --chown=tomcat:tomcat '$APP_NAME'.ws /usr/local/tomcat/webapps/'$APP_NAME'.ws' >>Dockerfile
 	echo 'COPY --chown=tomcat:tomcat applicationContext.xml.saml /usr/local/tomcat/webapps/'$APP_NAME'.ws/WEB-INF/applicationContext.xml.saml' >>Dockerfile
@@ -273,14 +277,18 @@ if [[ $APP_NAME == BannerAdminBPAPI ]]; then
 	echo 'COPY --chown=tomcat:tomcat BannerAdminBPAPI_configs/config /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/classes/config' >>Dockerfile
 	echo 'COPY --chown=tomcat:tomcat BannerAdminBPAPI_configs/config/* /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/classes/' >>Dockerfile
 	echo 'COPY --chown=tomcat:tomcat applicationContext.xml /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/' >>Dockerfile
+	echo 'COPY --chown=tomcat:tomcat appsupportlib.config.xml /usr/local/tomcat/webapps/BannerAdminBPAPI/config/appsupportlib.config.xml' >>Dockerfile
+	echo 'COPY --chown=tomcat:tomcat appsupportlib.config.xml /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/classes/appsupportlib.config.xml' >>Dockerfile
+	echo 'COPY --chown=tomcat:tomcat appsupportlib.config.xml /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/classes/config/appsupportlib.config.xml' >>Dockerfile
 fi
 #if [[ $APP_NAME == CommunicationManagement ]] || [[ $APP_NAME == brim ]]; then
 #	echo 'RUN rm /usr/local/tomcat/webapps/'$APP_NAME'/WEB-INF/lib/slf4j-reload4j-1.7.36.jar' >> Dockerfile
 #fi
 
 # Fail the script if the build or push commands fail 20251006
-docker build --platform linux/amd64 -t usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE -t usuit/banner:$APP_NAME_LOWER-$INSTANCE-latest . || exit 1
+docker build --platform linux/amd64 --no-cache -t usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE -t usuit/banner:$APP_NAME_LOWER-$INSTANCE-latest . || exit 1
 docker push usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE || exit 2
+docker push usuit/banner:$APP_NAME_LOWER-$INSTANCE-latest || exit 2
 
 # rm commands moved to cleanup function run via trap EXIT, see near beginning of script 20251006
 
