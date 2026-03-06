@@ -1,12 +1,5 @@
-# The manifest for the "recovery" environment.
-# Read the full specification for the "Environment" type at:
-#  https://aws.github.io/copilot-cli/docs/manifest/environment/
-
-# Your environment name will be used in naming your resources like VPC, cluster, etc.
 name: recovery
 type: Environment
-
-# Import your own VPC and subnets or configure how they should be created.
 network:
   vpc:
     id: vpc-22166a44
@@ -17,14 +10,8 @@ network:
       private:
         - id: subnet-003245c9fd29658a8
         - id: subnet-06966a19a24235bcb
-
-# Configure the load balancers in your environment, once created.
 http:
   public:
-    certificates: [arn:aws:acm:us-west-2:561188655518:certificate/1195dbc6-08ac-4c50-bba7-94e0dad456d6]
-    # this cert is for *.banner.usu.edu (including admin-aws and ss-aws)
-#   private:
-
-# Configure observability for your environment resources.
+    certificates: ['arn:aws:acm:us-west-2:561188655518:certificate/842c2514-377d-48ce-9e74-7bf364c95f35']
 observability:
   container_insights: true
