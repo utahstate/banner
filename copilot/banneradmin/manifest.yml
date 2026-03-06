@@ -15,6 +15,14 @@ http:
   additional_rules:
     - path: 'BannerAdmin.ws'
       alias: admin-aws.banner.usu.edu
+      healthcheck:
+        success_codes: '302'
+        path: '/BannerAdmin.ws/'
+        timeout: 10s
+        interval: 60s
+        unhealthy_threshold: 2
+        healthy_threshold: 3
+        port: 8080
 image:
   location: usuit/banner:banneradmin-javaforms-93-zprod-20260103-55
   port: 8080
