@@ -23,5 +23,5 @@ done
 
 if [ ${TMUX_AVAIL:-0} -eq 1 ]; then
 	tmux killw -t 'banner-dr-teardown:0'
-	tmux attach - t banner-dr-teardown
+	tmux attach -t banner-dr-teardown
 fi
