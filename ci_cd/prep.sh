@@ -249,6 +249,7 @@ if [[ $APP_NAME == BannerAdmin ]] || [[ $APP_NAME == BannerAccessMgmt ]]; then
 	echo 'COPY --chown=tomcat:tomcat '$APP_NAME'.ws /usr/local/tomcat/webapps/'$APP_NAME'.ws' >>Dockerfile
 	echo 'COPY --chown=tomcat:tomcat applicationContext.xml.saml /usr/local/tomcat/webapps/'$APP_NAME'.ws/WEB-INF/applicationContext.xml.saml' >>Dockerfile
 	echo 'COPY --chown=tomcat:tomcat saml/aws/aws-adminpages* /usr/local/tomcat/webapps/'$APP_NAME'.ws/WEB-INF/classes/' >>Dockerfile
+	echo 'COPY --chown=tomcat:tomcat saml/aws/aws-bam* /usr/local/tomcat/webapps/'$APP_NAME'.ws/WEB-INF/classes/' >>Dockerfile
 	echo 'COPY --chown=tomcat:tomcat saml/zpprd/zpprd-adminpages* /usr/local/tomcat/webapps/'$APP_NAME'.ws/WEB-INF/classes/' >>Dockerfile
 	echo 'COPY --chown=tomcat:tomcat saml/zdevl/zdevl-adminpages* /usr/local/tomcat/webapps/'$APP_NAME'.ws/WEB-INF/classes/' >>Dockerfile
 	echo 'COPY --chown=tomcat:tomcat saml/zprod/zprod-adminpages* /usr/local/tomcat/webapps/'$APP_NAME'.ws/WEB-INF/classes/' >>Dockerfile
