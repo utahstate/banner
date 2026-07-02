@@ -30,9 +30,40 @@ This configuration file contains the following sections:
  *                        SELF SERVICE SUPPORT                                  *
  *                                                                              *
  ***************************************************************************** **/
+
+ /** *********************************************************************************
+  Set 'ssbEnabled' to true for instances that expose Self Service Banner endpoints.
+  If this is set to false, or if this configuration item is missing, the instance
+  will only support administrative users and not self service users.
+  If this is enabled, it is important to also ensure the corresponding configuration
+  items for the SSB datasource are configured.
+  Default value is 'false'
+************************************************************************************ */
 ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
+/***********************************************************************************
+  Set 'ssbOracleUsersProxied = true' to ensure that database connections are proxied
+  when the user has an oracle account.  This allows FGAC even for SSB pages.
+  Set this to false to instead use database connections that are established
+  for SSB users who do not have Oracle database accounts.
+  This setting applies only to SSB pages.
+************************************************************************************ */
 ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
 
+/** *********************************************************************************
+  Set 'isExperienceIntegrated' to true for accessing the SSB application only in
+  Experience. Set to false to access the SSB application in standalone mode.
+  Default value is 'false'
+************************************************************************************ */
+isExperienceIntegrated = false
+
+/** *****************************************************************************
+ *                                                                              *
+ *                        OAuth2 configuration                               *
+ *                                                                              *
+ ***************************************************************************** **/
+banner.oauth2.issuerJwksURi= "https://oauth.prod.10005.elluciancloud.com/jwks"
+banner.oauth2.issuer = "https://oauth.prod.10005.elluciancloud.com"
+banner.oauth2.audiance="https://elluciancloud.com"
 /** *****************************************************************************
  *                                                                              *
  *               SUPPLEMENTAL DATA SUPPORT ENABLEMENT                           *
@@ -50,14 +81,24 @@ sdeEnabled=false
  *   as part of the single-sign on solution.                                    *
  *                                                                              *
  ***************************************************************************** **/
-grails.plugin.xframeoptions.urlPattern = '/login/auth'
-grails.plugin.xframeoptions.deny = true
+
+/*********************************************************************************
+ *     X-Frame-Options header config for Grails 7                               *
+ /********************************************************************************/
+
+ xframeOptionsProtectedPaths = ['/login/auth']
+ def enableXFrameOptions = true // or false
+ grails.plugin.springsecurity.headers = [
+ xframeOptions: enableXFrameOptions ? 'DENY' : null
+ ]
 
 /** *****************************************************************************
  *                                                                              *
  *                AUTHENTICATION PROVIDER CONFIGURATION                         *
  *                                                                              *
  ***************************************************************************** **/
+
+ boolean ssoEnabled = false
 if(System.getenv('AUTH_METHOD') == 'saml')
 {
     banner {
@@ -78,6 +119,10 @@ if(System.getenv('AUTH_METHOD') == 'cas')
 }
 
 if (banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' ) {
+    ssoEnabled = true
+}
+if (ssoEnabled)
+{
    grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
 }
 
@@ -111,7 +156,7 @@ grails {
                 }
             }
             logout {
-                   afterLogoutUrl = (System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_LOGOUT_AFTERLOGOUTURL') ?: 'http://CAS_HOST:PORT/cas/logout?url=http://BANNER9_HOST:PORT/APP_NAME/')
+                   afterLogoutUrl = '/logout/customLogout'
                    mepErrorLogoutUrl = '/logout/logoutPage'
             }
         }
@@ -233,24 +278,44 @@ applicationPageRoleJob {
     cronExpression = "0 0 0 * * ?"
 }
 
+quartz {
+
+    println "Reading Quartz Scheduler properties from external configuration!"
+
+    autoStartup = true
+    waitForJobsToCompleteOnShutdown = true
+    pluginEnabled = true
+    scheduler.skipUpdateCheck = true
+    scheduler.instanceName = 'Banner Time Entry Quartz Scheduler'
+    scheduler.instanceId = 'AUTO'
+    scheduler.idleWaitTime = 30000
+    threadPool.threadCount = 1
+
+    //Setting JDBC JobStore
+    jobStoreType = 'jdbc'
+    jdbcStore =  true
+    purgeQuartzTablesOnStartup = false
+
+    println("Setting driverDelegateClass to org.quartz.impl.jdbcjobstore.oracle.OracleDelegate")
+    jobStore.driverDelegateClass = 'org.quartz.impl.jdbcjobstore.oracle.OracleDelegate'
+    jobStore.class = 'net.hedtech.banner.payroll.quartz.BannerDataSourceJobStoreTXEss'
+
+    jobStore.tablePrefix = 'GCRQRTZ_' // Share tables. communication has own instance
+    jobStore.isClustered = true
+    jobStore.clusterCheckinInterval = 30000
+    jobStore.useProperties = false
+
+    println "Completed reading Quartz Scheduler properties from external configuration!"
+}
+
 /** *****************************************************************************
  *                                                                              *
  *                APPLICATION SERVER CONFIGURATION                              *
  *                                                                              *
  * When deployed to Tomcat, targetServer="tomcat"                               *
- * When deployed to WebLogic, targetServer="weblogic"                           *
  *                                                                              *
  ***************************************************************************** **/
 targetServer="tomcat"
-
-/** ******************************************************************************
- *                      ConfigJob (Platform 9.29)                                *
- * Used in BannerDS to wrap dbase calls in locale ( or not )                     *
- * Performance implications.  SS applications should set to true.                *
- * If loaded to GUROCFG - requires restart.                                      *
- *                                                                               *
- ****************************************************************************** **/
-enableNLS=true
 
 /** ************************************************************************************************************
  *                                       RESPONSE HEADERS                                                      *
@@ -260,6 +325,7 @@ enableNLS=true
  * Added as part of Platform Platform 9.32                                                                     *
  ************************************************************************************************************ **/
 responseHeaders = ["X-Content-Type-Options": "nosniff","X-XSS-Protection": "1; mode=block"]
+
 
 /**************************************************************************************
 * List of allowed domains configuration for Ellucian Experience                       *
@@ -275,3 +341,32 @@ allowedExperienceDomains=[
 "https://experience.elluciancloud.ie",
 "https://experience-test.elluciancloud.com.au",
 "https://experience.elluciancloud.com.au"]
+
+/** *****************************************************************************
+ *                                                                              *
+ *                 Text Manager Configuration                                   *
+ *                                                                              *
+ ***************************************************************************** **/
+/*
+Below configurations are required for an application in order to enable Text Manager Translations
+
+    *  enableTextManagerTranslations
+        To Enable Text Manager translations, set to false if its not required for an application.
+        setting it to false completely disables the translations from Text Manager in both MEP and Non-MEP environment
+
+    *  enableTextManagerTranslationsInMEP
+        To Enable Text Manager translations in MEP environment for an application.
+        set to true if the TextManager tables are MEPed and Translations are required as per institution.
+*/
+
+enableTextManagerTranslations = true
+enableTextManagerTranslationsInMEP = false
+
+/** *****************************************************************************
+ *                                                                              *
+ *                 REDIS TENANT-ID CONFIGURATION                                *
+ *                                                                              *
+ ***************************************************************************** **/
+// App teams need to specify unique tenant Id and App Id specific to Self Service App
+//tenantId = <<TENANT_ID>>
+//spring.session.redis.namespace='spring:session:'+tenantId+':EMPSS'
