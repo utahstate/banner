@@ -1,5 +1,5 @@
 /*********************************************************************************
- Copyright 2015-2021 Ellucian Company L.P. and its affiliates.
+ Copyright 2015-2024 Ellucian Company L.P. and its affiliates.
  *********************************************************************************/
 
 /******************************************************************************
@@ -30,7 +30,7 @@
  * Eliminate Access to the WEB-INF Folder
  * Page Builder Artifact File Location Configuration
  * Configuration for AIP application
- * ClamAV Antivirus Scanner Configurations
+
  * Config Job Configurations
  * Migrating the SeedData Keys Configuration to the Database
  * Action Item processing Configurations
@@ -57,16 +57,14 @@ guestAuthenticationEnabled = (System.getenv('GUEST_AUTH_ENABLED') ? Boolean.pars
 commmgrDataSourceEnabled = (System.getenv('COMMMGRDATASOURCEENABLED') ? Boolean.parseBoolean(System.getenv('COMMMGRDATASOURCEENABLED')) : false )  //Set this to true if using the bannerCommmgrDataSource
 
 
-/*******************************************************************************
- *                                                                             *
- *  This setting is needed if the application needs to work inside             *
- *  Application Navigator and the secured application pages will be accessible *
- *  as part of the single-sign on solution.                                    *
- *                                                                             *
- *******************************************************************************/
-grails.plugin.xframeoptions.urlPattern = '/login/auth'
-grails.plugin.xframeoptions.deny = true
 
+
+/***********************************************************************************
+  Set 'isExperienceIntegrated' to true for accessing the SSB application only in
+  Experience. Set to false to access the SSB application in standalone mode.
+  Default value is 'false'
+************************************************************************************/
+isExperienceIntegrated = false
 
 /*******************************************************************************
  *                                                                             *
@@ -78,6 +76,14 @@ sdeEnabled = false
 
 
 /*******************************************************************************
+                                                                               *
+                   OAuth2 configuration                                        *
+                                                                               *
+********************************************************************************/
+banner.oauth2.issuerJwksURi= "https://oauth.prod.10005.elluciancloud.com/jwks"
+banner.oauth2.issuer = "https://oauth.prod.10005.elluciancloud.com"
+banner.oauth2.audiance="https://elluciancloud.com"
+/*******************************************************************************
  *                                                                             *
  *                Authentication Provider Configuration                        *
  *                                                                             *
@@ -87,6 +93,7 @@ sdeEnabled = false
 // If using cas, the CAS Configuration will also need to be
 // configured/uncommented as well as set to active.
 //
+boolean ssoEnabled = false
 if(System.getenv('AUTH_METHOD') == 'saml')
 {
     banner {
@@ -106,8 +113,13 @@ if(System.getenv('AUTH_METHOD') == 'cas')
     }
 }
 
-if (banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' ) {
-    grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
+if (authenticationProvider == 'cas' || authenticationProvider == 'saml' ) {
+    ssoEnabled = true
+}
+banner.sso.sp.consumerservice.location = (System.getenv('BANNER9_URL') ?: 'http:/BANNER9_HOST:PORT') + (System.getenv('APP_LONG_NAME') ?: 'StudentSelfService') + '/saml/SSO/' + (System.getenv('APP_SHORT_NAME') ?: 'studentss')
+if(ssoEnabled)
+{
+   grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
 }
 
 
@@ -141,7 +153,7 @@ grails {
                 }
             }
             logout {
-                afterLogoutUrl    = (System.getenv('BANNER9_AFTERLOGOUTURL') ?:  'https://cas-server/logout?url=http://myportal/main_page.html' )
+                afterLogoutUrl    = '/logout/customLogout' 
                 mepErrorLogoutUrl = '/logout/logoutPage'
             }
         }
@@ -272,19 +284,6 @@ BANNER_AIP_EXCLUDE_LIST='aipActionItemPosting|aipAdmin|aip|aipPageBuilder|BCM|ab
 // in case of new controller which needs to be ignored, can be added here.
 
 
-
-/*******************************************************************************
- *                                                                             *
- *                  ClamAV Antivirus Scanner Configurations                    *
- *                                                                             *
- *******************************************************************************/
-   clamav.enabled = false
-
-   clamav.host = '<CLAMD_HOST_IP>' 	  /*Host IP address where the ClamAV daemon ( clamd ) is running. Default is '127.0.0.1' */
-   clamav.port = '<CLAMD_PORT>'		  /* Port on which clamd process is listening. Default is 3310*/
-   clamav.connectionTimeout = 5000 	  /* Connection timeout to connect to clamd process.Time in milliseconds. Default is 5000*/
-
-
 /* Set feature.enableConfigJob to true for configJob to run as configured and
 set feature.enableConfigJob to false for configJob to NOT run as configured */
 
@@ -398,15 +397,6 @@ if(general.aip.enabled){
         println "Quartz Scheduler properties are initialized!"
 	}
 }
-/** *******************************************************************************
- *                      enableNLS (Platform 9.29.1)                               *
- * Setting it to true will set National Language support in the Oracle database   *
- * to the user specific language, that is the error messages from Oracle database *
- * will be in the user specific language, while setting it to false would disable *
- * the Nation Language support for the error messages from Oracle database and    *
- * improves the performance of the application.                                   *
- ******************************************************************************* **/
-enableNLS = true
 
 /**************************************************************************************
 * List of allowed domains configuration for Ellucian Experience                       *
@@ -424,4 +414,43 @@ allowedExperienceDomains=[
 "https://experience-test.elluciancloud.com.au",
 "https://experience.elluciancloud.com.au"]
 
+/** *****************************************************************************
+ *                                                                              *
+ *                 Text Manager Configuration                                   *
+ *                                                                              *
+ ***************************************************************************** **/
+/*
+Below configurations are required for an application in order to enable Text Manager Translations
+
+    *  enableTextManagerTranslations
+        To Enable Text Manager translations, set to false if its not required for an application.
+        setting it to false completely disables the translations from Text Manager in both MEP and Non-MEP environment
+
+    *  enableTextManagerTranslationsInMEP
+        To Enable Text Manager translations in MEP environment for an application.
+        set to true if the TextManager tables are MEPed and Translations are required as per institution.
+*/
+
+enableTextManagerTranslations = true
+enableTextManagerTranslationsInMEP = false
+
+/***************************************************************************************
+
+ REDIS TENANT-ID CONFIGURATION
+
+ ***************************************************************************************/
+
+//App teams need to specify unique  tenant Id and App Id specific to Self Service App
+//tenantId = <<TENANT_ID>>
+//spring.session.redis.namespace='spring:session:'+tenantId+':<<APP ID>>'
+
+/*********************************************************************************
+ *     X-Frame-Options header config for Grails 7                               *
+ /********************************************************************************/
+
+ xframeOptionsProtectedPaths = ['/login/auth']
+ def enableXFrameOptions = true // or false
+ grails.plugin.springsecurity.headers = [
+ xframeOptions: enableXFrameOptions ? 'DENY' : null
+ ]
 
