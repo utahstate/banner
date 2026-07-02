@@ -176,10 +176,10 @@ if [[ $APP_NAME == *SelfService ]] || [[ $APP_NAME == brim ]] || [[ $APP_NAME ==
 	#	echo "FROM usuit/banner:base-bannerselfservice-9.0.93-jdk8-corretto-cacerts" > Dockerfile
 	#else
 	cd /home/rancher/github/banner/banner9-selfservice
-	docker build --pull --platform linux/amd64 -t usuit/banner:base-bannerselfservice-9-jdk17-corretto .
-	docker push usuit/banner:base-bannerselfservice-9-jdk17-corretto
+	docker build --pull --platform linux/amd64 -t usuit/banner:base-bannerselfservice-10-jdk21 .
+	docker push usuit/banner:base-bannerselfservice-10-jdk21
 	cd $CURRENT_FOLDER
-	echo "FROM usuit/banner:base-bannerselfservice-9-jdk17-corretto" >Dockerfile
+	echo "FROM usuit/banner:base-bannerselfservice-10-jdk21" >Dockerfile
 	#fi
 fi
 
@@ -188,10 +188,10 @@ if [[ $APP_NAME == BannerEventPublisher ]]; then
 	#	echo "FROM usuit/banner:base-bep-9.0.93-jdk8-corretto-cacerts" > Dockerfile
 	#else
 	cd /home/rancher/github/banner/base-bep
-	docker build --pull --platform linux/amd64 -t usuit/banner:base-bep-9-jdk17-corretto .
-	docker push usuit/banner:base-bep-9-jdk17-corretto
+	docker build --pull --platform linux/amd64 -t usuit/banner:base-bep-10-jdk21 .
+	docker push usuit/banner:base-bep-10-jdk21
 	cd $CURRENT_FOLDER
-	echo "FROM usuit/banner:base-bep-9-jdk17-corretto" >Dockerfile
+	echo "FROM usuit/banner:base-bep-10-jdk21" >Dockerfile
 	#fi
 fi
 
@@ -200,10 +200,10 @@ if [[ $APP_NAME == BannerGeneralSsb ]] || [[ $APP_NAME == CommunicationManagemen
 	#	echo "FROM usuit/banner:base-bcm-9.0.93-jdk8-corretto-cacerts" > Dockerfile
 	#else
 	cd /home/rancher/github/banner/base-bcm
-	docker build --pull --platform linux/amd64 -t usuit/banner:base-bcm-9-jdk17-corretto .
-	docker push usuit/banner:base-bcm-9-jdk17-corretto
+	docker build --pull --platform linux/amd64 -t usuit/banner:base-bcm-10-jdk21 .
+	docker push usuit/banner:base-bcm-10-jdk21
 	cd $CURRENT_FOLDER
-	echo "FROM usuit/banner:base-bcm-9-jdk17-corretto" >Dockerfile
+	echo "FROM usuit/banner:base-bcm-10-jdk21" >Dockerfile
 	#fi
 fi
 
@@ -212,10 +212,10 @@ if [[ $APP_NAME == BannerAdmin ]] || [[ $APP_NAME == BannerAdminBPAPI ]] || [[ $
 	#	echo "FROM usuit/banner:base-banneradmin-9.0.93-jdk8-corretto-cacerts" > Dockerfile
 	#else
 	cd /home/rancher/github/banner/banner9-admin
-	docker build --pull --platform linux/amd64 -t usuit/banner:base-banneradmin-10-jdk17 .
-	docker push usuit/banner:base-banneradmin-10-jdk17
+	docker build --pull --platform linux/amd64 -t usuit/banner:base-banneradmin-10-jdk21 .
+	docker push usuit/banner:base-banneradmin-10-jdk21
 	cd $CURRENT_FOLDER
-	echo "FROM usuit/banner:base-banneradmin-10-jdk17" >Dockerfile
+	echo "FROM usuit/banner:base-banneradmin-10-jdk21" >Dockerfile
 	#fi
 fi
 
@@ -278,9 +278,9 @@ if [[ $APP_NAME == BannerAdminBPAPI ]]; then
 	echo 'COPY --chown=tomcat:tomcat BannerAdminBPAPI_configs/config /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/classes/config' >>Dockerfile
 	echo 'COPY --chown=tomcat:tomcat BannerAdminBPAPI_configs/config/* /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/classes/' >>Dockerfile
 	echo 'COPY --chown=tomcat:tomcat applicationContext.xml /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/' >>Dockerfile
-	echo 'COPY --chown=tomcat:tomcat appsupportlib.config.xml /usr/local/tomcat/webapps/BannerAdminBPAPI/config/appsupportlib.config.xml' >>Dockerfile
-	echo 'COPY --chown=tomcat:tomcat appsupportlib.config.xml /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/classes/appsupportlib.config.xml' >>Dockerfile
-	echo 'COPY --chown=tomcat:tomcat appsupportlib.config.xml /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/classes/config/appsupportlib.config.xml' >>Dockerfile
+	#echo 'COPY --chown=tomcat:tomcat appsupportlib.config.xml /usr/local/tomcat/webapps/BannerAdminBPAPI/config/appsupportlib.config.xml' >>Dockerfile
+	#echo 'COPY --chown=tomcat:tomcat appsupportlib.config.xml /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/classes/appsupportlib.config.xml' >>Dockerfile
+	#echo 'COPY --chown=tomcat:tomcat appsupportlib.config.xml /usr/local/tomcat/webapps/BannerAdminBPAPI/WEB-INF/classes/config/appsupportlib.config.xml' >>Dockerfile
 fi
 #if [[ $APP_NAME == CommunicationManagement ]] || [[ $APP_NAME == brim ]]; then
 #	echo 'RUN rm /usr/local/tomcat/webapps/'$APP_NAME'/WEB-INF/lib/slf4j-reload4j-1.7.36.jar' >> Dockerfile

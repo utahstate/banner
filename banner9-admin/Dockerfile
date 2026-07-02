@@ -1,4 +1,4 @@
-FROM tomcat:10.1-jdk17
+FROM tomcat:10.1-jdk21
 
 ENV TIMEZONE="America/New_York"
 ENV XMS=2g XMX=4g BANNERDB_JDBC=jdbc:oracle:thin:@//oracle.example.edu:1521/prod \
@@ -36,11 +36,11 @@ COPY run.sh /usr/local/tomcat/bin
 
 RUN mkdir -p /etc/certs
 
-COPY USERTrust_RSA_Certification_Authority.cer /etc/certs/USERTrust_RSA_Certification_Authority.cer
-COPY InCommon_RSA_Server_CA_2.cer /etc/certs/InCommon_RSA_Server_CA_2.cer 
+#COPY USERTrust_RSA_Certification_Authority.cer /etc/certs/USERTrust_RSA_Certification_Authority.cer
+#COPY InCommon_RSA_Server_CA_2.cer /etc/certs/InCommon_RSA_Server_CA_2.cer 
 
-RUN keytool -import -alias usertrust -file /etc/certs/USERTrust_RSA_Certification_Authority.cer -keystore /opt/java/openjdk/lib/security/cacerts -storepass changeit -noprompt
-RUN keytool -import -alias incommon -file /etc/certs/InCommon_RSA_Server_CA_2.cer -keystore /opt/java/openjdk/lib/security/cacerts -storepass changeit -noprompt
+#RUN keytool -import -alias usertrust -file /etc/certs/USERTrust_RSA_Certification_Authority.cer -keystore /opt/java/openjdk/lib/security/cacerts -storepass changeit -noprompt
+#RUN keytool -import -alias incommon -file /etc/certs/InCommon_RSA_Server_CA_2.cer -keystore /opt/java/openjdk/lib/security/cacerts -storepass changeit -noprompt
 
 
 # Configure logging to forward tomcat logs to docker log collector
