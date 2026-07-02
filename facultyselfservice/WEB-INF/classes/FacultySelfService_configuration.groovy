@@ -50,6 +50,7 @@ ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueO
 // If using cas or saml, Either the CAS CONFIGURATION or the SAML CONFIGURATION
 // will also need configured/uncommented as well as set to active.
 //
+boolean ssoEnabled = false
 
 if(System.getenv('AUTH_METHOD') == 'saml')
 {
@@ -70,10 +71,14 @@ if(System.getenv('AUTH_METHOD') == 'cas')
     }
 }
 
-if(banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' )
-{
+if(banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' ){
+    ssoEnabled = true
+}
+
+if(ssoEnabled){
     grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
 }
+
 
 /** ***********************************************************************************
  *                                                                                    *
@@ -104,7 +109,7 @@ grails {
                   }
             }
             logout {
-                  afterLogoutUrl    = (System.getenv('BANNER9_AFTERLOGOUTURL') ?:  'https://cas-server/logout?url=http://myportal/main_page.html' )
+                  afterLogoutUrl    = '/logout/customLogout'
                   mepErrorLogoutUrl = '/logout/logoutPage'
             }
         }
@@ -235,7 +240,6 @@ applicationPageRoleJob {
  *                                                                              *
  *                Application Server Configuration                              *
  * When deployed to Tomcat, targetServer="tomcat"                               *
- * When deployed to WebLogic, targetServer="weblogic"                           *
  *                                                                              *
  ***************************************************************************** **/
 targetServer="tomcat"
@@ -248,7 +252,6 @@ targetServer="tomcat"
 * If loaded to GUROCFG - requires restart.
 *                                                                               *
 ******************************************************************************* **/
-enableNLS=true
 banner.applicationName="Faculty Self Service"
 /**************************************************************************************
 * List of allowed domains configuration for Ellucian Experience                       *
@@ -265,3 +268,40 @@ allowedExperienceDomains=[
 "https://experience.elluciancloud.ie",
 "https://experience-test.elluciancloud.com.au",
 "https://experience.elluciancloud.com.au"]
+
+/** *********************************************************************************
+  Set 'isExperienceIntegrated' to true for accessing the SSB application only in
+  Experience. Set to false to access the SSB application in standalone mode.
+  Default value is 'false'
+************************************************************************************ */
+isExperienceIntegrated = false
+
+/** *****************************************************************************
+ *                                                                              *
+ *                        OAuth2 configuration                               *
+ *                                                                              *
+ ***************************************************************************** **/
+banner.oauth2.issuerJwksURi= "https://oauth.prod.10005.elluciancloud.com/jwks"
+banner.oauth2.issuer = "https://oauth.prod.10005.elluciancloud.com"
+banner.oauth2.audiance="https://elluciancloud.com"
+
+/** *************************************************************************************
+ *                                                                                      *
+ *                        Text Manager Translations MEP CONFIGURATION                   *
+ ************************************************************************************* **/
+
+//enableTextManagerTranslations will be set to true by default. Setting to false completely disables the translations from Text Manager in both MEP and Non-MEP environments.
+//enableTextManagerTranslationsInMEP will be set to false by default. Only customers, who opt to MEP the underlying text manager-specific tables, will need to turn to flag to true and verify translations are institution-specific.
+
+enableTextManagerTranslations = true
+enableTextManagerTranslationsInMEP = false
+
+
+/***************************************************************************************
+
+ REDIS TENANT-ID CONFIGURATION
+
+ ***************************************************************************************/
+// App teams need to specify unique  tenant Id and App Id specific to Self Service App
+//tenantId = <<TENANT_ID>>
+//spring.session.redis.namespace='spring:session:'+tenantId+':FACSS'
