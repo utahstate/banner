@@ -1,5 +1,5 @@
 /** ****************************************************************************
-         Copyright 2013-2021 Ellucian Company L.P. and its affiliates.
+         Copyright 2013-2025 Ellucian Company L.P. and its affiliates.
  *******************************************************************************/
 
 /******************************************************************************
@@ -25,6 +25,21 @@ This configuration file contains the following sections:
 ssbEnabled = (System.getenv('SSBENABLED') ? Boolean.parseBoolean(System.getenv('SSBENABLED')) : true )
 ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.parseBoolean(System.getenv('SSBORACLEUSERSPROXIED')) : true )
 guestAuthenticationEnabled = true //Set to true if enabling Proxy Access.
+/** *********************************************************************************
+  Set 'isExperienceIntegrated' to true for accessing the SSB application only in
+  Experience. Set to false to access the SSB application in standalone mode.
+  Default value is 'false'
+************************************************************************************ */
+isExperienceIntegrated = false
+
+/** *****************************************************************************
+ *                                                                              *
+ *                        OAuth2 configuration                               *
+ *                                                                              *
+ ***************************************************************************** **/
+banner.oauth2.issuerJwksURi= "https://oauth.prod.10005.elluciancloud.com/jwks"
+banner.oauth2.issuer = "https://oauth.prod.10005.elluciancloud.com"
+banner.oauth2.audiance="https://elluciancloud.com"
 
 
 /** *****************************************************************************
@@ -37,6 +52,7 @@ guestAuthenticationEnabled = true //Set to true if enabling Proxy Access.
 // If using cas or saml, Either the CAS CONFIGURATION or the SAML CONFIGURATION
 // will also need configured/uncommented as well as set to active.
 //
+boolean ssoEnabled = false
 if(System.getenv('AUTH_METHOD') == 'saml')
 {
     banner {
@@ -57,7 +73,10 @@ if(System.getenv('AUTH_METHOD') == 'cas')
     }
 }
 
-if(banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' )
+if(banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' ){
+    ssoEnabled = true
+}
+if(ssoEnabled)
 {
     grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
 }
@@ -92,7 +111,7 @@ grails {
                 }
             }
             logout {
-                afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?: 'https://cas-server/logout?url=http://myportal/main_page.html')
+                afterLogoutUrl = '/logout/customLogout'
             }
         }
     }
@@ -248,26 +267,16 @@ applicationPageRoleJob {
  *                                                                              *
  *                Application Server Configuration                              *
  * When deployed to Tomcat, targetServer="tomcat"                               *
- * When deployed to WebLogic, targetServer="weblogic"                           *
  *                                                                              *
  ***************************************************************************** **/
 targetServer="tomcat"
 
-/********************************************************************************
-*                                                                               *
-*                      ConfigJob (Platform 9.29)                                *
-* Used in BannerDS to wrap dbase calls in locale ( or not )                     *
-* Performance implications.  SS applications should set to true.                *
-* If loaded to GUROCFG - requires restart.
-*                                                                               *
-******************************************************************************* **/
-enableNLS=true
 
 /**************************************************************************************
 * List of allowed domains configuration for Ellucian Experience                       *
 * Do not change this configuration unless instructed.                                 *
 * Do not move this configuration to Banner Applications Configurations (GUACONF) page.*
-************************************************************************************* **/
+***************************************************************************************/
 allowedExperienceDomains=[
 "https://experience-test.elluciancloud.com",
 "https://experience.elluciancloud.com",
@@ -277,3 +286,22 @@ allowedExperienceDomains=[
 "https://experience.elluciancloud.ie",
 "https://experience-test.elluciancloud.com.au",
 "https://experience.elluciancloud.com.au"]
+
+/** *****************************************************************************
+ *                                                                              *
+ *                 Text Manager Configuration                                   *
+ *                                                                              *
+ ***************************************************************************** **/
+/*
+Below configurations are required for an application in order to enable Text Manager Translations
+
+    *  enableTextManagerTranslations
+        To Enable Text Manager translations, set to false if its not required for an application.
+        setting it to false completely disables the translations from Text Manager in both MEP and Non-MEP environment
+
+    *  enableTextManagerTranslationsInMEP
+        To Enable Text Manager translations in MEP environment for an application.
+        set to true if the TextManager tables are MEPed and Translations are required as per institution.
+*/
+enableTextManagerTranslations = true
+enableTextManagerTranslationsInMEP = false
