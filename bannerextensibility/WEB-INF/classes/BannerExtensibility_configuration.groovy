@@ -93,8 +93,8 @@ ssbOracleUsersProxied = true
 // Set authenticationProvider to either default, cas or saml.
 // If using cas or saml, Either the CAS CONFIGURATION or the SAML CONFIGURATION
 // will also need configured/uncommented as well as set to active.
-//
 
+boolean ssoEnabled = false
 
 if(System.getenv('AUTH_METHOD') == 'saml')
 {
@@ -116,7 +116,11 @@ if(System.getenv('AUTH_METHOD') == 'cas')
 }
 
 if (banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' ) {
-   grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
+    ssoEnabled = true
+   }
+if(ssoEnabled)
+{   
+      grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
 }
 
 // ******************************************************************************
@@ -149,7 +153,7 @@ grails {
                 }
             }
             logout {
-                afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?: 'https://cas-server/logout?service=http://myportal/main_page.html')
+                afterLogoutUrl =  '/logout/customLogout'
                 // afterLogoutUrl = '/' // This can be used to navigate to the landing page when not using CAS
                 mepErrorLogoutUrl = '/logout/logoutPage'
             }
@@ -271,7 +275,6 @@ applicationPageRoleJob {
     cronExpression = "0 0 0 * * ?"
 }
 
-
 /************************************************************
                    Disabling Loacle for self service
 ************************************************************/
@@ -293,19 +296,8 @@ responseHeaders =[
 /*********************************************************************************
 *                     Application Server Configuration                          *
 * When deployed on Tomcat this configuration should be targetServer="tomcat"    *
-* When deployed on Weblogic this configuration should be targetServer="weblogic"*
 *********************************************************************************/
 targetServer="tomcat"
-
-/** *******************************************************************************
- *                              enableNLS                                         *
- * Setting it to true will set National Language support in the Oracle database   *
- * to the user specific language, that is the error messages from Oracle database *
- * will be in the user specific language, while setting it to false would disable *
- * the Nation Language support for the error messages from Oracle database and    *
- * improves the performance of the application.                                   *
- ******************************************************************************* **/
-enableNLS=true
 
 /**************************************************************************************
 * List of allowed domains configuration for Ellucian Experience                       *
@@ -322,3 +314,42 @@ allowedExperienceDomains=[
 "https://experience.elluciancloud.ie",
 "https://experience-test.elluciancloud.com.au",
 "https://experience.elluciancloud.com.au"]
+
+/** *********************************************************************************
+ *                        isExperienceIntegrated                                    *
+ * Set 'isExperienceIntegrated' to true for accessing the SSB application only in   *
+ * Experience. Set to false to access the SSB application in standalone mode.       *
+ * Default value is 'false'                                                         *
+*********************************************************************************** **/
+isExperienceIntegrated = false
+
+/** *****************************************************************************
+ *                                                                              *
+ *                        OAuth2 configuration                                  *
+ *                                                                              *
+ ***************************************************************************** **/
+banner.oauth2.issuerJwksURi= "https://oauth.prod.10005.elluciancloud.com/jwks"
+banner.oauth2.issuer = "https://oauth.prod.10005.elluciancloud.com"
+banner.oauth2.audiance="https://elluciancloud.com"
+
+/** *****************************************************************************
+ *                                                                              *
+ *                 Text Manager Configuration                                   *
+ *                                                                              *
+ ***************************************************************************** **/
+/*
+Below configurations are required for an application in order to enable Text Manager Translations
+
+    *  enableTextManagerTranslations
+        To Enable Text Manager translations, set to false if its not required for an application.
+        setting it to false completely disables the translations from Text Manager in both MEP and Non-MEP environments
+
+    *  enableTextManagerTranslationsInMEP
+        To Enable Text Manager translations in MEP environment for an application.
+        set to true if the TextManager tables are MEPed and Translations are required as per institution.
+*/
+
+enableTextManagerTranslations = true
+enableTextManagerTranslationsInMEP = false
+
+switchTojqueryLegacy = false
