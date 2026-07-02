@@ -15,8 +15,16 @@ http:
   additional_rules:
     - path: 'BannerAccessMgmt.ws'
       alias: admin-aws.banner.usu.edu
+      healthcheck:
+        success_codes: '302'
+        path: '/BannerAccessMgmt.ws/'
+        timeout: 10s
+        interval: 60s
+        unhealthy_threshold: 2
+        healthy_threshold: 3
+        port: 8080
 image:
-  location: usuit/banner:banneraccessmgmt-javaforms-93-zprod-20260103-35
+  location: usuit/banner:banneraccessmgmt-zprod-latest
   port: 8080
   credentials: arn:aws:secretsmanager:us-west-2:561188655518:secret:recovery/dockerhub-otigraoken-tJL9Ns
 cpu: 1024
