@@ -1,5 +1,5 @@
 /*********************************************************************************
- Copyright 2015-2020 Ellucian Company L.P. and its affiliates.
+ Copyright 2015-2024 Ellucian Company L.P. and its affiliates.
  *********************************************************************************/
  
  /** ****************************************************************************
@@ -29,6 +29,12 @@ This configuration file contains the following sections:
 
 footerFadeAwayTime = 0
 
+/** *********************************************************************************
+  Set 'isExperienceIntegrated' to true for accessing the SSB application only in
+  Experience. Set to false to access the SSB application in standalone mode.
+  Default value is 'false'
+************************************************************************************ */
+isExperienceIntegrated = false
 // ******************************************************************************
 //
 //                       +++ Self Service Support +++
@@ -40,8 +46,14 @@ ssbEnabled = true
 ssbOracleUsersProxied = true
 ssbPassword.reset.enabled = true //true  - allow Pidm users to reset their password.
                                  //false - throws functionality disabled error message
-enableNLS=true
-
+/** *****************************************************************************
+ *                                                                              *
+ *                        OAuth2 configuration                               *
+ *                                                                              *
+ ***************************************************************************** **/
+banner.oauth2.issuerJwksURi= "https://oauth.prod.10005.elluciancloud.com/jwks"
+banner.oauth2.issuer = "https://oauth.prod.10005.elluciancloud.com"
+banner.oauth2.audiance="https://elluciancloud.com"
 // ******************************************************************************
 //
 //                       API Configuration
@@ -66,6 +78,7 @@ commmgrDataSourceEnabled = true  //Set this to true if using the bannerCommmgrDa
  ***************************************************************************** **/
 //
 // Set authenticationProvider to either default or cas 
+boolean ssoEnabled = false
 if(System.getenv('AUTH_METHOD') == 'saml')
 {
     banner {
@@ -85,7 +98,11 @@ if(System.getenv('AUTH_METHOD') == 'cas')
     }
 }
 if (banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' ) {
-   grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
+    ssoEnabled = true
+   }
+if(ssoEnabled)
+{
+      grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
 }
 
 
@@ -119,7 +136,7 @@ grails {
                 }
             }
 		    logout {
-                afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?: 'https://cas-server/logout?url=http://myportal/main_page.html')
+                afterLogoutUrl =  '/logout/customLogout'
                 mepErrorLogoutUrl = 'https://URL:PORT/'
             }
         }
@@ -182,10 +199,14 @@ targetServer="tomcat"
 // Note: Times such as pollingInterval and idleWaitTime are in milliseconds.
 // ******************************************************************************
 
-boolean autoStartQuartz = true
 communication {
-	weblogicDeployment = targetServer=="weblogic" ? true: false
-	println("weblogicDeployment is "+ weblogicDeployment);
+    //This is the number of records returned from the result of a data field calculation.
+    //If a datafield query returns more than 50 records, only the first 50 will be returned in the response.
+    //We do not recommend updating this value to limits higher than 1000 due to potential performance degradation.
+    datafieldValueLimit = 50
+
+    //This configuration should be set to true to use the Ellucian mobile notification
+    useMobileNotification = false
 
     communicationGroupSendMonitor {
         enabled = true
@@ -223,7 +244,7 @@ communication {
         deleteSuccessfullyCompleted = false
     }
     scheduler {
-        enabled = autoStartQuartz
+        enabled = true
         idleWaitTime = 30000
         clusterCheckinInterval = 15000
     }
@@ -291,8 +312,6 @@ set feature.enableApplicationPageRoleJob to false for applicationPageRoleJob to 
 
 feature.enableApplicationPageRoleJob = true
 
-
-
 /**********************************************************************************
  *                                                                                 *
  *                   SS Config Dynamic Loading Job Properties                      *
@@ -333,7 +352,7 @@ quartz {
 
      println "Reading Quartz Scheduler properties from external configuration!"
      
-     autoStartup = autoStartQuartz
+     autoStartup = true
 	 jdbcStore =  false
 	 waitForJobsToCompleteOnShutdown=true
 	 purgeQuartzTablesOnStartup=false
@@ -347,14 +366,8 @@ quartz {
            scheduler.idleWaitTime =communication.scheduler.idleWaitTime
        }
 
-       boolean isWebLogic = targetServer.equalsIgnoreCase("weblogic") ? true: false
-       if (isWebLogic) {
-           println( "Setting driverDelegateClass to org.quartz.impl.jdbcjobstore.WebLogicDelegate" )
-           jobStore.driverDelegateClass = 'org.quartz.impl.jdbcjobstore.WebLogicDelegate'
-       } else {
-           println( "Setting driverDelegateClass to org.quartz.impl.jdbcjobstore.oracle.OracleDelegate" )
-           jobStore.driverDelegateClass = 'org.quartz.impl.jdbcjobstore.oracle.OracleDelegate'
-       }
+        println( "Setting driverDelegateClass to org.quartz.impl.jdbcjobstore.oracle.OracleDelegate" )
+        jobStore.driverDelegateClass = 'org.quartz.impl.jdbcjobstore.oracle.OracleDelegate'
        jobStore.class = 'net.hedtech.banner.general.scheduler.quartz.BannerDataSourceJobStoreCMT'
 
        jobStore.tablePrefix = 'GCRQRTZ_' // Share tables. communication has own instance
@@ -381,3 +394,23 @@ allowedExperienceDomains=[
 "https://experience.elluciancloud.ie",
 "https://experience-test.elluciancloud.com.au",
 "https://experience.elluciancloud.com.au"]
+
+/** *****************************************************************************
+ *                                                                              *
+ *                 Text Manager Configuration                                   *
+ *                                                                              *
+ ***************************************************************************** **/
+/*
+Below configurations are required for an application in order to enable Text Manager Translations
+
+    *  enableTextManagerTranslations
+        To Enable Text Manager translations, set to false if its not required for an application.
+        setting it to false completely disables the translations from Text Manager in both MEP and Non-MEP environment
+
+    *  enableTextManagerTranslationsInMEP
+        To Enable Text Manager translations in MEP environment for an application.
+        set to true if the TextManager tables are MEPed and Translations are required as per institution.
+*/
+
+enableTextManagerTranslations = true
+enableTextManagerTranslationsInMEP = false
