@@ -1,5 +1,5 @@
 /*********************************************************************************
-Copyright 2014-2021 Ellucian Company L.P. and its affiliates.
+Copyright 2014-2024 Ellucian Company L.P. and its affiliates.
 **********************************************************************************/
  
  /*******************************************************************************
@@ -66,6 +66,21 @@ myLinksEnabled = true
 // configured separately to allow FGAC on the application specific SSB pages.
 ssbOracleUsersProxied = false
 
+/** *********************************************************************************
+  Set 'isExperienceIntegrated' to true for accessing the SSB application only in
+  Experience. Set to false to access the SSB application in standalone mode.
+  Default value is 'false'
+************************************************************************************ */
+isExperienceIntegrated = false
+
+/** *****************************************************************************
+ *                                                                              *
+ *                        OAuth2 configuration                               *
+ *                                                                              *
+ ***************************************************************************** **/
+banner.oauth2.issuerJwksURi= "https://oauth.prod.10005.elluciancloud.com/jwks"
+banner.oauth2.issuer = "https://oauth.prod.10005.elluciancloud.com"
+banner.oauth2.audiance="https://elluciancloud.com"
 
 /********************************************************************************
  *                                                                              *
@@ -73,6 +88,8 @@ ssbOracleUsersProxied = false
  *                                                                              *
  ********************************************************************************/
 //
+boolean ssoEnabled = false
+
 if(System.getenv('AUTH_METHOD') == 'saml')
 {
     banner {
@@ -91,7 +108,10 @@ if(System.getenv('AUTH_METHOD') == 'cas')
         }
     }
 }
-if(banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' )
+if(banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' ){
+    ssoEnabled = true
+    }
+ if(ssoEnabled)
     {
     grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
     }
@@ -105,7 +125,7 @@ if(banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvid
  // the afterLogoutUrl property to:
  //  'https://CAS_HOST:PORT/cas/logout?url=http://APPLICATION_NAVIGATOR_HOST:PORT/'
  // For other authentication providers use the setting noted below.
-grails.plugin.springsecurity.logout.afterLogoutUrl = (System.getenv('CAS_URL') ?: 'http://CAS_HOST:PORT/cas') + '/logout'
+grails.plugin.springsecurity.logout.afterLogoutUrl = '/logout/customLogout'
 
 
 
@@ -245,10 +265,18 @@ grails.plugin.springsecurity.logout.mepErrorLogoutUrl = '/logout/customLogout'
  ********************************************************************************/
 // Setting the X-Frame-Options will not expose Application Navigator login page  
 // to the clickjacking vulnerability when loaded in an iframe.
-grails.plugin.xframeoptions.deny = true
-grails.plugin.xframeoptions.urlPattern = '/login/auth'
+//grails.plugin.xframeoptions.deny = true
+//grails.plugin.xframeoptions.urlPattern = '/login/auth'
 
+/*********************************************************************************
+ *     X-Frame-Options header config for Grails 7                               *
+ /********************************************************************************/
 
+ xframeOptionsProtectedPaths = ['/login/auth']
+ def enableXFrameOptions = true // or false
+ grails.plugin.springsecurity.headers = [
+ xframeOptions: enableXFrameOptions ? 'DENY' : null
+ ]
 /********************************************************************************
  *                                                                              *
  *              Spring Security Port Forwarding Configuration                   *
@@ -260,6 +288,7 @@ grails.plugin.xframeoptions.urlPattern = '/login/auth'
 
 // grails.plugin.springsecurity.portMapper.httpPort = <PORT_NUMBER>
 // grails.plugin.springsecurity.portMapper.httpsPort = <SSL_PORT_NUMBER>
+
 
 /* Set feature.enableConfigJob to true for configJob to run as configured and
 set feature.enableConfigJob to false for configJob to NOT run as configured */
@@ -328,9 +357,9 @@ enableNLS = false
 /*********************************************************************************
 *                     Application Server Configuration                    *
 * When deployed on Tomcat this configuration should be targetServer="tomcat"     *
-* When deployed on Weblogic this configuration should be targetServer="weblogic" *
 **********************************************************************************/
 targetServer="tomcat"
+
 /**************************************************************************************
 * List of allowed domains configuration for Ellucian Experience                       *
 * Do not change this configuration unless instructed.                                 *
@@ -346,3 +375,32 @@ allowedExperienceDomains=[
 "https://experience.elluciancloud.ie",
 "https://experience-test.elluciancloud.com.au",
 "https://experience.elluciancloud.com.au"]
+
+/** *****************************************************************************
+ *                                                                              *
+ *                 Text Manager Configuration                                   *
+ *                                                                              *
+ ***************************************************************************** **/
+/*
+Below configurations are required for an application in order to enable Text Manager Translations
+
+    *  enableTextManagerTranslations
+        To Enable Text Manager translations, set to false if its not required for an application.
+        setting it to false completely disables the translations from Text Manager in both MEP and Non-MEP environment
+
+    *  enableTextManagerTranslationsInMEP
+        To Enable Text Manager translations in MEP environment for an application.
+        set to true if the TextManager tables are MEPed and Translations are required as per institution.
+*/
+
+enableTextManagerTranslations = true
+enableTextManagerTranslationsInMEP = false
+defaultWebSessionTimeout = 15000
+
+/** *************************************************************************************
+ *                                                                                      *
+ *                        REDIS TENANT-ID CONFIGURATION                                           *
+ ************************************************************************************* **/
+//App teams need to pass the tenantId and AppId specific to them
+tenantId = '<<client_tenant>>'
+spring.session.redis.namespace='spring:session:'+tenantId+':AppNav'
