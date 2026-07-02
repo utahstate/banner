@@ -1,5 +1,5 @@
 /** *****************************************************************************
- Copyright 2011-2021 Ellucian Company L.P. and its affiliates.
+ Copyright 2011-2024 Ellucian Company L.P. and its affiliates.
  ****************************************************************************** */
 
 
@@ -27,7 +27,40 @@ grails.mail.host = 'mail.usu.edu'
  *                         Self Service Support                                 *
  *                                                                              *
  ***************************************************************************** **/
+
+ /** *********************************************************************************
+  Set 'isExperienceIntegrated' to true for accessing the SSB application only in
+  Experience. Set to false to access the SSB application in standalone mode.
+  Default value is 'false'
+************************************************************************************ */
+isExperienceIntegrated = false
+
+/** *********************************************************************************
+  Set 'ssbEnabled' to true for instances that expose Self Service Banner endpoints.
+  If this is set to false, or if this configuration item is missing, the instance
+  will only support administrative users and not self service users.
+  If this is enabled, it is important to also ensure the corresponding configuration
+  items for the SSB datasource are configured.
+  Default value is 'false'
+************************************************************************************ */
 ssbEnabled = (System.getenv('SSBENABLED') ?Boolean.parseBoolean(System.getenv('SSBENABLED')) : true)
+
+/** *****************************************************************************
+ *                                                                              *
+ *                        OAuth2 configuration                               *
+ *                                                                              *
+ ***************************************************************************** **/
+banner.oauth2.issuerJwksURi= "https://oauth.prod.10005.elluciancloud.com/jwks"
+banner.oauth2.issuer = "https://oauth.prod.10005.elluciancloud.com"
+banner.oauth2.audiance="https://elluciancloud.com"
+
+/***********************************************************************************
+  Set 'ssbOracleUsersProxied = true' to ensure that database connections are proxied
+  when the user has an oracle account.  This allows FGAC even for SSB pages.
+  Set this to false to instead use database connections that are established
+  for SSB users who do not have Oracle database accounts.
+  This setting applies only to SSB pages.
+************************************************************************************ */
 ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.valueOf(System.getenv('SSBORACLEUSERSPROXIED')) : true)
 
 /** *****************************************************************************
@@ -48,6 +81,7 @@ sdeEnabled=(System.getenv('SDEENABLED') ? Boolean.parseBoolean(System.getenv('SD
 // If using cas or saml, Either the CAS CONFIGURATION or the SAML CONFIGURATION
 // will also need configured/uncommented as well as set to active.
 //
+boolean ssoEnabled = false
 if(System.getenv('AUTH_METHOD') == 'saml')
 {
     banner {
@@ -68,7 +102,10 @@ if(System.getenv('AUTH_METHOD') == 'cas')
     }
 }
 
-if(banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' )
+if(banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' ) {
+    ssoEnabled = true
+}
+if(ssoEnabled)
 {
     grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
 }
@@ -103,7 +140,7 @@ grails {
                 }
             }
             logout {
-                afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?:  'https://cas-server/logout?url=http://myportal/main_page.html' )
+                afterLogoutUrl = '/logout/customLogout'
             }
         }
     }
@@ -190,11 +227,14 @@ grails.plugin.xframeoptions.deny = true
  *                                                                              *
  *                      ConfigJob (Platform 9.23)                               *
  *     Support for configurations to reside in the database.                    *
- *                                                                              *
+ *     Platform 9.33.2.1 removes support for delay                              *
+ *     Platform 9.34 changes interval to 24 hours.                              *
+ *     Platform 9.39 major changes to cron format.                              *
  ***************************************************************************** **/
-configJob.delay = 60000
-configJob.interval = 120000
-configJob.actualCount = -1
+//configJob {
+//    interval = 86400000 // 24 hours
+//    actualCount = -1
+//    }
 /* Set feature.enableConfigJob to true for configJob to run as configured and
 set feature.enableConfigJob to false for configJob to NOT run as configured */
 
@@ -225,6 +265,7 @@ feature.enableApplicationPageRoleJob = true
 /*ConfigJob - the job scheduled to update the configuration properties from DB
 ApplicationPageRoleJob - the job scheduled to update the interceptedUrlMap from DB. */
 
+
 configJob {
     // Recommended default is every 1 hour starting at 00am, of every day - "0 0 */1 * * ?"
     // Cron expression lesser than 30 mins will fall back to 30 mins.
@@ -235,6 +276,7 @@ applicationPageRoleJob {
     // Cron expression lesser than 30 mins will fall back to 30 mins.
     cronExpression = "0 0 0 * * ?"
 }
+
 
 /************************************************************
  Extensibility extensions & i18n file location
@@ -262,16 +304,6 @@ applicationPageRoleJob {
 ********************************************************************************/
 targetServer="tomcat"
 
-/********************************************************************************
-*                                                                               *
-*                      ConfigJob (Platform 9.29)                                *
-* Used in BannerDS to wrap dbase calls in locale ( or not )                     *
-* Performance implications.  SS applications should set to true.                *
-* If loaded to GUROCFG - requires restart.
-*                                                                               *
-******************************************************************************* **/
-enableNLS=true
-
 /** *************************************************************************************************************
  * Response Headers                                                                                				*
  * 																   												*
@@ -297,3 +329,21 @@ allowedExperienceDomains=[
 "https://experience.elluciancloud.ie",
 "https://experience-test.elluciancloud.com.au",
 "https://experience.elluciancloud.com.au"]
+
+/** *****************************************************************************
+                                                                         *
+            Text Manager Configuration                                   *
+                                                                         *
+***************************************************************************** */
+/*
+Below configurations are required for an application in order to enable Text Manager Translations
+    * enableTextManagerTranslations
+        To Enable Text Manager translations, set to false if its not required for an application.
+        setting it to false completely disables the translations from Text Manager in both MEP and Non-MEP environment
+
+    * enableTextManagerTranslationsInMEP
+        To Enable Text Manager translations in MEP environment for an application.
+        set to true if the TextManager tables are MEPed and Translations are required as per institution.
+*/
+enableTextManagerTranslations = true
+enableTextManagerTranslationsInMEP = false
