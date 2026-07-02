@@ -286,6 +286,10 @@ fi
 #	echo 'RUN rm /usr/local/tomcat/webapps/'$APP_NAME'/WEB-INF/lib/slf4j-reload4j-1.7.36.jar' >> Dockerfile
 #fi
 
+if [[ $APP_NAME == StudentRegistrationSsb ]]; then
+       echo 'RUN rm /usr/local/tomcat/webapps/'$APP_NAME'/WEB-INF/lib/slf4j-reload4j-2.0.17.jar' >> Dockerfile
+fi
+
 # Fail the script if the build or push commands fail 20251006
 docker build --platform linux/amd64 --no-cache -t usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE -t usuit/banner:$APP_NAME_LOWER-$INSTANCE-latest . || exit 1
 docker push usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE || exit 2
