@@ -43,20 +43,44 @@ ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.parseB
  *   as part of the single-sign on solution.                                    *
  *                                                                              *
  ***************************************************************************** **/
-grails.plugin.xframeoptions.urlPattern = '/login/auth'
-grails.plugin.xframeoptions.deny = true
+//grails.plugin.xframeoptions.urlPattern = '/login/auth'
+//grails.plugin.xframeoptions.deny = true
+/*********************************************************************************
+ *     X-Frame-Options header config for Grails 7                               *
+ /********************************************************************************/
+ xframeOptionsProtectedPaths = ['/login/auth']
+ def enableXFrameOptions = true // or false
+ grails.plugin.springsecurity.headers = [
+ xframeOptions: enableXFrameOptions ? 'DENY' : null
+ ]
 
+/** *********************************************************************************
+  Set 'isExperienceIntegrated' to true for accessing the SSB application only in
+  Experience. Set to false to access the SSB application in standalone mode.
+  Default value is 'false'
+************************************************************************************ */
+isExperienceIntegrated = false
 
 /** *****************************************************************************
  *                                                                              *
- *                BANNER AUTHENTICATION PROVIDER CONFIGURATION                	*
+ *                        OAuth2 configuration                               *
  *                                                                              *
  ***************************************************************************** **/
+
+banner.oauth2.issuerJwksURi= "https://oauth.prod.10005.elluciancloud.com/jwks"
+banner.oauth2.issuer = "https://oauth.prod.10005.elluciancloud.com"
+banner.oauth2.audiance="https://elluciancloud.com"
+
+// ******************************************************************************
+//
+//                       +++ CAS / SAML CONFIGURATION +++
+//
+// ******************************************************************************
 //
 // Set authenticationProvider to either default, cas or saml
 // If you are using cas then the CAS CONFIGURATION also need to be configured/uncommented as well as set to active.
 // If you are using saml then the SAML CONFIGURATION also need to be configured/uncommented as well as set to active.
-//
+boolean ssoEnabled = false
 if(System.getenv('AUTH_METHOD') == 'saml')
 {
     banner {
@@ -78,6 +102,9 @@ if(System.getenv('AUTH_METHOD') == 'cas')
 }
 
 if (banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' ) {
+    ssoEnabled = true
+}
+if(ssoEnabled){
    grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
 }
 
@@ -112,7 +139,7 @@ grails {
                 }
             }
             logout {
-                afterLogoutUrl = (System.getenv('BANNER9_AFTERLOGOUTURL') ?:  'https://cas-server/logout?url=http://myportal/main_page.html' )
+                afterLogoutUrl = '/logout/customLogout'
             }
         }
     }
@@ -215,24 +242,18 @@ applicationPageRoleJob {
     cronExpression = "0 0 0 * * ?"
 }
 
-/*********************************************************************************
+/********************************************************************************
+*                                                                               *
+*                           Target Server                                       *
+********************************************************************************/
+/** *****************************************************************************
+ *                                                                              *
 *                     Application Server Configuration                          *
 * When deployed on Tomcat this configuration should be targetServer="tomcat"    *
-* When deployed on Weblogic this configuration should be targetServer="weblogic"*
+ *                                                                              *
 ****************************************************************************** **/
 targetServer="tomcat"
 
-
-
-/** *******************************************************************************
- *                      enableNLS (Platform 9.29.1)                               *
- * Setting it to true will set National Language support in the Oracle database   *
- * to the user specific language, that is the error messages from Oracle database *
- * will be in the user specific language, while setting it to false would disable *
- * the Nation Language support for the error messages from Oracle database and    *
- * improves the performance of the application.                                   *
- ******************************************************************************* **/
-enableNLS = true
 
 /**************************************************************************************
 * List of allowed domains configuration for Ellucian Experience                       *
@@ -249,3 +270,32 @@ allowedExperienceDomains=[
 "https://experience.elluciancloud.ie",
 "https://experience-test.elluciancloud.com.au",
 "https://experience.elluciancloud.com.au"]
+
+
+/** *****************************************************************************
+ *                                                                              *
+ *                 Text Manager Configuration                                   *
+ *                                                                              *
+ ***************************************************************************** **/
+/*
+Below configurations are required for an application in order to enable Text Manager Translations
+
+    *  enableTextManagerTranslations
+        To Enable Text Manager translations, set to false if its not required for an application.
+        setting it to false completely disables the translations from Text Manager in both MEP and Non-MEP environment
+
+    *  enableTextManagerTranslationsInMEP
+        To Enable Text Manager translations in MEP environment for an application.
+        set to true if the TextManager tables are MEPed and Translations are required as per institution.
+*/
+
+enableTextManagerTranslations = true
+enableTextManagerTranslationsInMEP = false
+
+/** *************************************************************************************
+ *                                                                                      *
+ *                        REDIS TENANT-ID CONFIGURATION                                 *
+ ************************************************************************************* **/
+//App teams need to pass the tenantId and AppId specific to them
+tenantId = '<<client_tenant>>'
+spring.session.redis.namespace='spring:session:'+tenantId+':FinanceSS'
