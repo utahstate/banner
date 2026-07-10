@@ -162,7 +162,7 @@ if [[ "$APP_NAME" == "BannerAdmin" ]]; then
 fi
 
 if [[ $APP_NAME == applicationNavigator ]] || [[ $APP_NAME == bannerAdmin ]]; then
-	cp "${REPO_ROOT}/applicationNavigator/context.xml" $CURRENT_FOLDER/context.xml
+	cp "${REPO_ROOT}/applicationnavigator/context.xml" $CURRENT_FOLDER/context.xml
 fi
 
 if [[ "$APP_NAME" == "BannerAdmin" ]] && $CLEANADDRESS; then
