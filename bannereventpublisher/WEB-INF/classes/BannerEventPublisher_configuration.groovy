@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright 2017-2022 Ellucian Company L.P. and its affiliates.
+Copyright 2017-2024 Ellucian Company L.P. and its affiliates.
 *******************************************************************************/
 
 /** ****************************************************************************
@@ -95,6 +95,22 @@ footerFadeAwayTime=2000
 
 ssbEnabled = (System.getenv('SSBENABLED') ? Boolean.parseBoolean(System.getenv('SSBENABLED')) : true )
 ssbOracleUsersProxied = (System.getenv('SSBORACLEUSERSPROXIED') ? Boolean.parseBoolean(System.getenv('SSBORACLEUSERSPROXIED')) : true )
+
+/** *********************************************************************************
+  Set 'isExperienceIntegrated' to true for accessing the SSB application only in
+  Experience. Set to false to access the SSB application in standalone mode.
+  Default value is 'false'
+************************************************************************************ */
+isExperienceIntegrated = false
+
+/** *****************************************************************************
+ *                                                                              *
+ *                        OAuth2 configuration                               *
+ *                                                                              *
+ ***************************************************************************** **/
+banner.oauth2.issuerJwksURi= "https://oauth.prod.10005.elluciancloud.com/jwks"
+banner.oauth2.issuer = "https://oauth.prod.10005.elluciancloud.com"
+banner.oauth2.audiance="https://elluciancloud.com"
 
 /********************************************************************************
  *                                                                              *
@@ -192,6 +208,8 @@ grails.plugin.springsecurity.saml.metadata.sp.defaults = [
     requireLogoutResponseSigned: false
 ]*/
 
+guestAuthenticationEnabled = true
+
 /** *****************************************************************************
  *                                                                              *
  *   This setting is needed if the application needs to work inside.            *
@@ -255,7 +273,6 @@ applicationPageRoleJob {
 /********************************************************************************
 *                     Application Server Configuration                          *
 * When deployed on Tomcat this configuration should be targetServer=“tomcat”    *
-* When deployed on Weblogic this configuration should be targetServer=“weblogic”*
 *********************************************************************************/
 targetServer="tomcat"
 
@@ -274,4 +291,26 @@ allowedExperienceDomains=[
 "https://experience.elluciancloud.ie",
 "https://experience-test.elluciancloud.com.au",
 "https://experience.elluciancloud.com.au"]
+
+/** *****************************************************************************
+ *                                                                              *
+ *                 Text Manager Configuration                                   *
+ *                                                                              *
+ ***************************************************************************** **/
+/*
+Below configurations are required for an application in order to enable Text Manager Translations
+
+    *  enableTextManagerTranslations
+        To Enable Text Manager translations, set to false if its not required for an application.
+        setting it to false completely disables the translations from Text Manager in both MEP and Non-MEP environment
+
+     *  enableTextManagerTranslationsInMEP
+            To Enable Text Manager translations in MEP environment for an application.
+            set to true if the TextManager tables are MEPed and Translations are required as per institution.
+
+*/
+
+enableTextManagerTranslations = false
+enableTextManagerTranslationsInMEP = false
+
 

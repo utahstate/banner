@@ -20,7 +20,7 @@ done
 # Update manifest files
 for aws_appname in "${!apps[@]}"; do
 	image="usuit/banner:${apps[${aws_appname}],,}-zprod-latest"
-	yq -Y ".image.location |= \"$image\"" -i "copilot/${aws_appname}/manifest.yml"
+#	yq -Y ".image.location |= \"$image\"" -i "copilot/${aws_appname}/manifest.yml"
 	yq -Y ".variables.BANNERDB_JDBC |= \"jdbc:oracle:thin:@//$ZPROD_IP:1521/zprod\"" -i "copilot/${aws_appname}/manifest.yml"
 done
 
