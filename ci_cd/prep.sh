@@ -183,7 +183,7 @@ unzip ../saml.zip
 cd ..
 cp ${REPO_ROOT}/$APP_NAME_LOWER/WEB-INF/classes/* $APP_NAME/WEB-INF/classes/
 
-if [[ $APP_NAME == applicationNavigator ]]; then
+if [[ $APP_NAME == BannerAdmin ]]; then
 	cp ${REPO_ROOT}/applicationnavigator/WEB-INF/classes/* applicationNavigator/WEB-INF/classes/
 fi
 
