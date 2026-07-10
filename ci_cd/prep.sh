@@ -3,7 +3,7 @@
 APP_NAME=$1
 VERSION=$2
 INSTANCE=$3
-DATE="$(date +%Y%m%d-%S)"
+DATE="$(date +%Y%m%d-%H%M%S)"
 ZIP_PASSWORD=transcript
 WARFILE="$(pwd)/$APP_NAME.war"
 CURRENT_FOLDER="$(pwd)"
