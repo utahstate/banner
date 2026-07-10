@@ -169,6 +169,8 @@ if [ -z "$CONFIG_FILE" ]; then
 	setPropFromEnv saml.idp.max.auth.age "$MAX_AUTH_AGE"
 fi
 
+[ -f "./webapps/applicationNavigator/WEB-INF/lib/slf4j-reload4j-2.0.17.jar" ] && rm "./webapps/applicationNavigator/WEB-INF/lib/slf4j-reload4j-2.0.17.jar"
+
 if [ -n "$JMX_PORT" ]; then
 	export CATALINA_OPTS="$CATALINA_OPTS -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=$JMX_PORT -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
 fi
