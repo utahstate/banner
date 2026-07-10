@@ -293,6 +293,7 @@ if [[ $APP_NAME == applicationNavigator ]] || [[ $APP_NAME == BannerAdmin ]]; th
 	echo 'COPY --chown=tomcat:tomcat context.xml /usr/local/tomcat/webapps/applicationNavigator/META-INF/context.xml' >>Dockerfile
 fi
 echo 'COPY --chown=tomcat:tomcat saml /usr/local/tomcat/webapps/'$APP_NAME'/saml' >>Dockerfile
+[[ "$APP_NAME" == "BannerAdmin" ]] && echo 'COPY --chown=tomcat:tomcat saml /usr/local/tomcat/webapps/applicationNavigator/saml' >>Dockerfile
 if [[ "$APP_NAME" == "FacultySelfService" ]]; then
 	cp "${REPO_ROOT}/$APP_NAME_LOWER/gradeEntry.json" $CURRENT_FOLDER/gradeEntry.json
 	echo 'COPY --chown=tomcat:tomcat gradeEntry.json /usr/local/tomcat/webapps/'$APP_NAME'/gradeEntry.json' >>Dockerfile
