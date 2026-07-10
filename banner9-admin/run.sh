@@ -114,6 +114,7 @@ if [ -f "$CONFIG_FILE" ]; then
 fi
 
 setPropFromEnvPointingToFile banproxy.password "$BANPROXY_PASSWORD"
+[ -z "BANSSUSER_PASSWORD" ] || setPropFromEnvPointingToFile banssuser.password "$BANSSUSER_PASSWORD"
 
 # If BANPROXY_PASSWORD is not set then use secrets to maintain backwards
 # compatibility
