@@ -91,8 +91,8 @@ scp -i /home/rancher/.ssh/id_ed25519 root@build.banner.usu.edu:/u01/saml/saml.zi
 if $CLEANADDRESS && [[ "$APP_NAME" == "BannerGeneralSsb" ]]; then
 	#Uncomment these lines after 20241212
 	#cd "${REPO_ROOT}/base-bcm"
-	#docker build --pull --platform linux/amd64 -t usuit/banner:base-bcm-9-jdk17-corretto-cacerts .
-	#docker push usuit/banner:base-bcm-9-jdk17-corretto-cacerts
+	#podman build --pull --platform linux/amd64 -t usuit/banner:base-bcm-9-jdk17-corretto-cacerts .
+	#podman push usuit/banner:base-bcm-9-jdk17-corretto-cacerts
 	#cd $CURRENT_FOLDER
 	echo "Downloading clean address plugin for general self service"
 	curl -o clnbannerssb_$VERSION.zip https://files.runneredq.com/integrations/RunnerEDQ-Banner9SSB/clnbannerssb_$VERSION.zip
@@ -162,7 +162,7 @@ if [[ "$APP_NAME" == "BannerAdmin" ]]; then
 fi
 
 if [[ $APP_NAME == applicationNavigator ]] || [[ $APP_NAME == bannerAdmin ]]; then
-	cp "${REPO_ROOT}/applicationNavigator/context.xml" $CURRENT_FOLDER/context.xml
+	cp "${REPO_ROOT}/applicationnavigator/context.xml" $CURRENT_FOLDER/context.xml
 fi
 
 if [[ "$APP_NAME" == "BannerAdmin" ]] && $CLEANADDRESS; then
@@ -192,8 +192,8 @@ if [[ $APP_NAME == *SelfService ]] || [[ $APP_NAME == brim ]] || [[ $APP_NAME ==
 	#	echo "FROM usuit/banner:base-bannerselfservice-9.0.93-jdk8-corretto-cacerts" > Dockerfile
 	#else
 	cd "${REPO_ROOT}/banner9-selfservice"
-	docker build --pull --platform linux/amd64 -t usuit/banner:base-bannerselfservice-10-jdk21 .
-	docker push usuit/banner:base-bannerselfservice-10-jdk21
+	podman build --pull --platform linux/amd64 -t usuit/banner:base-bannerselfservice-10-jdk21 .
+	podman push usuit/banner:base-bannerselfservice-10-jdk21
 	cd $CURRENT_FOLDER
 	echo "FROM usuit/banner:base-bannerselfservice-10-jdk21" >Dockerfile
 	#fi
@@ -204,8 +204,8 @@ if [[ $APP_NAME == BannerEventPublisher ]]; then
 	#	echo "FROM usuit/banner:base-bep-9.0.93-jdk8-corretto-cacerts" > Dockerfile
 	#else
 	cd "${REPO_ROOT}/base-bep"
-	docker build --pull --platform linux/amd64 -t usuit/banner:base-bep-10-jdk21 .
-	docker push usuit/banner:base-bep-10-jdk21
+	podman build --pull --platform linux/amd64 -t usuit/banner:base-bep-10-jdk21 .
+	podman push usuit/banner:base-bep-10-jdk21
 	cd $CURRENT_FOLDER
 	echo "FROM usuit/banner:base-bep-10-jdk21" >Dockerfile
 	#fi
@@ -216,8 +216,8 @@ if [[ $APP_NAME == BannerGeneralSsb ]] || [[ $APP_NAME == CommunicationManagemen
 	#	echo "FROM usuit/banner:base-bcm-9.0.93-jdk8-corretto-cacerts" > Dockerfile
 	#else
 	cd "${REPO_ROOT}/base-bcm"
-	docker build --pull --platform linux/amd64 -t usuit/banner:base-bcm-10-jdk21 .
-	docker push usuit/banner:base-bcm-10-jdk21
+	podman build --pull --platform linux/amd64 -t usuit/banner:base-bcm-10-jdk21 .
+	podman push usuit/banner:base-bcm-10-jdk21
 	cd $CURRENT_FOLDER
 	echo "FROM usuit/banner:base-bcm-10-jdk21" >Dockerfile
 	#fi
@@ -228,8 +228,8 @@ if [[ $APP_NAME == BannerAdmin ]] || [[ $APP_NAME == BannerAdminBPAPI ]] || [[ $
 	#	echo "FROM usuit/banner:base-banneradmin-9.0.93-jdk8-corretto-cacerts" > Dockerfile
 	#else
 	cd "${REPO_ROOT}/banner9-admin"
-	docker build --pull --platform linux/amd64 -t usuit/banner:base-banneradmin-10-jdk21 .
-	docker push usuit/banner:base-banneradmin-10-jdk21
+	podman build --pull --platform linux/amd64 -t usuit/banner:base-banneradmin-10-jdk21 .
+	podman push usuit/banner:base-banneradmin-10-jdk21
 	cd $CURRENT_FOLDER
 	echo "FROM usuit/banner:base-banneradmin-10-jdk21" >Dockerfile
 	#fi
@@ -283,8 +283,8 @@ fi
 if [[ $APP_NAME == applicationNavigator ]] || [[ $APP_NAME == BannerAdmin ]]; then
 	#Uncomment these lines after 20241212
 	#cd "${REPO_ROOT}/banner9-selfservice"
-	#docker build --pull --platform linux/amd64 -t usuit/banner:base-bannerselfservice-9-jdk17-corretto .
-	#docker push usuit/banner:base-bannerselfservice-9-jdk17-corretto
+	#podman build --pull --platform linux/amd64 -t usuit/banner:base-bannerselfservice-9-jdk17-corretto .
+	#podman push usuit/banner:base-bannerselfservice-9-jdk17-corretto
 	#cd $CURRENT_FOLDER
 	echo 'COPY --chown=tomcat:tomcat context.xml /usr/local/tomcat/webapps/applicationNavigator/META-INF/context.xml' >>Dockerfile
 fi
@@ -311,9 +311,9 @@ if [[ $APP_NAME == StudentRegistrationSsb ]]; then
 fi
 
 # Fail the script if the build or push commands fail 20251006
-docker build --platform linux/amd64 --no-cache -t usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE -t usuit/banner:$APP_NAME_LOWER-$INSTANCE-latest . || exit 1
-docker push usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE || exit 2
-docker push usuit/banner:$APP_NAME_LOWER-$INSTANCE-latest || exit 2
+podman build --platform linux/amd64 --no-cache -t usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE -t usuit/banner:$APP_NAME_LOWER-$INSTANCE-latest . || exit 1
+podman push usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE || exit 2
+podman push usuit/banner:$APP_NAME_LOWER-$INSTANCE-latest || exit 2
 
 # rm commands moved to cleanup function run via trap EXIT, see near beginning of script 20251006
 
@@ -324,15 +324,15 @@ if [[ $INSTANCE == zdevl ]] || [[ $INSTANCE == zpprd ]] || [[ $INSTANCE == wpprd
 	cd /home/rancher/k8s-config/bannerdev
 fi
 source .envrc
-kubectl set image deployment/$APP_NAME_LOWER $APP_NAME_LOWER=usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE -n $INSTANCE
+#kubectl set image deployment/$APP_NAME_LOWER $APP_NAME_LOWER=usuit/banner:$APP_NAME_LOWER-$VERSION-$INSTANCE-$DATE -n $INSTANCE
 if [[ $INSTANCE == zprod ]]; then
 	/home/rancher/k8s-config/banner/zprod_scale_$APP_NAME_LOWER.sh || echo "WARNING: Scale up failed! App will need to be scaled back up manually! It is NOT running!" >&2
-else
-	kubectl scale deployment $APP_NAME_LOWER --replicas=1 -n $INSTANCE || echo "WARNING: Scale up failed! App will need to be scaled back up manually! It is NOT running!" >&2
+	#else
+	#kubectl scale deployment $APP_NAME_LOWER --replicas=1 -n $INSTANCE || echo "WARNING: Scale up failed! App will need to be scaled back up manually! It is NOT running!" >&2
 fi
 
 #Removing prune and changing to cronjob 20251003
-#docker system prune -af
+#podman system prune -af
 
 # If we make it to this line, ignore any errors so we don't kill the deployment.
 exit 0
