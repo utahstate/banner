@@ -3,12 +3,13 @@
 APP_NAME=$1
 VERSION=$2
 INSTANCE=$3
-DATE=$(date +%Y%m%d-%S)
+DATE="$(date +%Y%m%d-%S)"
 ZIP_PASSWORD=transcript
-WARFILE=$(pwd)/$APP_NAME.war
-CURRENT_FOLDER=$(pwd)
-APP_NAME_LOWER=$(echo "$APP_NAME" | tr '[:upper:]' '[:lower:]')
-LOCK_FILE=$(pwd)/prep.lck
+WARFILE="$(pwd)/$APP_NAME.war"
+CURRENT_FOLDER="$(pwd)"
+APP_NAME_LOWER="${APP_NAME,,}"
+LOCK_FILE="$(pwd)/prep.lck"
+REPO_ROOT="$(dirname ${CURRENT_FOLDER})"
 
 echo "Script arguments are: $1 $2 $3"
 echo "Prep.sh APP_NAME is $APP_NAME"
@@ -50,18 +51,27 @@ rm -rf BannerAdminBPAPI_configs
 rm -rf saml
 rm -rf saml.zip
 
+[[ "$APP_NAME" == "BannerAdmin" ]] && rm -rf applicationNavigator{,.war}
+
 #Make new App Directory
 echo "Create new app directory"
 mkdir $APP_NAME
 if [[ "$APP_NAME" == "BannerAdmin" ]] || [[ "$APP_NAME" == "BannerAccessMgmt" ]]; then
 	mkdir $APP_NAME.ws
 fi
+if [[ "$APP_NAME" == "BannerAdmin" ]]; then
+	mkdir applicationNavigator
+fi
 mkdir saml
 
 echo "Downloading war from build.banner"
-scp -i /home/rancher/.ssh/id_ed25519 root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/$APP_NAME.war .
+scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/$APP_NAME.war .
 if [[ "$APP_NAME" == "BannerAdmin" ]] || [[ "$APP_NAME" == "BannerAccessMgmt" ]]; then
-	scp -i /home/rancher/.ssh/id_ed25519 root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/$APP_NAME.ws.war .
+	scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/$APP_NAME.ws.war .
+fi
+if [[ "$APP_NAME" == "BannerAdmin" ]]; then
+	# Copy appNav into banner admin
+	scp root@build.banner.usu.edu:/u01/deploy/$INSTANCE/self-service/applicationNavigator.war .
 fi
 if [[ "$APP_NAME" == "BannerAdminBPAPI" ]]; then
 	ssh -i /home/rancher/.ssh/id_ed25519 root@build.banner.usu.edu "cd /u01/deploy/$INSTANCE/BannerAdminBPAPI/ && rm BannerAdminBPAPI_configs.zip && zip -r BannerAdminBPAPI_configs.zip ./*"
@@ -69,8 +79,8 @@ if [[ "$APP_NAME" == "BannerAdminBPAPI" ]]; then
 	mkdir BannerAdminBPAPI_configs
 	cd BannerAdminBPAPI_configs
 	unzip ../BannerAdminBPAPI_configs.zip
-	cp /home/rancher/github/banner/businessprocessapi/applicationContext.xml $CURRENT_FOLDER/applicationContext.xml
-	cp /home/rancher/github/banner/businessprocessapi/run.sh $CURRENT_FOLDER/run.sh
+	cp "${REPO_ROOT}/businessprocessapi/applicationContext.xml" $CURRENT_FOLDER/applicationContext.xml
+	cp "${REPO_ROOT}/businessprocessapi/run.sh" $CURRENT_FOLDER/run.sh
 	sed -i -e "s|u01/deploy/$INSTANCE|usr/local/tomcat/webapps|g" config/config.xml
 	sed -i -e "s|u01/deploy/$INSTANCE|usr/local/tomcat/webapps|g" config/config.properties
 	cd ..
@@ -80,7 +90,7 @@ scp -i /home/rancher/.ssh/id_ed25519 root@build.banner.usu.edu:/u01/saml/saml.zi
 
 if $CLEANADDRESS && [[ "$APP_NAME" == "BannerGeneralSsb" ]]; then
 	#Uncomment these lines after 20241212
-	#cd /home/rancher/github/banner/base-bcm
+	#cd "${REPO_ROOT}/base-bcm"
 	#docker build --pull --platform linux/amd64 -t usuit/banner:base-bcm-9-jdk17-corretto-cacerts .
 	#docker push usuit/banner:base-bcm-9-jdk17-corretto-cacerts
 	#cd $CURRENT_FOLDER
@@ -141,12 +151,18 @@ if [[ "$APP_NAME" == "BannerAdmin" ]] || [[ "$APP_NAME" == "BannerAccessMgmt" ]]
 	cd ..
 	echo "Running sameSiteCookies and applicationContext.xml.saml..."
 	sed -i -e "s|\<\!-- Insert Environment.*|<CookieProcessor sameSiteCookies=\"none\" />|g" $APP_NAME.ws/META-INF/context.xml
-	cp /home/rancher/github/banner/$APP_NAME_LOWER/applicationContext.xml.saml $CURRENT_FOLDER/applicationContext.xml.saml
-	cp /home/rancher/github/banner/$APP_NAME_LOWER/run.sh $CURRENT_FOLDER/run.sh
+	cp "${REPO_ROOT}/$APP_NAME_LOWER/applicationContext.xml.saml" $CURRENT_FOLDER/applicationContext.xml.saml
+	cp "${REPO_ROOT}/$APP_NAME_LOWER/run.sh" $CURRENT_FOLDER/run.sh
 fi
 
-if [[ $APP_NAME == applicationNavigator ]]; then
-	cp /home/rancher/github/banner/$APP_NAME_LOWER/context.xml $CURRENT_FOLDER/context.xml
+if [[ "$APP_NAME" == "BannerAdmin" ]]; then
+	cd $CURRENT_FOLDER/applicationNavigator
+	jar xvf ../applicationNavigator.war
+	cd ..
+fi
+
+if [[ $APP_NAME == applicationNavigator ]] || [[ $APP_NAME == bannerAdmin ]]; then
+	cp "${REPO_ROOT}/applicationNavigator/context.xml" $CURRENT_FOLDER/context.xml
 fi
 
 if [[ "$APP_NAME" == "BannerAdmin" ]] && $CLEANADDRESS; then
@@ -165,7 +181,7 @@ fi
 cd saml
 unzip ../saml.zip
 cd ..
-cp /home/rancher/github/banner/$APP_NAME_LOWER/WEB-INF/classes/* $APP_NAME/WEB-INF/classes/
+cp "${REPO_ROOT}/$APP_NAME_LOWER/WEB-INF/classes/"* $APP_NAME/WEB-INF/classes/
 
 echo "$APP_NAME $VERSION is ready for configuration"
 
@@ -175,7 +191,7 @@ if [[ $APP_NAME == *SelfService ]] || [[ $APP_NAME == brim ]] || [[ $APP_NAME ==
 	#if [[ $INSTANCE == zprod ]] || [[ $INSTANCE == wprod ]]; then
 	#	echo "FROM usuit/banner:base-bannerselfservice-9.0.93-jdk8-corretto-cacerts" > Dockerfile
 	#else
-	cd /home/rancher/github/banner/banner9-selfservice
+	cd "${REPO_ROOT}/banner9-selfservice"
 	docker build --pull --platform linux/amd64 -t usuit/banner:base-bannerselfservice-10-jdk21 .
 	docker push usuit/banner:base-bannerselfservice-10-jdk21
 	cd $CURRENT_FOLDER
@@ -187,7 +203,7 @@ if [[ $APP_NAME == BannerEventPublisher ]]; then
 	#if [[ $INSTANCE == zprod ]] || [[ $INSTANCE == wprod ]]; then
 	#	echo "FROM usuit/banner:base-bep-9.0.93-jdk8-corretto-cacerts" > Dockerfile
 	#else
-	cd /home/rancher/github/banner/base-bep
+	cd "${REPO_ROOT}/base-bep"
 	docker build --pull --platform linux/amd64 -t usuit/banner:base-bep-10-jdk21 .
 	docker push usuit/banner:base-bep-10-jdk21
 	cd $CURRENT_FOLDER
@@ -199,7 +215,7 @@ if [[ $APP_NAME == BannerGeneralSsb ]] || [[ $APP_NAME == CommunicationManagemen
 	#if [[ $INSTANCE == zprod ]] || [[ $INSTANCE == wprod ]]; then
 	#	echo "FROM usuit/banner:base-bcm-9.0.93-jdk8-corretto-cacerts" > Dockerfile
 	#else
-	cd /home/rancher/github/banner/base-bcm
+	cd "${REPO_ROOT}/base-bcm"
 	docker build --pull --platform linux/amd64 -t usuit/banner:base-bcm-10-jdk21 .
 	docker push usuit/banner:base-bcm-10-jdk21
 	cd $CURRENT_FOLDER
@@ -211,7 +227,7 @@ if [[ $APP_NAME == BannerAdmin ]] || [[ $APP_NAME == BannerAdminBPAPI ]] || [[ $
 	#if [[ $INSTANCE == zprod ]] || [[ $INSTANCE == wprod ]]; then
 	#	echo "FROM usuit/banner:base-banneradmin-9.0.93-jdk8-corretto-cacerts" > Dockerfile
 	#else
-	cd /home/rancher/github/banner/banner9-admin
+	cd "${REPO_ROOT}/banner9-admin"
 	docker build --pull --platform linux/amd64 -t usuit/banner:base-banneradmin-10-jdk21 .
 	docker push usuit/banner:base-banneradmin-10-jdk21
 	cd $CURRENT_FOLDER
@@ -256,13 +272,16 @@ if [[ $APP_NAME == BannerAdmin ]] || [[ $APP_NAME == BannerAccessMgmt ]]; then
 	echo 'COPY --chown=tomcat:tomcat saml/wpprd/wpprd-adminpages* /usr/local/tomcat/webapps/'$APP_NAME'.ws/WEB-INF/classes/' >>Dockerfile
 	echo 'COPY --chown=tomcat:tomcat saml/wprod/wprod-adminpages* /usr/local/tomcat/webapps/'$APP_NAME'.ws/WEB-INF/classes/' >>Dockerfile
 fi
+if [[ $APP_NAME == BannerAdmin ]]; then
+	echo 'COPY --chown=tomcat:tomcat applicationNavigator /usr/local/tomcat/webapps/applicationNavigator' >>Dockerfile
+fi
 if [[ $APP_NAME == brim ]]; then
-	cp /home/rancher/github/banner/$APP_NAME_LOWER/javax.jms_1.1.1.jar $CURRENT_FOLDER/javax.jms_1.1.1.jar
+	cp "${REPO_ROOT}/$APP_NAME_LOWER/javax.jms_1.1.1.jar" $CURRENT_FOLDER/javax.jms_1.1.1.jar
 	echo 'COPY --chown=tomcat:tomcat javax.jms_1.1.1.jar /usr/local/tomcat/lib/javax.jms_1.1.1.jar' >>Dockerfile
 fi
-if [[ $APP_NAME == applicationNavigator ]]; then
+if [[ $APP_NAME == applicationNavigator ]] || [[ $APP_NAME == BannerAdmin ]]; then
 	#Uncomment these lines after 20241212
-	#cd /home/rancher/github/banner/banner9-selfservice
+	#cd "${REPO_ROOT}/banner9-selfservice"
 	#docker build --pull --platform linux/amd64 -t usuit/banner:base-bannerselfservice-9-jdk17-corretto .
 	#docker push usuit/banner:base-bannerselfservice-9-jdk17-corretto
 	#cd $CURRENT_FOLDER
@@ -270,7 +289,7 @@ if [[ $APP_NAME == applicationNavigator ]]; then
 fi
 echo 'COPY --chown=tomcat:tomcat saml /usr/local/tomcat/webapps/'$APP_NAME'/saml' >>Dockerfile
 if [[ "$APP_NAME" == "FacultySelfService" ]]; then
-	cp /home/rancher/github/banner/$APP_NAME_LOWER/gradeEntry.json $CURRENT_FOLDER/gradeEntry.json
+	cp "${REPO_ROOT}/$APP_NAME_LOWER/gradeEntry.json" $CURRENT_FOLDER/gradeEntry.json
 	echo 'COPY --chown=tomcat:tomcat gradeEntry.json /usr/local/tomcat/webapps/'$APP_NAME'/gradeEntry.json' >>Dockerfile
 fi
 if [[ $APP_NAME == BannerAdminBPAPI ]]; then
@@ -287,7 +306,7 @@ fi
 #fi
 
 if [[ $APP_NAME == StudentRegistrationSsb ]]; then
-       echo 'RUN rm /usr/local/tomcat/webapps/'$APP_NAME'/WEB-INF/lib/slf4j-reload4j-2.0.17.jar' >> Dockerfile
+	echo 'RUN rm /usr/local/tomcat/webapps/'$APP_NAME'/WEB-INF/lib/slf4j-reload4j-2.0.17.jar' >>Dockerfile
 fi
 
 # Fail the script if the build or push commands fail 20251006
