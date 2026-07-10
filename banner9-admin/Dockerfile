@@ -18,7 +18,7 @@ RUN apt-get update -y \
     #&& apt-get install shadow-utils -y \
     && groupadd -r tomcat && useradd -r -g tomcat tomcat
 
-ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -XX:MaxMetaspaceSize=1024m -Dlog4j.configuration=config.properties -Duser.timezone=\$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false"
+ENV CATALINA_OPTS="-server -Xms\$XMS -Xmx\$XMX -XX:MaxMetaspaceSize=1152m -Dlog4j.configuration=config.properties -Duser.timezone=\$TIMEZONE -Doracle.jdbc.autoCommitSpecCompliant=false"
 
 #switched to using local ojdbc8.jar and xdb8.jar. Unable to find a good download. 
 #ADD ojdbc8.jar /usr/local/tomcat/lib/ojdbc8.jar

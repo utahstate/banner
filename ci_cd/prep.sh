@@ -240,6 +240,7 @@ echo "LABEL version=$VERSION" >>Dockerfile
 echo "USER root" >>Dockerfile
 echo "ENV TIMEZONE=America/Denver" >>Dockerfile
 echo 'ENV JAVA_OPTS="-DBANNER_APP_CONFIG=/usr/local/tomcat/webapps/'$APP_NAME'/WEB-INF/classes/banner_configuration.groovy"' >>Dockerfile
+[[ $APP_NAME == BannerAdmin ]] && echo 'ENV XMX=6g' >>Dockerfile
 echo 'RUN cp -f /usr/share/zoneinfo/America/Denver /etc/localtime' >>Dockerfile
 echo 'RUN echo America/Denver> /etc/timezone' >>Dockerfile
 echo 'RUN mkdir /u01' >>Dockerfile
