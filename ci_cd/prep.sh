@@ -161,7 +161,7 @@ if [[ "$APP_NAME" == "BannerAdmin" ]]; then
 	cd ..
 fi
 
-if [[ $APP_NAME == applicationNavigator ]] || [[ $APP_NAME == bannerAdmin ]]; then
+if [[ $APP_NAME == applicationNavigator ]] || [[ $APP_NAME == BannerAdmin ]]; then
 	cp "${REPO_ROOT}/applicationnavigator/context.xml" $CURRENT_FOLDER/context.xml
 fi
 
