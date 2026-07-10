@@ -183,6 +183,10 @@ unzip ../saml.zip
 cd ..
 cp "${REPO_ROOT}/$APP_NAME_LOWER/WEB-INF/classes/"* $APP_NAME/WEB-INF/classes/
 
+if [[ $APP_NAME == applicationNavigator ]]; then
+	cp "${REPO_ROOT}/applicationnavigator/WEB-INF/classes/"* applicationNavigator/WEB-INF/classes/
+fi
+
 echo "$APP_NAME $VERSION is ready for configuration"
 
 rm Dockerfile
