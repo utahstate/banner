@@ -3,14 +3,12 @@
 #
 # Download WAR files from build.banner and unpack them in the build dir.
 #   dir      -- The build dir to use. If unset, defaults to the value of $BUILD_DIR, or the current directory if $BUILD_DIR is unset.
-#   instance -- The Banner instance to download files for. All files will be fetched from /u01/deploy/<instance>/self-service/
+#   instance -- The instance we are using.
 #   file     -- The WAR file to download and unpack, WITHOUT the file extension (.war is implied and will be appended).
 #
 # WAR files will be downloaded and extracted into directories sharing names with the files, minus the extension. The WARs will then be deleted.
 # If standard output is not a tty, prints paths to the directories that are extracted one per line.
 set -e
-
-declare -a positionals
 
 exec {stdout}>&1 1>&2
 
@@ -29,8 +27,11 @@ while [ $# -gt 0 ]; do
 		BUILD_DIR="${1/--build-dir=/}"
 		;;
 	*)
-		positionals[$idx]="$1"
-		let idx=idx+1
+		if [[ ${instance+x} == x ]]; then
+			break
+		else
+			instance="$1"
+		fi
 		;;
 	esac
 	shift
@@ -40,25 +41,21 @@ done
 BUILD_DIR="${BUILD_DIR:-$PWD}"
 cd "${BUILD_DIR}"
 
-if [ "${#positionals[@]}" -lt 1 ]; then
-	echo "Usage: $0 [--build-dir <dir>] <instance> [<file> ...]"
+if [[ ${instance+x} == '' ]]; then
+	echo "Error: no instance given, cannot operate"
 	exit 1
 fi
 
-instance="${positionals[0]}"
-# Get filenames
-files=("${positionals[@]:1}")
-
-if [ ${#files[@]} -gt 1 ]; then
+if [ $# -gt 1 ]; then
 	echo "Downloading WARs for ${instance^^} from build.banner"
-elif [ ${#files[@]} -eq 0 ]; then
+elif [ $# -eq 0 ]; then
 	echo "No WARs given for download, ignoring..."
 fi
 
 # Download and extract each file
-for file in "${files[@]}"; do
+for file in "$@"; do
 	echo "Downloading ${file}.war for ${instance^^} from build.banner"
-	scp "build.banner.usu.edu:/u01/deploy/${instance}/self-service/${file}.war" .
+	scp "build.banner.usu.edu:/u01/deploy/${instance,,}/self-service/${file}.war" .
 	mkdir -p "${file}"
 	cd "${file}"
 	jar xvf "../${file}.war"

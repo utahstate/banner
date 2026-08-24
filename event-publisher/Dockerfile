@@ -1,8 +1,13 @@
-FROM usuit/banner-base:build-jdk17-latest AS build
+ARG VERSION INSTANCE
+FROM usuit/banner-base:build-jdk21-latest AS build
+ARG VERSION INSTANCE
 
-RUN --mount=type=ssh download-wars "${instance}" BannerEventPublisher
+RUN --mount=type=ssh download-wars "${INSTANCE}" BannerEventPublisher
 
-FROM usuit/banner-base:9-jdk17-tomcat10 AS final
+FROM usuit/banner-base:9-jdk21-tomcat10 AS final
+ARG VERSION INSTANCE
+LABEL edu.usu.banner.version=${VERSION} edu.usu.banner.instance=${INSTANCE}
+ENV INSTANCE=${INSTANCE}
 
 ENV APP_NAME="BannerEventPublisher" APP_TYPE="event-publisher"
 LABEL edu.usu.banner.appName="${APP_NAME}" edu.usu.banner.appType="${APP_TYPE}"

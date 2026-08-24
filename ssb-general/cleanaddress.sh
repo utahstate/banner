@@ -1,8 +1,8 @@
 #!/bin/bash
 # Cleanaddress modification script. Should be installed to and run from build stage.
 # Expects the following environment:
-# - instance -- Banner instance
-# - version  -- App version
+# - INSTANCE -- Banner instance
+# - VERSION  -- App version
 # - PASSWORD -- Password for the downloaded archive
 # These should be provided when run in the Docker build stage during a full build.
 
@@ -10,10 +10,10 @@ set -e
 
 exec >&2
 
-if [[ "${instance,,}" == "zdevl" ]] || [[ "${instance,,}" == "zprod" ]]; then
-	echo "Building for ${instance^^}. Installing clean address plugin."
+if [[ "${INSTANCE,,}" == "zdevl" ]] || [[ "${INSTANCE,,}" == "zprod" ]]; then
+	echo "Building for ${INSTANCE^^}. Installing clean address plugin."
 else
-	echo "Building for ${instance^^}. Clean address not needed, nothing to do."
+	echo "Building for ${INSTANCE^^}. Clean address not needed, nothing to do."
 	exit
 fi
 
@@ -27,7 +27,7 @@ append_version() {
 	# rename a file from path/to/example.ext to path/to/example-${version}.ext. Write the remap to the manifest open in $manifest_fd.
 	echo "# CLEAN_Address STARTS HERE" >&${manifest_fd}
 	for file in "$@"; do
-		file_remap="${file%.*}-${version}.${file##*.}"
+		file_remap="${file%.*}-${VERSION}.${file##*.}"
 		cp -v "${file}" "${file_remap}" || copy_err "${file}"
 		echo "${file}=${file_remap}" >&${manifest_fd}
 	done
@@ -35,8 +35,8 @@ append_version() {
 }
 
 startdir="${PWD}"
-cleanaddressdir="${PWD}/clnbannerssb_${version}"
-curl -o "${cleanaddressdir}.zip" "https://files.runneredq.com/integrations/RunnerEDQ-Banner9SSB/clnbannerssb_${version}.zip"
+cleanaddressdir="${PWD}/clnbannerssb_${VERSION}"
+curl -o "${cleanaddressdir}.zip" "https://files.runneredq.com/integrations/RunnerEDQ-Banner9SSB/clnbannerssb_${VERSION}.zip"
 unzip -P "${PASSWORD}" "${cleanaddressdir}.zip" -d "${cleanaddressdir}"
 
 cd "${cleanaddressdir}/clnaddr_banner_ssb/assets"

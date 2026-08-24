@@ -1,8 +1,10 @@
-FROM usuit/banner-base:build-jdk17-latest AS build
+FROM usuit/banner-base:build-jdk21-latest AS build
+ARG VERSION INSTANCE
 
-RUN --mount=type=ssh download-wars "${instance}" EmployeeSelfService
+RUN --mount=type=ssh download-wars "${INSTANCE}" EmployeeSelfService
 
-FROM usuit/banner-base:9-jdk17-tomcat10 AS build
+FROM usuit/banner-base:9-jdk21-tomcat10 AS build
+ARG VERSION INSTANCE
 
 ENV APP_NAME="EmployeeSelfService" APP_TYPE="self-service"
 LABEL edu.usu.banner.appName="${APP_NAME}" edu.usu.banner.appType="${APP_TYPE}" edu.usu.banner.self-service="employee"

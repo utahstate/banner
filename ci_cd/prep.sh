@@ -191,4 +191,19 @@ echo "Build context located at ../${ctx_dir}"
 
 cd "../${ctx_dir}"
 
-cleanaddress_password="${zip_password}" docker build --pull --platform linux/amd64 -t "usu/banner9-${ctx_dir}:${instance,,}-${version}-${date}" --build-arg "version=${version}" --build-arg "instance=${instance^^}" --secret id=cleanaddress_password --ssh
+stage=build
+echo "Beginning build..."
+
+image_tag="docker.io/usuit/banner9-${ctx_dir}:${version}-${instance,,}"
+
+cleanaddress_password="${zip_password}" docker build --pull --platform linux/amd64 -t "${image_tag}" -t "${image_tag}-${date}" --build-arg "version=${version}" --build-arg "instance=${instance^^}" --secret id=cleanaddress_password --ssh
+
+stage=push
+echo "Build complete, uploading..."
+
+docker push "${image_tag}" "${image_tag}-${date}"
+
+echo "Push complete, updating deployments..."
+
+stage=deploy
+kubectl set image "deployment/${ctx_dir,,}" "${ctx_dir,,}=${image_tag}" -n "$instance"
