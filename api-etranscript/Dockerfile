@@ -2,10 +2,10 @@ FROM usuit/banner-base:build-jdk17-latest AS build
 
 RUN --mount=type=ssh download-wars "${instance}" eTranscriptAPI
 
-FROM usuit/banner-base:9-jdk17-tomcat9-latest AS build
+FROM usuit/banner-base:9-jdk17-tomcat10 AS build
 
-ENV APP_NAME="eTranscriptAPI"
-LABEL edu.usu.banner.appName="${APP_NAME}" edu.usu.banner.appType="API" edu.usu.banner.api="etranscript"
+ENV APP_NAME="eTranscriptAPI" APP_TYPE="api"
+LABEL edu.usu.banner.appName="${APP_NAME}" edu.usu.banner.appType="${APP_TYPE}" edu.usu.banner.api="etranscript"
 
 COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME} /usr/local/tomcat/webapps/${APP_NAME}
 

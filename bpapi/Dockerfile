@@ -2,10 +2,24 @@ FROM usuit/banner-base:build-jdk17-latest AS build
 
 RUN --mount=type=ssh download-wars "${instance}" BannerAdminBPAPI
 
-FROM usuit/banner-base:9-jdk17-tomcat10-latest AS final
+RUN --mount=type=ssh <<EOS bash
+		set -e
+		scp "build.banner:/u01/deploy/${instance}/BannerAdminBPAPI/BannerAdminBPAPI_configs.zip" .
+		mkdir configs
+		cd configs
+		unzip ../BannerAdminBPAPI_configs.zip
+		sed -i -e "s|u01/deploy/${instance}|usr/local/tomcat/webapps|g" config/config.xml
+		sed -i -e "s|u01/deploy/${instance}|usr/local/tomcat/webapps|g" config/config.properties
+EOS
 
-ENV APP_NAME="BannerAdminBPAPI"
-LABEL edu.usu.banner.appName="${APP_NAME}" edu.usu.banner.appType="API" edu.usu.banner.api="BusinessProcess"
+FROM usuit/banner-base:9-jdk17-tomcat10 AS final
 
-COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME}
+ENV APP_NAME="BannerAdminBPAPI" APP_TYPE="admin-api"
+LABEL edu.usu.banner.appName="${APP_NAME}" edu.usu.banner.appType="${APP_TYPE}" edu.usu.banner.api="BusinessProcess"
+
+COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME} /usr/local/tomcat/webapps/${APP_NAME}
+COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME}_configs /usr/local/tomcat/webapps/${APP_NAME}
+COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME}_configs/config /usr/local/tomcat/webapps/${APP_NAME}/WEB-INF/classes/config
+COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME}_configs/config/* /usr/local/tomcat/webapps/${APP_NAME}/WEB-INF/classes/
+
 COPY applicationContext.xml /usr/local/tomcat/webapps/${APP_NAME}/WEB-INF/

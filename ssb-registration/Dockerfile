@@ -3,10 +3,10 @@ FROM usuit/banner-base:build-jdk17-latest AS build
 # Download WARs
 RUN --mount=type=ssh download-wars "${instance}" StudentRegistrationSsb
 
-FROM usuit/banner-base:9-jdk17-tomcat9-latest AS final
+FROM usuit/banner-base:9-jdk17-tomcat10 AS final
 
-ENV APP_NAME="StudentRegistrationSsb"
-LABEL edu.usu.banner.appName="${APP_NAME}" edu.usu.banner.appType="SSB" edu.usu.banner.ssb="registration"
+ENV APP_NAME="StudentRegistrationSsb" APP_TYPE="self-service"
+LABEL edu.usu.banner.appName="${APP_NAME}" edu.usu.banner.appType="${APP_TYPE}" edu.usu.banner.self-service="registration"
 
 RUN mkdir -p /opt/banner/extensions/ss_ext/extensions/ /opt/banner/extensions/ss_ext/i18n/
 

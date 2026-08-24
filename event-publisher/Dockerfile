@@ -2,10 +2,10 @@ FROM usuit/banner-base:build-jdk17-latest AS build
 
 RUN --mount=type=ssh download-wars "${instance}" BannerEventPublisher
 
-FROM usuit/banner-base:9-jdk17-tomcat9-latest AS final
+FROM usuit/banner-base:9-jdk17-tomcat10 AS final
 
-ENV APP_NAME="BannerEventPublisher"
-LABEL edu.usu.banner.appName="${APP_NAME}"
+ENV APP_NAME="BannerEventPublisher" APP_TYPE="event-publisher"
+LABEL edu.usu.banner.appName="${APP_NAME}" edu.usu.banner.appType="${APP_TYPE}"
 
 COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME} /usr/local/tomcat/webapps/${APP_NAME}
 

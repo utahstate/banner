@@ -10,11 +10,10 @@ RUN --mount=type=cache,target=/var/cache,sharing=locked <<EOF
     yum install -y xmlstarlet shadow-utils git openssh tar gzip zip unzip
     ln -sf /usr/share/zoneinfo/America/Denver /etc/localtime
     mkdir -p /opt/build/ ~/.ssh/
-# Scan the build server keys into the known hosts file. If these change after this base image is built, that is a bad sign and builds should fail until it is resolved.
-		ssh-keyscan build.banner.usu.edu >> ~/.ssh/known_hosts
 EOF
 
-COPY ssh-config /root/.ssh/config
+COPY --chmod=644 ssh-config /root/.ssh/config
+COPY --chmod=644 build-host-keys /root/.ssh/known_hosts
 COPY --chmod=755 download-wars.sh /usr/local/bin/download-wars
 
 WORKDIR /opt/build/

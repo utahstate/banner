@@ -1,0 +1,9 @@
+# build.banner.usu.edu:22 SSH-2.0-OpenSSH_8.0
+build.banner.usu.edu ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINTMwcr1uAW045EDiqPzDYDOkSneSvmkAfoxYBzbMcd5
+# build.banner.usu.edu:22 SSH-2.0-OpenSSH_8.0
+build.banner.usu.edu ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArOJSQlzHuto35Yi54zkCI4UtNAmGy2Ffmz7K5tn/tX8LdbQq4rqAd64C7Y02OvyHK9NnHVb/4IZO3OPKJ9XUFaDcnsEfrUi1GV14K4mWer8joU6NZyUfqGBzDMnSimWvIJgopB3zvzr6wUGCAhLTeSV0s8Ovb72JwHf15CFWvs5sc64VfZPkAHLn1/MlNpWmhhowS/XXQAmBvnEWKqX+KlZXUdSjtT7g/svIRse2Bq35Wne4+kkKOo3he6pbjpwqqOhIiaeeu49+zyTpT3JgmcV7wnOAGY9XRhiyZCsZhjHjmgUSXZ2NmIeCiQ3H3jrwDO2zm66rEH8eUXEvap8zww==
+# build.banner.usu.edu:22 SSH-2.0-OpenSSH_8.0
+build.banner.usu.edu ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBMb62QIhwDiQ/LOJV7xZJbwdRSyh2VtJglZDkEiOg/AWLoNL30QpGcyj4JmrzKqg+nxrArBQ4O/+g2nY1Ot09qE=
+# build.banner.usu.edu:22 SSH-2.0-OpenSSH_8.0
+# build.banner.usu.edu:22 SSH-2.0-OpenSSH_8.0
+# build.banner.usu.edu:22 SSH-2.0-OpenSSH_8.0

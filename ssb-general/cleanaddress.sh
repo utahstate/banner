@@ -10,14 +10,14 @@ set -e
 
 exec >&2
 
-if [[ "${instance,,}" -eq "zdevl" ]] || [[ "${instance,,}" -eq "zprod" ]]; then
+if [[ "${instance,,}" == "zdevl" ]] || [[ "${instance,,}" == "zprod" ]]; then
 	echo "Building for ${instance^^}. Installing clean address plugin."
 else
 	echo "Building for ${instance^^}. Clean address not needed, nothing to do."
 	exit
 fi
 
-copy_err () {
+copy_err() {
 	exit_code=$?
 	echo "Failed to copy file ${file}, aborting build..."
 	exit ${exit_code}
@@ -45,14 +45,14 @@ cd "${cleanaddressdir}/clnaddr_banner_ssb/assets"
 exec {manifest_fd}>>"${startdir}/BannerGeneralSsb/assets/manifest.properties"
 # Add version number to files and remap them in the manifest
 append_version modules/personalInformationApp-mf.js \
-							 modules/pi-application-mf.js \
-							 personalInformationApp/piEmergencyContact/piEditEmergencyContact-controller.js \
-							 personalInformationApp/piEmergencyContact/cleanAddressEmergency-controller.js \
-							 personalInformationApp/piEmergencyContact/piEditEmergencyContact.html \
-							 personalInformationApp/common/services/cleanAddress-service.js \
-							 personalInformationApp/piAddress/piEditAddress-controller.js \
-							 personalInformationApp/piAddress/cleanAddressMain-controller.js \
-							 personalInformationApp/piAddress/piEditAddress.html
+	modules/pi-application-mf.js \
+	personalInformationApp/piEmergencyContact/piEditEmergencyContact-controller.js \
+	personalInformationApp/piEmergencyContact/cleanAddressEmergency-controller.js \
+	personalInformationApp/piEmergencyContact/piEditEmergencyContact.html \
+	personalInformationApp/common/services/cleanAddress-service.js \
+	personalInformationApp/piAddress/piEditAddress-controller.js \
+	personalInformationApp/piAddress/cleanAddressMain-controller.js \
+	personalInformationApp/piAddress/piEditAddress.html
 # Close manifest file
 exec {manifest_fd}>&-
 
