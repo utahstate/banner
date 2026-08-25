@@ -6,7 +6,7 @@ RUN --mount=type=ssh download-wars "${INSTANCE}" BannerAdminBPAPI
 
 RUN --mount=type=ssh <<EOS bash
 		set -e
-		scp "build.banner:/u01/deploy/${INSTANCE}/BannerAdminBPAPI/BannerAdminBPAPI_configs.zip" .
+		scp "build.banner.usu.edu:/u01/deploy/${INSTANCE}/BannerAdminBPAPI/BannerAdminBPAPI_configs.zip" .
 		mkdir configs
 		cd configs
 		unzip ../BannerAdminBPAPI_configs.zip
@@ -23,8 +23,8 @@ ENV APP_NAME="BannerAdminBPAPI" APP_TYPE="admin-api"
 LABEL edu.usu.banner.appName="${APP_NAME}" edu.usu.banner.appType="${APP_TYPE}" edu.usu.banner.api="BusinessProcess"
 
 COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME} /usr/local/tomcat/webapps/${APP_NAME}
-COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME}_configs /usr/local/tomcat/webapps/${APP_NAME}
-COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME}_configs/config /usr/local/tomcat/webapps/${APP_NAME}/WEB-INF/classes/config
-COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME}_configs/config/* /usr/local/tomcat/webapps/${APP_NAME}/WEB-INF/classes/
+COPY --chown=tomcat:tomcat --from=build /opt/build/configs /usr/local/tomcat/webapps/${APP_NAME}
+COPY --chown=tomcat:tomcat --from=build /opt/build/configs/config /usr/local/tomcat/webapps/${APP_NAME}/WEB-INF/classes/config
+COPY --chown=tomcat:tomcat --from=build /opt/build/configs/config/* /usr/local/tomcat/webapps/${APP_NAME}/WEB-INF/classes/
 
 COPY applicationContext.xml /usr/local/tomcat/webapps/${APP_NAME}/WEB-INF/

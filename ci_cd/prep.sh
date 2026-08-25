@@ -207,7 +207,8 @@ cleanaddress_password="${zip_password}" docker build "../${ctx_dir}" $([ $pull -
 stage=push
 echo "Build complete, uploading..."
 
-docker push "${image_tag}" "${image_tag}-${date}"
+docker push "${image_tag}"
+docker push "${image_tag}-${date}"
 
 echo "Push complete, updating deployments..."
 

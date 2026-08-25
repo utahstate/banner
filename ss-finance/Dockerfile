@@ -3,7 +3,7 @@ ARG VERSION INSTANCE
 
 RUN --mount=type=ssh download-wars "${INSTANCE}" FinanceSelfService
 
-FROM usuit/banner-base:9-jdk21-tomcat10 AS build
+FROM usuit/banner-base:9-jdk21-tomcat10 AS final
 ARG VERSION INSTANCE
 
 ENV APP_NAME="FinanceSelfService" APP_TYPE="self-service"
