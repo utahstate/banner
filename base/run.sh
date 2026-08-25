@@ -2,16 +2,13 @@
 # Thanks to Virginia Tech and College of William and Mary for some of the setup in this file
 
 # Fail fast
-set -e
+set -euo pipefail
 
 # Main Javaprop file to manipulate
 PROPFILE="/usr/local/tomcat/conf/catalina.properties"
 
 # Directory for property dropin files
-PROPDIR=${PROPERTY_DROPINS:-"/usr/local/tomcat/conf/catalina.properties.d"}
-
-# The actual command to run when given 'run-app' on the command line
-APP_LAUNCH_COMMAND=(catalina.sh run)
+PROPERTY_DROPINS=${PROPERTY_DROPINS:-"/run/app-config/properties.d/"}
 
 if [ ! -f "$PROPFILE" ]; then
 	echo "Unable to find properties file $PROPFILE"
@@ -90,15 +87,14 @@ ss-setProperty() {
 }
 
 setProperty() {
-	prop="$1"
-	val="$2"
+	local prop="$1" val="$2"
 
 	# call app-type-specific setProperty hooks
 	case "${APP_TYPE}" in
 	admin | admin-api)
 		admin-setProperty
 		;;
-	self-service | api | ssb | bcm)
+	self-service | api | bcm)
 		ss-setProperty
 		;;
 	*) ;;
@@ -125,20 +121,11 @@ if [ -f "$CONFIG_FILE" ]; then
 	setPropsFromFile "$CONFIG_FILE"
 fi
 
-if [ -z "${BANPROXY_PASSWORD}" ]; then
-	BANPROXY_PASSWORD=/run/credentials/
-fi
-
-# Maintain backwards compatibility if BANPROXY_PASSWORD and BANSSUSER_PASSWORD
-# aren't set
-if [ -z "${BANPROXY_PASSWORD}" ] && [ -z "${BANSSUSER_PASSWORD}" ]; then
-	if [ -d /run/secrets ]; then
-		for file in /run/secrets/*; do
-			prop=$(basename "$file")
-			val=$(cat "$file")
-			setProperty "$prop" "$val"
-		done
-	fi
+if [ -d /run/passwords ]; then
+	for file in /run/passwords/*; do
+		echo "INFO: setting password property for $(basename "$file")"
+		setProperty "$(basename "$file").password" "$(cat "$file")"
+	done
 fi
 
 setPropFromEnvPointingToFile() {
@@ -175,12 +162,13 @@ setPropFromEnv() {
 	fi
 }
 
-# Merge in all property files (files in $PROPDIR that end in .properties)
-for propFile in ${PROPDIR}/*.properties; do
-	if [[ "${propFile}" == "${PROPDIR}/*.properties" ]]; then
-		echo "WARN: No dropin config files found, did you forget to mount the config volume?" >&2
+# Merge in all property files (files in $PROPERTY_DROPINS that end in .properties)
+for propFile in ${PROPERTY_DROPINS}/*.properties; do
+	if [[ "${propFile}" == "${PROPERTY_DROPINS}/*.properties" ]]; then
+		echo "WARN: No dropin config files found, did you forget to mount them?" >&2
 		break
 	fi
+	echo "INFO: loading properties from file ${propFile}"
 	setPropsFromFile $propFile
 done
 
@@ -195,6 +183,7 @@ for var in "${!BANNER_@}"; do
 	propname="${propname,,}"
 	# Replace underscores with dots
 	propname="${propname//_/.}"
+	echo "INFO: Setting property ${propname} from \$${var}"
 	# Set the property, overriding anything set in static config
 	setProperty "${propname}" "${!var}"
 done
@@ -209,24 +198,20 @@ while [ $# -gt 0 ]; do
 	--prop=*=*)
 		# property declaration, set this property in the propfile
 		IFS='=' read opt propname propval < <(echo "$1")
+		echo "INFO: setting property ${propname} provided on command line"
 		setProperty "${propname}" "${propval}"
 		;;
 	--prop | -p)
 		IFS='=' read propname propval < <(echo "$2")
+		echo "INFO: setting property ${propname} provided on command line"
 		setProperty "${propname}" "${propval}"
 		shift
 		;;
 	--)
-		# done
+		# done parsing options, everything is now part of the command
 		shift
+		cmd+=("$@") # Bash will split this into words for each arg so this preserves e.g. quoted spaces on the command line
 		break
-		;;
-	run-app)
-		if [ ${#cmd[@]} -eq 0 ]; then
-			cmd+=("${APP_LAUNCH_COMMAND[@]}")
-		else
-			cmd+=("$1")
-		fi
 		;;
 	*)
 		cmd+=("$1")
@@ -244,8 +229,13 @@ if [ "${APP_NAME+x}" == "x" ] && [ "${JAVA_OPTS+x}" == "" ]; then
 fi
 
 if [ ${#cmd[@]} -eq 0 ]; then
-	# No command given, run a shell
-	exec bash
+	# No command given, if stdin is a tty run a shell, otherwise exit with an error
+	if [ -t 0 ]; then
+		exec bash
+	else
+		echo "ERROR: No command given and stdin is not a terminal"
+		exit 1
+	fi
 else
 	# Command was given, run the command
 	exec "${cmd[@]}"
