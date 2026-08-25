@@ -1,11 +1,11 @@
-ARG VERSION INSTANCE
+ARG VERSION ENVIRONMENT
 FROM usuit/banner-base:build-jdk21-latest AS build
-ARG VERSION INSTANCE
+ARG VERSION ENVIRONMENT
 
 RUN --mount=type=ssh <<EOS bash
 		set -e
 # Download and extract files from build.banner
-		download-wars "${INSTANCE}" BannerAdmin BannerAdmin.ws
+		download-wars "${ENVIRONMENT}" BannerAdmin BannerAdmin.ws
 
 # set sameSiteCookies to none
 		sed -i -e 's|\<\!-- Insert Environment.*|<CookieProcessor sameSiteCookies="none" />|g' BannerAdmin.ws/META-INF/context.xml
@@ -16,9 +16,9 @@ COPY --chmod=755 cleanaddress.sh /usr/local/bin/install-cleanaddress
 RUN install-cleanaddress
 
 FROM usuit/banner-base:9-jdk21-tomcat10 AS final
-ARG VERSION INSTANCE
-LABEL edu.usu.banner.version=${VERSION} edu.usu.banner.instance=${INSTANCE}
-ENV INSTANCE=${INSTANCE}
+ARG VERSION ENVIRONMENT
+LABEL edu.usu.banner.version=${VERSION} edu.usu.banner.environment=${ENVIRONMENT}
+ENV ENVIRONMENT=${ENVIRONMENT}
 
 ENV APP_NAME="BannerAdmin" APP_TYPE="admin"
 LABEL edu.usu.banner.appName="${APP_NAME}" edu.usu.banner.appType="${APP_TYPE}"

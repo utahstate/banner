@@ -18,6 +18,6 @@ COPY --chmod=755 download-wars.sh /usr/local/bin/download-wars
 WORKDIR /opt/build/
 ENV BUILD_DIR=/opt/build/
 
-ONBUILD ARG VERSION INSTANCE
+ONBUILD ARG VERSION ENVIRONMENT
 
 CMD ["bash"]

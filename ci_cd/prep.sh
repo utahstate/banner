@@ -202,7 +202,7 @@ echo "Beginning build..."
 
 image_tag="docker.io/usuit/banner9-${ctx_dir}:${version}-${instance,,}"
 
-cleanaddress_password="${zip_password}" docker build "../${ctx_dir}" $([ $pull -eq 1 ] && echo --pull) --platform linux/amd64 -t "${image_tag}" -t "${image_tag}-${date}" --build-arg "VERSION=${version}" --build-arg "INSTANCE=${instance,,}" --secret id=cleanaddress_password --ssh default
+cleanaddress_password="${zip_password}" docker build "../${ctx_dir}" $([ $pull -eq 1 ] && echo --pull) --platform linux/amd64 -t "${image_tag}" -t "${image_tag}-${date}" --build-arg "VERSION=${version}" --build-arg "ENVIRONMENT=${instance,,}" --secret id=cleanaddress_password --ssh default
 
 stage=push
 echo "Build complete, uploading..."

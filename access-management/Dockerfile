@@ -1,19 +1,19 @@
-ARG VERSION INSTANCE
+ARG VERSION ENVIRONMENT
 FROM usuit/banner-base:build-jdk21-latest AS build
-ARG VERSION INSTANCE
+ARG VERSION ENVIRONMENT
 # Base image for build stages that has SSH, Git, and similar utilities already installed. Runs as root.
 
 RUN --mount=type=ssh <<EOF bash
 		set -e
 # Download files from build.banner and extract
-		download-wars "${INSTANCE}" BannerAccessMgmt{,.ws}
+		download-wars "${ENVIRONMENT}" BannerAccessMgmt{,.ws}
 
 EOF
 
 FROM usuit/banner-base:9-jdk21-tomcat10 AS final
-ARG VERSION INSTANCE
-LABEL edu.usu.banner.version=${VERSION} edu.usu.banner.instance=${INSTANCE}
-ENV INSTANCE=${INSTANCE}
+ARG VERSION ENVIRONMENT
+LABEL edu.usu.banner.version=${VERSION} edu.usu.banner.environment=${ENVIRONMENT}
+ENV ENVIRONMENT=${ENVIRONMENT}
 
 ENV APP_NAME="BannerAccessMgmt" APP_TYPE="admin"
 LABEL	edu.usu.banner.appName="${APP_NAME}" edu.usu.banner.appType="${APP_TYPE}"
