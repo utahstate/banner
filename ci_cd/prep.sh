@@ -48,9 +48,11 @@ EOF
 build=1
 push=1
 deploy=1
+pull=1
 spawn_agent=1
 docker_cmd=docker
 ssh_key=
+zip_password=transcript
 
 date=$(date +%Y%m%d-%H%M%S)
 
@@ -67,6 +69,9 @@ while [ $# -gt 0 ]; do
 	--deploy)
 		deploy=1
 		;;
+	--pull)
+		pull=1
+		;;
 	--no-build)
 		build=0
 		;;
@@ -75,6 +80,9 @@ while [ $# -gt 0 ]; do
 		;;
 	--no-deploy)
 		deploy=0
+		;;
+	--no-pull)
+		pull=0
 		;;
 	--dry-run)
 		build=0
@@ -170,7 +178,7 @@ if [ $spawn_agent -eq 1 ]; then
 	eval $(ssh-agent)
 	if [ -f "$ssh_key" ]; then
 		ssh-add "$ssh_key"
-		trap "ssh-agent -k" EXIT
+		trap 'eval $(ssh-agent -k)' EXIT
 	else
 		echo "ERR: SSH key ${ssh_key} does not exist! Will not be able to pull WAR files!" >&2
 		exit 1
@@ -189,14 +197,12 @@ if ! [[ -d "../${ctx_dir}" ]]; then
 fi
 echo "Build context located at ../${ctx_dir}"
 
-cd "../${ctx_dir}"
-
 stage=build
 echo "Beginning build..."
 
 image_tag="docker.io/usuit/banner9-${ctx_dir}:${version}-${instance,,}"
 
-cleanaddress_password="${zip_password}" docker build --pull --platform linux/amd64 -t "${image_tag}" -t "${image_tag}-${date}" --build-arg "version=${version}" --build-arg "instance=${instance^^}" --secret id=cleanaddress_password --ssh
+cleanaddress_password="${zip_password}" docker build "../${ctx_dir}" $([ $pull -eq 1 ] && echo --pull) --platform linux/amd64 -t "${image_tag}" -t "${image_tag}-${date}" --build-arg "VERSION=${version}" --build-arg "INSTANCE=${instance,,}" --secret id=cleanaddress_password --ssh default
 
 stage=push
 echo "Build complete, uploading..."
@@ -207,3 +213,6 @@ echo "Push complete, updating deployments..."
 
 stage=deploy
 kubectl set image "deployment/${ctx_dir,,}" "${ctx_dir,,}=${image_tag}" -n "$instance"
+
+mkdir -p "../${ctx_dir}/.latest-versions/"
+echo "${version}" >"../${ctx_dir}/.latest-versions/${instance,,}"
