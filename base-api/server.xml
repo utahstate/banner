@@ -55,8 +55,10 @@
               maxWaitMillis="${banproxy.maxwait}"
               validationQuery="select 1 from dual"
               accessToUnderlyingConnectionAllowed="true"
+              removeAbandonedOnMaintenance="${remove.abandoned.on.maintenance}"
               removeAbandonedOnBorrow="${remove.abandoned.on.borrow}"
               removeAbandonedTimeout="${remove.abandoned.timeout}"
+              logAbandoned="${log.abandoned}"
               testOnBorrow="true"/>
     <Resource name="jdbc/bannerSsbDataSource" auth="Container"
               type="javax.sql.DataSource"
@@ -70,8 +72,10 @@
               maxWaitMillis="${banssuser.maxwait}"
               validationQuery="select 1 from dual"
               accessToUnderlyingConnectionAllowed="true"
+              removeAbandonedOnMaintenance="${remove.abandoned.on.maintenance}"
               removeAbandonedOnBorrow="${remove.abandoned.on.borrow}"
-              removeAbandonedTimeout="${remove.abandoned.timeout}"
+              removeAbandonedTimeout="${remove.ss.abandoned.timeout}"
+              logAbandoned="${log.abandoned}"
               testOnBorrow="true"
               connectionProperties="defaultRowPrefetch=${bannerdb.rowPrefetch}"/>
   </GlobalNamingResources>
@@ -102,9 +106,7 @@
                scheme="https" secure="true"
                proxyPort="443"
                connectionTimeout="20000"
-	       redirectPort="8443"
-	       relaxedQueryChars="&#x20;&#x22;&#x3C;&#x3E;&#x5B;&#x5C;&#x5D;&#x5E;&#x60;&#x7B;&#x7C;&#x7D;"
-               relaxedPathChars="&#x20;&#x22;&#x2B;&#x3C;&#x3E;&#x5B;&#x5C;&#x5D;&#x5E;&#x60;&#x7B;&#x7C;&#x7D;" />
+               redirectPort="8443" />
     <!-- A "Connector" using the shared thread pool-->
     <!--
     <Connector executor="tomcatThreadPool"
