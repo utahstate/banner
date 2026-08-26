@@ -12,8 +12,7 @@ ENV ENVIRONMENT=${ENVIRONMENT}
 ENV APP_NAME="BannerEventPublisher" APP_TYPE="event-publisher"
 LABEL edu.usu.banner.appName="${APP_NAME}" edu.usu.banner.appType="${APP_TYPE}"
 
-COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME} /usr/local/tomcat/webapps/${APP_NAME}
+COPY --chown=tomcat:tomcat server.xml context.xml /usr/local/tomcat/conf/
 
-# Apply patches
-COPY --chown=tomcat:tomcat WEB-INF/classes/* /usr/local/tomcat/webapps/${APP_NAME}/WEB-INF/classes/
+COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME} /usr/local/tomcat/webapps/${APP_NAME}
 
