@@ -92,10 +92,10 @@ setProperty() {
 	# call app-type-specific setProperty hooks
 	case "${APP_TYPE}" in
 	admin | admin-api)
-		admin-setProperty
+		admin-setProperty "$prop" "$val"
 		;;
 	self-service | api | bcm)
-		ss-setProperty
+		ss-setProperty "$prop" "$val"
 		;;
 	*) ;;
 	esac
@@ -116,10 +116,6 @@ setPropsFromFile() {
 		setProperty "$prop" "$val"
 	done
 }
-
-if [ -f "$CONFIG_FILE" ]; then
-	setPropsFromFile "$CONFIG_FILE"
-fi
 
 if [ -d /run/passwords ]; then
 	for file in /run/passwords/*; do
@@ -143,14 +139,9 @@ setPropFromEnvPointingToFile() {
 }
 
 # This will silently fail if the environments are not set.
-setPropFromEnvPointingToFile banproxy.password "$BANPROXY_PASSWORD"
-setPropFromEnvPointingToFile banssuser.password "$BANSSUSER_PASSWORD"
-setPropFromEnvPointingToFile commmgr.password "$COMMMGR_PASSWORD"
-
-# Unset the password vars so they aren't easily readable by other processes
-unset BANPROXY_PASSWORD
-unset BANSSUSER_PASSWORD
-unset COMMMGR_PASSWORD
+setPropFromEnvPointingToFile banproxy.password "${BANPROXY_PASSWORD:-}"
+setPropFromEnvPointingToFile banssuser.password "${BANSSUSER_PASSWORD:-}"
+setPropFromEnvPointingToFile commmgr.password "${COMMMGR_PASSWORD:-}"
 
 setPropFromEnv() {
 	prop=$1
@@ -220,7 +211,7 @@ while [ $# -gt 0 ]; do
 	shift
 done
 
-if [ -n "$JMX_PORT" ]; then
+if [ "${JMX_PORT+x}" == x ]; then
 	export CATALINA_OPTS="$CATALINA_OPTS -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=$JMX_PORT -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
 fi
 
