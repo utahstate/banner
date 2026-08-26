@@ -1,0 +1,307 @@
+/*******************************************************************************
+ Copyright 2017-2021 Ellucian Company L.P. and its affiliates.
+ *******************************************************************************/
+
+/******************************************************************************
+ This file contains configuration needed by the Banner XE Page Builder
+ web application. Please refer to the administration guide for
+ additional information regarding the configuration items contained within this file.
+
+ This configuration file contains the following sections:
+ * PageBuilder
+     *   Enable/Disable switch and DataSource connection details for Page Builder artifacts
+     *   Miscellaneous configuration
+
+ * Theme
+     *   url:  theme server url, if this is not specified then it points to same app
+     *   theme: used by client application
+     *   template: used by client application
+     *   cacheTimeOut: themes would be cached for specified duration (in seconds) in theme server
+                       (This is not required if the app points to remote theme server)
+
+ * Self Service Support
+ * CAS SSO Configuration (supporting self service users)
+
+ NOTE: Banner DataSource and JNDI configuration resides in the cross-module
+ 'banner_configuration.groovy' file.
+
+ *******************************************************************************/
+
+pageBuilder.enabled = true
+
+if (!pageBuilder.enabled) {
+  grails.plugin.springsecurity.securityConfigType = grails.plugin.springsecurity.SecurityConfigType.InterceptUrlMap
+}
+
+/*******************************************************************************
+ *                                                                              *
+ *              Page Builder Artifact File Location Configuration               *
+ *                                                                              *
+ *******************************************************************************/
+pbRoot = (System.getenv('PB_ROOT')?: '/opt/banner/extensibilty/pb')
+pageBuilder {
+    locations {
+      bundle        = "${pbRoot}/i18n"
+      page          = "${pbRoot}/page"
+      css           = "${pbRoot}/css"
+      virtualDomain = "${pbRoot}/virtdom"
+    }
+    // Uncomment debugRoles to reveal detailed SQL error messages for
+    // Virtual domains to users with any of the comma separated roles
+    // debugRoles = "ROLE_GPBADMN_BAN_DEFAULT_PAGEBUILDER_M"
+}
+
+/*******************************************************************************
+ *                                                                              *
+ *              Theme Configuration                                             *
+ *                                                                              *
+ *******************************************************************************/
+environments {
+     production {
+         banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"   // required only if theme server is remote
+         banner.theme.name="production"
+         banner.theme.template="BannerExtensibility-9_11"
+         banner.theme.cacheTimeOut = 900                                    // in seconds, not required theme server is remote
+     }
+     development {
+         banner.theme.url="http://BANNER9_HOST:PORT/BannerExtensibility/theme"  // required only if theme server is remote
+         banner.theme.name="development"
+         banner.theme.template="BannerExtensibility-9_11"
+         banner.theme.cacheTimeOut = 120                                   // // in seconds, not required theme server is remote
+         //This variable is used to get information about $$user authorities(Roles). This should be used only for Development, shouldn't be available in prod. by default it should be false.
+         pageBuilder.development.authorities.enabled=false
+     }
+}
+
+// ******************************************************************************
+//
+//                       +++ Self Service Support +++
+//
+// ******************************************************************************
+
+
+ssbEnabled = true
+ssbOracleUsersProxied = true
+
+
+/** *****************************************************************************
+ *                                                                              *
+ *                AUTHENTICATION PROVIDER CONFIGURATION                         *
+ *                                                                              *
+ ***************************************************************************** **/
+
+banner {
+    sso {
+        authenticationProvider           = 'saml' //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
+        authenticationAssertionAttribute = 'UDC_IDENTIFIER'
+    }
+}
+
+grails.plugin.springsecurity.homePageUrl= 'http://BANNER9_HOST:PORT/APP_NAME/'
+
+//This setting contains the institution-specific redirect URL for MEP if Return Home is clicked.
+grails.plugin.springsecurity.logout.mepErrorLogoutUrl = '/logout/customLogout'
+
+//guestAuthenticationEnabled = true
+
+/** *************************************************************************************
+ *                                                                                      *
+ *                        SAML CONFIGURATION                                            *
+ *  Un-comment the below code and set active = true when authentication mode is saml.   *
+ * keep the below saml configuration commented for all other login such as default      *
+ * and CAS to avoid Deployment failures                                                 *
+ *                                                                                      *
+ ************************************************************************************* **/
+
+String keystore_pass = new File("/saml/keystore/password").text.trim()
+banner.sso.authentication.saml.localLogout='true'
+grails {
+	plugin {
+		springsecurity {
+			failureHandler {
+				defaultFailureUrl = '/login/error'
+			}
+			auth {
+				loginFormUrl = '/saml/login'
+			}
+			saml {
+				active = true
+				afterLogoutUrl = '/logout/customLogout'
+				maxAuthenticationAge = 43200
+				
+				keyManager {
+					storeFile = 'file:/saml/keystore/keystore.jks'
+					storePass = keystore_pass
+					passwords = [ 'zdevl-extensibility-sp': keystore_pass ]
+					defaultKey = 'zdevl-extensibility-sp'
+				}
+				metadata {
+					providers = [adfs: '/saml/metadata/idp.xml']
+					defaultIdp = 'https://sts.windows.net/ac352f9b-eb63-4ca2-9cf9-f4c40047ceff/'
+
+					sp {
+						file = '/saml/metadata/sp.xml'
+						defaults = [
+							local: true,
+							alias: 'zdevl-extensibility-sp',
+							securityProfile: 'metaiop',
+							signingKey: 'zdevl-extensibility-sp',
+							encryptionKey: 'zdevl-extensibility-sp',
+							tlsKey: 'zdevl-extensibility-sp',
+							requireArtifactResolveSigned: false,
+							requireLogoutRequestSigned: false,
+							requireLogoutResponseSigned: false
+						]
+					}
+				}
+			}
+		}
+	}
+}
+
+
+/*******************************************************************************
+ *                                                                              *
+ *              X-Frame-Options                                                 *
+ *                                                                              *
+ *******************************************************************************/
+grails.plugin.xframeoptions.urlPattern = '/login/auth'
+grails.plugin.xframeoptions.deny = true
+
+
+/*******************************************************************************
+ *                                                                              *
+ *                 Eliminate access to the WEB-INF folder                       *
+ *                                                                              *
+ *******************************************************************************/
+grails.resources.adhoc.includes = ['/images/**', '/css/**', '/js/**', '/plugins/**', '/fonts/**']
+grails.resources.adhoc.excludes = ['/WEB-INF/**']
+
+
+/************************************************************
+             Web Application Extensibility
+************************************************************/
+webAppExtensibility {
+    // Comma separated list of roles
+    adminRoles = "ROLE_SELFSERVICE-WTAILORADMIN_BAN_DEFAULT_M"
+}
+
+/* Set feature.enableConfigJob to true for configJob to run as configured and
+set feature.enableConfigJob to false for configJob to NOT run as configured */
+
+feature.enableConfigJob = true
+
+/* Set feature.enableApplicationPageRoleJob to true for applicationPageRoleJob to run as configured and
+set feature.enableApplicationPageRoleJob to false for applicationPageRoleJob to NOT run as configured */
+
+feature.enableApplicationPageRoleJob = false
+
+/** ********************************************************************************
+ *                                                                                 *
+ *                   SS Config Dynamic Loading Job Properties                      *
+ *                                                                                 *
+*                   Cron Expressions:                                             *
+ *                                                                                 *
+ *                   ┌───────────── second (0-59)                                  *
+ *                   │ ┌───────────── minute (0 - 59)                              *
+ *                   │ │ ┌───────────── hour (0 - 23)                              *
+ *                   │ │ │ ┌───────────── day of the month (1 - 31)                *
+ *                   │ │ │ │ ┌───────────── month (1 - 12) (or JAN-DEC)            *
+ *                   │ │ │ │ │ ┌───────────── day of the week (0 - 7)              *
+ *                   │ │ │ │ │ │          (or MON-SUN -- 0 or 7 is Sunday)         *
+ *                   │ │ │ │ │ │                                                   *
+ *                   * * * * * *                                                   *
+ *                                                                                 *
+ ******************************************************************************** **/
+/*ConfigJob - the job scheduled to update the configuration properties from DB
+ApplicationPageRoleJob - the job scheduled to update the interceptedUrlMap from DB. */
+
+configJob {
+    // Recommended default is every 1 hour starting at 00am, of every day - "0 0 */1 * * ?"
+    // Cron expression lesser than 30 mins will fall back to 30 mins.
+    cronExpression = "0 0 */1 * * ?"
+}
+applicationPageRoleJob {
+    // Recommended default is once at 00:00:00am every day - "0 0 0 * * ?"
+    // Cron expression lesser than 30 mins will fall back to 30 mins.
+    cronExpression = "0 0 0 * * ?"
+}
+
+/************************************************************
+                   Disabling Loacle for self service
+************************************************************/
+
+locale=false
+
+/** *************************************************************************************************************
+ * Response Headers                                                                                				*
+ * 																   												*
+ * This is the map which takes the "header property" as key and value as shown in below example					*
+ * responseHeaders = [ "X-Content-Type-Options": "nosniff" , "X-XSS-Protection": "1; mode=block" ...]			*
+ * Added as part of Platform Platform 9.32                                         							    *
+ ************************************************************************************************************* **/
+responseHeaders =[
+    "X-Content-Type-Options": "nosniff",
+    "X-XSS-Protection": "1; mode=block"
+]
+
+/*********************************************************************************
+*                     Application Server Configuration                          *
+* When deployed on Tomcat this configuration should be targetServer="tomcat"    *
+*********************************************************************************/
+targetServer="tomcat"
+
+/**************************************************************************************
+* List of allowed domains configuration for Ellucian Experience                       *
+* Do not change this configuration unless instructed.                                 *
+* Do not move this configuration to Banner Applications Configurations (GUACONF) page.*
+************************************************************************************* **/
+
+allowedExperienceDomains=[
+"https://experience-test.elluciancloud.com",
+"https://experience.elluciancloud.com",
+"https://experience-test.elluciancloud.ca",
+"https://experience.elluciancloud.ca",
+"https://experience-test.elluciancloud.ie",
+"https://experience.elluciancloud.ie",
+"https://experience-test.elluciancloud.com.au",
+"https://experience.elluciancloud.com.au"]
+
+/** *********************************************************************************
+ *                        isExperienceIntegrated                                    *
+ * Set 'isExperienceIntegrated' to true for accessing the SSB application only in   *
+ * Experience. Set to false to access the SSB application in standalone mode.       *
+ * Default value is 'false'                                                         *
+*********************************************************************************** **/
+isExperienceIntegrated = false
+
+/** *****************************************************************************
+ *                                                                              *
+ *                        OAuth2 configuration                                  *
+ *                                                                              *
+ ***************************************************************************** **/
+banner.oauth2.issuerJwksURi= "https://oauth.prod.10005.elluciancloud.com/jwks"
+banner.oauth2.issuer = "https://oauth.prod.10005.elluciancloud.com"
+banner.oauth2.audiance="https://elluciancloud.com"
+
+/** *****************************************************************************
+ *                                                                              *
+ *                 Text Manager Configuration                                   *
+ *                                                                              *
+ ***************************************************************************** **/
+/*
+Below configurations are required for an application in order to enable Text Manager Translations
+
+    *  enableTextManagerTranslations
+        To Enable Text Manager translations, set to false if its not required for an application.
+        setting it to false completely disables the translations from Text Manager in both MEP and Non-MEP environments
+
+    *  enableTextManagerTranslationsInMEP
+        To Enable Text Manager translations in MEP environment for an application.
+        set to true if the TextManager tables are MEPed and Translations are required as per institution.
+*/
+
+enableTextManagerTranslations = true
+enableTextManagerTranslationsInMEP = false
+
+switchTojqueryLegacy = false
