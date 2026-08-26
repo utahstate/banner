@@ -7,11 +7,9 @@ RUN --mount=type=ssh download-wars "${ENVIRONMENT}" applicationNavigator
 
 FROM usuit/banner-base:9-jdk21-tomcat10 AS final
 ARG VERSION ENVIRONMENT
-LABEL edu.usu.banner.version=${VERSION} edu.usu.banner.environment=${ENVIRONMENT}
-ENV ENVIRONMENT=${ENVIRONMENT}
 
-ENV APP_NAME="applicationNavigator" APP_TYPE="self-service"
-LABEL edu.usu.banner.appName="${APP_NAME}" edu.usu.banner.appType="${APP_TYPE}"
+ENV ENVIRONMENT=${ENVIRONMENT} APP_SHORT_NAME="appnav" APP_NAME="applicationNavigator" APP_TYPE="self-service"
+LABEL edu.usu.banner.version="${VERSION}" edu.usu.banner.environment="${ENVIRONMENT}" edu.usu.banner.appName="${APP_NAME}" edu.usu.banner.appType="${APP_TYPE}"
 
 COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME} /usr/local/tomcat/webapps/${APP_NAME}
 COPY --chown=tomcat:tomcat context.xml /usr/local/tomcat/webapps/${APP_NAME}/META-INF/context.xml
