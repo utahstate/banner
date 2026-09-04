@@ -2,27 +2,11 @@
 
 set -euo pipefail
 
-# Hash table mapping lowercased "official" app names to the name of the directory which holds that app's build context
-declare -A APP_MAPPING
+# Move to script dir if we weren't called from it
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
-APP_MAPPING[applicationnavigator]="application-navigator"
-APP_MAPPING[banneraccessmgmt]="access-management"
-APP_MAPPING[banneradmin]="admin"
-APP_MAPPING[bannereventpublisher]="event-publisher"
-APP_MAPPING[bannerextensibility]="extensibility"
-APP_MAPPING[bannergeneralssb]="ssb-general"
-APP_MAPPING[brim]="brim"
-APP_MAPPING[businessprocessapi]="bpapi"
-APP_MAPPING[communicationmanagement]="communicationmanagement"
-APP_MAPPING[documentmanagementapi]="api-documentmanagement"
-APP_MAPPING[employeeselfservice]="ss-employee"
-APP_MAPPING[etranscriptapi]="api-etranscript"
-APP_MAPPING[facultyselfservice]="ss-faculty"
-APP_MAPPING[financeselfservice]="ss-finance"
-APP_MAPPING[integrationapi]="api-integration"
-APP_MAPPING[studentapi]="api-student"
-APP_MAPPING[studentregistrationssb]="ssb-registration"
-APP_MAPPING[studentselfservice]="ss-student"
+# Load the conversion table
+source ./conversion_table.sh
 
 function print-usage() {
 	cat <<EOF
@@ -36,10 +20,12 @@ Understood options:
   --[no-]build                 Enable or disable the building of new images. Defaults to on.
   --[no-]push                  Enable or disable the pushing of built images. Defaults to on.
   --[no-]deploy                Enable or disable the deployment of built images to Kubernetes. Defaults to on.
+  --[no-]pull                  Enable or disable the pulling of base images from Docker Hub. Defaults to on.
+  --[no-]cache                 Enable or disable the use of the Docker build cache. Defaults to off.
   --dry-run                    Request a dry run of the build process. Shorthand for --no-build --no-push --no-deploy.
-  --docker-cmd=<CMD>           Override the command used for Docker commands. Can provide an alternative implementation (e.g. podman) or point to a binary not in \$PATH.
+  --docker-cmd=<CMD>           Override the command used for Docker commands. Can provide an alternative implementation (e.g. podman) or point to a binary not in \$PATH. Must provide a Docker-compatible build and push CLI.
   --zip-password=<PASSWORD>    Set the password used for the cleanaddress patch ZIP file. If none are specified, defaults to "transcript".
-  --ssh-key=<PATH_TO_KEY>      Set the SSH key used to authenticate to the Banner build server for downloading app archives. Required if not using an existing SSH agent.
+  --ssh-key=<PATH_TO_KEY>      Set the SSH key used to authenticate to the Banner build server for downloading app archives. Ignored if --use-existing-agent is specified. Defaults to ~/.ssh/id_ed25519.
   --use-existing-agent         Disable the spawning of a new SSH agent, and instead use an already-running agent. Builds will fail if no agent is available.
   --help                       Display this help message and exit.
 EOF
@@ -49,9 +35,10 @@ build=1
 push=1
 deploy=1
 pull=1
+cache=0
 spawn_agent=1
 docker_cmd=docker
-ssh_key=
+ssh_key="${SSH_KEY:-$HOME/.ssh/id_ed25519}"
 zip_password=transcript
 
 date=$(date +%Y%m%d-%H%M%S)
@@ -72,6 +59,9 @@ while [ $# -gt 0 ]; do
 	--pull)
 		pull=1
 		;;
+	--cache)
+		cache=1
+		;;
 	--no-build)
 		build=0
 		;;
@@ -83,6 +73,9 @@ while [ $# -gt 0 ]; do
 		;;
 	--no-pull)
 		pull=0
+		;;
+	--no-cache)
+		cache=0
 		;;
 	--dry-run)
 		build=0
@@ -202,7 +195,7 @@ echo "Beginning build..."
 
 image_tag="docker.io/usuit/banner9-${ctx_dir}:${version}-${instance,,}"
 
-cleanaddress_password="${zip_password}" docker build "../${ctx_dir}" $([ $pull -eq 1 ] && echo --pull) --platform linux/amd64 -t "${image_tag}" -t "${image_tag}-${date}" --build-arg "VERSION=${version}" --build-arg "ENVIRONMENT=${instance,,}" --secret id=cleanaddress_password --ssh default
+cleanaddress_password="${zip_password}" docker build "../${ctx_dir}" $([ $cache -eq 0 ] && echo --no-cache) $([ $pull -eq 1 ] && echo --pull) --platform linux/amd64 -t "${image_tag}" -t "${image_tag}-${date}" --build-arg "VERSION=${version}" --build-arg "ENVIRONMENT=${instance,,}" --secret id=cleanaddress_password --ssh default
 
 stage=push
 echo "Build complete, uploading..."
