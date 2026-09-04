@@ -4,7 +4,7 @@ ARG VERSION ENVIRONMENT
 
 RUN --mount=type=ssh download-wars "${ENVIRONMENT}" DocumentManagementApi
 
-FROM usuit/banner-base:9-jdk21-tomcat10 AS final
+FROM usuit/banner-base:9-jdk21-tomcat10-api AS final
 ARG VERSION ENVIRONMENT
 LABEL edu.usu.banner.version=${VERSION} edu.usu.banner.environment=${ENVIRONMENT}
 ENV ENVIRONMENT=${ENVIRONMENT}

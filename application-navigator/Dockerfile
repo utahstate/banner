@@ -14,5 +14,3 @@ LABEL edu.usu.banner.version="${VERSION}" edu.usu.banner.environment="${ENVIRONM
 COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME} /usr/local/tomcat/webapps/${APP_NAME}
 COPY --chown=tomcat:tomcat context.xml /usr/local/tomcat/webapps/${APP_NAME}/META-INF/context.xml
 
-# Apply patches
-COPY --chown=tomcat:tomcat WEB-INF/classes/* /usr/local/tomcat/webapps/${APP_NAME}/WEB-INF/classes/

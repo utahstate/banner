@@ -1,20 +1,19 @@
 #!/bin/bash
 # Cleanaddress modification script. Should be installed to and run from build stage.
 # Expects the following environment:
-# - instance -- Banner instance
-# - version  -- App version
+# - ENVIRONMENT -- Banner environment
 # These should be provided when run in the Docker build stage during a full build.
 
 set -e
 
 exec >&2
 
-case "${instance,,}" in
+case "${ENVIRONMENT,,}" in
 zdevl | zprod)
-	echo "Building for ${instance^^}. Configuring for clean address plugin."
+	echo "Building for ${ENVIRONMENT^^}. Configuring for clean address plugin."
 	;;
 *)
-	echo "Building for ${instance^^}. Clean address not needed, nothing to do."
+	echo "Building for ${ENVIRONMENT^^}. Clean address not needed, nothing to do."
 	;;
 esac
 

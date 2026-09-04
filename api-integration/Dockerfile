@@ -3,7 +3,7 @@ ARG VERSION ENVIRONMENT
 
 RUN --mount=type=ssh download-wars "${ENVIRONMENT}" IntegrationApi
 
-FROM usuit/banner-base:9-jdk21-tomcat10 AS final
+FROM usuit/banner-base:9-jdk21-tomcat10-api AS final
 ARG VERSION ENVIRONMENT
 
 ENV APP_NAME="IntegrationApi" APP_TYPE="api"
