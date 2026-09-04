@@ -1,0 +1,179 @@
+####          ####
+## CERTIFICATES ##
+####          ####
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: selfservice-https
+  namespace: zdevl
+spec:
+  secretName: selfservice-https
+  commonName: ss-zdevl.banner.usu.edu
+  dnsNames:
+    - ss-zdevl.banner.usu.edu
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: eventpublisher-https
+  namespace: zdevl
+spec:
+  secretName: eventpublisher-https
+  commonName: bepdev.banner.usu.edu
+  dnsNames:
+    - bepdev.banner.usu.edu
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+---
+####           ####
+## CONFIGURATION ##
+####           ####
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    banner.usu.edu/environment: zdevl
+  name: properties
+  namespace: zdevl
+data:
+  10-common.properties: |
+    bannerdb.jdbc=jdbc:oracle:thin:@//db.zdevl.svc.bannerdev.k8s.usu.edu:1521/zdevl
+    banner9.baseurl=https://ss-zdevl.banner.usu.edu
+    remove.abandoned.on.maintenance=true
+    remove.abandoned.on.borrow=true
+    remove.abandoned.timeout=2100
+    remove.ss.abandoned.timeout=60
+    log.abandoned=true
+    bannerdb.rowPrefetch=150
+---
+####                ####
+## PERSISTENT STORAGE ##
+####                ####
+
+###       ###
+# ID Photos #
+###       ###
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: id-photos
+  namespace: zdevl
+  labels:
+    banner.usu.edu/environment: zdevl
+spec:
+  accessModes:
+    - ReadOnlyMany
+    - ReadWriteMany
+  capacity:
+    storage: 10Gi
+  nfs:
+    path: /nfs/bannerdev/photos
+    server: 129.123.109.82
+  persistentVolumeReclaimPolicy: Retain
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: id-photos
+  namespace: zdevl
+  labels:
+    banner.usu.edu/environment: zdevl
+spec:
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 10Gi
+  volumeMode: Filesystem
+  volumeName: id-photos
+---
+###           ###
+# Extensibility #
+###           ###
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: extensibility
+  namespace: zdevl
+  labels:
+    banner.usu.edu/environment: zdevl
+spec:
+  accessModes:
+    - ReadOnlyMany
+    - ReadWriteMany
+  capacity:
+    storage: 10Gi
+  nfs:
+    path: /nfs/bannerdev/zdevl/extensibility
+    server: 129.123.109.82
+  persistentVolumeReclaimPolicy: Retain
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: extensibility
+  namespace: zdevl
+  labels:
+    banner.usu.edu/environment: zdevl
+spec:
+  accessModes:
+    - ReadOnlyMany
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  volumeMode: Filesystem
+  volumeName: extensibility
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: rabbitmq
+  namespace: zdevl
+  labels:
+    banner.usu.edu/environment: zdevl
+    banner.usu.edu/application: zdevl.ellucian-messaging-service
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 10Gi
+  nfs:
+    path: /nfs/bannerdev/zdevl/rabbit
+    server: 129.123.109.82
+  persistentVolumeReclaimPolicy: Retain
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rabbitmq
+  namespace: zdevl
+  labels:
+    banner.usu.edu/environment: zdevl
+    banner.usu.edu/application: zdevl.ellucian-messaging-service
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  volumeMode: Filesystem
+  volumeName: rabbitmq
+---
+####              ####
+## CLUSTER SERVICES ##
+####              ####
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  namespace: zdevl
+  labels:
+    banner.usu.edu/environment: zdevl
+spec:
+  type: ExternalName
+  externalName: zdevl.db.usu.edu

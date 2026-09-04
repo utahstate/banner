@@ -1,0 +1,149 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: application-navigator
+  namespace: zdevl
+  labels:
+    banner.usu.edu/application: zdevl.application-navigator
+    banner.usu.edu/environment: zdevl
+  annotations:
+    banner.usu.edu/desired-replicas: '1'
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 0
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      banner.usu.edu/application: zdevl.application-navigator
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      namespace: zdevl
+      labels:
+        banner.usu.edu/application: zdevl.application-navigator
+        banner.usu.edu/environment: zdevl
+    spec:
+      imagePullSecrets:
+        - dockerhub-itesutility-ro
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      volumes:
+        - name: groovy
+          configMap:
+            defaultMode: 420
+            name: groovy-configs
+        - name: banssuser-creds
+          secret:
+            defaultMode: 420
+            secretName: banssuser-creds
+        - name: banproxy-creds
+          secret:
+            defaultMode: 420
+            secretName: banproxy-creds
+        - name: saml-metadata
+          configMap:
+            defaultMode: 420
+            name: saml-application-navigator
+        - name: saml-keystore
+          secret:
+            defaultMode: 420
+            name: saml-keystore
+        - name: properties
+          configMap:
+            defaultMode: 420
+            name: properties
+      containers:
+        - name: app
+          image: usuit/banner9-application-navigator:3.23.2-zdevl
+          imagePullPolicy: Always
+          ports:
+            - name: tomcat
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /applicationNavigator/actuator/health
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 10
+            failureThreshold: 6
+            successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
+            httpGet:
+              path: /applicationNavigator/actuator/health
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+            timeoutSeconds: 1
+          startupProbe:
+            httpGet:
+              path: /applicationNavigator/actuator/health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 18
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            requests:
+              memory: 4Gi
+          securityContext:
+            allowPrivilegeEscalation: no
+            privileged: no
+            readOnlyRootFilesystem: no
+            runAsNonRoot: no
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /run/app-config/groovy
+              name: groovy
+              readOnly: true
+            - mountPath: /saml/metadata
+              name: saml-metadata
+              readOnly: true
+            - mountPath: /run/passwords/db-banssuser
+              name: banssuser-creds
+              readOnly: true
+            - mountPath: /run/passwords/db-banproxy
+              name: banproxy-creds
+              readOnly: true
+            - mountPath: /saml/keystore
+              name: saml-keystore
+              readOnly: true
+            - mountPath: /run/app-config/properties.d/
+              name: properties
+              readOnly: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: application-navigator
+  namespace: zdevl
+  annotations:
+    traefik.ingress.kubernetes.io/service.sticky.cookie: 'true'
+    traefik.ingress.kubernetes.io/service.sticky.cookie.name: application-navigator-sticky
+    banner.usu.edu/routing.commonHost: admin
+    banner.usu.edu/routing.pathPrefix: "/applicationNavigator"
+  labels:
+    banner.usu.edu/application: zdevl.application-navigator
+    banner.usu.edu/environment: zdevl
+spec:
+  selector:
+    banner.usu.edu/application: zdevl.application-navigator
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

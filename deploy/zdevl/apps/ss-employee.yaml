@@ -1,0 +1,161 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    banner.usu.edu/application: zdevl.ss-employee
+    banner.usu.edu/environment: zdevl
+  annotations:
+    banner.usu.edu/desired-replicas: '1'
+  name: ss-employee
+  namespace: zdevl
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      banner.usu.edu/application: zdevl.ss-employee
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        banner.usu.edu/application: zdevl.ss-employee
+        banner.usu.edu/environment: zdevl
+      namespace: zdevl
+    spec:
+      containers:
+        - name: app
+          image: usuit/banner9-ss-employee:9.35.2-zdevl
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /EmployeeSelfService/actuator/health
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          ports:
+            - containerPort: 8080
+              name: tomcat
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /EmployeeSelfService/actuator/health
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            requests:
+              memory: 4Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 18
+            httpGet:
+              path: /EmployeeSelfService/actuator/health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /run/app-config/groovy
+              name: groovy
+              readOnly: true
+            - mountPath: /saml/metadata
+              name: saml-metadata
+              readOnly: true
+            - mountPath: /run/passwords/db-banssuser
+              name: banssuser-creds
+              readOnly: true
+            - mountPath: /run/passwords/db-banproxy
+              name: banproxy-creds
+              readOnly: true
+            - mountPath: /saml/keystore
+              name: saml-keystore
+              readOnly: true
+            - mountPath: /run/app-config/properties.d
+              name: properties
+              readOnly: true
+            - mountPath: /opt/banner/images
+              name: id-photos
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+        - name: dockerhub-usuitesutility-ro
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - configMap:
+            defaultMode: 420
+            name: groovy-configs
+            optional: false
+          name: groovy
+        - configMap:
+            defaultMode: 420
+            name: saml-ss-employee
+            optional: false
+          name: saml-metadata
+        - name: banssuser-creds
+          secret:
+            defaultMode: 420
+            optional: false
+            secretName: banssuser-creds
+        - name: banproxy-creds
+          secret:
+            defaultMode: 420
+            optional: false
+            secretName: banproxy-creds
+        - name: saml-keystore
+          secret:
+            defaultMode: 420
+            optional: false
+            secretName: saml-keystore
+        - configMap:
+            defaultMode: 420
+            name: properties
+            optional: false
+          name: properties
+        - name: id-photos
+          persistentVolumeClaim:
+            claimName: id-photos
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ss-employee
+  namespace: zdevl
+  annotations:
+    traefik.ingress.kubernetes.io/service.sticky.cookie: 'true'
+    traefik.ingress.kubernetes.io/service.sticky.cookie.name: ss-employee-sticky
+    banner.usu.edu/routing.commonHost: self-service
+    banner.usu.edu/routing.pathPrefix: "/EmployeeSelfService"
+  labels:
+    banner.usu.edu/application: zdevl.ss-employee
+    banner.usu.edu/environment: zdevl
+spec:
+  selector:
+    banner.usu.edu/application: zdevl.ss-employee
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

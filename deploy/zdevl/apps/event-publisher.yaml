@@ -1,0 +1,156 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-publisher
+  namespace: zdevl
+  labels:
+    banner.usu.edu/application: zdevl.event-publisher
+    banner.usu.edu/environment: zdevl
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 0
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      banner.usu.edu/application: zdevl.event-publisher
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      namespace: zdevl
+      labels:
+        banner.usu.edu/application: zdevl.event-publisher
+        banner.usu.edu/environment: zdevl
+    spec:
+      imagePullSecrets:
+        - name: dockerhub-usuitesutility-ro
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      volumes:
+        - name: groovy
+          configMap:
+            defaultMode: 420
+            name: groovy-configs
+            optional: false
+        - name: rabbitmq-creds
+          secret:
+            defaultMode: 420
+            secretName: ellucianmessagingservice-creds
+        - name: banssuser-creds
+          secret:
+            defaultMode: 420
+            secretName: banssuser-creds
+            optional: 'no'
+        - name: banproxy-creds
+          secret:
+            defaultMode: 420
+            secretName: banproxy-creds
+            optional: 'no'
+        - name: cdcadmin-creds
+          secret:
+            defaultMode: 420
+            secretName: cdcadmin-creds
+            optional: false
+        - name: events-creds
+          secret:
+            defaultMode: 420
+            secretName: events-creds
+            optional: false
+        - name: properties
+          configMap:
+            defaultMode: 420
+            name: properties
+            optional: 'no'
+      containers:
+        - name: app
+          image: usuit/banner9-event-publisher:9.22.2-zdevl
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: tomcat
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /BannerEventPublisher/actuator/health
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 6
+          readinessProbe:
+            httpGet:
+              path: /BannerEventPublisher/actuator/health
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          startupProbe:
+            httpGet:
+              path: /BannerEventPublisher/actuator/health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 18
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /run/app-config/groovy
+              name: groovy
+              readOnly: true
+            - mountPath: /run/passwords/db-banssuser
+              name: banssuser-creds
+              readOnly: true
+            - mountPath: /run/passwords/db-banproxy
+              name: banproxy-creds
+              readOnly: true
+            - mountPath: /run/passwords/db-events
+              name: events-creds
+              readOnly: true
+            - mountPath: /run/passwords/db-cdcadmin
+              name: cdcadmin-creds
+              readOnly: true
+            - mountPath: /run/app-config/properties.d
+              name: properties
+              readOnly: true
+            - mountPath: /run/passwords/rabbitmq
+              name: rabbitmq-password
+              readOnly: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: event-publisher
+  namespace: zdevl
+  labels:
+    banner.usu.edu/application: zdevl.event-publisher
+    banner.usu.edu/environment: zdevl
+  annotations:
+    traefik.ingress.kubernetes.io/service.sticky.cookie: 'true'
+    traefik.ingress.kubernetes.io/service.sticky.cookie.name: event-publisher-sticky
+    traefik.ingress.kubernetes.io/service.middlewares: zdevl-restrict-staffvpn@kubernetescrd
+    banner.usu.edu/routing.host: "bepdev.banner.usu.edu"
+    banner.usu.edu/routing.pathPrefix: "/BannerEventPublisher"
+spec:
+  selector:
+    banner.usu.edu/application: zdevl.event-publisher
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

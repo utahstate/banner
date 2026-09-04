@@ -1,0 +1,153 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: access-management
+  namespace: zdevl
+  labels:
+    banner.usu.edu/application: zdevl.access-management
+    banner.usu.edu/environment: zdevl
+  annotations:
+    banner.usu.edu/desired-replicas: '1'
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      banner.usu.edu/application: zdevl.access-management
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      namespace: zdevl
+      labels:
+        banner.usu.edu/application: zdevl.access-management
+        banner.usu.edu/environment: zdevl
+    spec:
+      imagePullSecrets:
+        - name: dockerhub-usuitesutility-ro
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      volumes:
+        - name: groovy
+          configMap:
+            defaultMode: 420
+            name: groovy-configs
+        - name: saml-metadata
+          configMap:
+            defaultMode: 420
+            name: saml-access-management
+        - name: banssuser-creds
+          secret:
+            defaultMode: 420
+            secretName: banssuser-creds
+        - name: banproxy-creds
+          secret:
+            defaultMode: 420
+            secretName: banproxy-creds
+        - name: saml-keystore
+          secret:
+            defaultMode: 420
+            secretName: saml-keystore
+        - name: properties
+          configMap:
+            defaultMode: 420
+            name: properties
+      containers:
+        - name: app
+          image: usuit/banner9-access-management:javaforms-93-zdevl
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: tomcat
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /BannerAccessMgmt/
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 10
+            failureThreshold: 6
+            successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
+            httpGet:
+              path: /BannerAccessMgmt/
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+            timeoutSeconds: 1
+          startupProbe:
+            httpGet:
+              path: /BannerAccessMgmt/
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 10
+            failureThreshold: 18
+            successThreshold: 1
+            timeoutSeconds: 1
+            initialDelaySeconds: 30
+          resources:
+            requests:
+              memory: 4Gi
+          securityContext:
+            allowPrivilegeEscalation: no
+            privileged: no
+            readOnlyRootFilesystem: no
+            runAsNonRoot: no
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /run/app-config/groovy
+              name: groovy
+              readOnly: true
+            - mountPath: /saml/metadata
+              name: saml-metadata
+              readOnly: true
+            - mountPath: /saml/keystore
+              name: saml-keystore
+              readOnly: true
+            - mountPath: /run/passwords/db-banssuser
+              name: banssuser-creds
+              readOnly: true
+            - mountPath: /run/passwords/db-banproxy
+              name: banproxy-creds
+              readOnly: true
+            - mountPath: /run/app-config/properties.d
+              name: properties
+              readOnly: true
+          env:
+            - name: THEME_URL
+              value: 'https://theme.elluciancloud.com/001G000000iHmuWIAS/theme/getTheme?name=zdevl&amp;template=admin-9_3_39'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: access-management
+  namespace: zdevl
+  annotations:
+    traefik.ingress.kubernetes.io/service.sticky.cookie: 'true'
+    traefik.ingress.kubernetes.io/service.sticky.cookie.name: 'access-management-sticky'
+    traefik.ingress.kubernetes.io/service.middlewares: zdevl-restrict-onprem@kubernetescrd
+    banner.usu.edu/routing.commonHost: admin
+    banner.usu.edu/routing.pathPrefix: "/BannerAccessMgmt:/BannerAccessMgmt.ws"
+  labels:
+    banner.usu.edu/application: zdevl.access-management
+    banner.usu.edu/environmnet: zdevl
+spec:
+  selector:
+    banner.usu.edu/application: zdevl.access-management
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

@@ -1,0 +1,135 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    banner.usu.edu/application: zdevl.api-student
+    banner.usu.edu/environment: zdevl
+  annotations:
+    banner.usu.edu/desired-replicas: '1'
+  name: api-student
+  namespace: zdevl
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      banner.usu.edu/application: zdevl.api-student
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        banner.usu.edu/application: zdevl.api-student
+        banner.usu.edu/environment: zdevl
+      namespace: zdevl
+    spec:
+        imagePullSecrets:
+          - name: dockerhub-usuitesutility-ro
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          seccompProfile:
+            type: RuntimeDefault
+        terminationGracePeriodSeconds: 30
+        dnsPolicy: ClusterFirst
+        volumes:
+          - name: groovy
+            configMap:
+              defaultMode: 420
+              name: groovy-configs
+          - name: banssuser-creds
+            secret:
+              defaultMode: 420
+              secretName: banssuser-creds
+          - name: banproxy-creds
+            secret:
+              defaultMode: 420
+              secretName: banproxy-creds
+          - name: properties
+            configMap:
+              defaultMode: 420
+              name: properties
+        containers:
+          - name: app
+            image: usuit/banner9-api-student:9.42.2-zdevl
+            imagePullPolicy: Always
+            ports:
+              - containerPort: 8080
+                name: tomcat
+                protocol: TCP
+            livenessProbe:
+              httpGet:
+                path: /StudentApi/actuator/health
+                port: 8080
+                scheme: HTTP
+              failureThreshold: 6
+              successThreshold: 1
+              periodSeconds: 10
+              timeoutSeconds: 1
+            readinessProbe:
+              httpGet:
+                path: /StudentApi/actuator/health
+                port: 8080
+                scheme: HTTP
+              failureThreshold: 3
+              successThreshold: 1
+              periodSeconds: 10
+              timeoutSeconds: 1
+            startupProbe:
+              httpGet:
+                path: /StudentApi/actuator/health
+                port: 8080
+                scheme: HTTP
+              failureThreshold: 18
+              successThreshold: 1
+              periodSeconds: 10
+              timeoutSeconds: 1
+              initialDelaySeconds: 30
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            volumeMounts:
+              - mountPath: /run/app-config/groovy
+                name: groovy
+                readOnly: true
+              - mountPath: /run/passwords/db-banssuser
+                name: banssuser-creds
+                readOnly: true
+              - mountPath: /run/passwords/db-banproxy
+                name: banproxy-creds
+                readOnly: true
+              - mountPath: /run/app-config/properties.d
+                name: properties
+                readOnly: true
+            resources:
+              requests:
+                memory: '4Gi'
+            securityContext:
+              allowPrivilegeEscalation: no
+              privileged: no
+              readOnlyRootFilesystem: no
+              runAsNonRoot: no
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-student
+  namespace: zdevl
+  annotations:
+    traefik.ingress.kubernetes.io/service.sticky.cookie: 'true'
+    traefik.ingress.kubernetes.io/service.sticky.cookie.name: api-student-sticky
+    banner.usu.edu/routing.commonHost: api
+    banner.usu.edu/routing.pathPrefix: "/StudentApi"
+  labels:
+    banner.usu.edu/application: zdevl.api-student
+    banner.usu.edu/environment: zdevl
+spec:
+  selector:
+    banner.usu.edu/application: zdevl.api-student
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

@@ -1,0 +1,157 @@
+####         ####
+## MIDDLEWARES ##
+####         ####
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: restrict-onprem
+  labels:
+    banner.usu.edu/environment: zdevl
+  namespace: zdevl
+spec:
+  ipAllowList:
+    sourceRange:
+      - 129.123.0.0/16
+      - 144.39.0.0/16
+    rejectStatusCode: 404
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: restrict-staffvpn
+  labels:
+    banner.usu.edu/environment: zdevl
+  namespace: zdevl
+spec:
+  ipAllowList:
+    sourceRange:
+      - 129.123.119.1
+      - 129.123.42.0/24
+    rejectStatusCode: 404
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: restrict-adminvpn
+  labels:
+    banner.usu.edu/environment: zdevl
+  namespace: zdevl
+spec:
+  ipAllowList:
+    sourceRange:
+      - 129.123.42.0/24
+    rejectStatusCode: 404
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: secure-headers
+  labels:
+    banner.usu.edu/environment: zdevl
+  namespace: zdevl
+spec:
+  headers:
+    forceSTSHeader: yes
+    stsIncludeSubdomains: yes
+    stsPreload: yes
+    stsSeconds: 16000000
+    contentTypeNosniff: yes
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: enforce-https
+  labels:
+    banner.usu.edu/environment: zdevl
+  namespace: zdevl
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: no
+---
+####     ####
+## INGRESS ##
+####     ####
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: zdevl-ingress
+  namespace: zdevl
+  labels:
+    banner.usu.edu/environment: zdevl
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: >-
+      zdevl-enforce-https@kubernetescrd,zdevl-secure-headers@kubernetescrd
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - ss-zdevl.banner.usu.edu
+      secretName: selfservice-https
+    - hosts:
+        - bepdev.banner.usu.edu
+      secretName: eventpublisher-https
+  rules:
+    - host: "bepdev.banner.usu.edu"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/BannerEventPublisher"
+            backend:
+              service:
+                name: event-publisher
+                port:
+                  number: 80
+    - host: "ss-zdevl.banner.usu.edu"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/StudentRegistrationSsb"
+            backend:
+              service:
+                name: ssb-registration
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerGeneralSsb"
+            backend:
+              service:
+                name: ssb-general
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/StudentSelfService"
+            backend:
+              service:
+                name: ss-student
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/FinanceSelfService"
+            backend:
+              service:
+                name: ss-finance
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/FacultySelfService"
+            backend:
+              service:
+                name: ss-faculty
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/EmployeeSelfService"
+            backend:
+              service:
+                name: ss-employee
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerExtensibility"
+            backend:
+              service:
+                name: extensibility
+                port:
+                  number: 80
+

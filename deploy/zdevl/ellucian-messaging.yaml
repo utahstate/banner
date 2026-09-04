@@ -1,0 +1,26 @@
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ellucian-messaging-service
+  namespace: zdevl
+  labels:
+    banner.usu.edu/application: zdevl.ellucian-messaging-service
+    banner.usu.edu/environment: zdevl
+spec:
+  selector:
+    banner.usu.edu/application: zdevl.ellucian-messaging-service
+  ports:
+    - name: 5672tcp
+      protocol: TCP
+      port: 5672
+      targetPort: 5672
+    - name: 15672tcp
+      protocol: TCP
+      port: 15672
+      targetPort: 15672
+    - name: 15692tcp
+      protocol: TCP
+      port: 15692
+      targetPort: 15692
