@@ -60,10 +60,10 @@ bep.app.server = "TOMCAT"
 
 //RabbitMQ configuration
 rabbitmq {
-	host = "ellucian-messaging-service.zdevl.svc.cluster.local"
-	port = "5672"
-	userName = "ellucian"
-	password = new File("/run/secrets/rabbitmq").text.strip()
+  host = (System.getenv("ELLUCIAN_MESSAGING_SERVICE_HOST") ?: "ellucian-messaging-service.zdevl.svc.bannerdev.k8s.usu.edu")
+  port = (System.getenv("ELLUCIAN_MESSAGING_SERVICE_PORT") ?: "5672")
+	userName = new File("/run/passwords/rabbitmq/username").text.strip()
+	password = new File("/run/passwords/rabbitmq/password").text.strip()
 	virtualHostName = "bep_events_host"
 	exchangeName = "bep_events_topic"
 	enableSSL = "false"

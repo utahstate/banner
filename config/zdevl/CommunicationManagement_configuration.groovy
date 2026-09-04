@@ -76,105 +76,65 @@ commmgrDataSourceEnabled = true  //Set this to true if using the bannerCommmgrDa
  *                AUTHENTICATION PROVIDER CONFIGURATION                         *
  *                                                                              *
  ***************************************************************************** **/
-//
-// Set authenticationProvider to either default or cas 
-boolean ssoEnabled = false
-if(System.getenv('AUTH_METHOD') == 'saml')
-{
-    banner {
-        sso {
-            authenticationProvider           = 'saml' //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
-            authenticationAssertionAttribute = 'UDC_IDENTIFIER'
-        }
+banner {
+    sso {
+        authenticationProvider           = 'saml' //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
+        authenticationAssertionAttribute = 'UDC_IDENTIFIER'
     }
-}
-if(System.getenv('AUTH_METHOD') == 'cas')
-{
-    banner {
-        sso {
-            authenticationProvider           = 'cas' //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
-            authenticationAssertionAttribute = 'UDC_IDENTIFIER'
-        }
-    }
-}
-if (banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' ) {
-    ssoEnabled = true
-   }
-if(ssoEnabled)
-{
-      grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
 }
 
 
-// ******************************************************************************
-//
-//                       +++ CAS CONFIGURATION +++
-//
-// ******************************************************************************
-
-grails {
-    plugin {
-        springsecurity {
-            cas {
-                if(System.getenv('AUTH_METHOD') == 'cas') { active = true }
-                if(System.getenv('AUTH_METHOD') == 'saml') { active = false }
-                serverUrlPrefix  = (System.getenv('CAS_URL') ?: 'http://CAS_HOST:PORT/cas')
-                serviceUrl       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + '/CommunicationManagement/login/cas'
-                serverName       = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') 
-                proxyCallbackUrl = (System.getenv('BANNER9_URL') ?: 'http://BANNER9_HOST:PORT') + '/CommunicationManagement/secure/receptor'
-                loginUri         = '/login'
-                sendRenew        = false
-                proxyReceptorUrl = '/secure/receptor'
-                useSingleSignout = true
-                key = 'grails-spring-security-cas'
-                artifactParameter = 'SAMLart'
-                serviceParameter = 'TARGET'
-                filterProcessesUrl = '/login/cas'
-                serverUrlEncoding = 'UTF-8'
-                if (active && useSingleSignout){
-                    grails.plugin.springsecurity.useSessionFixationPrevention = false
-                }
-            }
-		    logout {
-                afterLogoutUrl =  '/logout/customLogout'
-                mepErrorLogoutUrl = 'https://URL:PORT/'
-            }
-        }
-    }
-}
 /** *****************************************************************************
  *                                                                              *
  *                        SAML CONFIGURATION                                    *
  *        Un-comment the below code when authentication mode is saml.           *
  *                                                                              *
  ***************************************************************************** **/
-// set active = true when authentication provider section configured for saml
-if(System.getenv('AUTH_METHOD') == 'saml')
-{
-    if(System.getenv('AUTH_METHOD') == 'cas') { grails.plugin.springsecurity.saml.active = false }
-    if(System.getenv('AUTH_METHOD') == 'saml') { grails.plugin.springsecurity.saml.active = true }
-    grails.plugin.springsecurity.auth.loginFormUrl = '/saml/login'
-    grails.plugin.springsecurity.saml.afterLogoutUrl ='/logout/customLogout'
-    banner.sso.authentication.saml.localLogout='true' // To disable single logout set this to true,default 'false'.
-    grails.plugin.springsecurity.saml.keyManager.storeFile = 'file:/saml/keystore.jks'
-    grails.plugin.springsecurity.saml.keyManager.storePass = (System.getenv('KEYSTORE_PASSWORD') ?: 'CHANGE_ME')
-    grails.plugin.springsecurity.saml.keyManager.passwords = [ ((System.getenv('ENVIRONMENT')) + '-' + (System.getenv('APP_SHORT_NAME')) + '-sp'): ((System.getenv('KEYSTORE_PASSWORD'))) ]  // banner-<short-appName>-sp is the value set in Ellucian Ethos Identity Service provider setup
-    grails.plugin.springsecurity.saml.keyManager.defaultKey = (System.getenv('ENVIRONMENT') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp'                 // banner-<short-appName>-sp is the value set in Ellucian Ethos Identity Service provider setup
-    grails.plugin.springsecurity.saml.metadata.sp.file = '/saml/metadata-sp.xml'
-    grails.plugin.springsecurity.saml.metadata.providers = [adfs: '/saml/metadata-idp.xml'] // for unix file based Example: '/home/u02/idp-local.xml'
-    grails.plugin.springsecurity.saml.metadata.defaultIdp = (System.getenv('IDP_URL') ?: 'https://sts.windows.net/ac352f9b-eb63-4ca2-9cf9-f4c40047ceff/')
-    grails.plugin.springsecurity.saml.maxAuthenticationAge = (System.getenv('MAX_AUTH_AGE') ?: 43200)
-    grails.plugin.springsecurity.saml.metadata.sp.defaults = [
-            local: true,
-            alias: (System.getenv('ENVIRONMENT') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp',                                   // banner-<short-appName>-sp is the value set in EIS Service provider setup
-            securityProfile: 'metaiop',
-            signingKey: (System.getenv('ENVIRONMENT') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp',                              // banner-<short-appName>-sp is the value set in EIS Service provider setup
-            encryptionKey: (System.getenv('ENVIRONMENT') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp',                           // banner-<short-appName>-sp is the value set in EIS Service provider setup
-            tlsKey: (System.getenv('ENVIRONMENT') ?: 'host') + '-' + (System.getenv('APP_SHORT_NAME') ?: 'studentss') + '-sp',                                  // banner-<short-appName>-sp is the value set in EIS Service provider setup
-            requireArtifactResolveSigned: false,
-            requireLogoutRequestSigned: false,
-            requireLogoutResponseSigned: false
-    ]
+
+String keystore_pass = new File("/saml/keystore/password").text.trim()
+banner.sso.authentication.saml.localLogout='true'
+grails {
+	plugin {
+		springsecurity {
+			failureHandler {
+				defaultFailureUrl = '/login/error'
+			}
+			auth {
+				loginFormUrl = '/saml/login'
+			}
+			saml {
+				active = true
+				afterLogoutUrl = '/logout/customLogout'
+				maxAuthenticationAge = 2592000
+				
+				keyManager {
+					storeFile = 'file:/saml/keystore/keystore.jks'
+					storePass = keystore_pass
+					passwords = [ 'zdevl-commmgmt-sp': keystore_pass ]
+					defaultKey = 'zdevl-commmgmt-sp'
+				}
+				metadata {
+					providers = [adfs: '/saml/metadata/idp.xml']
+					defaultIdp = 'https://sts.windows.net/ac352f9b-eb63-4ca2-9cf9-f4c40047ceff/'
+
+					sp {
+						file = '/saml/metadata/sp.xml'
+						defaults = [
+							local: true,
+							alias: 'zdevl-commmgmt-sp',
+							securityProfile: 'metaiop',
+							signingKey: 'zdevl-commmgmt-sp',
+							encryptionKey: 'zdevl-commmgmt-sp',
+							tlsKey: 'zdevl-commmgmt-sp',
+							requireArtifactResolveSigned: false,
+							requireLogoutRequestSigned: false,
+							requireLogoutResponseSigned: false
+						]
+					}
+				}
+			}
+		}
+	}
 }
 
 // ************************************************************************************************************
