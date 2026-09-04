@@ -4,6 +4,21 @@
 # Fail fast
 set -euo pipefail
 
+function on-error {
+	if [ -t 0 ]; then
+		echo -e "\033[1;31mFatal error ocurred during app startup. Failing command: '$BASH_COMMAND'. Dropping to debug shell.\033[0m"
+		exec bash
+	else
+		echo "Fatal error occurred during app startup. Failing command: '$BASH_COMMAND'. Exiting."
+	fi
+}
+trap on-error ERR
+
+if [[ "${DEBUG_STARTUP_SCRIPT_AND_LOG_PASSWORDS+x}" == 'x' ]]; then
+	echo "INFO: enabling debug mode. WARNING: this will log any secrets handled by the script to the console!"
+	set -x
+fi
+
 # Main Javaprop file to manipulate
 PROPFILE="/usr/local/tomcat/conf/catalina.properties"
 
@@ -22,48 +37,19 @@ admin-setProperty() {
 
 	#Enable Theme for BannerAdmin
 	if [ "$prop" = "theme.url" ]; then
-		sed -i "\|<param name=\"APP_CSS_URL\.*|d" /usr/local/tomcat/webapps/BannerAdmin/config.xml
-		sed -i "\|<param name=\"APP_CSS_APPEND\.*|d" /usr/local/tomcat/webapps/BannerAdmin/config.xml
-		sed -i "2i <param name=\"APP_CSS_URL\" value=\"$val\" />\\n<param name=\"APP_CSS_APPEND\" value=\"true\" />" /usr/local/tomcat/webapps/BannerAdmin/config.xml
-	fi
-
-	#Set CAS server for BannerAdmin.ws
-	if [ "$prop" = "cas.url" ]; then
-		sed -i "s|^cas\.server\.location.*|cas\.server\.location = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+		sed -i "\|<param name=\"APP_CSS_URL\.*|d" /usr/local/tomcat/webapps/"$APP_NAME"/config.xml
+		sed -i "\|<param name=\"APP_CSS_APPEND\.*|d" /usr/local/tomcat/webapps/"$APP_NAME"/config.xml
+		sed -i "2i <param name=\"APP_CSS_URL\" value=\"$val\" />\\n<param name=\"APP_CSS_APPEND\" value=\"true\" />" /usr/local/tomcat/webapps/"$APP_NAME"/config.xml
 	fi
 
 	#Set Banner9.baseurl for BannerAdmin.ws and appnav links in BannerAdmin
 	if [ "$prop" = "banner9.baseurl" ]; then
-		sed -i "s|^webapp\.location.*|webapp\.location = $val\/\${webapp.context}|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
-		sed -i "s|^webapp\.wrksp\.location.*|webapp\.wrksp\.location = $val\/\${webapp.wrksp.context}|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
+		sed -i "s|^webapp\.location.*|webapp\.location = $val\/\${webapp.context}|g" /usr/local/tomcat/webapps/"$APP_NAME".ws/WEB-INF/classes/config.properties
+		sed -i "s|^webapp\.wrksp\.location.*|webapp\.wrksp\.location = $val\/\${webapp.wrksp.context}|g" /usr/local/tomcat/webapps/"$APP_NAME".ws/WEB-INF/classes/config.properties
 		#sed -i "s|<param name=\"APPNAV_HELP_URL\".*|<param name=\"APPNAV_HELP_URL\"   value=\"$val/bannerHelp/Main?page=\" />|g" /usr/local/tomcat/webapps/BannerAdmin/config.xml
-		sed -i "s|<param name=\"APPNAV_API_URL\".*|<param name=\"APPNAV_API_URL\" value=\"$val/applicationNavigator/static/dist/m.js\" />|g" /usr/local/tomcat/webapps/BannerAdmin/config.xml
+		sed -i "s|<param name=\"APPNAV_API_URL\".*|<param name=\"APPNAV_API_URL\" value=\"$val/applicationNavigator/static/dist/m.js\" />|g" /usr/local/tomcat/webapps/"$APP_NAME"/config.xml
 	fi
 
-	if [ "$prop" = "saml.keystore.env" ]; then
-		sed -i "s|^saml\.keystore = .*|saml\.keystore = file://$val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
-		cp /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/applicationContext.xml.saml /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/applicationContext.xml
-	fi
-
-	if [ "$prop" = "saml.keystore.password.env" ]; then
-		sed -i "s|^saml\.keystore\.password.*|saml\.keystore\.password = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
-	fi
-
-	if [ "$prop" = "saml.sign.key.alias.env" ]; then
-		sed -i "s|^saml\.sign\.key\.alias.*|saml\.sign\.key\.alias = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
-	fi
-
-	if [ "$prop" = "saml.sign.key.password.env" ]; then
-		sed -i "s|^saml\.sign\.key\.password.*|saml\.sign\.key\.password = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
-	fi
-
-	if [ "$prop" = "saml.sp.metadata.filename.env" ]; then
-		sed -i "s|^saml\.sp\.metadata\.filename.*|saml\.sp\.metadata\.filename = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
-	fi
-
-	if [ "$prop" = "saml.idp.metadata.filename.env" ]; then
-		sed -i "s|^saml\.idp\.metadata\.filename.*|saml\.idp\.metadata\.filename = $val|g" /usr/local/tomcat/webapps/BannerAdmin.ws/WEB-INF/classes/config.properties
-	fi
 }
 
 ss-setProperty() {
@@ -91,7 +77,7 @@ setProperty() {
 
 	# call app-type-specific setProperty hooks
 	case "${APP_TYPE}" in
-	admin | admin-api)
+	admin)
 		admin-setProperty "$prop" "$val"
 		;;
 	self-service | api | bcm)
@@ -118,9 +104,25 @@ setPropsFromFile() {
 }
 
 if [ -d /run/passwords ]; then
-	for file in /run/passwords/*; do
-		echo "INFO: setting password property for $(basename "$file")"
-		setProperty "$(basename "$file").password" "$(cat "$file")"
+	for file in /run/passwords/db-*; do
+		if [[ -f "${file}/username" ]] && [[ -f "${file}/password" ]]; then
+			# extract the property namespace for this database user
+			propns="${file##*/db-}"
+			echo "INFO: configuring database connection for ${propns}"
+			read username <"$file/username" || :
+			read password <"$file/password" || :
+			echo "### Configuration for database connection ${propns}" >>"${PROPFILE}"
+			setProperty "${propns}.username" "$username"
+			setProperty "${propns}.password" "$password"
+			if [[ -f "/run/app-config/database.properties.d/${propns}.properties" ]]; then
+				setPropsFromFile <(while read line; do echo "${propns}.${line}"; done <"/run/app-config/database.properties.d/${propns}.properties")
+			else
+				setPropsFromFile <(while read line; do echo "${propns}.${line}"; done <"/etc/default-database-connection.properties")
+			fi
+		else
+			echo "WARN: username and/or password files not found for ${file##*/db-}!"
+			ls "${file}"
+		fi
 	done
 fi
 
@@ -138,11 +140,6 @@ setPropFromEnvPointingToFile() {
 	fi
 }
 
-# This will silently fail if the environments are not set.
-setPropFromEnvPointingToFile banproxy.password "${BANPROXY_PASSWORD:-}"
-setPropFromEnvPointingToFile banssuser.password "${BANSSUSER_PASSWORD:-}"
-setPropFromEnvPointingToFile commmgr.password "${COMMMGR_PASSWORD:-}"
-
 setPropFromEnv() {
 	prop=$1
 	val=$2
@@ -152,6 +149,9 @@ setPropFromEnv() {
 		setProperty "$prop" "$val"
 	fi
 }
+
+# If an app-specific run script is present and executable, source it. We source instead of executing so that it has access to the property manglement API
+[ -x "/usr/local/tomcat/bin/run_${APP_NAME}.sh" ] && source "/usr/local/tomcat/bin/run_${APP_NAME}.sh"
 
 # Merge in all property files (files in $PROPERTY_DROPINS that end in .properties)
 for propFile in ${PROPERTY_DROPINS}/*.properties; do
@@ -209,6 +209,21 @@ while [ $# -gt 0 ]; do
 		;;
 	esac
 	shift
+done
+
+# Copy application groovy files into place since these apps can't read symlinks FOR SOME REASON
+find webapps -type l -name '*.groovy' -printf %p: -execdir readlink {} \; | while IFS=: read dest source; do
+	echo "INFO: Copying Groovy file $(basename $dest) into place"
+	rm -- "$dest"
+	if ! cp -- "$source" "$dest"; then
+		if [[ -f "${dest}".shipped ]]; then
+			echo "INFO: Customized Groovy script not found for $(basename -- "$dest"), restoring shipped file"
+		else
+			echo "ERROR: Customized Groovy script not found for  $(basename -- "$dest") but no shipped file available."
+			echo "App is not configured, cannot operate."
+			exit 1
+		fi
+	fi
 done
 
 if [ "${JMX_PORT+x}" == x ]; then

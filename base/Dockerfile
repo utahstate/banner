@@ -28,6 +28,9 @@ RUN <<EOF
     chown -R tomcat: /opt/banner /u01 /usr/local/tomcat
 EOF
 
+# Install default database connection properties file
+COPY --chmod=444 default-database-connection.properties /etc/default-database-connection.properties
+
 # Switch to tomcat user
 USER tomcat
 

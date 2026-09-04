@@ -14,6 +14,7 @@ EOF
 COPY --chmod=644 ssh-config /root/.ssh/config
 COPY --chmod=644 build-host-keys /root/.ssh/known_hosts
 COPY --chmod=755 download-wars.sh /usr/local/bin/download-wars
+COPY --chmod=755 configure-saml.sh /usr/local/bin/configure-saml
 
 WORKDIR /opt/build/
 ENV BUILD_DIR=/opt/build/
