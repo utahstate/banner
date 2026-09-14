@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <md:EntityDescriptor entityID="zdevl-registrationss-sp" xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata">
+        <md:SPSSODescriptor AuthnRequestsSigned="true" WantAssertionsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+    <md:Extensions>
+      <idpdisco:DiscoveryResponse xmlns:idpdisco="urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol" Binding="urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol" 
+Location="https://ss-zdevl.banner.usu.edu/StudentRegistrationSsb/saml/SSO/registrationss/login/auth?disco=true"/>
+    </md:Extensions>
+    <md:KeyDescriptor use="signing">
+      <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:X509Data>
+          <ds:X509Certificate>
+            MIIDuzCCAqOgAwIBAgIEXX0Y8TANBgkqhkiG9w0BAQsFADCBjTELMAkGA1UEBhMC
+            VVMxCzAJBgNVBAgTAlVUMQ4wDAYDVQQHEwVMb2dhbjEeMBwGA1UEChMVVXRhaCBT
+            dGF0ZSBVbml2ZXJzaXR5MR8wHQYDVQQLExZJbmZvcm1hdGlvbiBUZWNobm9sb2d5
+            MSAwHgYDVQQDExdzcy16ZGV2bC5iYW5uZXIudXN1LmVkdTAeFw0yMjA2MTYxNDU3
+            NDVaFw00MjAzMDMxNDU3NDVaMIGNMQswCQYDVQQGEwJVUzELMAkGA1UECBMCVVQx
+            DjAMBgNVBAcTBUxvZ2FuMR4wHAYDVQQKExVVdGFoIFN0YXRlIFVuaXZlcnNpdHkx
+            HzAdBgNVBAsTFkluZm9ybWF0aW9uIFRlY2hub2xvZ3kxIDAeBgNVBAMTF3NzLXpk
+            ZXZsLmJhbm5lci51c3UuZWR1MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+            AQEAkUKju931Of7UQ79IvOYI9vg1xl/JElcNstp6T0imNCZa4nCdOsSdgx1Kk6Y4
+            q74q9XbjW/7bqKs8p891Ur9FfT/f5bbRAfEcDGSWpYPBP31a+5yUPa00rgqYUEL8
+            d1hno3s37Uj18ZZd4CwllYArg7EaGAzvypQsSn68WMgtGst1xUCimLUKkCJp92jQ
+            1HNF3uTvwwSavxk8hh0GAMZDo6U/PX9jtDxvvrd8YrXyl09AQn6u+08ZuZEjDRfa
+            T8aoSoJCxKMZ7Oft4lTjF5dITqDEISxfuNrtldO64d0AIjGmKBzcB/tRu8iBar01
+            3RCjjD1N1CY8fI5ZLTz7WX7ZBQIDAQABoyEwHzAdBgNVHQ4EFgQULWxzPOnZDpqZ
+            QMJAtF5TEuYenjQwDQYJKoZIhvcNAQELBQADggEBAAzPuMbhDpCTjone7YoKsBpD
+            wySTOkrugjRbjObolaFsq1KyerD+BXfgI5Q9blspL7pzWvX7gmkpbq/pwLyRFdwT
+            5avHlJbbLUD8sptVXdTNlraEkzgbl9/my2niktNT1xe8aiUYF84+Wqqe73q5tmf1
+            /va5+7HvAsadY2QBg7B63iM3NoXq5BI8YBNR+BUCwW1M7deABRUI8UZYGcb96SDC
+            NfzAp0r/Id/tcLyMfVSD8j7OT8e2r9RG3DvyjrYV/+MB7lfSF4+45AZl0kS/aZIz
+            4UssiziZ2LW53uDX8HkTESHVLA63lZhmDfFalZMJxu7aPgrtlBX+aRHSMqaVWuc=
+          </ds:X509Certificate>
+        </ds:X509Data>
+      </ds:KeyInfo>
+    </md:KeyDescriptor>
+    <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" 
+Location="https://ss-zdevl.banner.usu.edu/StudentRegistrationSsb/saml/SingleLogout"/>
+    <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" 
+Location="https://ss-zdevl.banner.usu.edu/StudentRegistrationSsb/saml/SingleLogout"/>
+    <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" 
+Location="https://ss-zdevl.banner.usu.edu/StudentRegistrationSsb/saml/SingleLogout"/>
+    <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</md:NameIDFormat>
+    <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat>
+    <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</md:NameIDFormat>
+    <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName</md:NameIDFormat>
+    <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" 
+Location="https://ss-zdevl.banner.usu.edu/StudentRegistrationSsb/saml/SSO/registrationss" index="0" isDefault="true"/>
+    <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact" 
+Location="https://ss-zdevl.banner.usu.edu/StudentRegistrationSsb/saml/SSO/registrationss" index="1" isDefault="false"/>
+    <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:PAOS" 
+Location="https://ss-zdevl.banner.usu.edu/StudentRegistrationSsb/saml/SSO/registrationss" index="2" isDefault="false"/>
+  </md:SPSSODescriptor>
+</md:EntityDescriptor>
