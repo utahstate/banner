@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: brim
+  namespace: zdevl
+  labels:
+    banner.usu.edu/application: zdevl.brim
+    banner.usu.edu/environment: zdevl
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      banner.usu.edu/application: zdevl.brim
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        banner.usu.edu/application: zdevl.brim
+        banner.usu.edu/environment: zdevl
+      namespace: zdevl
+    spec:
+      containers:
+        - env:
+            - name: BANNER9_URL
+              value: https://brimdev.banner.usu.edu
+            - name: BANNERDB_JDBC
+              value: jdbc:oracle:thin:@//zdevl.db.usu.edu:1521/zdevl
+            - name: BANPROXY_PASSWORD
+              value: bf1N31dn34d
+            - name: BANSSUSER_PASSWORD
+              value: a4fAs7_Mubd
+            - name: BRIM_URL
+              value: https://brimdev.banner.usu.edu
+            - name: RABBITMQ_EXCHANGENAME
+              value: brim_queue
+            - name: RABBITMQ_HOST
+              value: ellucianmessagingservice.zdevl.svc.cluster.local
+            - name: RABBITMQ_PASSWORD
+              value: rabbit
+            - name: RABBITMQ_PORT
+              value: '5672'
+            - name: RABBITMQ_USERNAME
+              value: ellucian
+            - name: RABBITMQ_VIRTUALHOSTNAME
+              value: bep_events_host
+            - name: APP_SHORT_NAME
+              value: brim
+            - name: APP_LONG_NAME
+              value: brim
+            - name: KEYSTORE_PASSWORD
+              value: Mg7ZW2YWm9TKZAiqy2KCKs7FPPpnc6k5
+            - name: AUTH_METHOD
+              value: saml
+            - name: MAX_AUTH_AGE
+              value: '2592000'
+            - name: BANNERDB
+              value: zdevl
+            - name: IDP_URL
+              value: ' https://sts.windows.net/ac352f9b-eb63-4ca2-9cf9-f4c40047ceff/'
+          image: usuit/banner:brim-5.2.1-zdevl-20250423-20
+          imagePullPolicy: Always
+          name: brim
+          ports:
+            - containerPort: 8080
+              name: tomcat
+              protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: {}
+            privileged: false
+            procMount: Default
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          stdin: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          tty: true
+      dnsConfig: {}
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+        - name: dockerhub-usuitesutility-ro
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: brim
+  namespace: zdevl
+  annotations:
+    traefik.ingress.kubernetes.io/service.sticky.cookie: 'true'
+    traefik.ingress.kubernetes.io/service.sticky.cookie.name: brim-sticky
+  labels:
+    banner.usu.edu/application: zdevl.brim
+    banner.usu.edu/environment: zdevl
+spec:
+  selector:
+    banner.usu.edu/application: zdevl.brim
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

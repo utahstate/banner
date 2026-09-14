@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ellucian-messaging-adapter
+  namespace: zdevl
+  labels:
+    banner.usu.edu/application: zdevl.ellucian-messaging-adapter
+    banner.usu.edu/environment: zdevl
+  annotations:
+    banner.usu.edu/desired-replicas: '1'
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      banner.usu.edu/application: zdevl.ellucian-messaging-adapter
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      namespace: zdevl
+      labels:
+        banner.usu.edu/application: zdevl.ellucian-messaging-adapter
+        banner.usu.edu/environment: zdevl
+    spec:
+      imagePullSecrets:
+        - name: dockerhub-usuitesutility-ro
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      volumes:
+        

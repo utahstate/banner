@@ -105,10 +105,10 @@ spec:
             requests:
               memory: 4Gi
           securityContext:
-            allowPrivilegeEscalation: 'no'
+            allowPrivilegeEscalation: no
             privileged: false
             readOnlyRootFilesystem: false
-            runAsNonRoot: 'no'
+            runAsNonRoot: no
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           volumeMounts:

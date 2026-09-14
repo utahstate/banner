@@ -48,12 +48,12 @@ spec:
           secret:
             defaultMode: 420
             secretName: banssuser-creds
-            optional: 'no'
+            optional: no
         - name: banproxy-creds
           secret:
             defaultMode: 420
             secretName: banproxy-creds
-            optional: 'no'
+            optional: no
         - name: cdcadmin-creds
           secret:
             defaultMode: 420
@@ -68,7 +68,7 @@ spec:
           configMap:
             defaultMode: 420
             name: properties
-            optional: 'no'
+            optional: no
       containers:
         - name: app
           image: usuit/banner9-event-publisher:9.22.2-zdevl
@@ -130,7 +130,7 @@ spec:
               name: properties
               readOnly: true
             - mountPath: /run/passwords/rabbitmq
-              name: rabbitmq-password
+              name: rabbitmq-creds
               readOnly: true
 ---
 apiVersion: v1
