@@ -11,4 +11,4 @@ ENV ENVIRONMENT=${ENVIRONMENT} APP_NAME="CommunicationManagement" APP_TYPE="bcm"
 LABEL edu.usu.banner.version=${VERSION} edu.usu.banner.environment=${ENVIRONMENT} edu.usu.banner.appName="${APP_NAME}" edu.usu.banner.appType="${APP_TYPE}"
 
 COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME} /usr/local/tomcat/webapps/${APP_NAME}
-COPY --chown=tomcat:tomcat context.xml /usr/local/tomcat/conf/context.xml
+COPY --chown=tomcat:tomcat server.xml context.xml /usr/local/tomcat/conf/

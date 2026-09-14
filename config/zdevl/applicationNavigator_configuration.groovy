@@ -88,34 +88,12 @@ banner.oauth2.audiance="https://elluciancloud.com"
  *                                                                              *
  ********************************************************************************/
 //
-boolean ssoEnabled = false
-
-if(System.getenv('AUTH_METHOD') == 'saml')
-{
-    banner {
-        sso {
-            authenticationProvider           = 'saml' //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
-            authenticationAssertionAttribute = 'UDC_IDENTIFIER'
-        }
+banner {
+    sso {
+        authenticationProvider           = 'saml' //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
+        authenticationAssertionAttribute = 'UDC_IDENTIFIER'
     }
 }
-if(System.getenv('AUTH_METHOD') == 'cas')
-{
-    banner {
-        sso {
-            authenticationProvider           = 'cas' //  Valid values are: 'saml' and 'cas' for SSO to work. 'default' to be used only for zip file creation.
-            authenticationAssertionAttribute = 'UDC_IDENTIFIER'
-        }
-    }
-}
-if(banner.sso.authenticationProvider == 'cas' || banner.sso.authenticationProvider == 'saml' ){
-    ssoEnabled = true
-    }
- if(ssoEnabled)
-    {
-    grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/error'
-    }
-
 /********************************************************************************
  *                                                                              *
  *                Application Navigator Logout URL                              *
@@ -135,7 +113,7 @@ grails.plugin.springsecurity.logout.afterLogoutUrl = '/logout/customLogout'
  *                                                                              *
  ********************************************************************************/
 // Can be institutional home page ex: http://myportal/main_page.html
-grails.plugin.springsecurity.homePageUrl=(System.getenv('GRAILS_PLUGIN_SPRINGSECURITY_HOMEPAGEURL') ?: 'http://APPLICATION_NAVIGATOR_HOST:PORT/applicationNavigator/' )
+grails.plugin.springsecurity.homePageUrl="https://admin-zdevl.banner.usu.edu/applicationNavigator/"
 
 
 /********************************************************************************
@@ -158,7 +136,7 @@ grails {
 			saml {
 				active = true
 				afterLogoutUrl = '/logout/customLogout'
-				maxAuthenticationAge = 43200
+				maxAuthenticationAge = 2592000
 				
 				keyManager {
 					storeFile = 'file:/saml/keystore/keystore.jks'
@@ -201,8 +179,8 @@ seamless.interceptPattern = "${grails.plugin.springsecurity.cas.serverUrlPrefix}
 // invoked along with the administrative commonMenu menu endpoint when loading the 
 // menus.
 seamless.menuEndpoints = [
-(System.getenv('BANNER9_URL')?: 'http://APPLICATION_NAVIGATOR_HOST:PORT') + "/applicationNavigator/commonMenu",
-(System.getenv('BANNER9_URL')?: 'http://APPLICATION_NAVIGATOR_HOST:PORT') + "/applicationNavigator/commonSelfServiceMenu"
+    "https://admin-zdevl.banner.usu.edu/applicationNavigator/commonMenu",
+    "https://admin-zdevl.banner.usu.edu/applicationNavigator/commonSelfServiceMenu"
 ]
 
 // List the URL entries of Banner Self Service Applications integrating with Application
@@ -216,7 +194,7 @@ seamless.menuEndpoints = [
 // The entries added must match those entries listed in the Web Tailor menus without
 // which they will not be displayed in the Application Navigator unified menu.
 seamless.selfServiceApps = [
-    (System.getenv("BANNER9_SS_URL") ?: 'http://APPLICATION_NAVIGATOR_HOST:PORT') + "/BannerExtensibility/"
+    "https://ss-zdevl.banner.usu.edu/BannerExtensibility/"
 ]
 
 seamless.logLevel="off"

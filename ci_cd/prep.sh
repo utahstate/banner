@@ -206,7 +206,9 @@ docker push "${image_tag}-${date}"
 echo "Push complete, updating deployments..."
 
 stage=deploy
-kubectl set image "deployment/${ctx_dir,,}" "${ctx_dir,,}=${image_tag}" -n "$instance"
+kubectl set image "deployment/${ctx_dir,,}" "app=${image_tag}-${date}" --context "$instance"
+target_replicas=$(kubectl get deployment "${ctx_dir,,}" -o json --context "$instance" | jq '.metadata.annotations["banner.usu.edu/desired-replicas"]' -r)
+kubectl scale deployment "${ctx_dir,,}" --replicas="${target_replicas}" --context "$instance"
 
 mkdir -p "../${ctx_dir}/.latest-versions/"
 echo "${version}" >"../${ctx_dir}/.latest-versions/${instance,,}"

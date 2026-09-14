@@ -30,28 +30,6 @@ if [ ! -f "$PROPFILE" ]; then
 	exit 1
 fi
 
-admin-setProperty() {
-	local prop val
-	prop="$1"
-	val="$2"
-
-	#Enable Theme for BannerAdmin
-	if [ "$prop" = "theme.url" ]; then
-		sed -i "\|<param name=\"APP_CSS_URL\.*|d" /usr/local/tomcat/webapps/"$APP_NAME"/config.xml
-		sed -i "\|<param name=\"APP_CSS_APPEND\.*|d" /usr/local/tomcat/webapps/"$APP_NAME"/config.xml
-		sed -i "2i <param name=\"APP_CSS_URL\" value=\"$val\" />\\n<param name=\"APP_CSS_APPEND\" value=\"true\" />" /usr/local/tomcat/webapps/"$APP_NAME"/config.xml
-	fi
-
-	#Set Banner9.baseurl for BannerAdmin.ws and appnav links in BannerAdmin
-	if [ "$prop" = "banner9.baseurl" ]; then
-		sed -i "s|^webapp\.location.*|webapp\.location = $val\/\${webapp.context}|g" /usr/local/tomcat/webapps/"$APP_NAME".ws/WEB-INF/classes/config.properties
-		sed -i "s|^webapp\.wrksp\.location.*|webapp\.wrksp\.location = $val\/\${webapp.wrksp.context}|g" /usr/local/tomcat/webapps/"$APP_NAME".ws/WEB-INF/classes/config.properties
-		#sed -i "s|<param name=\"APPNAV_HELP_URL\".*|<param name=\"APPNAV_HELP_URL\"   value=\"$val/bannerHelp/Main?page=\" />|g" /usr/local/tomcat/webapps/BannerAdmin/config.xml
-		sed -i "s|<param name=\"APPNAV_API_URL\".*|<param name=\"APPNAV_API_URL\" value=\"$val/applicationNavigator/static/dist/m.js\" />|g" /usr/local/tomcat/webapps/"$APP_NAME"/config.xml
-	fi
-
-}
-
 ss-setProperty() {
 	local prop val
 	prop="$1"
@@ -77,20 +55,16 @@ setProperty() {
 
 	# call app-type-specific setProperty hooks
 	case "${APP_TYPE}" in
-	admin)
-		admin-setProperty "$prop" "$val"
-		;;
 	self-service | api | bcm)
 		ss-setProperty "$prop" "$val"
 		;;
-	*) ;;
 	esac
 
 	if [ $(grep -c "$prop" "$PROPFILE") -eq 0 ]; then
 		echo "${prop}=$val" >>"$PROPFILE"
 	else
 		val=$(echo "$val" | sed 's#/#\\/#g')
-		sed -i "s/$prop=.*/### Overridden at startup\n$prop=$val/" "$PROPFILE"
+		sed -i "s|$prop *=.*|### Overridden at startup\n$prop=$val|" "$PROPFILE"
 	fi
 }
 
