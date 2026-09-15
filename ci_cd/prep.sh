@@ -8,6 +8,8 @@ cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 # Load the conversion table
 source ./conversion_table.sh
 
+source ./base-image-utils.sh
+
 function print-usage() {
 	cat <<EOF
 Usage: $0 [options] <app-name> <version> <instance>
@@ -128,20 +130,35 @@ if [[ ${#param_parsers[@]} -ne 0 ]]; then
 	exit 1
 fi
 
+exec {journal}> >(systemd-cat -t banner-${instance}-build-log)
+echo " --- START OF BUILD LOG --- " >&${journal}
+echo " > Building app ${app_name}, version ${version}, for instance ${instance}" >&${journal}
+
+function log-tee {
+	while read line; do
+		echo $line >&${1:-1}
+		echo $line >&${journal}
+	done
+}
+exec > >(log-tee) 2> >(log-tee 2)
+
 stage=prep
 
 function docker {
 	case $stage in
 	prep)
-		echo "WARN: Docker command running in prep stage! This is unexpected!" >&2
+		if [ $pull -eq 0 ]; then
+			echo "WOULD RUN> docker $@"
+			return
+		fi
 		;;
-	build)
+	build*)
 		if [ $build -eq 0 ]; then
 			echo "WOULD RUN> docker $@"
 			return
 		fi
 		;;
-	push)
+	push*)
 		if [ $push -eq 0 ]; then
 			echo "WOULD RUN> docker $@"
 			return
@@ -178,7 +195,6 @@ if [ $spawn_agent -eq 1 ]; then
 	fi
 fi
 
-echo "Beginning container build for ${app_name} version ${version} in environment ${instance}..."
 ctx_dir="${APP_MAPPING[${app_name,,}]}"
 if [[ "${ctx_dir+x}" == "" ]]; then
 	echo "ERR: Unknown Banner app ${app_name} -- we have no build instructions!"
@@ -189,6 +205,47 @@ if ! [[ -d "../${ctx_dir}" ]]; then
 	exit 1
 fi
 echo "Build context located at ../${ctx_dir}"
+
+echo "Identifying base image..."
+# Coordination lock; if multiple builds are running simultaneously, only one build should be running this check at once so we only rebuild images once.
+exec {lock}>./.base-check.lck
+flock $lock
+
+# If the base build image is too old, rebuild it.
+docker pull docker.io/usuit/banner-base:build-jdk21-latest
+if needs-rebuild usuit/banner-base:build-jdk21-latest; then
+	echo "Base build image is too old, rebuilding it..."
+	rebuild-base ../base-build usuit/banner-base:build-jdk21-latest
+fi
+
+generate-reverse-image-table base_images
+inspecting="$(get-container-base ../${ctx_dir})"
+our_bases=()
+# Get all usuit/banner-base images that this app is derived from, and assemble them in reverse order
+while [[ "${inspecting}" =~ ^usuit/banner-base: ]]; do
+	our_bases=("$inspecting" "${our_bases[@]}")
+	inspecting="$(get-container-base "../${base_images[$inspecting]}")"
+done
+
+# Check all the collected base images to ensure they were built recently enough.
+while [ ${#our_bases[@]} -gt 0 ]; do
+	docker pull "docker.io/${our_bases[0]}"
+	if needs-rebuild ${our_bases[0]}; then
+		# This image needs to be rebuilt, and subsequently all base images derived from it.
+		echo -n "Base image ${base_images[${our_bases[0]}]} is too old, rebuilding it"
+		[[ ${#our_bases[@]} -gt 1 ]] && echo -n " and all derived bases"
+		echo ...
+		for image in "${our_bases[@]}"; do
+			rebuild-base "${base_images[${image}]}" "${image}"
+		done
+		break
+	fi
+	our_bases=("${our_bases[@]:1}")
+done
+
+# We've done our work, close the lock descriptor
+exec {lock}>&-
+echo "Beginning container build for ${app_name} version ${version} in environment ${instance}..."
 
 stage=build
 echo "Beginning build..."

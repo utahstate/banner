@@ -10,6 +10,8 @@ cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 # Load conversion table
 source ./conversion_table.sh
 
+source ./base-image-utils.sh
+
 function print-usage() {
 	cat <<EOF
 Usage: $0 [options]
@@ -112,36 +114,28 @@ function docker {
 	command "${docker_cmd}" "$@"
 }
 
-# CD to repo base
-cd ..
+docker_args=()
 
-# Collect all base image dirs. base is first.
-base_dirs=(base base-*)
+[[ $cache -eq 0 ]] && docker_args+=(--no-cache)
 
 # Build them one at a time
+get-base-images | while read dir tag; do
+	stage="build-${dir}"
+
+	echo "Building ${dir}, tagged ${tag}"
+	docker build "../${dir}" --tag="${tag}"
+done
+
 for dir in "${base_dirs[@]}"; do
 	stage="build-${dir}"
-	tag_date=1
-	case "$dir" in
-	base-build)
-		tag="build-jdk21-latest"
-		tag_date=0
-		;;
-	base*)
-		# Remove base prefix
-		base_for="${dir#base}"
-		# Remove dashes
-		base_for="${base_for//-/}"
-		tag="9-jdk21-tomcat10${base_for:+-$base_for}"
-		;;
-	*)
-		echo "wtf is this??? $dir"
-		exit 67
-		;;
-	esac
 	echo "Building ${dir}, tagged ${tag}"
-	docker build "${dir}" --tag="usuit/banner-base:${tag}" $([[ $tag_date -eq 1 ]] && echo --tag=usuit/banner-base:$tag-$date) $([[ $cache -eq 0 ]] && echo --no-cache)
+	docker build "${dir}" --tag="${tag}" "${docker_args[@]}"
+	if [[ $dir != "base-build" ]]; then
+		docker tag "${tag}" "${tag}-$(date +%Y%m%d-%H%M%S)"
+	fi
 	stage="push-${dir}"
 	docker push "usuit/banner-base:${tag}"
-	[[ $tag_date -eq 1 ]] && docker push "usuit/banner-base:${tag}-${date}"
+	if [[ $dir != "base-build" ]]; then
+		docker push "usuit/banner-base:${tag}-${date}"
+	fi
 done
