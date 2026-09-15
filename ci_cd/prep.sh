@@ -265,6 +265,9 @@ echo "Push complete, updating deployments..."
 stage=deploy
 kubectl set image "deployment/${ctx_dir,,}" "app=${image_tag}-${date}" --context "$instance"
 target_replicas=$(kubectl get deployment "${ctx_dir,,}" -o json --context "$instance" | jq '.metadata.annotations["banner.usu.edu/desired-replicas"]' -r)
+echo -e "Scaling to ${target_replicas} replica"
+[ ${target_replicas} -ne 1 ] && echo -e "s"
+echo ...
 kubectl scale deployment "${ctx_dir,,}" --replicas="${target_replicas}" --context "$instance"
 
 mkdir -p "../${ctx_dir}/.latest-versions/"
