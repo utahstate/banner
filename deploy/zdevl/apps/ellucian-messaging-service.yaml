@@ -43,7 +43,7 @@ metadata:
     banner.usu.edu/environment: zdevl
 spec:
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
@@ -60,6 +60,7 @@ spec:
         banner.usu.edu/application: zdevl.ellucian-messaging-service
         banner.usu.edu/environment: zdevl
     spec:
+      hostname: ellucianmessagingservice-zdevl
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext:
@@ -77,10 +78,10 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 5672
-              name: 5672tcp
+              name: rabbitmq
               protocol: TCP
             - containerPort: 15672
-              name: 15672tcp
+              name: web-console
               protocol: TCP
             - containerPort: 15692
               name: 15692tcp
@@ -114,15 +115,17 @@ metadata:
   labels:
     banner.usu.edu/application: zdevl.ellucian-messaging-service
     banner.usu.edu/environment: zdevl
+  annotations:
+    traefik.ingress.kubernetes.io/service.middlewares: zdevl-restrict-adminvpn@kubernetescrd
 spec:
   selector:
     banner.usu.edu/application: zdevl.ellucian-messaging-service
   ports:
-    - name: 5672tcp
+    - name: rabbitmq
       protocol: TCP
       port: 5672
       targetPort: 5672
-    - name: 15672tcp
+    - name: web-console
       protocol: TCP
       port: 15672
       targetPort: 15672
@@ -130,3 +133,21 @@ spec:
       protocol: TCP
       port: 15692
       targetPort: 15692
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ellucian-messaging-service-public
+  namespace: zdevl
+  labels:
+    banner.usu.edu/application: zdevl.ellucian-messaging-service
+    banner.usu.edu/environment: zdevl
+spec:
+  selector:
+    banner.usu.edu/application: zdevl.ellucian-messaging-service
+  type: NodePort
+  ports:
+    - name: rabbitmq
+      protocol: TCP
+      port: 5672
+      targetPort: 5672

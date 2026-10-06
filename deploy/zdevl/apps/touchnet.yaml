@@ -1,0 +1,240 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: touchnet-config
+  namespace: zdevl
+  labels:
+    banner.usu.edu/application: zdevl.touchnet
+    banner.usu.edu/environment: zdevl
+spec:
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: 1Gi
+  nfs:
+    path: /nfs/bannerdev/zdevl/touchnet_config
+    server: 129.123.109.82
+  persistentVolumeReclaimPolicy: Retain
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: touchnet-config
+  namespace: zdevl
+  labels:
+    banner.usu.edu/application: zdevl.touchnet
+    banner.usu.edu/environment: zdevl
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  volumeMode: Filesystem
+  volumeName: touchnet-config
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ords-touchnet
+  namespace: zdevl
+  labels:
+    banner.usu.edu/application: zdevl.touchnet
+    banner.usu.edu/environment: zdevl
+    db.usu.edu/zdevl: 'true'
+  annotations:
+    banner.usu.edu/desired-replicas: '1'
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      banner.usu.edu/application: zdevl.touchnet
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      namespace: zdevl
+      labels:
+        banner.usu.edu/application: zdevl.touchnet
+        banner.usu.edu/environment: zdevl
+    spec:
+      imagePullSecrets:
+        - name: dockerhub-usuitesutility-ro
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: touchnet-config
+        - name: touchnet-creds
+          secret:
+            defaultMode: 420
+            secretName: touchnet-creds
+      containers:
+        - name: app
+          image: usuit/touchnet-ords:26.2.3.237.1104
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: tomcat
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /ords/touchnet/
+          #     port: 8080
+          #     scheme: HTTP
+          #   periodSeconds: 10
+          #   failureThreshold: 6
+          #   successThreshold: 1
+          #   timeoutSeconds: 1
+          # readinessProbe:
+          #   httpGet:
+          #     path: /ords/touchnet/
+          #     port: 8080
+          #     scheme: HTTP
+          #   periodSeconds: 10
+          #   failureThreshold: 3
+          #   successThreshold: 1
+          #   timeoutSeconds: 1
+          # startupProbe:
+          #   httpGet:
+          #     path: /ords/touchnet/
+          #     port: 8080
+          #     scheme: HTTP
+          #   periodSeconds: 10
+          #   failureThreshold: 18
+          #   successThreshold: 1
+          #   timeoutSeconds: 1
+          #   initialDelaySeconds: 30
+          resources:
+            requests:
+              memory: 4Gi
+          securityContext:
+            allowPrivilegeEscalation: no
+            privileged: no
+            readOnlyRootFilesystem: no
+            runAsNonRoot: no
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /u01/app/tomcat/touchnet_config
+              name: config
+              readOnly: false
+            - mountPath: /run/passwords/db-db
+              name: touchnet-creds
+              readOnly: true
+          env:
+            - name: BANNER_DB_JDBC
+              value: jdbc:oracle:thin:@//db.zdevl.svc.bannerdev.k8s.usu.edu:1521/zdevl
+            # is this necessary? since it's included in the ^ above ^ JDBC string
+            # i'll leave it in for now.
+            - name: BANNER_DB_SERVICENAME
+              value: zdevl
+            - name: BANNER_TOUCHNET_NAME
+              value: TNCOMMERCE_TEST
+            - name: BANNER_DB_HOSTNAME
+              value: db.zdevl.svc.bannerdev.k8s.usu.edu
+            - name: BANNER_DB_PORT
+              value: '1521'
+            - name: ORDS_DEBUG
+              value: 'true'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ords-touchnet
+  namespace: zdevl
+  annotations:
+    traefik.ingress.kubernetes.io/service.sticky.cookie: 'true'
+    traefik.ingress.kubernetes.io/service.sticky.cookie.name: 'touchnet-ords-sticky'
+  labels:
+    banner.usu.edu/application: zdevl.touchnet
+    banner.usu.edu/environment: zdevl
+spec:
+  selector:
+    banner.usu.edu/application: zdevl.touchnet
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: touchnet-acl
+  labels:
+    banner.usu.edu/environment: zdevl
+    banner.usu.edu/application: zdevl.touchnet
+  namespace: zdevl
+spec:
+  ipAllowList:
+    sourceRange:
+      - 198.187.196.0/24 # Touchnet cloud services (from firewall rules for tndev.banner)
+      - 129.123.42.0/24  # Admin VPN
+      - 129.123.123.0/24 # Banner subnet
+    rejectStatusCode: 404
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: touchnet-https
+  namespace: zdevl
+spec:
+  secretName: touchnet-https
+  commonName: tndev.banner.usu.edu
+  dnsNames:
+    - tndev.banner.usu.edu
+    - touchnetdev.banner.usu.edu
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: touchnet
+  namespace: zdevl
+  labels:
+    banner.usu.edu/application: zdevl.touchnet
+    banner.usu.edu/environment: zdevl
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: >-
+      zdevl-enforce-https@kubernetescrd,zdevl-secure-headers@kubernetescrd,zdevl-touchnet-acl@kubernetescrd
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - touchnetdev.banner.usu.edu
+        - tndev.banner.usu.edu
+      secretName: touchnet-https
+  rules:
+    - host: "touchnetdev.banner.usu.edu"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /ords/touchnet
+            backend:
+              service:
+                name: ords-touchnet
+                port:
+                  number: 80
+    - host: "tndev.banner.usu.edu"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /ords/touchnet
+            backend:
+              service:
+                name: ords-touchnet
+                port:
+                  number: 80

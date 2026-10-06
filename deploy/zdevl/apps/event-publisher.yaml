@@ -6,9 +6,12 @@ metadata:
   labels:
     banner.usu.edu/application: zdevl.event-publisher
     banner.usu.edu/environment: zdevl
+    db.usu.edu/zdevl: 'true'
+  annotations:
+    banner.usu.edu/desired-replicas: '1'
 spec:
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
@@ -28,6 +31,7 @@ spec:
       imagePullSecrets:
         - name: dockerhub-usuitesutility-ro
       restartPolicy: Always
+      enableServiceLinks: false
       schedulerName: default-scheduler
       securityContext:
         seccompProfile:
@@ -43,7 +47,7 @@ spec:
         - name: rabbitmq-creds
           secret:
             defaultMode: 420
-            secretName: ellucianmessagingservice-creds
+            secretName: ems-creds
         - name: banssuser-creds
           secret:
             defaultMode: 420

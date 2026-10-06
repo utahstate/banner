@@ -1,0 +1,418 @@
+####         ####
+## MIDDLEWARES ##
+####         ####
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: restrict-onprem
+  labels:
+    banner.usu.edu/environment: zdevl
+  namespace: zdevl
+spec:
+  ipAllowList:
+    sourceRange:
+      - 129.123.0.0/16
+      - 144.39.0.0/16
+    rejectStatusCode: 404
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: restrict-staffvpn
+  labels:
+    banner.usu.edu/environment: zdevl
+  namespace: zdevl
+spec:
+  ipAllowList:
+    sourceRange:
+      - 129.123.119.1
+      - 129.123.42.0/24
+    rejectStatusCode: 404
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: restrict-adminvpn
+  labels:
+    banner.usu.edu/environment: zdevl
+  namespace: zdevl
+spec:
+  ipAllowList:
+    sourceRange:
+      - 129.123.42.0/24
+    rejectStatusCode: 404
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: secure-headers
+  labels:
+    banner.usu.edu/environment: zdevl
+  namespace: zdevl
+spec:
+  headers:
+    forceSTSHeader: yes
+    stsIncludeSubdomains: yes
+    stsPreload: yes
+    stsSeconds: 16000000
+    contentTypeNosniff: yes
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: enforce-https
+  labels:
+    banner.usu.edu/environment: zdevl
+  namespace: zdevl
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: no
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-no-backends
+  labels:
+    banner.usu.edu/environment: zdevl
+  namespace: zdevl
+spec:
+  errors:
+    status:
+      - "503"
+    statusRewrites:
+      "503": 302
+    query: /redirect-offline
+    service:
+      name: static
+      port: 80
+---
+####          ####
+## CERTIFICATES ##
+####          ####
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: selfservice-https
+  namespace: zdevl
+spec:
+  secretName: selfservice-https
+  commonName: ss-zdevl.banner.usu.edu
+  dnsNames:
+    - ss-zdevl.banner.usu.edu
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: eventpublisher-https
+  namespace: zdevl
+spec:
+  secretName: eventpublisher-https
+  commonName: bepdev.banner.usu.edu
+  dnsNames:
+    - bepdev.banner.usu.edu
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: admin-https
+  namespace: zdevl
+spec:
+  secretName: admin-https
+  commonName: admin-zdevl.banner.usu.edu
+  dnsNames:
+    - admin-zdevl.banner.usu.edu
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: api-https
+  namespace: zdevl
+spec:
+  secretName: api-https
+  commonName: api-zdevl.banner.usu.edu
+  dnsNames:
+    - api-zdevl.banner.usu.edu
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: brim-https
+  namespace: zdevl
+spec:
+  secretName: brim-https
+  commonName: brimdev.banner.usu.edu
+  dnsNames:
+    - brimdev.banner.usu.edu
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: maintenance-https
+  namespace: zdevl
+spec:
+  secretName: maintenance-https
+  commonName: zdevl.bannerdev.k8s.usu.edu
+  dnsNames:
+    - zdevl.bannerdev.k8s.usu.edu
+    - "*.zdevl.bannerdev.k8s.usu.edu"
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+---
+####     ####
+## INGRESS ##
+####     ####
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: zdevl-ingress
+  namespace: zdevl
+  labels:
+    banner.usu.edu/environment: zdevl
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: >-
+      zdevl-enforce-https@kubernetescrd,zdevl-secure-headers@kubernetescrd,zdevl-redirect-no-backends@kubernetescrd,zdevl-restrict-onprem@kubernetescrd
+spec:
+  ingressClassName: traefik
+  defaultBackend:
+    service:
+      name: static
+      port:
+        number: 80
+  tls:
+    - hosts:
+        - bepdev.banner.usu.edu
+      secretName: eventpublisher-https
+    - hosts:
+        - admin-zdevl.banner.usu.edu
+      secretName: admin-https
+    - hosts:
+        - api-zdevl.banner.usu.edu
+      secretName: api-https
+    - hosts:
+        - ss-zdevl.banner.usu.edu
+      secretName: selfservice-https
+    - hosts:
+        - brimdev.banner.usu.edu
+      secretName: brim-https
+    - hosts:
+        - zdevl.bannerdev.k8s.usu.edu
+        - ems.zdevl.bannerdev.k8s.usu.edu
+      secretName: maintenance-https
+  rules:
+    - host: "ems.zdevl.bannerdev.k8s.usu.edu"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: ellucian-messaging-service
+                port:
+                  number: 15672
+    - host: "brimdev.banner.usu.edu"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/brim"
+            backend:
+              service:
+                name: brim
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: static
+                port:
+                  number: 80
+    - host: "bepdev.banner.usu.edu"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/BannerEventPublisher"
+            backend:
+              service:
+                name: event-publisher
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: static
+                port:
+                  number: 80
+    - host: "admin-zdevl.banner.usu.edu"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/applicationNavigator"
+            backend:
+              service:
+                name: application-navigator
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerAdmin"
+            backend:
+              service:
+                name: admin
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerAdmin.ws"
+            backend:
+              service:
+                name: admin
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerAccessMgmt"
+            backend:
+              service:
+                name: admin
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerAccessMgmt.ws"
+            backend:
+              service:
+                name: admin
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/eTranscriptAPI"
+            backend:
+              service:
+                name: api-etranscript
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: static
+                port:
+                  number: 80
+    - host: "api-zdevl.banner.usu.edu"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/DocumentManagementApi"
+            backend:
+              service:
+                name: api-documentmanagement
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/IntegrationApi"
+            backend:
+              service:
+                name: api-integration
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/StudentApi"
+            backend:
+              service:
+                name: api-student
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerAdminBPAPI"
+            backend:
+              service:
+                name: bpapi
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: static
+                port:
+                  number: 80
+    - host: "ss-zdevl.banner.usu.edu"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/StudentRegistrationSsb"
+            backend:
+              service:
+                name: ssb-registration
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerGeneralSsb"
+            backend:
+              service:
+                name: ssb-general
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/StudentSelfService"
+            backend:
+              service:
+                name: ss-student
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/FinanceSelfService"
+            backend:
+              service:
+                name: ss-finance
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/FacultySelfService"
+            backend:
+              service:
+                name: ss-faculty
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/EmployeeSelfService"
+            backend:
+              service:
+                name: ss-employee
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerExtensibility"
+            backend:
+              service:
+                name: extensibility
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/CommunicationManagement"
+            backend:
+              service:
+                name: communicationmanagement
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: static
+                port:
+                  number: 80

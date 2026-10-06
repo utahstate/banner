@@ -63,7 +63,7 @@ rabbitmq {
   host = (System.getenv("ELLUCIAN_MESSAGING_SERVICE_HOST") ?: "ellucian-messaging-service.zdevl.svc.bannerdev.k8s.usu.edu")
   port = (System.getenv("ELLUCIAN_MESSAGING_SERVICE_PORT") ?: "5672")
 	userName = new File("/run/passwords/rabbitmq/username").text.strip()
-	password = new File("/run/passwords/rabbitmq/password").text.strip()
+	password = new File("/run/passwords/rabbitmq/bep-password").text.strip()
 	virtualHostName = "bep_events_host"
 	exchangeName = "bep_events_topic"
 	enableSSL = "false"

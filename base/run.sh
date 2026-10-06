@@ -192,6 +192,7 @@ find webapps -type l -name '*.groovy' -printf %p: -execdir readlink {} \; | whil
 	if ! cp -- "$source" "$dest"; then
 		if [[ -f "${dest}".shipped ]]; then
 			echo "INFO: Customized Groovy script not found for $(basename -- "$dest"), restoring shipped file"
+			mv "${dest}".shipped "${dest}"
 		else
 			echo "ERROR: Customized Groovy script not found for  $(basename -- "$dest") but no shipped file available."
 			echo "App is not configured, cannot operate."
@@ -199,6 +200,11 @@ find webapps -type l -name '*.groovy' -printf %p: -execdir readlink {} \; | whil
 		fi
 	fi
 done
+
+if [[ "${ZAP_SLF4J+x}" == x ]]; then
+	echo "INFO: Removing slf4j JAR files..."
+	rm webapps/$APP_NAME/WEB-INF/lib/slf4j-reload4j-*.jar
+fi
 
 if [ "${JMX_PORT+x}" == x ]; then
 	export CATALINA_OPTS="$CATALINA_OPTS -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=$JMX_PORT -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"

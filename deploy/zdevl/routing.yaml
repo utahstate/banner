@@ -1,53 +1,25 @@
 ####         ####
 ## MIDDLEWARES ##
 ####         ####
+
+###             ###
+# Basic Hardening #
+###             ###
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
-  name: restrict-onprem
-  labels:
-    banner.usu.edu/environment: zdevl
+  name: hardening
   namespace: zdevl
 spec:
-  ipAllowList:
-    sourceRange:
-      - 129.123.0.0/16
-      - 144.39.0.0/16
-    rejectStatusCode: 404
----
-apiVersion: traefik.io/v1alpha1
-kind: Middleware
-metadata:
-  name: restrict-staffvpn
-  labels:
-    banner.usu.edu/environment: zdevl
-  namespace: zdevl
-spec:
-  ipAllowList:
-    sourceRange:
-      - 129.123.119.1
-      - 129.123.42.0/24
-    rejectStatusCode: 404
----
-apiVersion: traefik.io/v1alpha1
-kind: Middleware
-metadata:
-  name: restrict-adminvpn
-  labels:
-    banner.usu.edu/environment: zdevl
-  namespace: zdevl
-spec:
-  ipAllowList:
-    sourceRange:
-      - 129.123.42.0/24
-    rejectStatusCode: 404
+  chain:
+    middlewares:
+      - name: secure-headers
+      - name: redirect-https
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: secure-headers
-  labels:
-    banner.usu.edu/environment: zdevl
   namespace: zdevl
 spec:
   headers:
@@ -60,21 +32,20 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
-  name: enforce-https
-  labels:
-    banner.usu.edu/environment: zdevl
+  name: redirect-https
   namespace: zdevl
 spec:
   redirectScheme:
     scheme: https
     permanent: no
 ---
+###               ###
+# User App Niceties #
+###               ###
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
-  name: redirect-no-backends
-  labels:
-    banner.usu.edu/environment: zdevl
+  name: maintenance-redirect
   namespace: zdevl
 spec:
   errors:
@@ -86,6 +57,94 @@ spec:
     service:
       name: static
       port: 80
+---
+###                  ###
+# Access Control Lists #
+###                  ###
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: acl-api
+  namespace: zdevl
+spec:
+  ipAllowList:
+    sourceRange:
+      # AS26046 Utah State University
+      - 129.123.0.0/16
+      - 144.39.0.0/16
+      # Ellucian Ethos (AWS ec2 hosts)
+      - 50.16.144.60
+      - 52.0.3.106
+      - 52.0.163.27
+      # Ellucian eTranscript Cloud (AWS ec2 hosts)
+      - 54.164.84.184
+      - 54.164.111.202
+      # Coursedog QA (dev)
+      - 18.190.119.221
+      - 3.134.175.16
+      # ServiceWheneverYouFeelLikeIt
+      - 148.139.125.8/29
+      - 119.91.136.12
+      - 119.91.140.12
+      # RFC 1918 private ranges
+      - 10.0.0.0/8
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: acl-touchnet
+  namespace: zdevl
+spec:
+  ipAllowList:
+    sourceRange:
+      # Touchnet cloud services
+      - 198.187.196.0/24
+      # Admin VPN subnet
+      - 129.123.42.0/24
+      # Banner subnet
+      - 129.123.123.0/24
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: acl-onprem
+  namespace: zdevl
+spec:
+  ipAllowList:
+    sourceRange:
+      # AS26046 Utah State University
+      - 129.123.0.0/16
+      - 144.39.0.0/16
+      # RFC 1918 private ranges
+      - 10.0.0.0/8
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: acl-staff
+  namespace: zdevl
+spec:
+  ipAllowList:
+    sourceRange:
+      # Staff VPN NAT gateway
+      - 129.123.119.1
+      # Admin VPN subnet
+      - 129.123.42.0/24
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: acl-admin
+  namespace: zdevl
+spec:
+  ipAllowList:
+    sourceRange:
+      # Admin VPN subnet
+      - 129.123.42.0/24
 ---
 ####          ####
 ## CERTIFICATES ##
@@ -160,167 +219,55 @@ spec:
     name: letsencrypt
     kind: ClusterIssuer
 ---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: touchnet-https
+  namespace: zdevl
+spec:
+  secretName: touchnet-https
+  commonName: tndev.banner.usu.edu
+  dnsNames:
+    - tndev.banner.usu.edu
+    - touchnetdev.banner.usu.edu
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: maintenance-https
+  namespace: zdevl
+spec:
+  secretName: maintenance-https
+  commonName: zdevl.bannerdev.k8s.usu.edu
+  dnsNames:
+    - zdevl.bannerdev.k8s.usu.edu
+    - "*.zdevl.bannerdev.k8s.usu.edu"
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+---
 ####     ####
 ## INGRESS ##
 ####     ####
+# Note: I've broken these up along the same lines as the production lb/lb-api/lb-priv/tn split. The ingress-level ACLs should correspond to the firewall rules applied to those load balancers.
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: zdevl-ingress
+  name: self-service
   namespace: zdevl
-  labels:
-    banner.usu.edu/environment: zdevl
   annotations:
-    traefik.ingress.kubernetes.io/router.middlewares: >-
-      zdevl-enforce-https@kubernetescrd,zdevl-secure-headers@kubernetescrd,zdevl-redirect-no-backends@kubernetescrd
+    traefik.ingress.kuberentes.io/router.middlewares: >-
+      zdevl-hardening@kubernetescrd,zdevl-acl-onprem@kubernetescrd,zdevl-maintenance-redirect@kubernetescrd
 spec:
   ingressClassName: traefik
-  defaultBackend:
-    service:
-      name: static
-      port:
-        number: 80
   tls:
-    - hosts:
-        - bepdev.banner.usu.edu
-      secretName: eventpublisher-https
-    - hosts:
-        - admin-zdevl.banner.usu.edu
-      secretName: admin-https
-    - hosts:
-        - api-zdevl.banner.usu.edu
-      secretName: api-https
     - hosts:
         - ss-zdevl.banner.usu.edu
       secretName: selfservice-https
-    - hosts:
-        - brimdev.banner.usu.edu
-      secretName: brim-https
   rules:
-    - host: "brimdev.banner.usu.edu"
-      http:
-        paths:
-          - pathType: Prefix
-            path: "/brim"
-            backend:
-              service:
-                name: brim
-                port:
-                  number: 80
-          - pathType: Prefix
-            path: "/"
-            backend:
-              service:
-                name: static
-                port:
-                  number: 80
-    - host: "bepdev.banner.usu.edu"
-      http:
-        paths:
-          - pathType: Prefix
-            path: "/BannerEventPublisher"
-            backend:
-              service:
-                name: event-publisher
-                port:
-                  number: 80
-          - pathType: Prefix
-            path: "/"
-            backend:
-              service:
-                name: static
-                port:
-                  number: 80
-    - host: "admin-zdevl.banner.usu.edu"
-      http:
-        paths:
-          - pathType: Prefix
-            path: "/applicationNavigator"
-            backend:
-              service:
-                name: application-navigator
-                port:
-                  number: 80
-          - pathType: Prefix
-            path: "/BannerAdmin"
-            backend:
-              service:
-                name: admin
-                port:
-                  number: 80
-          - pathType: Prefix
-            path: "/BannerAdmin.ws"
-            backend:
-              service:
-                name: admin
-                port:
-                  number: 80
-          - pathType: Prefix
-            path: "/BannerAccessMgmt"
-            backend:
-              service:
-                name: admin
-                port:
-                  number: 80
-          - pathType: Prefix
-            path: "/BannerAccessMgmt.ws"
-            backend:
-              service:
-                name: admin
-                port:
-                  number: 80
-          - pathType: Prefix
-            path: "/eTranscriptAPI"
-            backend:
-              service:
-                name: api-etranscript
-                port:
-                  number: 80
-          - pathType: Prefix
-            path: "/"
-            backend:
-              service:
-                name: static
-                port:
-                  number: 80
-    - host: "api-zdevl.banner.usu.edu"
-      http:
-        paths:
-          - pathType: Prefix
-            path: "/DocumentManagementApi"
-            backend:
-              service:
-                name: api-documentmanagement
-                port:
-                  number: 80
-          - pathType: Prefix
-            path: "/IntegrationApi"
-            backend:
-              service:
-                name: api-integration
-                port:
-                  number: 80
-          - pathType: Prefix
-            path: "/StudentApi"
-            backend:
-              service:
-                name: api-student
-                port:
-                  number: 80
-          - pathType: Prefix
-            path: "/BannerAdminBPAPI"
-            backend:
-              service:
-                name: bpapi
-                port:
-                  number: 80
-          - pathType: Prefix
-            path: "/"
-            backend:
-              service:
-                name: static
-                port:
-                  number: 80
     - host: "ss-zdevl.banner.usu.edu"
       http:
         paths:
@@ -385,5 +332,197 @@ spec:
             backend:
               service:
                 name: static
+                port:
+                  number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api
+  namespace: zdevl
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: >-
+      zdevl-hardening@kubernetescrd,zdevl-acl-api@kubernetescrd
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - api-zdevl.banner.usu.edu
+      secretName: api-https
+  rules:
+    - host: "api-zdevl.banner.usu.edu"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/DocumentManagementApi"
+            backend:
+              service:
+                name: api-documentmanagement
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/IntegrationApi"
+            backend:
+              service:
+                name: api-integration
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/StudentApi"
+            backend:
+              service:
+                name: api-student
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerAdminBPAPI"
+            backend:
+              service:
+                name: bpapi
+                port:
+                  number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: admin
+  namespace: zdevl
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: >-
+      zdevl-hardening@kubernetescrd,zdevl-acl-onprem@kubernetescrd,zdevl-maintenance-redirect@kubernetescrd
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - admin-zdevl.banner.usu.edu
+      secretName: admin-https
+    - hosts:
+        - brimdev.banner.usu.edu
+      secretName: brim-https
+    - hosts:
+        - bepdev.banner.usu.edu
+      secretName: eventpublisher-https
+  rules:
+    - host: "admin-zdevl.banner.usu.edu"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/applicationNavigator"
+            backend:
+              service:
+                name: application-navigator
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerAdmin"
+            backend:
+              service:
+                name: admin
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerAdmin.ws"
+            backend:
+              service:
+                name: admin
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerAccessMgmt"
+            backend:
+              service:
+                name: admin
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerAccessMgmt.ws"
+            backend:
+              service:
+                name: admin
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/eTranscriptAPI"
+            backend:
+              service:
+                name: api-etranscript
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: static
+                port:
+                  number: 80
+    - host: "brimdev.banner.usu.edu"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/brim"
+            backend:
+              service:
+                name: brim
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: static
+                port:
+                  number: 80
+    - host: "bepdev.banner.usu.edu"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/BannerEventPublisher"
+            backend:
+              service:
+                name: event-publisher
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: static
+                port:
+                  number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: touchnet
+  namespace: zdevl
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: >-
+      zdevl-hardening@kubernetescrd,zdevl-acl-touchnet@kubernetescrd
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - touchnetdev.banner.usu.edu
+        - tndev.banner.usu.edu
+      secretName: touchnet-https
+  rules:
+    - host: "touchnetdev.banner.usu.edu"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /ords/touchnet
+            backend:
+              service:
+                name: ords-touchnet
+                port:
+                  number: 80
+    - host: "tndev.banner.usu.edu"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /ords/touchnet
+            backend:
+              service:
+                name: ords-touchnet
                 port:
                   number: 80

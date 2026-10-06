@@ -37,4 +37,94 @@ spec:
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
       volumes:
-        
+        - name: config
+          configMap:
+            defaultMode: 420
+            name: messaging-adapter-config
+      containers:
+        - name: app
+          image: usuit/banner9-ellucian-messaging-adapter:6.1.0
+          imagePullPolicy: Always
+          livenessProbe:
+            exec:
+              command:
+                - /usr/local/tomcat/bin/health-check.sh
+            periodSeconds: 10
+            failureThreshold: 6
+            successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
+            exec:
+              command:
+                - /usr/local/tomcat/bin/health-check.sh
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+            timeoutSeconds: 1
+          startupProbe:
+            exec:
+              command:
+                - /usr/local/tomcat/bin/health-check.sh
+            periodSeconds: 10
+            failureThreshold: 18
+            successThreshold: 1
+            timeoutSeconds: 1
+            initialDelaySeconds: 30
+          resources:
+            requests:
+              memory: 4Gi
+          securityContext:
+            allowPrivilegeEscalation: no
+            privileged: no
+            readOnlyRootFilesystem: no
+            runAsNonRoot: no
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /run/app-config
+              name: config
+              readOnly: true
+          env:
+            - name: ENVIRONMENT
+              value: zdevl
+            - name: API_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ethos-api-creds
+                  key: password
+            - name: API_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: ethos-api-creds
+                  key: username
+            - name: ETHOS_INTEGRATION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ethos-api-creds
+                  key: integration-key
+            - name: ETHOS_STUDENT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ethos-api-creds
+                  key: student-key
+            - name: INTEGRATIONAPI_URL
+              value: https://api-zdevl.banner.usu.edu/IntegrationApi/api
+            - name: RABBITMQ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: ems-creds
+                  key: username
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ems-creds
+                  key: password
+            - name: STUDENTAPI_URL
+              value: https://api-zdevl.banner.usu.edu/StudentApi/api
+            - name: ETHOS_TENANT_ALIAS
+              value: usu525test
+            - name: EMA_CONFIG
+              valueFrom:
+                secretKeyRef:
+                  name: messaging-adapter-config-key
+                  key: key

@@ -1,0 +1,34 @@
+apiVersion: banner.usu.edu/v1alpha1
+kind: Database
+metadata:
+  name: zdevl
+spec:
+  hostname: zdevl.db.usu.edu
+  port: 1521
+status:
+  available: true
+  conditions:
+    - message: Database is online and handling connections
+      reason: Ready
+      status: "True"
+      type: Ready
+---
+apiVersion: banner.usu.edu/v1alpha1
+kind: Database
+metadata:
+  name: zpprd
+spec:
+  hostname: zpprd.db.usu.edu
+  port: 1521
+status:
+  available: true
+---
+apiVersion: banner.usu.edu/v1alpha1
+kind: Database
+metadata:
+  name: degreeworksdev
+spec:
+  hostname: dgwdv.db.usu.edu
+  port: 1521
+status:
+  available: true
