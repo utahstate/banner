@@ -67,7 +67,7 @@ spec:
             name: properties
       containers:
         - name: app
-          image: usuit/banner9-communicationmanagement:9.23.2-zdevl
+          image: usuit/banner9-communicationmanagement:zdevl
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

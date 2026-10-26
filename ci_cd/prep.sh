@@ -236,7 +236,7 @@ while [ ${#our_bases[@]} -gt 0 ]; do
 		[[ ${#our_bases[@]} -gt 1 ]] && echo -n " and all derived bases"
 		echo ...
 		for image in "${our_bases[@]}"; do
-			rebuild-base "${base_images[${image}]}" "${image}"
+			rebuild-base "../${base_images[${image}]}" "${image}"
 		done
 		break
 	fi
