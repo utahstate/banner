@@ -259,7 +259,7 @@ echo "Build complete, uploading..."
 
 docker push "${image_tag}"
 docker push "${image_tag}-${date}"
-docker push "${image_tag}" "docker.io/usuit/banner9-${ctx_dir}:${instance,,}"
+docker push "docker.io/usuit/banner9-${ctx_dir}:${instance,,}"
 
 echo "Push complete, updating deployments..."
 
