@@ -236,7 +236,7 @@ while [ ${#our_bases[@]} -gt 0 ]; do
 		[[ ${#our_bases[@]} -gt 1 ]] && echo -n " and all derived bases"
 		echo ...
 		for image in "${our_bases[@]}"; do
-			rebuild-base "${base_images[${image}]}" "${image}"
+			rebuild-base "../${base_images[${image}]}" "${image}"
 		done
 		break
 	fi
@@ -259,6 +259,7 @@ echo "Build complete, uploading..."
 
 docker push "${image_tag}"
 docker push "${image_tag}-${date}"
+docker push "${image_tag}" "docker.io/usuit/banner9-${ctx_dir}:${instance,,}"
 
 echo "Push complete, updating deployments..."
 
