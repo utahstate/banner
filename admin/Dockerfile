@@ -27,6 +27,7 @@ LABEL edu.usu.banner.version=${VERSION} edu.usu.banner.environment=${ENVIRONMENT
 COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME}/ /usr/local/tomcat/webapps/${APP_NAME}
 COPY --chown=tomcat:tomcat --from=build /opt/build/${APP_NAME}.ws/ /usr/local/tomcat/webapps/${APP_NAME}.ws
 COPY --chown=tomcat:tomcat applicationContext.xml.saml /usr/local/tomcat/webapps/${APP_NAME}.ws/WEB-INF/applicationContext.xml
+COPY --chown=tomcat:tomcat index.html.banneradmin.${ENVIRONMENT} /usr/local/tomcat/webapps/${APP_NAME}.ws/index.html
 
 # Add the runtime SAML config script
 COPY --chown=tomcat:tomcat --chmod=755 BannerAdmin_run.sh /usr/local/tomcat/bin/run_BannerAdmin.sh
