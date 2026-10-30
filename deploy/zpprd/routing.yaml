@@ -1,0 +1,408 @@
+####         ####
+## MIDDLEWARES ##
+####         ####
+
+###             ###
+# Basic Hardening #
+###             ###
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: hardening
+  namespace: zpprd
+spec:
+  chain:
+    middlewares:
+      - name: secure-headers
+      - name: redirect-https
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: restrict-onprem
+  labels:
+    banner.usu.edu/environment: zpprd
+  namespace: zpprd
+spec:
+  ipAllowList:
+    sourceRange:
+      - 129.123.0.0/16
+      - 144.39.0.0/16
+    rejectStatusCode: 404
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: secure-headers
+  namespace: zpprd
+spec:
+  headers:
+    forceSTSHeader: yes
+    stsIncludeSubdomains: yes
+    stsPreload: yes
+    stsSeconds: 16000000
+    contentTypeNosniff: yes
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-https
+  namespace: zpprd
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: no
+---
+###               ###
+# User App Niceties #
+###               ###
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: maintenance-redirect
+  namespace: zpprd
+spec:
+  errors:
+    status:
+      - "503"
+    statusRewrites:
+      "503": 302
+    query: /redirect-offline
+    service:
+      name: static
+      port: 80
+---
+###                  ###
+# Access Control Lists #
+###                  ###
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: acl-api
+  namespace: zpprd
+spec:
+  ipAllowList:
+    sourceRange:
+      # AS26046 Utah State University
+      - 129.123.0.0/16
+      - 144.39.0.0/16
+      # Ellucian Ethos (AWS ec2 hosts)
+      - 50.16.144.60
+      - 52.0.3.106
+      - 52.0.163.27
+      # Ellucian eTranscript Cloud (AWS ec2 hosts)
+      - 54.164.84.184
+      - 54.164.111.202
+      # Coursedog QA (dev)
+      - 18.190.119.221
+      - 3.134.175.16
+      # ServiceWheneverYouFeelLikeIt
+      - 148.139.125.8/29
+      - 119.91.136.12
+      - 119.91.140.12
+      # RFC 1918 private ranges
+      - 10.0.0.0/8
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: acl-touchnet
+  namespace: zpprd
+spec:
+  ipAllowList:
+    sourceRange:
+      # Touchnet cloud services
+      - 198.187.196.0/24
+      # Admin VPN subnet
+      - 129.123.42.0/24
+      # Banner subnet
+      - 129.123.123.0/24
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: acl-onprem
+  namespace: zpprd
+spec:
+  ipAllowList:
+    sourceRange:
+      # AS26046 Utah State University
+      - 129.123.0.0/16
+      - 144.39.0.0/16
+      # RFC 1918 private ranges
+      - 10.0.0.0/8
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: acl-staff
+  namespace: zpprd
+spec:
+  ipAllowList:
+    sourceRange:
+      # Staff VPN NAT gateway
+      - 129.123.119.1
+      # Admin VPN subnet
+      - 129.123.42.0/24
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: acl-admin
+  namespace: zpprd
+spec:
+  ipAllowList:
+    sourceRange:
+      # Admin VPN subnet
+      - 129.123.42.0/24
+---
+####          ####
+## CERTIFICATES ##
+####          ####
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: selfservice-https
+  namespace: zpprd
+spec:
+  secretName: selfservice-https
+  commonName: ss-zpprd.banner.usu.edu
+  dnsNames:
+    - ss-zpprd.banner.usu.edu
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: admin-https
+  namespace: zpprd
+spec:
+  secretName: admin-https
+  commonName: admin-zpprd.banner.usu.edu
+  dnsNames:
+    - admin-zpprd.banner.usu.edu
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: api-https
+  namespace: zpprd
+spec:
+  secretName: api-https
+  commonName: api-zpprd.banner.usu.edu
+  dnsNames:
+    - api-zpprd.banner.usu.edu
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: maintenance-https
+  namespace: zpprd
+spec:
+  secretName: maintenance-https
+  commonName: zpprd.bannerdev.k8s.usu.edu
+  dnsNames:
+    - zpprd.bannerdev.k8s.usu.edu
+    - "*.zpprd.bannerdev.k8s.usu.edu"
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+---
+####     ####
+## INGRESS ##
+####     ####
+# Note: I've broken these up along the same lines as the production lb/lb-api/lb-priv/tn split. The ingress-level ACLs should correspond to the firewall rules applied to those load balancers.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: self-service
+  namespace: zpprd
+  annotations:
+    traefik.ingress.kuberentes.io/router.middlewares: >-
+      zpprd-hardening@kubernetescrd,zpprd-acl-onprem@kubernetescrd,zpprd-maintenance-redirect@kubernetescrd
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - ss-zpprd.banner.usu.edu
+      secretName: selfservice-https
+  rules:
+    - host: "ss-zpprd.banner.usu.edu"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/StudentRegistrationSsb"
+            backend:
+              service:
+                name: ssb-registration
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerGeneralSsb"
+            backend:
+              service:
+                name: ssb-general
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/StudentSelfService"
+            backend:
+              service:
+                name: ss-student
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/FinanceSelfService"
+            backend:
+              service:
+                name: ss-finance
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/FacultySelfService"
+            backend:
+              service:
+                name: ss-faculty
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/EmployeeSelfService"
+            backend:
+              service:
+                name: ss-employee
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerExtensibility"
+            backend:
+              service:
+                name: extensibility
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/CommunicationManagement"
+            backend:
+              service:
+                name: communicationmanagement
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: static
+                port:
+                  number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api
+  namespace: zpprd
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: >-
+      zpprd-hardening@kubernetescrd,zpprd-acl-api@kubernetescrd
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - api-zpprd.banner.usu.edu
+      secretName: api-https
+  rules:
+    - host: "api-zpprd.banner.usu.edu"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/IntegrationApi"
+            backend:
+              service:
+                name: api-integration
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/StudentApi"
+            backend:
+              service:
+                name: api-student
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerAdminBPAPI"
+            backend:
+              service:
+                name: bpapi
+                port:
+                  number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: admin
+  namespace: zpprd
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: >-
+      zpprd-hardening@kubernetescrd,zpprd-acl-onprem@kubernetescrd,zpprd-maintenance-redirect@kubernetescrd
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - admin-zpprd.banner.usu.edu
+      secretName: admin-https
+  rules:
+    - host: "admin-zpprd.banner.usu.edu"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/applicationNavigator"
+            backend:
+              service:
+                name: application-navigator
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerAdmin"
+            backend:
+              service:
+                name: admin
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerAdmin.ws"
+            backend:
+              service:
+                name: admin
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerAccessMgmt"
+            backend:
+              service:
+                name: access-management
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/BannerAccessMgmt.ws"
+            backend:
+              service:
+                name: access-management
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: static
+                port:
+                  number: 80

@@ -1,0 +1,155 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    banner.usu.edu/application: zpprd.extensibility
+    banner.usu.edu/environment: zpprd
+  annotations:
+    banner.usu.edu/desired-replicas: '1'
+  name: extensibility
+  namespace: zpprd
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      banner.usu.edu/application: zpprd.extensibility
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        banner.usu.edu/application: zpprd.extensibility
+        banner.usu.edu/environment: zpprd
+      namespace: zpprd
+    spec:
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+        - name: dockerhub-usuitesutility-ro
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: groovy
+          configMap:
+            defaultMode: 420
+            name: groovy-configs
+        - name: saml-metadata
+          configMap:
+            defaultMode: 420
+            name: saml-extensibility
+        - name: banssuser-creds
+          secret:
+            defaultMode: 420
+            secretName: banssuser-creds
+        - name: banproxy-creds
+          secret:
+            defaultMode: 420
+            secretName: banproxy-creds
+        - name: saml-keystore
+          secret:
+            defaultMode: 420
+            secretName: saml-keystore
+        - name: properties
+          configMap:
+            defaultMode: 420
+            name: properties
+        - name: extensibility
+          persistentVolumeClaim:
+            claimName: extensibility
+      containers:
+        - name: app
+          image: usuit/banner9-extensibility:9.25.2-zpprd
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: tomcat
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /BannerExtensibility/actuator/health
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 10
+            failureThreshold: 6
+            successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
+            httpGet:
+              path: /BannerExtensibility/actuator/health
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+            timeoutSeconds: 1
+          startupProbe:
+            httpGet:
+              path: /BannerExtensibility/actuator/health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 18
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            requests:
+              memory: 4Gi
+          securityContext:
+            allowPrivilegeEscalation: no
+            privileged: no
+            readOnlyRootFilesystem: no
+            runAsNonRoot: no
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /run/app-config/groovy
+              name: groovy
+              readOnly: yes
+            - mountPath: /saml/metadata
+              name: saml-metadata
+              readOnly: yes
+            - mountPath: /run/passwords/db-banssuser
+              name: banssuser-creds
+              readOnly: yes
+            - mountPath: /run/passwords/db-banproxy
+              name: banproxy-creds
+              readOnly: yes
+            - mountPath: /saml/keystore
+              name: saml-keystore
+              readOnly: yes
+            - mountPath: /run/app-config/properties.d
+              name: properties
+              readOnly: yes
+            - mountPath: /opt/banner/extensibility
+              name: extensibility
+              readOnly: no
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: extensibility
+  namespace: zpprd
+  annotations:
+    traefik.ingress.kubernetes.io/service.sticky.cookie: 'true'
+    traefik.ingress.kubernetes.io/service.sticky.cookie.name: extensibility-sticky
+    banner.usu.edu/routing.commonHost: self-service
+    banner.usu.edu/routing.pathPrefix: "/BannerExtensibility"
+  labels:
+    banner.usu.edu/application: zpprd.extensibility
+    banner.usu.edu/environment: zpprd
+spec:
+  selector:
+    banner.usu.edu/application: zpprd.extensibility
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
