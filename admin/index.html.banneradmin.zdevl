@@ -3,6 +3,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
+	<meta http-equiv="refresh" content="0; url=https://admin-zdevl.banner.usu.edu/applicationNavigator/seamless">
 <title>Workspace Services</title>
 <meta charset="utf-8">
 
@@ -155,17 +156,8 @@
           </header>
 	<div class="text-box">
 	<h1 style="color: white;">Workspace Services</h1>
-	<p>If you are not redirected automatically, follow this <a id="redirect-link" href="https://admin-zdevl.banner.usu.edu/applicationNavigator/seamless">link</a>.</p>
+	<p>If you are not redirected automatically, follow this <a href="https://admin-zdevl.banner.usu.edu/applicationNavigator/seamless">link</a>.</p>
 	</div>
-	<script type="text/javascript" id="destination-redirect">
-		const destination = new URLSearchParams(window.location.search).get("destination");
-		const redirectUrl = destination === "experience"
-			? "https://experience-test.elluciancloud.com/usu525test/"
-			: "https://admin-zdevl.banner.usu.edu/applicationNavigator/seamless";
-
-		document.getElementById("redirect-link").href = redirectUrl;
-		window.location.replace(redirectUrl);
-	</script>
 	<footer class="mt-auto" id="site-footer">
         <section id="global-footer" class="bg-blue-darker">
            <div class="container">
