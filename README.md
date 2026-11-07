@@ -56,6 +56,16 @@ Additionally, metadata XML files must be provided at `/saml/metadata/idp.xml` an
 
 Two applications, `BannerAdmin` and `BannerAccessMgmt`, have a structure which differs substantially from the others. They have no Groovy files, instead taking all of their configuration from app-specific `config.properties` files located under `webapps/BannerAdmin.ws/WEB-INF/classes` and `webapps/BannerAccessMgmt.ws/WEB-INF/classes` respectively. These files are patched during the image build process to enable SAML support, and the Java keystore passphrase is patched in at runtime. Symlinks are put in place to keep the runtime configuration as similar to other apps as possible.
 
+### BannerAdmin development redirect
+
+The development landing page, [admin/index.html.banneradmin.zdevl](./admin/index.html.banneradmin.zdevl), uses the `destination` query parameter to choose a fixed redirect:
+
+- `https://admin-zdevl.banner.usu.edu/BannerAdmin.ws/index.html?destination=experience` redirects to `https://experience-test.elluciancloud.com/usu525test/`.
+- `https://admin-zdevl.banner.usu.edu/BannerAdmin.ws/index.html?destination=appnav` redirects to `https://admin-zdevl.banner.usu.edu/applicationNavigator/seamless`.
+- Missing or unrecognized values also redirect to App Navigator. Values are case-sensitive; if `destination` is repeated, the first value is used.
+
+Query parameters are not forwarded. The fallback link is updated to the selected destination before the redirect replaces the current page in browser history. With JavaScript disabled, the page provides a manual link to App Navigator. The preproduction and production landing pages are unchanged.
+
 # App Debugging
 
 The startup script provides a number of ways to debug broken apps. In normal operation, if an error is encountered during execution of the script, the offending command will be logged to the console (via the `$BASH_COMMAND` variable). This variable contains the command as written, prior to parameter expansion, so secrets contained in shell variables are not written to the console. If the container is run with standard input attached to a terminal, failure of the script will additionally spawn an interactive shell to allow the administrator to investigate what went wrong.
