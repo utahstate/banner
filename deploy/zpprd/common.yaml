@@ -1,0 +1,170 @@
+####           ####
+## CONFIGURATION ##
+####           ####
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    banner.usu.edu/environment: zpprd
+  name: properties
+  namespace: zpprd
+data:
+  10-common.properties: |
+    bannerdb.jdbc=jdbc:oracle:thin:@//db.zpprd.svc.bannerdev.k8s.usu.edu:1521/zpprd
+    banner9.baseurl=https://ss-zpprd.banner.usu.edu
+    remove.abandoned.on.maintenance=true
+    remove.abandoned.on.borrow=true
+    remove.abandoned.timeout=2100
+    remove.ss.abandoned.timeout=60
+    log.abandoned=true
+    bannerdb.rowPrefetch=150
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: zpprd-cicd
+  namespace: zpprd
+  labels:
+    banner.usu.edu/environment: zpprd
+    banner.usu.edu/application: cicd
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: zpprd-cicd
+  namespace: zpprd
+  labels:
+    banner.usu.edu/environment: zpprd
+    banner.usu.edu/application: cicd
+rules:
+  - apiGroups:
+      - apps
+    resources:
+      - deployments
+      - "deployments/scale"
+    verbs:
+      - get
+      - list
+      - update
+      - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: zpprd-cicd
+  namespace: zpprd
+  labels:
+    banner.usu.edu/environment: zpprd
+    banner.usu.edu/application: cicd
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  name: zpprd-cicd
+  kind: Role
+subjects:
+  - apiGroup: ''
+    kind: ServiceAccount
+    name: zpprd-cicd
+    namespace: zpprd
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: zpprd-cicd
+  namespace: zpprd
+  labels:
+    banner.usu.edu/environment: zpprd
+    banner.usu.edu/application: cicd
+  annotations:
+    kubernetes.io/service-account.name: zpprd-cicd
+type: kubernetes.io/service-account-token
+---
+####                ####
+## PERSISTENT STORAGE ##
+####                ####
+
+###       ###
+# ID Photos #
+###       ###
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: zpprd-id-photos
+  labels:
+    banner.usu.edu/environment: zpprd
+spec:
+  accessModes:
+    - ReadOnlyMany
+    - ReadWriteMany
+  capacity:
+    storage: 10Gi
+  nfs:
+    path: /nfs/bannerdev/photos
+    server: 129.123.109.82
+  persistentVolumeReclaimPolicy: Retain
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: id-photos
+  namespace: zpprd
+  labels:
+    banner.usu.edu/environment: zpprd
+spec:
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 10Gi
+  volumeMode: Filesystem
+  volumeName: zpprd-id-photos
+---
+###           ###
+# Extensibility #
+###           ###
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: zpprd-extensibility
+  labels:
+    banner.usu.edu/environment: zpprd
+spec:
+  accessModes:
+    - ReadOnlyMany
+    - ReadWriteMany
+  capacity:
+    storage: 10Gi
+  nfs:
+    path: /nfs/bannerdev/zpprd/extensibility
+    server: 129.123.109.82
+  persistentVolumeReclaimPolicy: Retain
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: extensibility
+  namespace: zpprd
+  labels:
+    banner.usu.edu/environment: zpprd
+spec:
+  accessModes:
+    - ReadOnlyMany
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  volumeMode: Filesystem
+  volumeName: zpprd-extensibility
+---
+####              ####
+## CLUSTER SERVICES ##
+####              ####
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  namespace: zpprd
+  labels:
+    banner.usu.edu/environment: zpprd
+spec:
+  type: ExternalName
+  externalName: zpprd.db.usu.edu

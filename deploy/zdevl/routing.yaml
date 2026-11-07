@@ -431,14 +431,14 @@ spec:
             path: "/BannerAccessMgmt"
             backend:
               service:
-                name: admin
+                name: access-management
                 port:
                   number: 80
           - pathType: Prefix
             path: "/BannerAccessMgmt.ws"
             backend:
               service:
-                name: admin
+                name: access-management
                 port:
                   number: 80
           - pathType: Prefix
