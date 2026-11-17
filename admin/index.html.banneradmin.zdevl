@@ -3,7 +3,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<meta http-equiv="refresh" content="0; url=https://admin-zdevl.banner.usu.edu/applicationNavigator/seamless">
+	<!--<meta http-equiv="refresh" content="0; url=https://admin-zdevl.banner.usu.edu/applicationNavigator/seamless">-->
 <title>Workspace Services</title>
 <meta charset="utf-8">
 
@@ -156,7 +156,8 @@
           </header>
 	<div class="text-box">
 	<h1 style="color: white;">Workspace Services</h1>
-	<p>If you are not redirected automatically, follow this <a href="https://admin-zdevl.banner.usu.edu/applicationNavigator/seamless">link</a>.</p>
+	<!--<p>If you are not redirected automatically, follow this <a href="https://admin-zdevl.banner.usu.edu/applicationNavigator/seamless">link</a>.</p>-->
+	<p>You may close this window.</p>
 	</div>
 	<footer class="mt-auto" id="site-footer">
         <section id="global-footer" class="bg-blue-darker">
@@ -232,5 +233,10 @@
            }, 300);
            });
        </script><script type="text/javascript" src="https://templateresources.usu.edu/_assets/forms/ouforms.js"></script><script type="text/javascript" src="https://templateresources.usu.edu/_assets/forms/jquery.datetimepicker.full.min.js"></script>
+<script>
+  window.addEventListener("load", () => {
+    window.close();
+  });
+</script>
 </body>
 </html>
