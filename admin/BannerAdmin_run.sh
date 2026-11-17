@@ -33,4 +33,10 @@ if [[ "${THEME_URL+x}" == x ]]; then
 	sed -i "2i <param name=\"APP_CSS_URL\" value=\"$THEME_URL\" />\\n<param name=\"APP_CSS_APPEND\" value=\"true\" />" /usr/local/tomcat/webapps/"$APP_NAME"/config.xml
 fi
 
+# Set external popup login
+if [[ "${EXTERNAL_POPUP_LOGIN+x}" == x ]]; then
+        sed -i '/<param name="EXTERNAL_POPUP_LOGIN.*/d' /usr/local/tomcat/webapps/"$APP_NAME"/config.xml
+        sed -i "2i <param name=\"EXTERNAL_POPUP_LOGIN\" value=\"$EXTERNAL_POPUP_LOGIN\" />" /usr/local/tomcat/webapps/"$APP_NAME"/config.xml
+fi
+
 PROPFILE="$ORIGINAL_PROPFILE"
