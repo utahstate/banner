@@ -113,7 +113,7 @@ grails.plugin.springsecurity.logout.afterLogoutUrl = '/logout/customLogout'
  *                                                                              *
  ********************************************************************************/
 // Can be institutional home page ex: http://myportal/main_page.html
-grails.plugin.springsecurity.homePageUrl="https://admin-zpprd.banner.usu.edu/BannerAdmin.ws/"
+grails.plugin.springsecurity.homePageUrl="https://admin-zpprd.banner.usu.edu/applicationNavigator/"
 
 
 /********************************************************************************
