@@ -1,4 +1,4 @@
-FROM nginx:1.31.5-alpine
+FROM nginx:1.31.9-alpine
 
 ARG ENVIRONMENT=zprod
 
