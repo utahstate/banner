@@ -73,6 +73,10 @@ spec:
             defaultMode: 420
             name: properties
             optional: no
+        - name: integrationapi-creds
+          secret:
+            defaultMode: 420
+            secretName: ethos-util-creds
       containers:
         - name: app
           image: usuit/banner9-event-publisher:9.22.2-zdevl
@@ -135,6 +139,9 @@ spec:
               readOnly: true
             - mountPath: /run/passwords/rabbitmq
               name: rabbitmq-creds
+              readOnly: true
+            - mountPath: /run/passwords/integrationapi
+              name: integrationapi-creds
               readOnly: true
 ---
 apiVersion: v1

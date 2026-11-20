@@ -273,4 +273,8 @@ Below configurations are required for an application in order to enable Text Man
 enableTextManagerTranslations = false
 enableTextManagerTranslationsInMEP = false
 
-
+integrationapi {
+    url = "https://api-zdevl.banner.usu.edu/IntegrationApi"
+    username = new File("/run/passwords/integrationapi/username").text.strip()
+    password = new File("/run/passwords/integrationapi/password").text.strip()
+}
